@@ -1,77 +1,89 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace OpenRasta.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Provides an iterator that can notify on elements being selected or discarded.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class ObservableIterator<T> : IEnumerable<T>
     {
-        readonly IEqualityComparer<T> _equalityComparer = EqualityComparer<T>.Default;
-        readonly Func<IEnumerable<T>, IEnumerable<T>> _filter;
-        readonly Action<T> _onDiscarded;
-        readonly Action<T> _onSelected;
-        readonly IEnumerable<T> _target;
-        T _currentInnerItem;
-        T _currentOuterItem;
+        private readonly IEqualityComparer<T> equalityComparer = EqualityComparer<T>.Default;
+        private readonly Func<IEnumerable<T>, IEnumerable<T>> filter;
+        private readonly Action<T> onDiscarded;
+        private readonly Action<T> onSelected;
+        private readonly IEnumerable<T> target;
+        private T currentInnerItem;
+        private T currentOuterItem;
 
         public ObservableIterator(IEnumerable<T> target, Func<IEnumerable<T>, IEnumerable<T>> filter, Action<T> onSelected, Action<T> onDiscarded)
         {
-            _target = target;
-            _filter = filter;
-            _onSelected = onSelected;
-            _onDiscarded = onDiscarded;
+            this.target = target;
+            this.filter = filter;
+            this.onSelected = onSelected;
+            this.onDiscarded = onDiscarded;
         }
 
         protected bool EnumeratedElementsMatch
         {
-            get { return _equalityComparer.Equals(_currentInnerItem, _currentOuterItem); }
+            get { return this.equalityComparer.Equals(this.currentInnerItem, this.currentOuterItem); }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         public IEnumerator<T> GetEnumerator()
         {
-            var filter = _filter(WrapperEnumerator(_target));
+            var filter = this.filter(this.WrapperEnumerator(this.target));
+
             foreach (var outerItem in filter)
             {
-                _currentOuterItem = outerItem;
-                if (_onSelected != null)
-                    _onSelected(outerItem);
+                this.currentOuterItem = outerItem;
+                
+                if (this.onSelected != null)
+                {
+                    this.onSelected(outerItem);
+                }
+
                 yield return outerItem;
             }
         }
 
-        void NotifyItemDiscardedIfNecessary()
+        private void NotifyItemDiscardedIfNecessary()
         {
-            if (!EnumeratedElementsMatch)
-                if (_onDiscarded != null)
-                    _onDiscarded(_currentInnerItem);
+            if (!this.EnumeratedElementsMatch)
+            {
+                if (this.onDiscarded != null)
+                {
+                    this.onDiscarded(this.currentInnerItem);
+                }
+            }
         }
 
-        IEnumerable<T> WrapperEnumerator(IEnumerable<T> enumerable)
+        private IEnumerable<T> WrapperEnumerator(IEnumerable<T> enumerable)
         {
             bool isFirst = true;
             foreach (var item in enumerable)
             {
                 if (!isFirst)
                 {
-                    NotifyItemDiscardedIfNecessary();
+                    this.NotifyItemDiscardedIfNecessary();
                 }
                 else
                 {
                     isFirst = false;
                 }
-                _currentInnerItem = item;
+
+                this.currentInnerItem = item;
+                
                 yield return item;
             }
-            NotifyItemDiscardedIfNecessary();
+
+            this.NotifyItemDiscardedIfNecessary();
         }
     }
 }

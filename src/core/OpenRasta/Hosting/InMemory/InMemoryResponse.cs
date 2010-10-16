@@ -8,19 +8,20 @@
  */
 #endregion
 
-using System.IO;
-using OpenRasta.Web;
-
 namespace OpenRasta.Hosting.InMemory
 {
+    using System.IO;
+
+    using OpenRasta.Web;
+
     public class InMemoryResponse : IResponse
     {
-        readonly MemoryStream _outputStream = new MemoryStream();
+        private readonly MemoryStream outputStream = new MemoryStream();
 
         public InMemoryResponse()
         {
-            Headers = new HttpHeaderDictionary();
-            Entity = new HttpEntity(Headers, _outputStream);
+            this.Headers = new HttpHeaderDictionary();
+            this.Entity = new HttpEntity(this.Headers, this.outputStream);
         }
 
         public IHttpEntity Entity { get; set; }
@@ -28,11 +29,12 @@ namespace OpenRasta.Hosting.InMemory
         public HttpHeaderDictionary Headers { get; set; }
 
         public bool HeadersSent { get; private set; }
+
         public int StatusCode { get; set; }
 
         public void WriteHeaders()
         {
-            HeadersSent = true;
+            this.HeadersSent = true;
         }
     }
 }

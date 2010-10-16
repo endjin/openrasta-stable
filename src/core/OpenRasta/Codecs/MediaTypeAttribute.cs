@@ -8,13 +8,14 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.Web;
+
     /// <summary>
     /// Defines the default media types supported by a codec.
     /// </summary>
@@ -26,14 +27,12 @@ namespace OpenRasta.Codecs
             MediaType = mediaType;
         }
 
-        public MediaTypeAttribute(MediaType mediaType, string extensions)
-            : this(mediaType)
+        public MediaTypeAttribute(MediaType mediaType, string extensions) : this(mediaType)
         {
-            Extensions = ProcessExtensions(extensions);
+            this.Extensions = this.ProcessExtensions(extensions);
         }
 
-        public MediaTypeAttribute(string mediaType)
-            : this(new MediaType(mediaType))
+        public MediaTypeAttribute(string mediaType) : this(new MediaType(mediaType))
         {
         }
 
@@ -43,15 +42,15 @@ namespace OpenRasta.Codecs
         }
 
         public IEnumerable<string> Extensions { get; private set; }
+
         public MediaType MediaType { get; private set; }
 
         public static IEnumerable<MediaTypeAttribute> Find(Type type)
         {
-            return
-                GetCustomAttributes(type, typeof(MediaTypeAttribute)).Cast<MediaTypeAttribute>();
+            return GetCustomAttributes(type, typeof(MediaTypeAttribute)).Cast<MediaTypeAttribute>();
         }
 
-        IEnumerable<string> ProcessExtensions(string extensions)
+        private IEnumerable<string> ProcessExtensions(string extensions)
         {
             return extensions.Split(new[] { ";", "," }, StringSplitOptions.RemoveEmptyEntries);
         }

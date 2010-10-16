@@ -8,13 +8,13 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Text;
-
 namespace OpenRasta.Configuration
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.Serialization;
+    using System.Text;
+
     [Serializable]
     public class OpenRastaConfigurationException : Exception
     {
@@ -35,7 +35,7 @@ namespace OpenRasta.Configuration
         public OpenRastaConfigurationException(IList<OpenRastaConfigurationException> exceptions)
             : base("Several configuration errors were reported. See below.\n" + GetInnerExceptionMessages(exceptions))
         {
-            InnerExceptions = exceptions;
+            this.InnerExceptions = exceptions;
         }
 
 #if !SILVERLIGHT
@@ -49,14 +49,16 @@ namespace OpenRasta.Configuration
         public IList<OpenRastaConfigurationException> InnerExceptions { get; private set; }
 #endif
 
-        static string GetInnerExceptionMessages(IList<OpenRastaConfigurationException> exceptions)
+        private static string GetInnerExceptionMessages(IList<OpenRastaConfigurationException> exceptions)
         {
             var finalString = new StringBuilder();
+            
             foreach (var exception in exceptions)
             {
                 finalString.AppendLine(exception.ToString());
                 finalString.AppendLine("-------------------------");
             }
+
             return finalString.ToString();
         }
     }

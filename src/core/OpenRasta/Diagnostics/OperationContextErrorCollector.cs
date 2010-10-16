@@ -1,19 +1,19 @@
-using OpenRasta.Web;
-
 namespace OpenRasta.Diagnostics
 {
+    using OpenRasta.Web;
+
     public class OperationContextErrorCollector : IErrorCollector
     {
-        readonly ICommunicationContext _context;
+        private readonly ICommunicationContext context;
 
         public OperationContextErrorCollector(ICommunicationContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public void AddServerError(Error error)
         {
-            _context.ServerErrors.Add(error);
+            this.context.ServerErrors.Add(error);
         }
     }
 }

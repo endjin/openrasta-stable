@@ -8,10 +8,10 @@
  */
 #endregion
 
-using System;
-
 namespace OpenRasta.DI
 {
+    using System;
+
     public static class DependencyResolverExtensions
     {
         /// <summary>
@@ -19,8 +19,7 @@ namespace OpenRasta.DI
         /// </summary>
         /// <typeparam name="TConcrete">The concrete type to register.</typeparam>
         /// <param name="resolver"></param>
-        public static void AddDependency<TConcrete>(this IDependencyResolver resolver)
-            where TConcrete : class
+        public static void AddDependency<TConcrete>(this IDependencyResolver resolver) where TConcrete : class
         {
             AddDependency<TConcrete>(resolver, DependencyLifetime.Transient);
         }
@@ -31,8 +30,7 @@ namespace OpenRasta.DI
         /// <typeparam name="TConcrete">The concrete type to register.</typeparam>
         /// <param name="resolver"></param>
         /// <param name="lifetime">The lifetime of the type.</param>
-        public static void AddDependency<TConcrete>(this IDependencyResolver resolver, DependencyLifetime lifetime)
-            where TConcrete : class
+        public static void AddDependency<TConcrete>(this IDependencyResolver resolver, DependencyLifetime lifetime) where TConcrete : class
         {
             resolver.AddDependency(typeof(TConcrete), lifetime);
         }
@@ -43,9 +41,8 @@ namespace OpenRasta.DI
         /// <typeparam name="TService">The type to register.</typeparam>
         /// <typeparam name="TConcrete">The type of the concrete implementation.</typeparam>
         /// <param name="resolver">The resolver.</param>
-        public static void AddDependency<TService, TConcrete>(this IDependencyResolver resolver)
-            where TService : class
-            where TConcrete : class, TService
+        public static void AddDependency<TService, TConcrete>(this IDependencyResolver resolver) where TService : class
+                                                                                                 where TConcrete : class, TService
         {
             AddDependency<TService, TConcrete>(resolver, DependencyLifetime.Singleton);
         }
@@ -57,8 +54,7 @@ namespace OpenRasta.DI
         /// <typeparam name="TConcrete">The type of the concrete implementation.</typeparam>
         /// <param name="resolver">The resolver.</param>
         /// <param name="lifetime">The lifetime of the type.</param>
-        public static void AddDependency<TService, TConcrete>(this IDependencyResolver resolver, 
-                                                              DependencyLifetime lifetime)
+        public static void AddDependency<TService, TConcrete>(this IDependencyResolver resolver, DependencyLifetime lifetime)
             where TService : class
             where TConcrete : class, TService
         {
@@ -92,14 +88,12 @@ namespace OpenRasta.DI
         /// <param name="resolver"></param>
         /// <returns>An instance of T.</returns>
         /// <exception cref="DependencyResolutionException">The resolver couldn't resolve the exception.</exception>
-        public static T Resolve<T>(this IDependencyResolver resolver)
-            where T : class
+        public static T Resolve<T>(this IDependencyResolver resolver) where T : class
         {
             return resolver.Resolve(typeof(T)) as T;
         }
 
-        public static T Resolve<T>(this IDependencyResolver resolver, UnregisteredAction unregistered)
-            where T : class
+        public static T Resolve<T>(this IDependencyResolver resolver, UnregisteredAction unregistered) where T : class
         {
             return (T)resolver.Resolve(typeof(T), unregistered);
         }
@@ -107,12 +101,14 @@ namespace OpenRasta.DI
         public static object Resolve(this IDependencyResolver resolver, Type type, UnregisteredAction unregisteredBehavior)
         {
             if (unregisteredBehavior == UnregisteredAction.AddAsTransient && !resolver.HasDependency(type))
+            {
                 resolver.AddDependency(type, DependencyLifetime.Transient);
+            }
+
             return resolver.Resolve(type);
         }
 
-        public static T ResolveWithDefault<T>(this IDependencyResolver resolver, Func<T> defaultValue)
-            where T : class
+        public static T ResolveWithDefault<T>(this IDependencyResolver resolver, Func<T> defaultValue) where T : class
         {
             return resolver.HasDependency(typeof(T)) ? resolver.Resolve<T>() : defaultValue();
         }

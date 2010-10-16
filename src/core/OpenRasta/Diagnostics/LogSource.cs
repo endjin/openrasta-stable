@@ -4,18 +4,19 @@ namespace OpenRasta.Diagnostics
 {
     public static class LogSource<T> where T : ILogSource
     {
-        static string _category;
+        private static string category;
 
         public static string Category
         {
             get
             {
-                if (_category == null)
+                if (category == null)
                 {
                     var attr = typeof(T).FindAttribute<LogCategoryAttribute>();
-                    _category = attr != null ? attr.CategoryName : typeof(T).Name;
+                    category = attr != null ? attr.CategoryName : typeof(T).Name;
                 }
-                return _category;
+
+                return category;
             }
         }
     }

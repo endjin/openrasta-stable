@@ -1,23 +1,23 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Reflection;
-using OpenRasta.Hosting.HttpListener;
-
 namespace OpenRasta.Hosting
 {
-    public class AppDomainHost<T> : IDisposable
-        where T : HttpListenerHost
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Reflection;
+
+    using OpenRasta.Hosting.HttpListener;
+
+    public class AppDomainHost<T> : IDisposable where T : HttpListenerHost
     {
-        readonly IEnumerable<string> _prefixes;
-        readonly Type _resolver;
-        readonly string _virtualDir;
+        private readonly IEnumerable<string> prefixes;
+        private readonly Type resolver;
+        private readonly string virtualDir;
 
         public AppDomainHost(IEnumerable<string> prefixes, string virtualDir, Type resolver)
         {
-            _prefixes = prefixes;
-            _virtualDir = virtualDir;
-            _resolver = resolver;
+            this.prefixes = prefixes;
+            this.virtualDir = virtualDir;
+            this.resolver = resolver;
         }
 
         ~AppDomainHost()
@@ -26,69 +26,84 @@ namespace OpenRasta.Hosting
         }
 
         public AppDomain HostAppDomain { get; set; }
+
         public bool IsDisposed { get; private set; }
+
         public T Listener { get; protected set; }
 
         public void Initialize()
         {
-            if (IsDisposed) throw new ObjectDisposedException("The controller has already been disposed.");
-            var appDomainSetup = new AppDomainSetup
+            if (this.IsDisposed)
             {
-                ApplicationBase = AppDomain.CurrentDomain.BaseDirectory, 
-                ShadowCopyFiles = "true"
-            };
+                throw new ObjectDisposedException("The controller has already been disposed.");
+            }
 
-            HostAppDomain = AppDomain.CreateDomain(Guid.NewGuid().ToString(), AppDomain.CurrentDomain.Evidence, appDomainSetup);
+            var appDomainSetup = new AppDomainSetup
+                {
+                    ApplicationBase = AppDomain.CurrentDomain.BaseDirectory, ShadowCopyFiles = "true" 
+                };
 
-            Listener = (T)HostAppDomain.CreateInstanceAndUnwrap(typeof(T).Assembly.FullName, 
-                                                      typeof(T).FullName, 
-                                                      false, 
-                                                      BindingFlags.Instance | BindingFlags.Public, 
-                                                      null, 
-                                                      null, 
-                                                      CultureInfo.CurrentCulture, 
-                                                      null, 
-                                                      HostAppDomain.Evidence);
-            Listener.Initialize(_prefixes, _virtualDir, _resolver);
+            this.HostAppDomain = AppDomain.CreateDomain(Guid.NewGuid().ToString(), AppDomain.CurrentDomain.Evidence, appDomainSetup);
+
+            this.Listener = (T)
+                this.HostAppDomain.CreateInstanceAndUnwrap(
+                    typeof(T).Assembly.FullName,
+                    typeof(T).FullName,
+                    false,
+                    BindingFlags.Instance | BindingFlags.Public,
+                    null,
+                    null,
+                    CultureInfo.CurrentCulture,
+                    null,
+                    this.HostAppDomain.Evidence);
+
+            this.Listener.Initialize(this.prefixes, this.virtualDir, this.resolver);
         }
 
         public void StartListening()
         {
-            if (IsDisposed) throw new ObjectDisposedException("The controller has already been disposed.");
+            if (this.IsDisposed)
+            {
+                throw new ObjectDisposedException("The controller has already been disposed.");
+            }
 
-            Listener.StartListening();
+            this.Listener.StartListening();
         }
 
         public void StopListening()
         {
-            if (IsDisposed) throw new ObjectDisposedException("The controller has already been disposed.");
+            if (this.IsDisposed)
+            {
+                throw new ObjectDisposedException("The controller has already been disposed.");
+            }
 
-            Listener.StopListening();
+            this.Listener.StopListening();
         }
 
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!IsDisposed)
+            if (!this.IsDisposed)
             {
-                IsDisposed = true;
+                this.IsDisposed = true;
                 try
                 {
-                    Listener.Close();
-                    AppDomain.Unload(HostAppDomain);
+                    this.Listener.Close();
+                    AppDomain.Unload(this.HostAppDomain);
                 }
                 catch
                 {
                 }
             }
+
             if (disposing)
             {
-                HostAppDomain = null;
+                this.HostAppDomain = null;
             }
         }
     }

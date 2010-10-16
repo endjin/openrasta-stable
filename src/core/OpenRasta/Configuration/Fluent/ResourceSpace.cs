@@ -8,17 +8,15 @@
  */
 #endregion
 
-using System.ComponentModel;
-using OpenRasta.Configuration.Fluent;
-using OpenRasta.Configuration.Fluent.Implementation;
-
 namespace OpenRasta.Configuration
 {
+    using System.ComponentModel;
+
+    using OpenRasta.Configuration.Fluent;
+    using OpenRasta.Configuration.Fluent.Implementation;
+
     public static class ResourceSpace
     {
-        /// <summary>
-        /// Registers resources
-        /// </summary>
         public static IHas Has
         {
             get { return new FluentTarget(); }
@@ -29,18 +27,17 @@ namespace OpenRasta.Configuration
             get { return new FluentTarget(); }
         }
 
-        #region Hide static object members
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new static bool Equals(object objA, object objB)
+        public static new bool Equals(object objA, object objB)
         {
             return object.Equals(objA, objB);
         }
+
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public new static bool ReferenceEquals(object objA, object objB)
+        public static new bool ReferenceEquals(object objA, object objB)
         {
             return object.ReferenceEquals(objA, objB);
         }
-        #endregion
     }
 }
 

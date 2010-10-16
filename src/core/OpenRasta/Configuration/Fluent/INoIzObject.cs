@@ -9,11 +9,11 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-
 namespace OpenRasta.Configuration.Fluent
 {
+    using System;
+    using System.ComponentModel;
+
     [EditorBrowsable(EditorBrowsableState.Never)]
     public interface INoIzObject
     {

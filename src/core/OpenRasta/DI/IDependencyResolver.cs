@@ -8,11 +8,11 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace OpenRasta.DI
 {
+    using System;
+    using System.Collections.Generic;
+
     public interface IDependencyResolver
     {
         bool HasDependency(Type serviceType);

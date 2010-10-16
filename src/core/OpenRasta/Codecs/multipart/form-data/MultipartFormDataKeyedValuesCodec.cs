@@ -1,10 +1,10 @@
-using OpenRasta.Binding;
-using OpenRasta.DI;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using OpenRasta.Binding;
+    using OpenRasta.DI;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     [MediaType("multipart/form-data;q=0.5")]
     [SupportedType(typeof(object))]
     public class MultipartFormDataKeyedValuesCodec : AbstractMultipartFormDataCodec, IKeyedValuesMediaTypeReader<IMultipartHttpEntity>

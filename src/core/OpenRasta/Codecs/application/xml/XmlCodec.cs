@@ -8,39 +8,41 @@
  */
 #endregion
 
-using System;
-using System.Xml;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using System.Xml;
+
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     public abstract class XmlCodec : IMediaTypeReader, IMediaTypeWriter
     {
         public object Configuration { get; set; }
+
         protected XmlWriter Writer { get; private set; }
 
-        public abstract void WriteToCore(object entity, IHttpEntity response);
         public abstract object ReadFrom(IHttpEntity request, IType destinationType, string memberName);
 
         public virtual void WriteTo(object entity, IHttpEntity response, string[] parameters)
         {
             var responseStream = response.Stream;
-            using (Writer = XmlWriter.Create(responseStream, 
-                                             new XmlWriterSettings
-                                             {
-                                                 ConformanceLevel =
-                                                     ConformanceLevel.Document, 
-                                                 Indent = true, 
-                                                 NewLineOnAttributes = true, 
-                                                 OmitXmlDeclaration = false, 
-                                                 CloseOutput = true, 
-                                                 CheckCharacters = true
-                                             }))
+            using (this.Writer = XmlWriter.Create(
+                responseStream,
+                new XmlWriterSettings
+                    {
+                        ConformanceLevel = ConformanceLevel.Document, 
+                        Indent = true, 
+                        NewLineOnAttributes = true, 
+                        OmitXmlDeclaration = false, 
+                        CloseOutput = true, 
+                        CheckCharacters = true
+                    }))
             {
-                WriteToCore(entity, response);
+                this.WriteToCore(entity, response);
             }
         }
+
+        protected abstract void WriteToCore(object entity, IHttpEntity response);
     }
 }
 

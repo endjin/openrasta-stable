@@ -1,8 +1,9 @@
-using System;
-using OpenRasta.Configuration.Fluent;
-
 namespace OpenRasta.Configuration
 {
+    using System;
+
+    using OpenRasta.Configuration.Fluent;
+
     public static class LegacyHasExtensions
     {
         [Obsolete("The syntax has changed. Please use .And.AtUri instead.")]

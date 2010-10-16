@@ -1,21 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.DI.Internal
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.Pipeline;
+
     public class DependencyRegistrationCollection : IContextStoreDependencyCleaner
     {
-        readonly Dictionary<Type, List<DependencyRegistration>> _registrations = new Dictionary<Type, List<DependencyRegistration>>();
+        private readonly Dictionary<Type, List<DependencyRegistration>> registrations = new Dictionary<Type, List<DependencyRegistration>>();
 
         public IEnumerable<DependencyRegistration> this[Type serviceType]
         {
             get
             {
-                lock (_registrations)
+                lock (this.registrations)
                 {
-                    return GetSvcRegistrations(serviceType);
+                    return this.GetSvcRegistrations(serviceType);
                 }
             }
         }
@@ -23,33 +24,33 @@ namespace OpenRasta.DI.Internal
         public void Add(DependencyRegistration registration)
         {
             registration.LifetimeManager.VerifyRegistration(registration);
-            lock (_registrations)
+            lock (this.registrations)
             {
-                GetSvcRegistrations(registration.ServiceType).Add(registration);
+                this.GetSvcRegistrations(registration.ServiceType).Add(registration);
             }
         }
 
         public DependencyRegistration GetRegistrationForService(Type type)
         {
-            lock (_registrations)
+            lock (this.registrations)
             {
-                return GetSvcRegistrations(type).LastOrDefault(x => x.LifetimeManager.IsRegistrationAvailable(x));
+                return this.GetSvcRegistrations(type).LastOrDefault(x => x.LifetimeManager.IsRegistrationAvailable(x));
             }
         }
 
         public bool HasRegistrationForService(Type type)
         {
-            lock (_registrations)
+            lock (this.registrations)
             {
-                return _registrations.ContainsKey(type) && GetSvcRegistrations(type).ToList().Any(x => x.LifetimeManager.IsRegistrationAvailable(x));
+                return this.registrations.ContainsKey(type) && this.GetSvcRegistrations(type).ToList().Any(x => x.LifetimeManager.IsRegistrationAvailable(x));
             }
         }
 
         public void Destruct(string key, object instance)
         {
-            lock (_registrations)
+            lock (this.registrations)
             {
-                foreach (var reg in _registrations)
+                foreach (var reg in this.registrations)
                 {
                     var toRemove = reg.Value.Where(x => x.Key == key).ToList();
 
@@ -59,11 +60,13 @@ namespace OpenRasta.DI.Internal
         }
 
         // Not thread safe
-        List<DependencyRegistration> GetSvcRegistrations(Type serviceType)
+        public List<DependencyRegistration> GetSvcRegistrations(Type serviceType)
         {
             List<DependencyRegistration> svcRegistrations;
-            if (!_registrations.TryGetValue(serviceType, out svcRegistrations))
-                _registrations.Add(serviceType, svcRegistrations = new List<DependencyRegistration>());
+            if (!this.registrations.TryGetValue(serviceType, out svcRegistrations))
+            {
+                this.registrations.Add(serviceType, svcRegistrations = new List<DependencyRegistration>());
+            }
 
             return svcRegistrations;
         }

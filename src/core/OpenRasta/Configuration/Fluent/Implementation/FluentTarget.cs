@@ -1,38 +1,37 @@
-using OpenRasta.Configuration.MetaModel;
-using OpenRasta.DI;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Configuration.Fluent.Implementation
 {
+    using OpenRasta.Configuration.MetaModel;
+    using OpenRasta.DI;
+    using OpenRasta.TypeSystem;
+
     public class FluentTarget : IHas, IUses, IFluentTarget
     {
-        readonly IMetaModelRepository _repository;
-        readonly IDependencyResolver _resolver;
+        private readonly IMetaModelRepository repository;
+        private readonly IDependencyResolver resolver;
 
         public FluentTarget(IDependencyResolver resolver, IMetaModelRepository repository)
         {
-            _resolver = resolver;
-            _repository = repository;
+            this.resolver = resolver;
+            this.repository = repository;
         }
 
-        public FluentTarget()
-            : this(DependencyManager.GetService<IDependencyResolver>(), DependencyManager.GetService<IMetaModelRepository>())
+        public FluentTarget() : this(DependencyManager.GetService<IDependencyResolver>(), DependencyManager.GetService<IMetaModelRepository>())
         {
         }
 
         public IMetaModelRepository Repository
         {
-            get { return _repository; }
+            get { return this.repository; }
         }
 
         public IDependencyResolver Resolver
         {
-            get { return _resolver; }
+            get { return this.resolver; }
         }
 
         public ITypeSystem TypeSystem
         {
-            get { return _resolver.Resolve<ITypeSystem>(); }
+            get { return this.resolver.Resolve<ITypeSystem>(); }
         }
     }
 }

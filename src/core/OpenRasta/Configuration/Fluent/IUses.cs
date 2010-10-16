@@ -8,11 +8,11 @@
  */
 #endregion
 
-using OpenRasta.DI;
-
 namespace OpenRasta.Configuration.Fluent
 {
-    public interface IUses  : INoIzObject, IDependencyResolverAccessor
+    using OpenRasta.DI;
+
+    public interface IUses : INoIzObject, IDependencyResolverAccessor
     {
     }
 }

@@ -8,17 +8,18 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using OpenRasta.IO;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Reflection;
+
+    using OpenRasta.IO;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     [MediaType("application/octet-stream;q=0.5")]
     [MediaType("*/*;q=0.1")]
     [SupportedType(typeof(IFile))]
@@ -29,49 +30,72 @@ namespace OpenRasta.Codecs
         public object ReadFrom(IHttpEntity request, IType destinationType, string destinationName)
         {
             if (destinationType.IsAssignableTo<IFile>())
+            {
                 return new HttpEntityFile(request);
+            }
+
             if (destinationType.IsAssignableTo<Stream>())
+            {
                 return request.Stream;
+            }
+
             if (destinationType.IsAssignableTo<byte[]>())
+            {
                 return request.Stream.ReadToEnd();
+            }
+
             return Missing.Value;
         }
 
         public void WriteTo(object entity, IHttpEntity response, string[] codecParameters)
         {
-            if (!GetWriters(entity, response).Any(x => x))
+            if (!this.GetWriters(entity, response).Any(x => x))
+            {
                 throw new InvalidOperationException();
+            }
         }
 
-
-        static bool TryProcessAs<T>(object target, Action<T> action) where T : class
+        private static bool TryProcessAs<T>(object target, Action<T> action) where T : class
         {
             var typedTarget = target as T;
+            
             if (typedTarget != null)
             {
                 action(typedTarget);
                 return true;
             }
+
             return false;
         }
 
-        static void WriteFileWithFilename(IFile file, string disposition, IHttpEntity response)
+        private static void WriteFileWithFilename(IFile file, string disposition, IHttpEntity response)
         {
             var contentDispositionHeader = response.Headers.ContentDisposition ?? new ContentDispositionHeader(disposition);
 
             if (!string.IsNullOrEmpty(file.FileName))
+            {
                 contentDispositionHeader.FileName = file.FileName;
-            if (!string.IsNullOrEmpty(contentDispositionHeader.FileName) || contentDispositionHeader.Disposition != "inline")
+            }
+
+            if (!string.IsNullOrEmpty(contentDispositionHeader.FileName) ||
+                contentDispositionHeader.Disposition != "inline")
+            {
                 response.Headers.ContentDisposition = contentDispositionHeader;
-            if (file.ContentType != null && file.ContentType != MediaType.ApplicationOctetStream
-                || (file.ContentType == MediaType.ApplicationOctetStream && response.ContentType == null))
+            }
+
+            if ((file.ContentType != null && file.ContentType != MediaType.ApplicationOctetStream) ||
+                (file.ContentType == MediaType.ApplicationOctetStream && response.ContentType == null))
+            {
                 response.ContentType = file.ContentType;
-            
+            }
+
             using (var stream = file.OpenStream())
+            {
                 stream.CopyTo(response.Stream);
+            }
         }
 
-        IEnumerable<bool> GetWriters(object entity, IHttpEntity response)
+        private IEnumerable<bool> GetWriters(object entity, IHttpEntity response)
         {
             yield return TryProcessAs<IDownloadableFile>(entity, file => WriteFileWithFilename(file, "attachment", response));
             yield return TryProcessAs<IFile>(entity, file => WriteFileWithFilename(file, "inline", response));

@@ -8,10 +8,10 @@
  */
 #endregion
 
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Binding
 {
+    using OpenRasta.TypeSystem;
+
     public class KeyedValuesBinderAttribute : BinderAttribute
     {
         public override IObjectBinder GetBinder(IMember memberInfo)

@@ -8,12 +8,13 @@
  */
 #endregion
 
-using System.Collections.Generic;
-using OpenRasta.Binding;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Data
 {
+    using System.Collections.Generic;
+
+    using OpenRasta.Binding;
+    using OpenRasta.TypeSystem;
+
     /// <summary>
     /// Represents a set of changes that can be applied to a type.
     /// </summary>
@@ -22,7 +23,7 @@ namespace OpenRasta.Data
     {
         public ChangeSet(ITypeBuilder typeBuilder)
         {
-            TypeBuilder = typeBuilder;
+            this.TypeBuilder = typeBuilder;
         }
 
         /// <summary>
@@ -30,7 +31,7 @@ namespace OpenRasta.Data
         /// </summary>
         public IDictionary<string, IPropertyBuilder> Changes
         {
-            get { return TypeBuilder.Changes; }
+            get { return this.TypeBuilder.Changes; }
         }
 
         public ITypeBuilder TypeBuilder { get; private set; }
@@ -53,7 +54,7 @@ namespace OpenRasta.Data
         /// <param name="testObject">The instance of an object on which to apply the changes.</param>
         public void Apply(T testObject)
         {
-            TypeBuilder.Update(testObject);
+            this.TypeBuilder.Update(testObject);
         }
     }
 }

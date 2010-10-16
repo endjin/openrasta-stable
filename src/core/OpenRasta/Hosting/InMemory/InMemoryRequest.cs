@@ -8,30 +8,36 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using OpenRasta.Web;
-
 namespace OpenRasta.Hosting.InMemory
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.IO;
+
+    using OpenRasta.Web;
+
     public class InMemoryRequest : IRequest
     {
         public InMemoryRequest()
         {
-            Headers = new HttpHeaderDictionary();
-            Entity = new HttpEntity(Headers, new MemoryStream());
-            CodecParameters = new List<string>();
+            this.Headers = new HttpHeaderDictionary();
+            this.Entity = new HttpEntity(this.Headers, new MemoryStream());
+            this.CodecParameters = new List<string>();
         }
 
         public IList<string> CodecParameters { get; private set; }
 
         public IHttpEntity Entity { get; set; }
+
         public HttpHeaderDictionary Headers { get; set; }
+
         public string HttpMethod { get; set; }
+
         public CultureInfo NegotiatedCulture { get; set; }
+
         public Uri Uri { get; set; }
+
         public string UriName { get; set; }
     }
 }

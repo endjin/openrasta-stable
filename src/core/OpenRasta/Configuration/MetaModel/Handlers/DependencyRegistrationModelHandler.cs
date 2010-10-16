@@ -1,22 +1,24 @@
-﻿using System;
-using System.Linq;
-using OpenRasta.DI;
-
-namespace OpenRasta.Configuration.MetaModel.Handlers
+﻿namespace OpenRasta.Configuration.MetaModel.Handlers
 {
+    using System.Linq;
+
+    using OpenRasta.DI;
+
     public class DependencyRegistrationMetaModelHandler : AbstractMetaModelHandler
     {
-        readonly IDependencyResolver _resolver;
+        private readonly IDependencyResolver resolver;
 
         public DependencyRegistrationMetaModelHandler(IDependencyResolver resolver)
         {
-            _resolver = resolver;
+            this.resolver = resolver;
         }
 
         public override void PreProcess(IMetaModelRepository repository)
         {
             foreach (var model in repository.CustomRegistrations.OfType<DependencyRegistrationModel>())
-                _resolver.AddDependency(model.ServiceType, model.ConcreteType, model.Lifetime);
+            {
+                this.resolver.AddDependency(model.ServiceType, model.ConcreteType, model.Lifetime);
+            }
         }
     }
 }

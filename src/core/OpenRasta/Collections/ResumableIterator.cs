@@ -1,65 +1,78 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace OpenRasta.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     public class ResumableIterator<T, TKey> : IEnumerator<T>, IEnumerable<T>
     {
-        readonly Func<TKey, TKey, bool> _equalityProvider;
-        readonly Func<T, TKey> _keyProvider;
-        readonly IEnumerator<T> _sourceEnumerator;
-        bool _isAhead;
-        bool _isSuspended;
-        TKey _suspendAfter;
+        private readonly Func<TKey, TKey, bool> equalityProvider;
+        private readonly Func<T, TKey> keyProvider;
+        private readonly IEnumerator<T> sourceEnumerator;
+        private bool isAhead;
+        private bool isSuspended;
+        private TKey suspendAfter;
 
         public ResumableIterator(IEnumerator<T> source, Func<T, TKey> keyProvider, Func<TKey, TKey, bool> equalityProvider)
         {
-            _sourceEnumerator = source;
-            _keyProvider = keyProvider;
-            _equalityProvider = equalityProvider;
+            this.sourceEnumerator = source;
+            this.keyProvider = keyProvider;
+            this.equalityProvider = equalityProvider;
         }
 
         public T Current
         {
-            get { return _sourceEnumerator.Current; }
+            get { return this.sourceEnumerator.Current; }
         }
 
         object IEnumerator.Current
         {
-            get { return _sourceEnumerator.Current; }
+            get { return this.sourceEnumerator.Current; }
         }
 
         public bool ResumeFrom(TKey key)
         {
-            if (ReferenceEquals(key, null)) throw new ArgumentNullException("key");
-            if (CurrentKeyIs(key))
-                return true;
-            while (_sourceEnumerator.MoveNext())
+            if (ReferenceEquals(key, null))
             {
-                if (CurrentKeyIs(key))
+                throw new ArgumentNullException("key");
+            }
+
+            if (this.CurrentKeyIs(key))
+            {
+                return true;
+            }
+
+            while (this.sourceEnumerator.MoveNext())
+            {
+                if (this.CurrentKeyIs(key))
                 {
-                    _isAhead = true;
+                    this.isAhead = true;
+                 
                     return true;
                 }
             }
+
             return false;
         }
 
         public void SuspendAfter(TKey key)
         {
-            if (ReferenceEquals(key, null)) throw new ArgumentNullException("key");
-            _suspendAfter = key;
+            if (ReferenceEquals(key, null))
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            this.suspendAfter = key;
         }
 
         void IDisposable.Dispose()
         {
-            _sourceEnumerator.Dispose();
+            this.sourceEnumerator.Dispose();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -69,24 +82,30 @@ namespace OpenRasta.Collections
 
         bool IEnumerator.MoveNext()
         {
-            if (_isSuspended)
+            if (this.isSuspended)
             {
-                _isSuspended = false;
+                this.isSuspended = false;
                 return false;
             }
-            if (_isAhead)
-            {
-                _isAhead = false;
-                return true;
-            }
-            if (_sourceEnumerator.MoveNext())
-            {
-                var newKey = _keyProvider(_sourceEnumerator.Current);
 
-                if (!ReferenceEquals(_suspendAfter, null) && _equalityProvider(newKey, _suspendAfter))
-                    _isSuspended = true;
+            if (this.isAhead)
+            {
+                this.isAhead = false;
                 return true;
             }
+
+            if (this.sourceEnumerator.MoveNext())
+            {
+                var newKey = this.keyProvider(this.sourceEnumerator.Current);
+
+                if (!ReferenceEquals(this.suspendAfter, null) && this.equalityProvider(newKey, this.suspendAfter))
+                {
+                    this.isSuspended = true;
+                }
+
+                return true;
+            }
+
             return false;
         }
 
@@ -95,10 +114,14 @@ namespace OpenRasta.Collections
             // ignore the reset as we may continue iterating later on.
         }
 
-        bool CurrentKeyIs(TKey key)
+        private bool CurrentKeyIs(TKey key)
         {
-            if (ReferenceEquals(Current, null)) return false;
-            return _equalityProvider(_keyProvider(Current), key);
+            if (ReferenceEquals(this.Current, null))
+            {
+                return false;
+            }
+
+            return this.equalityProvider(this.keyProvider(this.Current), key);
         }
     }
 }

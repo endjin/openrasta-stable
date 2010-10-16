@@ -8,29 +8,34 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Security.Principal;
-using OpenRasta.Pipeline;
-using OpenRasta.Web;
-
 namespace OpenRasta.Hosting.InMemory
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Security.Principal;
+
+    using OpenRasta.Pipeline;
+    using OpenRasta.Web;
+
     public class InMemoryCommunicationContext : ICommunicationContext
     {
         public InMemoryCommunicationContext()
         {
-            ApplicationBaseUri = new Uri("http://local");
-            Request = new InMemoryRequest();
-            Response = new InMemoryResponse();
-            ServerErrors = new List<Error>();
+            this.ApplicationBaseUri = new Uri("http://local");
+            this.Request = new InMemoryRequest();
+            this.Response = new InMemoryResponse();
+            this.ServerErrors = new List<Error>();
             PipelineData = new PipelineData();
         }
 
         public Uri ApplicationBaseUri { get; set; }
+
         public OperationResult OperationResult { get; set; }
+
         public PipelineData PipelineData { get; set; }
+
         public IRequest Request { get; set; }
+
         public IResponse Response { get; set; }
 
         public IList<Error> ServerErrors { get; set; }

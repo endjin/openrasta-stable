@@ -8,12 +8,11 @@
  */
 #endregion
 
-using System;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     public interface IMediaTypeReader : ICodec
     {
         object ReadFrom(IHttpEntity request, IType destinationType, string destinationName);

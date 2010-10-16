@@ -1,25 +1,26 @@
-using System;
-using OpenRasta.Codecs;
-
 namespace OpenRasta.Configuration.Fluent.Implementation
 {
+    using System;
+
+    using OpenRasta.Codecs;
+
     public class CodecParentDefinition : ICodecParentDefinition
     {
-        readonly ResourceDefinition _resourceDefinition;
+        private readonly ResourceDefinition resourceDefinition;
 
         public CodecParentDefinition(ResourceDefinition registration)
         {
-            _resourceDefinition = registration;
+            this.resourceDefinition = registration;
         }
 
         public ICodecDefinition TranscodedBy<TCodec>(object configuration) where TCodec : ICodec
         {
-            return _resourceDefinition.TranscodedBy<TCodec>(configuration);
+            return this.resourceDefinition.TranscodedBy<TCodec>(configuration);
         }
 
         public ICodecDefinition TranscodedBy(Type type, object configuration)
         {
-            return _resourceDefinition.TranscodedBy(type, configuration);
+            return this.resourceDefinition.TranscodedBy(type, configuration);
         }
     }
 }

@@ -15,7 +15,10 @@ namespace OpenRasta.Diagnostics
         public static ILogger Safe(this ILogger logger)
         {
             if (logger == null)
+            {
                 return NullLogger.Instance;
+            }
+
             return logger;
         }
     }

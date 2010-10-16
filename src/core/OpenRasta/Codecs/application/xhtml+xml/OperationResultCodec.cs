@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRasta.Web;
-
-namespace OpenRasta.Codecs
+﻿namespace OpenRasta.Codecs
 {
+    using OpenRasta.Web;
+
     [MediaType("application/xhtml+xml;q=0.9")]
     [MediaType("text/html")]
     [SupportedType(typeof(OperationResult))]
@@ -13,7 +9,6 @@ namespace OpenRasta.Codecs
     {
         public void WriteTo(object entity, IHttpEntity response, string[] codecParameters)
         {
-            
         }
     }
 }

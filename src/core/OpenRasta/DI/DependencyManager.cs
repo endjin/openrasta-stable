@@ -8,24 +8,27 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using OpenRasta.Codecs;
-using OpenRasta.Configuration;
-using OpenRasta.Handlers;
-using OpenRasta.Pipeline;
-using OpenRasta.Web;
-
 namespace OpenRasta.DI
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.Configuration;
+    using OpenRasta.Handlers;
+    using OpenRasta.Pipeline;
+    using OpenRasta.Web;
+
     /// <summary>
     /// Provides easy access to common services and dependency-specific properties.
     /// </summary>
     public static class DependencyManager
     {
-        [ThreadStatic] static Stack<IDependencyResolver> _backupResolvers;
+        [ThreadStatic]
+        private static Stack<IDependencyResolver> backupResolvers;
 
-        [ThreadStatic] static IDependencyResolver _resolver;
+        [ThreadStatic]
+        private static IDependencyResolver resolver;
 
         static DependencyManager()
         {
@@ -52,7 +55,7 @@ namespace OpenRasta.DI
 
         public static bool IsAvailable
         {
-            get { return _resolver != null; }
+            get { return resolver != null; }
         }
 
         public static IPipeline Pipeline
@@ -78,15 +81,25 @@ namespace OpenRasta.DI
         public static object GetService(Type dependencyType)
         {
             if (dependencyType == null)
+            {
                 return null;
-            if (_resolver == null)
-                throw new DependencyResolutionException("Cannot resolve services when no _resolver has been configured.");
+            }
+
+            if (resolver == null)
+            {
+                throw new DependencyResolutionException(
+                    "Cannot resolve services when no _resolver has been configured.");
+            }
+
             if (AutoRegisterDependencies && !dependencyType.IsAbstract)
             {
-                if (!_resolver.HasDependency(dependencyType))
-                    _resolver.AddDependency(dependencyType, DependencyLifetime.Transient);
+                if (!resolver.HasDependency(dependencyType))
+                {
+                    resolver.AddDependency(dependencyType, DependencyLifetime.Transient);
+                }
             }
-            return _resolver.Resolve(dependencyType);
+
+            return resolver.Resolve(dependencyType);
         }
 
         /// <summary>
@@ -96,19 +109,22 @@ namespace OpenRasta.DI
         /// <remarks>If no dependency registrar is registered in the container, the <see cref="DefaultDependencyRegistrar"/> will be used instead.</remarks>
         public static void SetResolver(IDependencyResolver resolver)
         {
-            if (_resolver != null)
+            if (DependencyManager.resolver != null)
             {
-                if (_backupResolvers == null)
-                    _backupResolvers = new Stack<IDependencyResolver>();
-                _backupResolvers.Push(_resolver);
+                if (backupResolvers == null)
+                {
+                    backupResolvers = new Stack<IDependencyResolver>();
+                }
+
+                backupResolvers.Push(DependencyManager.resolver);
             }
 
-            _resolver = resolver;
+            DependencyManager.resolver = resolver;
         }
 
         public static void UnsetResolver()
         {
-            _resolver = _backupResolvers != null && _backupResolvers.Count > 0 ? _backupResolvers.Pop() : null;
+            resolver = backupResolvers != null && backupResolvers.Count > 0 ? backupResolvers.Pop() : null;
         }
     }
 }

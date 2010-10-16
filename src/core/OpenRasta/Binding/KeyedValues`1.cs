@@ -8,11 +8,11 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace OpenRasta.Binding
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represent a key associated with a series of typed values and a converter, used to match key and values pairs with binders.
     /// </summary>
@@ -21,20 +21,28 @@ namespace OpenRasta.Binding
     {
         public KeyedValues(string key, IEnumerable<T> values, ValueConverter<T> converter)
         {
-            if (key == null) throw new ArgumentNullException("key");
-            if (values == null) throw new ArgumentNullException("values");
+            if (key == null)
+            {
+                throw new ArgumentNullException("key");
+            }
+
+            if (values == null)
+            {
+                throw new ArgumentNullException("values");
+            }
+
             Key = key;
-            Values = values;
-            Converter = converter;
+            this.Values = values;
+            this.Converter = converter;
         }
 
-
         public ValueConverter<T> Converter { get; private set; }
+
         public IEnumerable<T> Values { get; private set; }
 
         public override bool SetProperty(IObjectBinder binder)
         {
-            return WasUsed = binder.SetProperty(Key, Values, Converter);
+            return this.WasUsed = binder.SetProperty(this.Key, this.Values, this.Converter);
         }
     }
 }

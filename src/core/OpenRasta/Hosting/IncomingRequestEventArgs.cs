@@ -1,13 +1,14 @@
-using System;
-using OpenRasta.Web;
-
 namespace OpenRasta.Hosting
 {
+    using System;
+
+    using OpenRasta.Web;
+
     public abstract class IncomingRequestEventArgs : EventArgs
     {
         public IncomingRequestEventArgs(ICommunicationContext context)
         {
-            Context = context;
+            this.Context = context;
         }
 
         public ICommunicationContext Context { get; set; }

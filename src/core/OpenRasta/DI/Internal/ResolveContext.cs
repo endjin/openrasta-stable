@@ -1,49 +1,55 @@
-using System;
-using System.Collections.Generic;
-using OpenRasta.Diagnostics;
-
 namespace OpenRasta.DI.Internal
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Diagnostics;
+
     public class ResolveContext
     {
-        readonly Stack<DependencyRegistration> _recursionDefender = new Stack<DependencyRegistration>();
+        private readonly Stack<DependencyRegistration> recursionDefender = new Stack<DependencyRegistration>();
 
-        ILogger _log;
+        private ILogger log;
 
         public ResolveContext(DependencyRegistrationCollection registrations, ILogger log)
         {
-            Registrations = registrations;
-            _log = log;
-            Builder = new ObjectBuilder(this, log);
+            this.Registrations = registrations;
+            this.log = log;
+            this.Builder = new ObjectBuilder(this, log);
         }
 
         public ObjectBuilder Builder { get; private set; }
+
         public DependencyRegistrationCollection Registrations { get; set; }
+
         protected InternalDependencyResolver Resolver { get; set; }
 
         public bool CanResolve(DependencyRegistration registration)
         {
-            return !_recursionDefender.Contains(registration);
+            return !this.recursionDefender.Contains(registration);
         }
 
         public object Resolve(Type serviceType)
         {
-            return Resolve(Registrations.GetRegistrationForService(serviceType));
+            return this.Resolve(this.Registrations.GetRegistrationForService(serviceType));
         }
 
         public object Resolve(DependencyRegistration registration)
         {
-            if (_recursionDefender.Contains(registration))
+            if (this.recursionDefender.Contains(registration))
+            {
                 throw new InvalidOperationException("Recursive dependencies are not allowed.");
+            }
+
             try
             {
-                _recursionDefender.Push(registration);
+                this.recursionDefender.Push(registration);
 
                 return registration.LifetimeManager.Resolve(this, registration);
             }
             finally
             {
-                _recursionDefender.Pop();
+                this.recursionDefender.Pop();
             }
         }
     }

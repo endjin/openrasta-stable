@@ -8,22 +8,24 @@
  */
 #endregion
 
-using System;
-using System.Linq;
-using OpenRasta.Diagnostics;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Binding
 {
+    using System;
+    using System.Linq;
+
+    using OpenRasta.Diagnostics;
+    using OpenRasta.TypeSystem;
+
     public class DefaultObjectBinderLocator : IObjectBinderLocator
     {
         public DefaultObjectBinderLocator()
         {
-            Logger = NullLogger.Instance;
-            TypeSystem = TypeSystems.Default;
+            this.Logger = NullLogger.Instance;
+            this.TypeSystem = TypeSystems.Default;
         }
 
         public ILogger Logger { get; set; }
+
         public ITypeSystem TypeSystem { get; set; }
 
         public IObjectBinder GetBinder(IMember member)
@@ -31,27 +33,31 @@ namespace OpenRasta.Binding
             var abstractObjectBinderAttribute = member.FindAttribute<BinderAttribute>() ?? member.Type.FindAttribute<BinderAttribute>();
 
             if (abstractObjectBinderAttribute != null)
+            {
                 return abstractObjectBinderAttribute.GetBinder(member);
+            }
 
             IMethod binderMethod = member.GetMethod("GetBinder");
+            
             if (binderMethod != null)
             {
                 try
                 {
-                    return binderMethod.Invoke(null, TypeSystem, member).OfType<IObjectBinder>().Single();
+                    return binderMethod.Invoke(null, this.TypeSystem, member).OfType<IObjectBinder>().Single();
                 }
                 catch (Exception e)
                 {
-                    LogGetBinderMethodCouldntBeRun(e);
+                    this.LogGetBinderMethodCouldntBeRun(e);
                 }
             }
+
             return new KeyedValuesBinder(member.Type, member.Name);
         }
 
-        void LogGetBinderMethodCouldntBeRun(Exception exception)
+        private void LogGetBinderMethodCouldntBeRun(Exception exception)
         {
-            Logger.WriteWarning("Method GetBinder couldn't be processed. See the exception for more details.");
-            Logger.WriteException(exception);
+            this.Logger.WriteWarning("Method GetBinder couldn't be processed. See the exception for more details.");
+            this.Logger.WriteException(exception);
         }
     }
 }

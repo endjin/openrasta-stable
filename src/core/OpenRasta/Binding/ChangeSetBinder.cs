@@ -8,25 +8,16 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Data;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Binding
 {
-    /// <summary>
-    /// Represents a binder for the ChangeSet type.
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
+    using System;
+
+    using OpenRasta.Data;
+    using OpenRasta.TypeSystem;
+
     public class ChangeSetBinder<T> : KeyedValuesBinder where T : class
     {
-        /// <summary>
-        /// Constructs a new binder for types of type <see cref="ChangeSet{T}"/>.
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="objectName"></param>
-        public ChangeSetBinder(IType type, string objectName)
-            : base(type, objectName)
+        public ChangeSetBinder(IType type, string objectName) : base(type, objectName)
         {
         }
 

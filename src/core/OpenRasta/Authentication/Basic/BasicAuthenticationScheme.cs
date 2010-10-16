@@ -1,18 +1,21 @@
-﻿using OpenRasta.Web;
-
-namespace OpenRasta.Authentication.Basic
+﻿namespace OpenRasta.Authentication.Basic
 {
+    using OpenRasta.Web;
+
     public class BasicAuthenticationScheme : IAuthenticationScheme
     {
-        const string SCHEME = "Basic";
+        private const string Scheme = "Basic";
 
-        private readonly IBasicAuthenticator _basicAuthenticator;
-
-        public string Name { get { return SCHEME; } }
+        private readonly IBasicAuthenticator basicAuthenticator;
 
         public BasicAuthenticationScheme(IBasicAuthenticator basicAuthenticator)
         {
-            _basicAuthenticator = basicAuthenticator;
+            this.basicAuthenticator = basicAuthenticator;
+        }
+
+        public string Name
+        {
+            get { return Scheme; }
         }
 
         public AuthenticationResult Authenticate(IRequest request)
@@ -21,7 +24,7 @@ namespace OpenRasta.Authentication.Basic
 
             if (credentials != null)
             {
-                return _basicAuthenticator.Authenticate(credentials);
+                return this.basicAuthenticator.Authenticate(credentials);
             }
 
             return new AuthenticationResult.MalformedCredentials();
@@ -29,10 +32,10 @@ namespace OpenRasta.Authentication.Basic
 
         public void Challenge(IResponse response)
         {
-            response.Headers["WWW-Authenticate"] = string.Format("{0} realm=\"{1}\"", SCHEME, _basicAuthenticator.Realm);
+            response.Headers["WWW-Authenticate"] = string.Format("{0} realm=\"{1}\"", Scheme, this.basicAuthenticator.Realm);
         }
 
-        internal static BasicAuthRequestHeader ExtractBasicHeader(string value)
+        private static BasicAuthRequestHeader ExtractBasicHeader(string value)
         {
             try
             {
@@ -41,7 +44,9 @@ namespace OpenRasta.Authentication.Basic
                 var basicCredentials = basicBase64Credentials.FromBase64String().Split(':');
 
                 if (basicCredentials.Length != 2)
+                {
                     return null;
+                }
 
                 return new BasicAuthRequestHeader(basicCredentials[0], basicCredentials[1]);
             }
@@ -49,7 +54,6 @@ namespace OpenRasta.Authentication.Basic
             {
                 return null;
             }
-
         }
     }
 }

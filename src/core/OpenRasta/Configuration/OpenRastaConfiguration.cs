@@ -8,17 +8,18 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using OpenRasta.Configuration.MetaModel;
-using OpenRasta.DI;
-
 namespace OpenRasta.Configuration
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
+    using OpenRasta.Configuration.MetaModel;
+    using OpenRasta.DI;
+
     public static class OpenRastaConfiguration
     {
-        static bool _isBeingConfigured;
+        private static bool isBeingConfigured;
 
         /// <summary>
         /// Creates a manual configuration of the resources supported by the application.
@@ -27,38 +28,43 @@ namespace OpenRasta.Configuration
         {
             get
             {
-                if (_isBeingConfigured)
+                if (isBeingConfigured)
+                {
                     throw new InvalidOperationException("Configuration is already happening on another thread.");
+                }
 
-                _isBeingConfigured = true;
+                isBeingConfigured = true;
 
                 return new FluentConfigurator();
             }
         }
 
-        static void FinishConfiguration()
+        private static void FinishConfiguration()
         {
-            if (!_isBeingConfigured)
+            if (!isBeingConfigured)
+            {
                 throw new InvalidOperationException(
                     "Something went horribly wrong and the Configuration is deemed finish when it didn't even start!");
+            }
 
             DependencyManager.Pipeline.Initialize();
-            _isBeingConfigured = false;
+            isBeingConfigured = false;
         }
 
-        class FluentConfigurator : IDisposable
+        private class FluentConfigurator : IDisposable
         {
-            bool _disposed;
+            private bool disposed;
 
             ~FluentConfigurator()
             {
-                Debug.Assert(_disposed, "The FluentConfigurator wasn't disposed properly.");
+                Debug.Assert(this.disposed, "The FluentConfigurator wasn't disposed properly.");
             }
 
             public void Dispose()
             {
                 GC.SuppressFinalize(this);
                 var exceptions = new List<OpenRastaConfigurationException>();
+                
                 try
                 {
                     var metaModelRepository = DependencyManager.GetService<IMetaModelRepository>();
@@ -68,9 +74,12 @@ namespace OpenRasta.Configuration
                 finally
                 {
                     FinishConfiguration();
-                    _disposed = true;
+                    this.disposed = true;
+                    
                     if (exceptions.Count > 0)
+                    {
                         throw new OpenRastaConfigurationException(exceptions);
+                    }
                 }
             }
         }

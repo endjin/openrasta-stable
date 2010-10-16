@@ -8,20 +8,21 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Binding
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.TypeSystem;
+
     public class KeyedValuesBinder : IObjectBinder
     {
-        readonly bool _isEnumerable;
-        readonly string _name;
-        readonly string _typeName;
+        private readonly bool enumerable;
+        private readonly string name;
+        private readonly string typeName;
 
-        object _cachedBuiltObject;
-        bool _isInstanceConstructed;
+        private object cachedBuiltObject;
+        private bool instanceConstructed;
 
         public KeyedValuesBinder(IType target) : this(target, target.Name)
         {
@@ -29,72 +30,85 @@ namespace OpenRasta.Binding
 
         public KeyedValuesBinder(IType target, string name)
         {
-            _isEnumerable = !target.Equals<string>() && target.Type.IsEnumerable;
-            Builder = target.CreateBuilder();
-            _name = name;
-            _typeName = target.TypeName;
+            this.enumerable = !target.Equals<string>() && target.Type.IsEnumerable;
+            this.Builder = target.CreateBuilder();
+            this.name = name;
+            this.typeName = target.TypeName;
 
-            Prefixes = new List<string> { _name, _typeName };
-            PathManager = new PathManager();
+            this.Prefixes = new List<string> { this.name, this.typeName };
+            this.PathManager = new PathManager();
         }
 
         public bool IsEmpty
         {
-            get { return !Builder.HasValue; }
+            get { return !this.Builder.HasValue; }
         }
 
         public ICollection<string> Prefixes { get; private set; }
 
         protected ITypeBuilder Builder { get; private set; }
+
         protected IPathManager PathManager { get; set; }
 
         public virtual BindingResult BuildObject()
         {
-            if (IsEmpty && !_isEnumerable)
+            if (this.IsEmpty && !this.enumerable)
+            {
                 return BindingResult.Failure();
-            if (_isInstanceConstructed)
-                return BindingResult.Success(_cachedBuiltObject);
+            }
 
-            _cachedBuiltObject = Builder.Create();
+            if (this.instanceConstructed)
+            {
+                return BindingResult.Success(this.cachedBuiltObject);
+            }
 
-            _isInstanceConstructed = true;
-            return BindingResult.Success(_cachedBuiltObject);
+            this.cachedBuiltObject = this.Builder.Create();
+            this.instanceConstructed = true;
+            
+            return BindingResult.Success(this.cachedBuiltObject);
         }
 
         public virtual bool SetInstance(object builtInstance)
         {
-            if (Builder.Value != null)
+            if (this.Builder.Value != null)
+            {
                 throw new InvalidOperationException("An instance was already set by passing a constructor key.");
-            _isInstanceConstructed = false;
+            }
 
-            return Builder.TrySetValue(builtInstance);
+            this.instanceConstructed = false;
+
+            return this.Builder.TrySetValue(builtInstance);
         }
 
         public bool SetProperty<TValue>(string key, IEnumerable<TValue> values, ValueConverter<TValue> converter)
         {
-            _isInstanceConstructed = false;
-            var keyType = PathManager.GetPathType(Prefixes, key);
-            bool success;
+            this.instanceConstructed = false;
+            var keyType = this.PathManager.GetPathType(this.Prefixes, key);
 
-            if (keyType.Type == PathComponentType.Constructor)
-                success = SetConstructorValue(values, converter);
-            else
-                success = SetPropertyValue(key, keyType.ParsedValue, values, converter);
+            bool success = keyType.Type == PathComponentType.Constructor ? SetConstructorValue(values, converter) : SetPropertyValue(key, keyType.ParsedValue, values, converter);
 
             if (!success)
+            {
                 success = SetPropertyValue(key, key, values, converter);
+            }
+
             return success;
         }
 
-        bool SetConstructorValue<TValue>(IEnumerable<TValue> values, ValueConverter<TValue> converter)
+        private bool SetConstructorValue<TValue>(IEnumerable<TValue> values, ValueConverter<TValue> converter)
         {
-            return Builder.TrySetValue(values, converter);
+            return this.Builder.TrySetValue(values, converter);
         }
 
-        bool SetPropertyValue<TValue>(string key, string property, IEnumerable<TValue> values, ValueConverter<TValue> converter)
+        private bool SetPropertyValue<TValue>(string key, string property, IEnumerable<TValue> values, ValueConverter<TValue> converter)
         {
-            var propertyBuilder = Builder.GetProperty(property ?? key);
-            if (propertyBuilder == null) return false;
+            var propertyBuilder = this.Builder.GetProperty(property ?? key);
+            
+            if (propertyBuilder == null)
+            {
+                return false;
+            }
+
             return propertyBuilder.TrySetValue(values, converter);
         }
     }

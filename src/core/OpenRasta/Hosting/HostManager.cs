@@ -1,47 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenRasta.Configuration;
-using OpenRasta.DI;
-using OpenRasta.Diagnostics;
-using OpenRasta.Pipeline;
-using OpenRasta.Web;
-
-namespace OpenRasta.Hosting
+﻿namespace OpenRasta.Hosting
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Configuration;
+    using OpenRasta.DI;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Pipeline;
+    using OpenRasta.Web;
+
     public class HostManager : IDisposable
     {
-        static readonly IDictionary<IHost, HostManager> _registrations = new Dictionary<IHost, HostManager>();
-        readonly object _syncRoot = new object();
+        private static readonly IDictionary<IHost, HostManager> Registrations = new Dictionary<IHost, HostManager>();
+        private readonly object syncRoot = new object();
 
         static HostManager()
         {
             Log = new TraceSourceLogger();
         }
 
-        HostManager(IHost host)
+        private HostManager(IHost host)
         {
-            Host = host;
-            Host.Start += HandleHostStart;
-            Host.IncomingRequestReceived += HandleHostIncomingRequestReceived;
-            Host.IncomingRequestProcessed += HandleIncomingRequestProcessed;
+            this.Host = host;
+            this.Host.Start += this.HandleHostStart;
+            this.Host.IncomingRequestReceived += this.HandleHostIncomingRequestReceived;
+            this.Host.IncomingRequestProcessed += this.HandleIncomingRequestProcessed;
         }
 
         public IHost Host { get; private set; }
+
         public bool IsConfigured { get; private set; }
 
         public IDependencyResolver Resolver { get; private set; }
-        static ILogger Log { get; set; }
+
+        private static ILogger Log { get; set; }
 
         public static HostManager RegisterHost(IHost host)
         {
-            if (host == null) throw new ArgumentNullException("host");
+            if (host == null)
+            {
+                throw new ArgumentNullException("host");
+            }
 
             Log.WriteInfo("Registering host of type {0}", host.GetType());
 
             var manager = new HostManager(host);
 
-            lock (_registrations)
-                _registrations.Add(host, manager);
+            lock (Registrations)
+            {
+                Registrations.Add(host, manager);
+            }
+
             return manager;
         }
 
@@ -49,56 +58,65 @@ namespace OpenRasta.Hosting
         {
             Log.WriteInfo("Unregistering host of type {0}", host.GetType());
             HostManager managerToDispose = null;
-            lock (_registrations)
+            
+            lock (Registrations)
             {
-                if (_registrations.ContainsKey(host))
+                if (Registrations.ContainsKey(host))
                 {
-                    managerToDispose = _registrations[host];
-                    _registrations.Remove(host);
+                    managerToDispose = Registrations[host];
+                    Registrations.Remove(host);
                 }
             }
+
             if (managerToDispose != null)
+            {
                 managerToDispose.Dispose();
+            }
         }
 
         public void InvalidateConfiguration()
         {
-            lock (_syncRoot)
+            lock (this.syncRoot)
             {
-                IsConfigured = false;
+                this.IsConfigured = false;
             }
         }
 
         public void SetupCommunicationContext(ICommunicationContext context)
         {
             Log.WriteDebug("Adding communication context data");
-            Resolver.AddDependencyInstance<ICommunicationContext>(context, DependencyLifetime.PerRequest);
-            Resolver.AddDependencyInstance<IRequest>(context.Request, DependencyLifetime.PerRequest);
-            Resolver.AddDependencyInstance<IResponse>(context.Response, DependencyLifetime.PerRequest);
+
+            this.Resolver.AddDependencyInstance<ICommunicationContext>(context, DependencyLifetime.PerRequest);
+            this.Resolver.AddDependencyInstance<IRequest>(context.Request, DependencyLifetime.PerRequest);
+            this.Resolver.AddDependencyInstance<IResponse>(context.Response, DependencyLifetime.PerRequest);
         }
 
         public void Dispose()
         {
-            Host.Start -= HandleHostStart;
-            Host.IncomingRequestReceived -= HandleHostIncomingRequestReceived;
-            Host.IncomingRequestProcessed -= HandleIncomingRequestProcessed;
+            this.Host.Start -= this.HandleHostStart;
+            this.Host.IncomingRequestReceived -= this.HandleHostIncomingRequestReceived;
+            this.Host.IncomingRequestProcessed -= this.HandleIncomingRequestProcessed;
         }
 
-        void AssignResolver()
+        private void AssignResolver()
         {
-            Resolver = Host.ResolverAccessor != null
-                           ? Host.ResolverAccessor.Resolver
+            this.Resolver = this.Host.ResolverAccessor != null
+                           ? this.Host.ResolverAccessor.Resolver
                            : new InternalDependencyResolver();
-            if (!Resolver.HasDependency<IDependencyResolver>())
-                Resolver.AddDependencyInstance(typeof(IDependencyResolver), Resolver);
-            Log.WriteDebug("Using dependency resolver of type {0}", Resolver.GetType());
+            if (!this.Resolver.HasDependency<IDependencyResolver>())
+            {
+                this.Resolver.AddDependencyInstance(typeof(IDependencyResolver), this.Resolver);
+            }
+
+            Log.WriteDebug("Using dependency resolver of type {0}", this.Resolver.GetType());
         }
 
-        void Configure()
+        private void Configure()
         {
-            IsConfigured = false;
-            AssignResolver();
-            ThreadScopedAction(() =>
+            this.IsConfigured = false;
+            this.AssignResolver();
+
+            this.ThreadScopedAction(() =>
             {
                 RegisterRootDependencies();
 
@@ -114,11 +132,11 @@ namespace OpenRasta.Hosting
             });
         }
 
-        void ExecuteConfigurationSource()
+        private void ExecuteConfigurationSource()
         {
-            if (Resolver.HasDependency<IConfigurationSource>())
+            if (this.Resolver.HasDependency<IConfigurationSource>())
             {
-                var configSource = Resolver.Resolve<IConfigurationSource>();
+                var configSource = this.Resolver.Resolve<IConfigurationSource>();
                 Log.WriteDebug("Using configuration source {0}", configSource.GetType());
                 configSource.Configure();
             }
@@ -128,63 +146,76 @@ namespace OpenRasta.Hosting
             }
         }
 
-        void RegisterCoreDependencies()
+        private void RegisterCoreDependencies()
         {
-            var registrar =
-                Resolver.ResolveWithDefault<IDependencyRegistrar>(() => new DefaultDependencyRegistrar());
+            var registrar = this.Resolver.ResolveWithDefault<IDependencyRegistrar>(() => new DefaultDependencyRegistrar());
             Log.WriteInfo("Using dependency registrar of type {0}.", registrar.GetType());
-            registrar.Register(Resolver);
+            registrar.Register(this.Resolver);
         }
 
-        void RegisterLeafDependencies()
+        private void RegisterLeafDependencies()
         {
             Log.WriteDebug("Registering host's leaf dependencies.");
-            if (!Host.ConfigureLeafDependencies(Resolver))
+            if (!this.Host.ConfigureLeafDependencies(this.Resolver))
+            {
                 throw new OpenRastaConfigurationException("Leaf dependencies configuration by host has failed.");
+            }
         }
 
-        void RegisterRootDependencies()
+        private void RegisterRootDependencies()
         {
             Log.WriteDebug("Registering host's root dependencies.");
-            if (!Host.ConfigureRootDependencies(Resolver))
+            if (!this.Host.ConfigureRootDependencies(this.Resolver))
+            {
                 throw new OpenRastaConfigurationException("Root dependencies configuration by host has failed.");
+            }
         }
 
-        void ThreadScopedAction(Action action)
+        private void ThreadScopedAction(Action action)
         {
             bool resolverSet = false;
             try
             {
-                DependencyManager.SetResolver(Resolver);
+                DependencyManager.SetResolver(this.Resolver);
                 resolverSet = true;
                 action();
             }
             finally
             {
                 if (resolverSet)
+                {
                     DependencyManager.UnsetResolver();
+                }
             }
         }
 
-        void VerifyConfiguration()
+        private void VerifyConfiguration()
         {
-            if (!IsConfigured)
-                lock (_syncRoot)
-                    if (!IsConfigured)
-                        Configure();
+            if (!this.IsConfigured)
+            {
+                lock (this.syncRoot)
+                {
+                    if (!this.IsConfigured)
+                    {
+                        this.Configure();
+                    }
+                }
+            }
         }
 
-        void VerifyContextStoreRegistered()
+        private void VerifyContextStoreRegistered()
         {
-            if (!Resolver.HasDependency<IContextStore>())
+            if (!this.Resolver.HasDependency<IContextStore>())
+            {
                 throw new OpenRastaConfigurationException("The host didn't register a context store.");
+            }
         }
 
         protected virtual void HandleHostIncomingRequestReceived(object sender, IncomingRequestEventArgs e)
         {
-            VerifyConfiguration();
+            this.VerifyConfiguration();
             Log.WriteDebug("Incoming host request for " + e.Context.Request.Uri);
-            ThreadScopedAction(() =>
+            this.ThreadScopedAction(() =>
             {
                 // register the required dependency in the web context
                 var context = e.Context;
@@ -197,13 +228,13 @@ namespace OpenRasta.Hosting
 
         protected virtual void HandleHostStart(object sender, EventArgs e)
         {
-            VerifyConfiguration();
+            this.VerifyConfiguration();
         }
 
         protected virtual void HandleIncomingRequestProcessed(object sender, IncomingRequestProcessedEventArgs e)
         {
             Log.WriteDebug("Request finished.");
-            ThreadScopedAction(() => Resolver.HandleIncomingRequestProcessed());
+            this.ThreadScopedAction(() => this.Resolver.HandleIncomingRequestProcessed());
         }
     }
 }

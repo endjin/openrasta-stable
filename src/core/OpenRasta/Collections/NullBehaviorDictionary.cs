@@ -8,10 +8,10 @@
  */
 #endregion
 
-using System.Collections.Generic;
-
 namespace OpenRasta.Collections
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Provides an implementation of IDictionary&lt;TKey,TValue&gt; that automatically replaces missing values
     /// with null.
@@ -22,8 +22,7 @@ namespace OpenRasta.Collections
         {
         }
 
-        public NullBehaviorDictionary(IEqualityComparer<TKey> comparer)
-            : base(comparer)
+        public NullBehaviorDictionary(IEqualityComparer<TKey> comparer) : base(comparer)
         {
         }
 

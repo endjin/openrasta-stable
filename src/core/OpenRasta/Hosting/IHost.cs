@@ -1,17 +1,25 @@
-using System;
-using OpenRasta.DI;
-
 namespace OpenRasta.Hosting
 {
+    using System;
+
+    using OpenRasta.DI;
+
     public interface IHost
     {
-        string ApplicationVirtualPath { get; }
         event EventHandler Start;
+
         event EventHandler Stop;
+
         event EventHandler<IncomingRequestReceivedEventArgs> IncomingRequestReceived;
+
         event EventHandler<IncomingRequestProcessedEventArgs> IncomingRequestProcessed;
-        bool ConfigureRootDependencies(IDependencyResolver resolver);
-        bool ConfigureLeafDependencies(IDependencyResolver resolver);
+
+        string ApplicationVirtualPath { get; }
+
         IDependencyResolverAccessor ResolverAccessor { get; }
+
+        bool ConfigureRootDependencies(IDependencyResolver resolver);
+
+        bool ConfigureLeafDependencies(IDependencyResolver resolver);
     }
 }

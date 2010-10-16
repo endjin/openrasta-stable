@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRasta.Diagnostics;
-
-namespace OpenRasta.IO.Diagnostics
+﻿namespace OpenRasta.IO.Diagnostics
 {
+    using OpenRasta.Diagnostics;
+
     [LogCategory("openrasta.io")]
     public class IOLogSource : ILogSource
     {
-
     }
 }

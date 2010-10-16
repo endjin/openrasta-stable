@@ -1,13 +1,14 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using OpenRasta.Binding;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
+    using OpenRasta.Binding;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     [MediaType("application/x-www-form-urlencoded;q=0.5")]
     [SupportedType(typeof(IDictionary<string, string[]>))]
     [SupportedType(typeof(Dictionary<string, string[]>))]
@@ -21,11 +22,17 @@ namespace OpenRasta.Codecs
         public object ReadFrom(IHttpEntity request, IType destinationType, string destinationName)
         {
             if (IsRawDictionary(destinationType))
+            {
                 return FormData(request);
+            }
+
+            var binder = this.BinderLocator.GetBinder(destinationType);
             
-            var binder = _binderLocator.GetBinder(destinationType);
             if (binder == null)
+            {
                 throw new InvalidOperationException("Cannot find a binder to create the object");
+            }
+
             binder.Prefixes.Add(destinationName);
             bool wasAnyKeyUsed = ReadKeyValues(request).Aggregate(false, (wasUsed, kv) => kv.SetProperty(binder) || wasUsed);
             var result = binder.BuildObject();

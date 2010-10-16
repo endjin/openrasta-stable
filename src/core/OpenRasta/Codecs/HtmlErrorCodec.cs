@@ -8,14 +8,15 @@
  */
 #endregion
 
-using System.Collections.Generic;
-using System.IO;
-using OpenRasta.Web;
-using OpenRasta.Web.Markup;
-using OpenRasta.Web.Markup.Rendering;
-
 namespace OpenRasta.Codecs
 {
+    using System.Collections.Generic;
+    using System.IO;
+
+    using OpenRasta.Web;
+    using OpenRasta.Web.Markup;
+    using OpenRasta.Web.Markup.Rendering;
+
     /// <summary>
     /// Codec rendering error messages collected during the processing of a request.
     /// </summary>
@@ -29,8 +30,11 @@ namespace OpenRasta.Codecs
         public void WriteTo(object entity, IHttpEntity response, string[] paramneters)
         {
             var errors = entity as IList<Error>;
+            
             if (errors == null)
+            {
                 return;
+            }
 
             using (var streamWriter = new StreamWriter(response.Stream))
             {

@@ -8,22 +8,27 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace OpenRasta.Collections
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class EnumerableExtensions
     {
         public static bool Contains(this IEnumerable<string> source, string value, StringComparison comparisonType)
         {
             if (source == null)
+            {
                 throw new ArgumentNullException("source");
+            }
+
             foreach (string element in source)
             {
                 if (string.Compare(element, value, comparisonType) == 0)
+                {
                     return true;
+                }
             }
             return false;
         }
@@ -31,20 +36,27 @@ namespace OpenRasta.Collections
         public static IEnumerable<T> ForEach<T>(this IEnumerable<T> list, Action<T> action)
         {
             if (list == null)
+            {
                 return null;
+            }
+
             foreach (var value in list)
+            {
                 action(value);
+            }
+
             return list;
         }
 
-        public static TDestination[] ToArray<TSource, TDestination>(this IEnumerable<TSource> source, 
-                                                                    Func<TSource, TDestination> converter)
+        public static TDestination[] ToArray<TSource, TDestination>(this IEnumerable<TSource> source, Func<TSource, TDestination> converter)
         {
             return source.ToList(converter).ToArray();
         }
 
         public static Dictionary<string, TElement> ToCaseInsensitiveDictionary<TSource, TElement>(
-            this IEnumerable<TSource> toConvert, Func<TSource, string> keyFinder, Func<TSource, TElement> elementFinder)
+            this IEnumerable<TSource> toConvert,
+            Func<TSource, string> keyFinder, 
+            Func<TSource, TElement> elementFinder)
         {
             return toConvert.ToDictionary(keyFinder, elementFinder, StringComparer.CurrentCultureIgnoreCase);
         }
@@ -64,11 +76,11 @@ namespace OpenRasta.Collections
                 {
                 }
             }
+
             return t;
         }
 
-        public static IList<TDestination> ToList<TSource, TDestination>(this IEnumerable<TSource> source, 
-                                                                        Func<TSource, TDestination> converter)
+        public static IList<TDestination> ToList<TSource, TDestination>(this IEnumerable<TSource> source, Func<TSource, TDestination> converter)
         {
             return source.Select(converter).ToList();
         }
@@ -76,11 +88,13 @@ namespace OpenRasta.Collections
         public static bool TryForEach<T>(this IEnumerable<T> collection, Action<T> forAction)
         {
             bool hit = false;
+            
             foreach (var item in collection)
             {
                 hit = true;
                 forAction(item);
             }
+
             return hit;
         }
     }

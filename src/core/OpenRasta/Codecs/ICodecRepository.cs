@@ -8,15 +8,17 @@
  */
 #endregion
 
-using System.Collections.Generic;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using System.Collections.Generic;
+
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     public interface ICodecRepository : IEnumerable<CodecRegistration>
     {
         string[] RegisteredExtensions { get; }
+
         void Add(CodecRegistration descriptor);
 
         /// <summary>
@@ -33,7 +35,9 @@ namespace OpenRasta.Codecs
         CodecMatch FindMediaTypeReader(MediaType contentType, IEnumerable<IMember> requiredTypes, IEnumerable<IMember> optionalTypes);
 
         CodecRegistration FindByExtension(IMember resourceType, string extension);
+        
         IEnumerable<CodecRegistration> FindMediaTypeWriter(IMember resourceType, IEnumerable<MediaType> contentTypes);
+        
         void Clear();
     }
 }

@@ -1,11 +1,11 @@
-using OpenRasta.Configuration.Fluent;
-using OpenRasta.Configuration.MetaModel;
-using OpenRasta.DI;
-using OpenRasta.Pipeline;
-using OpenRasta.Web.UriDecorators;
-
 namespace OpenRasta.Configuration
 {
+    using OpenRasta.Configuration.Fluent;
+    using OpenRasta.Configuration.MetaModel;
+    using OpenRasta.DI;
+    using OpenRasta.Pipeline;
+    using OpenRasta.Web.UriDecorators;
+
     public static class UsesExtensions
     {
         /// <summary>

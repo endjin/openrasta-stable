@@ -8,10 +8,10 @@
  */
 #endregion
 
-using OpenRasta.Web.Markup;
-
 namespace OpenRasta.CodeDom.Compiler
 {
+    using OpenRasta.Web.Markup;
+
     /// <summary>
     /// Supports writing data without conversion to the output stream, whenever they are of type UnencodedOutput.
     /// </summary>

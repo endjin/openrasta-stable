@@ -8,11 +8,11 @@
  */
 #endregion
 
-using System;
-using System.Runtime.Serialization;
-
 namespace OpenRasta.DI
 {
+    using System;
+    using System.Runtime.Serialization;
+
     [Serializable]
     public class DependencyResolutionException : Exception
     {

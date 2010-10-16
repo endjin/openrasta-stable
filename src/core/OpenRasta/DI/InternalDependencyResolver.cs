@@ -8,20 +8,21 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.DI.Internal;
-using OpenRasta.Diagnostics;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.DI
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.DI.Internal;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Pipeline;
+
     public abstract class DependencyLifetimeManager
     {
         protected DependencyLifetimeManager(InternalDependencyResolver resolver)
         {
-            Resolver = resolver;
+            this.Resolver = resolver;
         }
 
         protected InternalDependencyResolver Resolver { get; private set; }
@@ -43,13 +44,13 @@ namespace OpenRasta.DI
 
     public class InternalDependencyResolver : DependencyResolverCore, IDependencyResolver
     {
-        readonly Dictionary<DependencyLifetime, DependencyLifetimeManager> _lifetimeManagers;
-        ILogger _log = new TraceSourceLogger();
+        readonly Dictionary<DependencyLifetime, DependencyLifetimeManager> lifetimeManagers;
+        ILogger log = new TraceSourceLogger();
 
         public InternalDependencyResolver()
         {
-            Registrations = new DependencyRegistrationCollection();
-            _lifetimeManagers = new Dictionary<DependencyLifetime, DependencyLifetimeManager>
+            this.Registrations = new DependencyRegistrationCollection();
+            this.lifetimeManagers = new Dictionary<DependencyLifetime, DependencyLifetimeManager>
             {
                 { DependencyLifetime.Transient, new TransientLifetimeManager(this) }, 
                 { DependencyLifetime.Singleton, new SingletonLifetimeManager(this) }, 
@@ -59,67 +60,73 @@ namespace OpenRasta.DI
 
         public ILogger Log
         {
-            get { return _log; }
-            set { _log = value; }
+            get { return this.log; }
+            set { this.log = value; }
         }
 
         public DependencyRegistrationCollection Registrations { get; private set; }
 
         protected override void AddDependencyCore(Type serviceType, Type concreteType, DependencyLifetime lifetime)
         {
-            Registrations.Add(new DependencyRegistration(serviceType, concreteType, _lifetimeManagers[lifetime]));
+            this.Registrations.Add(new DependencyRegistration(serviceType, concreteType, this.lifetimeManagers[lifetime]));
         }
 
         protected override void AddDependencyCore(Type concreteType, DependencyLifetime lifetime)
         {
-            AddDependencyCore(concreteType, concreteType, lifetime);
+            this.AddDependencyCore(concreteType, concreteType, lifetime);
         }
 
         protected override void AddDependencyInstanceCore(Type serviceType, object instance, DependencyLifetime lifetime)
         {
             var instanceType = instance.GetType();
 
-            var registration = new DependencyRegistration(serviceType, instanceType, _lifetimeManagers[lifetime], instance);
+            var registration = new DependencyRegistration(serviceType, instanceType, this.lifetimeManagers[lifetime], instance);
 
-            Registrations.Add(registration);
+            this.Registrations.Add(registration);
         }
 
         protected override IEnumerable<TService> ResolveAllCore<TService>()
         {
-            return from dependency in Registrations[typeof(TService)]
+            return from dependency in this.Registrations[typeof(TService)]
                    where dependency.LifetimeManager.IsRegistrationAvailable(dependency)
-                   select (TService)Resolve(dependency);
+                   select (TService)this.Resolve(dependency);
         }
 
         protected override object ResolveCore(Type serviceType)
         {
-            if (!Registrations.HasRegistrationForService(serviceType))
+            if (!this.Registrations.HasRegistrationForService(serviceType))
+            {
                 throw new DependencyResolutionException("No type registered for {0}".With(serviceType.Name));
+            }
 
-            return Resolve(Registrations.GetRegistrationForService(serviceType));
+            return this.Resolve(this.Registrations.GetRegistrationForService(serviceType));
         }
 
         public void HandleIncomingRequestProcessed()
         {
-            var store = (IContextStore)Resolve(typeof(IContextStore));
+            var store = (IContextStore)this.Resolve(typeof(IContextStore));
             store.Destruct();
         }
 
         public bool HasDependency(Type serviceType)
         {
             if (serviceType == null)
+            {
                 return false;
-            return Registrations.HasRegistrationForService(serviceType);
+            }
+
+            return this.Registrations.HasRegistrationForService(serviceType);
         }
 
         public bool HasDependencyImplementation(Type serviceType, Type concreteType)
         {
-            return Registrations.HasRegistrationForService(serviceType) && Registrations[serviceType].Count(r => r.ConcreteType == concreteType) >= 1;
+            return this.Registrations.HasRegistrationForService(serviceType) && this.Registrations[serviceType].Count(r => r.ConcreteType == concreteType) >= 1;
         }
 
         object Resolve(DependencyRegistration dependency)
         {
-            var context = new ResolveContext(Registrations, Log);
+            var context = new ResolveContext(this.Registrations, this.Log);
+            
             return context.Resolve(dependency);
         }
     }

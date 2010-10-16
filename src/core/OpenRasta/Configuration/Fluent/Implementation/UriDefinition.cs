@@ -1,45 +1,46 @@
-using System;
-using System.Globalization;
-using OpenRasta.Configuration.MetaModel;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Configuration.Fluent.Implementation
 {
+    using System;
+    using System.Globalization;
+
+    using OpenRasta.Configuration.MetaModel;
+    using OpenRasta.TypeSystem;
+
     public class UriDefinition : IUriDefinition
     {
-        readonly ResourceDefinition _resourceDefinition;
-        readonly UriModel _uriModel;
+        private readonly ResourceDefinition resourceDefinition;
+        private readonly UriModel uriModel;
 
         public UriDefinition(ResourceDefinition resourceDefinition, string uri)
         {
-            _resourceDefinition = resourceDefinition;
-            _uriModel = new UriModel { Uri = uri };
-            _resourceDefinition.Registration.Uris.Add(_uriModel);
+            this.resourceDefinition = resourceDefinition;
+            this.uriModel = new UriModel { Uri = uri };
+            this.resourceDefinition.Registration.Uris.Add(this.uriModel);
         }
 
         public IResourceDefinition And
         {
-            get { return _resourceDefinition; }
+            get { return this.resourceDefinition; }
         }
 
         public IHandlerForResourceWithUriDefinition HandledBy<T>()
         {
-            return _resourceDefinition.HandledBy<T>();
+            return this.resourceDefinition.HandledBy<T>();
         }
 
         public IHandlerForResourceWithUriDefinition HandledBy(Type type)
         {
-            return _resourceDefinition.HandledBy(type);
+            return this.resourceDefinition.HandledBy(type);
         }
 
         public IHandlerForResourceWithUriDefinition HandledBy(IType type)
         {
-            return _resourceDefinition.HandledBy(type);
+            return this.resourceDefinition.HandledBy(type);
         }
 
         public IUriDefinition InLanguage(string language)
         {
-            _uriModel.Language = language == null
+            this.uriModel.Language = language == null
                                      ? CultureInfo.InvariantCulture
                                      : CultureInfo.GetCultureInfo(language);
             return this;
@@ -47,7 +48,7 @@ namespace OpenRasta.Configuration.Fluent.Implementation
 
         public IUriDefinition Named(string uriName)
         {
-            _uriModel.Name = uriName;
+            this.uriModel.Name = uriName;
             return this;
         }
     }

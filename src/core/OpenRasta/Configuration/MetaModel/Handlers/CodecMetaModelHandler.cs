@@ -1,17 +1,18 @@
-using System.Linq;
-using OpenRasta.Codecs;
-using OpenRasta.Collections;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Configuration.MetaModel.Handlers
 {
+    using System.Linq;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.Collections;
+    using OpenRasta.TypeSystem;
+
     public class CodecMetaModelHandler : AbstractMetaModelHandler
     {
-        readonly ICodecRepository _codecRepository;
+        private readonly ICodecRepository codecRepository;
 
         public CodecMetaModelHandler(ICodecRepository codecRepository)
         {
-            _codecRepository = codecRepository;
+            this.codecRepository = codecRepository;
         }
 
         public override void PreProcess(IMetaModelRepository repository)
@@ -19,13 +20,22 @@ namespace OpenRasta.Configuration.MetaModel.Handlers
             foreach (var codec in repository.ResourceRegistrations.SelectMany(x => x.Codecs))
             {
                 if (codec.MediaTypes.Count == 0)
-                    codec.MediaTypes.AddRange(MediaTypeAttribute.Find(codec.CodecType).Select(x => new MediaTypeModel
-                    {
-                        MediaType = x.MediaType, 
-                        Extensions = x.Extensions != null ? x.Extensions.ToList() : null
-                    }));
+                {
+                    codec.MediaTypes.AddRange(
+                        MediaTypeAttribute.Find(codec.CodecType).Select(
+                            x =>
+                            new MediaTypeModel
+                                {
+                                    MediaType = x.MediaType,
+                                    Extensions = x.Extensions != null ? x.Extensions.ToList() : null
+                                }));
+                }
+
                 if (codec.MediaTypes.Count == 0)
-                    throw new OpenRastaConfigurationException("The codec doesn't have any media type associated explicitly in the meta model and doesnt have any MediaType attribute.");
+                {
+                    throw new OpenRastaConfigurationException(
+                        "The codec doesn't have any media type associated explicitly in the meta model and doesnt have any MediaType attribute.");
+                }
             }
         }
 
@@ -45,7 +55,9 @@ namespace OpenRasta.Configuration.MetaModel.Handlers
                                          codec.Configuration, 
                                          false);
             foreach (var reg in codecRegistrations)
-                _codecRepository.Add(reg);
+            {
+                this.codecRepository.Add(reg);
+            }
         }
     }
 }

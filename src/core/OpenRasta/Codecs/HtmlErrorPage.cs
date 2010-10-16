@@ -1,16 +1,17 @@
-using System.Collections.Generic;
-using OpenRasta.Web.Markup;
-using OpenRasta.Web.Markup.Elements;
-
 namespace OpenRasta.Codecs
 {
+    using System.Collections.Generic;
+
+    using OpenRasta.Web.Markup;
+    using OpenRasta.Web.Markup.Elements;
+
     public class HtmlErrorPage : Element
     {
         public Element Root { get; set; }
 
         public HtmlErrorPage(IEnumerable<Error> errors)
         {
-            var exceptionBlock = GetExceptionBlock(errors);
+            var exceptionBlock = this.GetExceptionBlock(errors);
             Root = this
                 [html
                      [head[title["OpenRasta encountered an error."]]]
@@ -20,7 +21,7 @@ namespace OpenRasta.Codecs
                 ];
         }
 
-        IDlElement GetExceptionBlock(IEnumerable<Error> errors)
+        private IDlElement GetExceptionBlock(IEnumerable<Error> errors)
         {
             var exceptionBlock = dl;
 
@@ -30,6 +31,7 @@ namespace OpenRasta.Codecs
                     [dt[error.Title]]
                     [dd[pre[error.Message]]];
             }
+
             return exceptionBlock;
         }
     }

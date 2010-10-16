@@ -1,18 +1,15 @@
-﻿using System;
-using System.Text;
-using OpenRasta;
-
-namespace OpenRasta.Authentication.Basic
+﻿namespace OpenRasta.Authentication.Basic
 {
     public class BasicAuthRequestHeader
     {
-        public string Username { get; private set; }
-        public string Password { get; private set; }
-
         internal BasicAuthRequestHeader(string username, string password)
         {
-            Username = username;
-            Password = password;
+            this.Username = username;
+            this.Password = password;
         }
+
+        public string Password { get; private set; }
+
+        public string Username { get; private set; }
     }
 }

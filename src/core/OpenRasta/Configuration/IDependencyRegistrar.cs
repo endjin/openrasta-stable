@@ -8,10 +8,10 @@
  */
 #endregion
 
-using OpenRasta.DI;
-
 namespace OpenRasta.Configuration
 {
+    using OpenRasta.DI;
+
     /// <summary>
     /// Provides the initial set of dependencies required to initialize OpenRasta.
     /// </summary>

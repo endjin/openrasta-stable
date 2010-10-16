@@ -8,10 +8,10 @@
  */
 #endregion
 
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Binding
 {
+    using OpenRasta.TypeSystem;
+
     /// <summary>
     /// Defines a component able to locate an object binder for a member.
     /// </summary>

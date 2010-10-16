@@ -1,58 +1,66 @@
-using System;
-using System.Collections.Generic;
-using System.Net;
-using OpenRasta.DI;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Hosting.HttpListener
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Net;
+
+    using OpenRasta.DI;
+    using OpenRasta.Pipeline;
+
     public class HttpListenerHost : MarshalByRefObject, IHost, IDisposable
     {
-        bool _isDisposed;
-        System.Net.HttpListener _listener;
-        IDependencyResolverAccessor _resolverAccessor;
-        Type _resolverFactory;
+        private bool isDisposed;
+        private HttpListener listener;
+        private IDependencyResolverAccessor resolverAccessor;
+        private Type resolverFactory;
 
         ~HttpListenerHost()
         {
-            Dispose(false);
+            this.Dispose(false);
         }
 
         public event EventHandler<IncomingRequestProcessedEventArgs> IncomingRequestProcessed = (s, e) => { };
+
         public event EventHandler<IncomingRequestReceivedEventArgs> IncomingRequestReceived = (s, e) => { };
 
         public event EventHandler Start = (s, e) => { };
+
         public event EventHandler Stop = (s, e) => { };
+
         public string ApplicationVirtualPath { get; private set; }
 
         public IDependencyResolverAccessor ResolverAccessor
         {
             get
             {
-                if (_resolverFactory != null && _resolverAccessor == null)
+                if (this.resolverFactory != null && this.resolverAccessor == null)
                 {
-                    _resolverAccessor = (IDependencyResolverAccessor)Activator.CreateInstance(_resolverFactory);
+                    this.resolverAccessor = (IDependencyResolverAccessor)Activator.CreateInstance(this.resolverFactory);
                 }
 
-                return _resolverAccessor;
+                return this.resolverAccessor;
             }
         }
 
         public void Close()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
 
         public void Initialize(IEnumerable<string> prefixes, string appPathVDir, Type dependencyResolverFactory)
         {
-            CheckNotDisposed();
-            ApplicationVirtualPath = appPathVDir;
+            this.CheckNotDisposed();
+            this.ApplicationVirtualPath = appPathVDir;
 
-            _resolverFactory = dependencyResolverFactory;
-            _listener = new System.Net.HttpListener();
+            this.resolverFactory = dependencyResolverFactory;
+            this.listener = new HttpListener();
+            
             foreach (string prefix in prefixes)
-                _listener.Prefixes.Add(prefix);
+            {
+                this.listener.Prefixes.Add(prefix);
+            }
+
             HostManager.RegisterHost(this);
         }
 
@@ -63,61 +71,71 @@ namespace OpenRasta.Hosting.HttpListener
 
         public void ProcessRequest(IAsyncResult result)
         {
-            if (_isDisposed)
+            if (this.isDisposed)
+            {
                 return;
+            }
+
             HttpListenerContext nativeContext;
+            
             try
             {
-                nativeContext = _listener.EndGetContext(result);
+                nativeContext = this.listener.EndGetContext(result);
             }
             catch (HttpListenerException)
             {
                 return;
             }
-            QueueNextRequestPending();
+            
+            this.QueueNextRequestPending();
+            
             var ambientContext = new AmbientContext();
             var context = new HttpListenerCommunicationContext(this, nativeContext);
+            
             try
             {
                 using (new ContextScope(ambientContext))
                 {
-                    IncomingRequestReceived(this, new IncomingRequestReceivedEventArgs(context));
+                    this.IncomingRequestReceived(this, new IncomingRequestReceivedEventArgs(context));
                 }
             }
             finally
             {
                 using (new ContextScope(ambientContext))
                 {
-                    IncomingRequestProcessed(this, new IncomingRequestProcessedEventArgs(context));
+                    this.IncomingRequestProcessed(this, new IncomingRequestProcessedEventArgs(context));
                 }
             }
         }
 
         public void StartListening()
         {
-            CheckNotDisposed();
+            this.CheckNotDisposed();
+            
             using (new ContextScope(new AmbientContext()))
             {
-                Start(this, EventArgs.Empty);
+                this.Start(this, EventArgs.Empty);
             }
-            _listener.Start();
-            QueueNextRequestPending();
+
+            this.listener.Start();
+            this.QueueNextRequestPending();
         }
 
         public void StopListening()
         {
-            CheckNotDisposed();
+            this.CheckNotDisposed();
 
             using (new ContextScope(new AmbientContext()))
             {
-                Stop(this, EventArgs.Empty);
+                this.Stop(this, EventArgs.Empty);
             }
-            _listener.Stop();
+
+            this.listener.Stop();
         }
 
         void IDisposable.Dispose()
         {
-            Close();
+            this.Close();
         }
 
         public virtual bool ConfigureLeafDependencies(IDependencyResolver resolver)
@@ -128,33 +146,40 @@ namespace OpenRasta.Hosting.HttpListener
         public virtual bool ConfigureRootDependencies(IDependencyResolver resolver)
         {
             resolver.AddDependency<IContextStore, AmbientContextStore>(DependencyLifetime.Singleton);
+            
             return true;
         }
 
         protected virtual void Dispose(bool fromDisposeMethod)
         {
-            if (!_isDisposed)
+            if (!this.isDisposed)
             {
                 if (fromDisposeMethod)
                 {
-                    if (_listener.IsListening)
-                        StopListening();
+                    if (this.listener.IsListening)
+                    {
+                        this.StopListening();
+                    }
+
                     HostManager.UnregisterHost(this);
                 }
-                _listener.Abort();
-                _isDisposed = true;
+
+                this.listener.Abort();
+                this.isDisposed = true;
             }
         }
 
-        void CheckNotDisposed()
+        private void CheckNotDisposed()
         {
-            if (_isDisposed)
+            if (this.isDisposed)
+            {
                 throw new ObjectDisposedException("HttpListenerHost");
+            }
         }
 
-        void QueueNextRequestPending()
+        private void QueueNextRequestPending()
         {
-            _listener.BeginGetContext(ProcessRequest, null);
+            this.listener.BeginGetContext(this.ProcessRequest, null);
         }
     }
 }

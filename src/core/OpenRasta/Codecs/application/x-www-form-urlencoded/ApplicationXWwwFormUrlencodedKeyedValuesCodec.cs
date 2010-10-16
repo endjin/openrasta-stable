@@ -9,16 +9,11 @@
 #endregion
 
 // port from mono code. See http://anonsvn.mono-project.com/viewvc/trunk/mcs/class/System.Web/System.Web/HttpUtility.cs?view=markup
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using OpenRasta.Binding;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using OpenRasta.Binding;
+    using OpenRasta.Web;
+
     [MediaType("application/x-www-form-urlencoded;q=0.5")]
     [SupportedType(typeof(object))]
     public class ApplicationXWwwFormUrlencodedKeyedValuesCodec : AbstractApplicationXWwwFormUrlencodedCodec, IKeyedValuesMediaTypeReader<string>
@@ -27,7 +22,6 @@ namespace OpenRasta.Codecs
             : base(context, locator)
         {
         }
-
     }
 }
 #region Full license

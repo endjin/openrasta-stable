@@ -1,7 +1,7 @@
-﻿using OpenRasta.Web;
-
-namespace OpenRasta.Authentication
+﻿namespace OpenRasta.Authentication
 {
+    using OpenRasta.Web;
+
     public interface IAuthenticationScheme
     {
         string Name { get; }

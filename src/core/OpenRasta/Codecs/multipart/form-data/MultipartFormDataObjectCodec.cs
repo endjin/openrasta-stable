@@ -8,17 +8,18 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using OpenRasta.Binding;
-using OpenRasta.DI;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
+    using OpenRasta.Binding;
+    using OpenRasta.DI;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     [MediaType("multipart/form-data;q=0.5")]
     [SupportedType(typeof(IEnumerable<IMultipartHttpEntity>))]
     [SupportedType(typeof(IDictionary<string, IList<IMultipartHttpEntity>>))]
@@ -36,13 +37,19 @@ namespace OpenRasta.Codecs
                 var multipartReader = new MultipartReader(request.ContentType.Boundary, request.Stream);
                 return multipartReader.GetParts();
             }
+
             if (destinationType.IsAssignableFrom<IDictionary<string, IList<IMultipartHttpEntity>>>())
             {
                 return FormData(request);
             }
+
             var binder = BinderLocator.GetBinder(destinationType);
+            
             if (binder == null)
+            {
                 throw new InvalidOperationException("Cannot find a binder to create the object");
+            }
+
             binder.Prefixes.Add(parameterName);
             bool wasAnyKeyUsed = ReadKeyValues(request).Aggregate(false, (wasUsed, kv) => kv.SetProperty(binder) || wasUsed);
             var result = binder.BuildObject();

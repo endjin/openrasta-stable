@@ -8,85 +8,85 @@
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-
 namespace OpenRasta.Collections
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     public class DictionaryBase<TKey, TValue> : IDictionary<TKey, TValue>, IDictionary
     {
-        readonly Dictionary<TKey, TValue> _baseDictionary;
+        private readonly Dictionary<TKey, TValue> baseDictionary;
 
         public DictionaryBase()
         {
-            _baseDictionary = new Dictionary<TKey, TValue>();
+            this.baseDictionary = new Dictionary<TKey, TValue>();
         }
 
         public DictionaryBase(IEqualityComparer<TKey> comparer)
         {
-            _baseDictionary = new Dictionary<TKey, TValue>(comparer);
+            this.baseDictionary = new Dictionary<TKey, TValue>(comparer);
         }
 
         public int Count
         {
-            get { return _baseDictionary.Count; }
+            get { return this.baseDictionary.Count; }
         }
 
         public bool IsReadOnly
         {
-            get { return ((IDictionary)_baseDictionary).IsReadOnly; }
+            get { return ((IDictionary)this.baseDictionary).IsReadOnly; }
         }
 
         public ICollection<TKey> Keys
         {
-            get { return _baseDictionary.Keys; }
+            get { return this.baseDictionary.Keys; }
         }
 
         public ICollection<TValue> Values
         {
-            get { return _baseDictionary.Values; }
+            get { return this.baseDictionary.Values; }
         }
 
         protected IEqualityComparer<TKey> Comparer
         {
-            get { return _baseDictionary.Comparer; }
+            get { return this.baseDictionary.Comparer; }
         }
 
-        bool IDictionary.IsFixedSize
+        public bool IsFixedSize
         {
-            get { return ((IDictionary)_baseDictionary).IsFixedSize; }
+            get { return ((IDictionary)this.baseDictionary).IsFixedSize; }
         }
 
         bool ICollection<KeyValuePair<TKey, TValue>>.IsReadOnly
         {
-            get { return ((ICollection<KeyValuePair<TKey, TValue>>)_baseDictionary).IsReadOnly; }
+            get { return ((ICollection<KeyValuePair<TKey, TValue>>)this.baseDictionary).IsReadOnly; }
         }
 
         bool ICollection.IsSynchronized
         {
-            get { return ((ICollection)_baseDictionary).IsSynchronized; }
+            get { return ((ICollection)this.baseDictionary).IsSynchronized; }
         }
 
         ICollection IDictionary.Keys
         {
-            get { return ((IDictionary)_baseDictionary).Keys; }
+            get { return ((IDictionary)this.baseDictionary).Keys; }
         }
 
         object ICollection.SyncRoot
         {
-            get { return ((ICollection)_baseDictionary).SyncRoot; }
+            get { return ((ICollection)this.baseDictionary).SyncRoot; }
         }
 
         ICollection IDictionary.Values
         {
-            get { return ((IDictionary)_baseDictionary).Values; }
+            get { return ((IDictionary)this.baseDictionary).Values; }
         }
 
         public virtual TValue this[TKey key]
         {
-            get { return _baseDictionary[key]; }
-            set { _baseDictionary[key] = value; }
+            get { return this.baseDictionary[key]; }
+            set { this.baseDictionary[key] = value; }
         }
 
         object IDictionary.this[object key]
@@ -97,86 +97,87 @@ namespace OpenRasta.Collections
 
         void ICollection.CopyTo(Array array, int index)
         {
-            ((ICollection)_baseDictionary).CopyTo(array, index);
+            ((ICollection)this.baseDictionary).CopyTo(array, index);
         }
 
         public virtual void Clear()
         {
-            _baseDictionary.Clear();
+            this.baseDictionary.Clear();
         }
 
         void ICollection<KeyValuePair<TKey, TValue>>.Add(KeyValuePair<TKey, TValue> item)
         {
-            Add(item.Key, item.Value);
+            this.Add(item.Key, item.Value);
         }
 
         bool ICollection<KeyValuePair<TKey, TValue>>.Contains(KeyValuePair<TKey, TValue> item)
         {
-            return ((ICollection<KeyValuePair<TKey, TValue>>)_baseDictionary).Contains(item);
+            return ((ICollection<KeyValuePair<TKey, TValue>>)this.baseDictionary).Contains(item);
         }
 
         void ICollection<KeyValuePair<TKey, TValue>>.CopyTo(KeyValuePair<TKey, TValue>[] array, int arrayIndex)
         {
-            ((ICollection<KeyValuePair<TKey, TValue>>)_baseDictionary).CopyTo(array, arrayIndex);
+            ((ICollection<KeyValuePair<TKey, TValue>>)this.baseDictionary).CopyTo(array, arrayIndex);
         }
 
         bool ICollection<KeyValuePair<TKey, TValue>>.Remove(KeyValuePair<TKey, TValue> item)
         {
-            if (_baseDictionary.ContainsKey(item.Key) &&
-                (ReferenceEquals(item.Value,_baseDictionary[item.Key]) ||
-                    item.Value.Equals(_baseDictionary[item.Key])))
-                return Remove(item.Key);
+            if (this.baseDictionary.ContainsKey(item.Key) && (ReferenceEquals(item.Value, this.baseDictionary[item.Key]) || item.Value.Equals(this.baseDictionary[item.Key])))
+            {
+                return this.Remove(item.Key);
+            }
+
             return false;
         }
 
         void IDictionary.Add(object key, object value)
         {
-            Add((TKey)key, (TValue)value);
+            this.Add((TKey)key, (TValue)value);
         }
 
         bool IDictionary.Contains(object key)
         {
-            return ((IDictionary)_baseDictionary).Contains(key);
+            return ((IDictionary)this.baseDictionary).Contains(key);
         }
 
         IDictionaryEnumerator IDictionary.GetEnumerator()
         {
-            return ((IDictionary)_baseDictionary).GetEnumerator();
+            return ((IDictionary)this.baseDictionary).GetEnumerator();
         }
 
         void IDictionary.Remove(object key)
         {
-            Remove((TKey)key);
+            this.Remove((TKey)key);
         }
 
         public virtual void Add(TKey key, TValue value)
         {
-            _baseDictionary.Add(key, value);
+            this.baseDictionary.Add(key, value);
         }
 
         public bool ContainsKey(TKey key)
         {
-            return _baseDictionary.ContainsKey(key);
+            return this.baseDictionary.ContainsKey(key);
         }
 
         public virtual bool Remove(TKey key)
         {
-            return _baseDictionary.Remove(key);
+            return this.baseDictionary.Remove(key);
         }
 
         public bool TryGetValue(TKey key, out TValue value)
         {
-            return _baseDictionary.TryGetValue(key, out value);
+            return this.baseDictionary.TryGetValue(key, out value);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return ((IEnumerable)_baseDictionary).GetEnumerator();
+            return ((IEnumerable)this.baseDictionary).GetEnumerator();
         }
 
         IEnumerator<KeyValuePair<TKey, TValue>> IEnumerable<KeyValuePair<TKey, TValue>>.GetEnumerator()
         {
-            return ((IEnumerable<KeyValuePair<TKey, TValue>>)_baseDictionary).GetEnumerator();
+            return ((IEnumerable<KeyValuePair<TKey, TValue>>)this.baseDictionary).GetEnumerator();
         }
     }
 }

@@ -1,12 +1,13 @@
-using System;
-using System.Collections.Generic;
-using OpenRasta.Collections;
-
 namespace OpenRasta.DI.Internal
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Collections;
+
     public class SingletonLifetimeManager : DependencyLifetimeManager
     {
-        readonly IDictionary<string, object> _instances = new NullBehaviorDictionary<string, object>();
+        private readonly IDictionary<string, object> instances = new NullBehaviorDictionary<string, object>();
 
         public SingletonLifetimeManager(InternalDependencyResolver builder)
             : base(builder)
@@ -17,12 +18,17 @@ namespace OpenRasta.DI.Internal
         {
             object instance;
 
-            if (!_instances.TryGetValue(registration.Key, out instance))
-                lock (_instances)
+            if (!this.instances.TryGetValue(registration.Key, out instance))
+            {
+                lock (this.instances)
                 {
-                    if (!_instances.TryGetValue(registration.Key, out instance))
-                        _instances.Add(registration.Key, instance = base.Resolve(context, registration));
+                    if (!this.instances.TryGetValue(registration.Key, out instance))
+                    {
+                        this.instances.Add(registration.Key, instance = base.Resolve(context, registration));
+                    }
                 }
+            }
+
             return instance;
         }
 
@@ -30,12 +36,16 @@ namespace OpenRasta.DI.Internal
         {
             if (registration.IsInstanceRegistration)
             {
-                if (_instances[registration.Key] != null)
-                    throw new InvalidOperationException("Trying to register an instance for a registration that already has one.");
-                lock (_instances)
+                if (this.instances[registration.Key] != null)
                 {
-                    _instances[registration.Key] = registration.Instance;
+                    throw new InvalidOperationException("Trying to register an instance for a registration that already has one.");
                 }
+
+                lock (this.instances)
+                {
+                    this.instances[registration.Key] = registration.Instance;
+                }
+
                 registration.Instance = null;
             }
         }

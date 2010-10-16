@@ -1,50 +1,55 @@
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using OpenRasta.IO;
-using OpenRasta.Web;
-
 namespace OpenRasta.Hosting.HttpListener
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+
+    using OpenRasta.IO;
+    using OpenRasta.Web;
+
     public class HttpListenerRequest : IRequest
     {
-        readonly HttpListenerCommunicationContext _context;
-        readonly System.Net.HttpListenerRequest _nativeRequest;
-        string _httpMethod;
+        private readonly HttpListenerCommunicationContext context;
+        private readonly System.Net.HttpListenerRequest nativeRequest;
+        private string httpMethod;
 
         public HttpListenerRequest(HttpListenerCommunicationContext context, System.Net.HttpListenerRequest request)
         {
-            _context = context;
-            _nativeRequest = request;
-            Uri = _nativeRequest.Url;
-            CodecParameters = new List<string>();
+            this.context = context;
+            this.nativeRequest = request;
+            Uri = this.nativeRequest.Url;
+            this.CodecParameters = new List<string>();
 
-            Headers = new HttpHeaderDictionary(_nativeRequest.Headers);
+            this.Headers = new HttpHeaderDictionary(this.nativeRequest.Headers);
 
-            Entity = new HttpEntity(Headers, new HistoryStream(_nativeRequest.InputStream));
+            this.Entity = new HttpEntity(this.Headers, new HistoryStream(this.nativeRequest.InputStream));
 
-            if (!string.IsNullOrEmpty(_nativeRequest.ContentType))
-                Entity.ContentType = new MediaType(_nativeRequest.ContentType);
+            if (!string.IsNullOrEmpty(this.nativeRequest.ContentType))
+            {
+                this.Entity.ContentType = new MediaType(this.nativeRequest.ContentType);
+            }
         }
 
         public IList<string> CodecParameters { get; private set; }
 
         public long? ContentLength
         {
-            get { return Entity.ContentLength; }
-            set { Entity.ContentLength = value; }
+            get { return this.Entity.ContentLength; }
+            set { this.Entity.ContentLength = value; }
         }
 
         public IHttpEntity Entity { get; private set; }
+
         public HttpHeaderDictionary Headers { get; private set; }
 
         public string HttpMethod
         {
-            get { return _httpMethod ?? _nativeRequest.HttpMethod; }
-            set { _httpMethod = value; }
+            get { return this.httpMethod ?? this.nativeRequest.HttpMethod; }
+            set { this.httpMethod = value; }
         }
 
         public CultureInfo NegotiatedCulture { get; set; }
+
         public Uri Uri { get; set; }
 
         public string UriName { get; set; }

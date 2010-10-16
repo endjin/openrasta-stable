@@ -8,10 +8,10 @@
  */
 #endregion
 
-using OpenRasta.Web.Markup;
-
 namespace OpenRasta.CodeDom.Compiler
 {
+    using OpenRasta.Web.Markup;
+
     /// <summary>
     /// Supports IElement elements, and render them as html elements dealing with their own encoding.
     /// </summary>

@@ -8,23 +8,23 @@
  */
 #endregion
 
-using System;
-
 namespace OpenRasta.Diagnostics
 {
+    using System;
+
     public class NullLogger : ILogger
     {
-        static readonly ILogger INSTANCE = new NullLogger();
-        static readonly OperationCookie COOKIE = new OperationCookie();
+        private static readonly ILogger InternalInstance = new NullLogger();
+        private static readonly OperationCookie Cookie = new OperationCookie();
 
         public static ILogger Instance
         {
-            get { return INSTANCE; }
+            get { return InternalInstance; }
         }
 
         public IDisposable Operation(object source, string name)
         {
-            return COOKIE;
+            return Cookie;
         }
 
         public void WriteDebug(string message, params object[] format)
@@ -47,7 +47,7 @@ namespace OpenRasta.Diagnostics
         {
         }
 
-        class OperationCookie : IDisposable
+        private class OperationCookie : IDisposable
         {
             public void Dispose()
             {
@@ -57,11 +57,11 @@ namespace OpenRasta.Diagnostics
 
     public class NullLogger<T> : NullLogger, ILogger<T> where T : class, ILogSource
     {
-        static readonly ILogger<T> INSTANCE = new NullLogger<T>();
+        static readonly ILogger<T> InternalInstance = new NullLogger<T>();
 
         public new static ILogger<T> Instance
         {
-            get { return INSTANCE; }
+            get { return InternalInstance; }
         }
     }
 }

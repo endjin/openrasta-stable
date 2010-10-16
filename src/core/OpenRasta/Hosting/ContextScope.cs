@@ -1,24 +1,24 @@
-using System;
-using System.Runtime.Remoting.Messaging;
-
 namespace OpenRasta.Hosting
 {
+    using System;
+    using System.Runtime.Remoting.Messaging;
+
     public class ContextScope : IDisposable
     {
-        readonly object _hostContext;
-        readonly object _savedHostContext;
+        private readonly object hostContext;
+        private readonly object savedHostContext;
 
         public ContextScope(object context)
         {
-            _savedHostContext = CallContext.HostContext;
-            _hostContext = CallContext.HostContext = context;
+            this.savedHostContext = CallContext.HostContext;
+            this.hostContext = CallContext.HostContext = context;
         }
 
         public void Dispose()
         {
-            if (_hostContext != _savedHostContext)
+            if (this.hostContext != this.savedHostContext)
             {
-                CallContext.HostContext = _savedHostContext;
+                CallContext.HostContext = this.savedHostContext;
             }
         }
     }

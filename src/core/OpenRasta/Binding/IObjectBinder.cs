@@ -8,10 +8,10 @@
  */
 #endregion
 
-using System.Collections.Generic;
-
 namespace OpenRasta.Binding
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents a component able to build instances of objects from object paths and values.
     /// </summary>

@@ -1,7 +1,7 @@
-﻿using OpenRasta.Pipeline;
-
-namespace OpenRasta.Hosting
+﻿namespace OpenRasta.Hosting
 {
+    using OpenRasta.Pipeline;
+
     public class AmbientContextStore : IContextStore
     {
         public object this[string key]

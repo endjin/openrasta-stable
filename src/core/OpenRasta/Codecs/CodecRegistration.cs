@@ -8,15 +8,16 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.Collections;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.Collections;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     public class CodecRegistration : IEquatable<CodecRegistration>
     {
         public CodecRegistration(Type codecType, object resourceKey, MediaType mediaType)
@@ -24,29 +25,37 @@ namespace OpenRasta.Codecs
         {
         }
 
-        public CodecRegistration(Type codecType, 
-                                 object resourceKey, 
-                                 bool isStrictRegistration, 
-                                 MediaType mediaType, 
-                                 IEnumerable<string> extensions, 
-                                 object codecConfiguration, 
-                                 bool isSystem)
+        public CodecRegistration(
+            Type codecType,
+            object resourceKey,
+            bool isStrictRegistration, 
+            MediaType mediaType, 
+            IEnumerable<string> extensions, 
+            object codecConfiguration, 
+            bool isSystem)
         {
             CheckArgumentsAreValid(codecType, resourceKey, mediaType, isStrictRegistration);
-            ResourceKey = resourceKey;
+            this.ResourceKey = resourceKey;
             MediaType = mediaType;
-            CodecType = codecType;
-            Extensions = new List<string>();
+            this.CodecType = codecType;
+            this.Extensions = new List<string>();
+            
             if (extensions != null)
-                Extensions.AddRange(extensions);
-            Configuration = codecConfiguration;
-            IsSystem = isSystem;
-            IsStrict = isStrictRegistration;
+            {
+                this.Extensions.AddRange(extensions);
+            }
+
+            this.Configuration = codecConfiguration;
+            this.IsSystem = isSystem;
+            this.IsStrict = isStrictRegistration;
         }
 
         public Type CodecType { get; private set; }
+
         public object Configuration { get; private set; }
+
         public IList<string> Extensions { get; private set; }
+
         public bool IsStrict { get; private set; }
 
         /// <summary>
@@ -56,11 +65,12 @@ namespace OpenRasta.Codecs
         public bool IsSystem { get; private set; }
 
         public MediaType MediaType { get; private set; }
+
         public object ResourceKey { get; private set; }
 
         public IType ResourceType
         {
-            get { return ResourceKey as IType; }
+            get { return this.ResourceKey as IType; }
         }
 
         public static IEnumerable<CodecRegistration> FromCodecType(Type codecType, ITypeSystem typeSystem)
@@ -69,11 +79,11 @@ namespace OpenRasta.Codecs
                 codecType.GetCustomAttributes(typeof(SupportedTypeAttribute), true).Cast<SupportedTypeAttribute>();
             var mediaTypeAttributes =
                 codecType.GetCustomAttributes(typeof(MediaTypeAttribute), true).Cast<MediaTypeAttribute>();
+            
             return from resourceTypeAttribute in resourceTypeAttributes
                    from mediaType in mediaTypeAttributes
                    let isStrictRegistration = IsStrictRegistration(resourceTypeAttribute.Type)
-                   let resourceType =
-                       isStrictRegistration ? GetStrictType(resourceTypeAttribute.Type) : resourceTypeAttribute.Type
+                   let resourceType = isStrictRegistration ? GetStrictType(resourceTypeAttribute.Type) : resourceTypeAttribute.Type
                    select new CodecRegistration(
                        codecType, 
                        typeSystem.FromClr(resourceType), 
@@ -84,27 +94,31 @@ namespace OpenRasta.Codecs
                        true);
         }
 
-        public static CodecRegistration FromResourceType(Type resourceType, 
-                                                         Type codecType, 
-                                                         ITypeSystem typeSystem, 
-                                                         MediaType mediaType, 
-                                                         IEnumerable<string> extensions, 
-                                                         object codecConfiguration, 
-                                                         bool isSystem)
+        public static CodecRegistration FromResourceType(
+            Type resourceType,
+            Type codecType,
+            ITypeSystem typeSystem, 
+            MediaType mediaType, 
+            IEnumerable<string> extensions, 
+            object codecConfiguration, 
+            bool isSystem)
         {
             bool isStrict = false;
+            
             if (IsStrictRegistration(resourceType))
             {
                 resourceType = GetStrictType(resourceType);
                 isStrict = true;
             }
-            return new CodecRegistration(codecType, 
-                                         typeSystem.FromClr(resourceType), 
-                                         isStrict, 
-                                         mediaType, 
-                                         extensions, 
-                                         codecConfiguration, 
-                                         isSystem);
+            
+            return new CodecRegistration(
+                codecType, 
+                typeSystem.FromClr(resourceType), 
+                isStrict, 
+                mediaType, 
+                extensions, 
+                codecConfiguration, 
+                isSystem);
         }
 
         public static Type GetStrictType(Type registration)
@@ -120,53 +134,93 @@ namespace OpenRasta.Codecs
 
         public override bool Equals(object obj)
         {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(CodecRegistration)) return false;
-            return Equals((CodecRegistration)obj);
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != typeof(CodecRegistration))
+            {
+                return false;
+            }
+
+            return this.Equals((CodecRegistration)obj);
         }
 
         public override int GetHashCode()
         {
             unchecked
             {
-                int result = ResourceKey != null ? ResourceKey.GetHashCode() : 0;
-                result = (result * 397) ^ (CodecType != null ? CodecType.GetHashCode() : 0);
+                int result = this.ResourceKey != null ? this.ResourceKey.GetHashCode() : 0;
+                result = (result * 397) ^ (this.CodecType != null ? this.CodecType.GetHashCode() : 0);
                 result = (result * 397) ^ (MediaType != null ? MediaType.GetHashCode() : 0);
-                result = (result * 397) ^ IsStrict.GetHashCode();
-                result = (result * 397) ^ (Extensions != null ? Extensions.GetHashCode() : 0);
-                result = (result * 397) ^ (Configuration != null ? Configuration.GetHashCode() : 0);
-                result = (result * 397) ^ IsSystem.GetHashCode();
+                result = (result * 397) ^ this.IsStrict.GetHashCode();
+                result = (result * 397) ^ (this.Extensions != null ? this.Extensions.GetHashCode() : 0);
+                result = (result * 397) ^ (this.Configuration != null ? this.Configuration.GetHashCode() : 0);
+                result = (result * 397) ^ this.IsSystem.GetHashCode();
+
                 return result;
             }
         }
 
         public bool Equals(CodecRegistration other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
-            return Equals(other.ResourceKey, ResourceKey) && Equals(other.CodecType, CodecType) && Equals(other.MediaType, MediaType) && other.IsStrict.Equals(IsStrict) &&
-                   Equals(other.Extensions, Extensions) && Equals(other.Configuration, Configuration) && other.IsSystem.Equals(IsSystem);
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Equals(other.ResourceKey, this.ResourceKey) && 
+                   Equals(other.CodecType, this.CodecType) && 
+                   Equals(other.MediaType, this.MediaType) && 
+                   other.IsStrict.Equals(this.IsStrict) &&
+                   Equals(other.Extensions, this.Extensions) && 
+                   Equals(other.Configuration, this.Configuration) && 
+                   other.IsSystem.Equals(this.IsSystem);
         }
 
         /// <exception cref="ArgumentException">Cannot do a strict registration on resources with keys that are not types.</exception>
         /// <exception cref="ArgumentNullException"><c>mediaType</c> is null.</exception>
-        static void CheckArgumentsAreValid(Type codecType, 
+        private static void CheckArgumentsAreValid(Type codecType, 
                                            object resourceKey, 
                                            MediaType mediaType, 
                                            bool isStrictRegistration)
         {
             if (codecType == null)
+            {
                 throw new ArgumentNullException("codecType", "codecType is null.");
+            }
+
             if (resourceKey == null)
+            {
                 throw new ArgumentNullException("resourceKey", "resourceKey is null.");
+            }
+            
             if (mediaType == null)
+            {
                 throw new ArgumentNullException("mediaType", "mediaType is null.");
+            }
+            
             if (resourceKey is Type)
+            {
                 throw new ArgumentException("If using a type as a resourceKey, use an IType instead.", "resourceKey");
+            }
+            
             if (isStrictRegistration && !(resourceKey is IType))
+            {
                 throw new ArgumentException(
                     "Cannot do a strict registration on resources with keys that are not types.", "isStrictRegistration");
+            }
         }
     }
 }

@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Runtime.Remoting.Messaging;
-
 namespace OpenRasta.Hosting
 {
+    using System.Collections;
+    using System.Runtime.Remoting.Messaging;
+
     public class AmbientContext
     {
-        readonly Hashtable _items = new Hashtable();
+        private readonly Hashtable items = new Hashtable();
 
         public static AmbientContext Current
         {
@@ -14,8 +14,8 @@ namespace OpenRasta.Hosting
 
         public object this[string key]
         {
-            get { return _items[key]; }
-            set { _items[key] = value; }
+            get { return this.items[key]; }
+            set { this.items[key] = value; }
         }
     }
 }

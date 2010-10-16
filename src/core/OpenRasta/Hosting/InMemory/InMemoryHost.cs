@@ -1,32 +1,38 @@
-using System;
-using OpenRasta.Configuration;
-using OpenRasta.DI;
-using OpenRasta.Pipeline;
-using OpenRasta.Web;
-
 namespace OpenRasta.Hosting.InMemory
 {
+    using System;
+
+    using OpenRasta.Configuration;
+    using OpenRasta.DI;
+    using OpenRasta.Pipeline;
+    using OpenRasta.Web;
+
     public class InMemoryHost : IHost, IDependencyResolverAccessor, IDisposable
     {
-        readonly IConfigurationSource _configuration;
-        bool _isDisposed;
+        private readonly IConfigurationSource configuration;
+        private bool isDisposed;
 
         public InMemoryHost(IConfigurationSource configuration)
         {
-            _configuration = configuration;
-            Resolver = new InternalDependencyResolver();
-            ApplicationVirtualPath = "/";
+            this.configuration = configuration;
+            this.Resolver = new InternalDependencyResolver();
+            this.ApplicationVirtualPath = "/";
             HostManager = HostManager.RegisterHost(this);
-            RaiseStart();
+            this.RaiseStart();
         }
 
         public event EventHandler<IncomingRequestProcessedEventArgs> IncomingRequestProcessed;
+
         public event EventHandler<IncomingRequestReceivedEventArgs> IncomingRequestReceived;
 
         public event EventHandler Start;
+
         public event EventHandler Stop;
+
         public string ApplicationVirtualPath { get; set; }
+
         public HostManager HostManager { get; private set; }
+
         public IDependencyResolver Resolver { get; private set; }
 
         IDependencyResolverAccessor IHost.ResolverAccessor
@@ -36,14 +42,14 @@ namespace OpenRasta.Hosting.InMemory
 
         public void Close()
         {
-            RaiseStop();
+            this.RaiseStop();
             HostManager.UnregisterHost(this);
-            _isDisposed = true;
+            this.isDisposed = true;
         }
 
         public IResponse ProcessRequest(IRequest request)
         {
-            CheckNotDisposed();
+            this.CheckNotDisposed();
             var ambientContext = new AmbientContext();
             var context = new InMemoryCommunicationContext
             {
@@ -51,67 +57,77 @@ namespace OpenRasta.Hosting.InMemory
                 Request = request, 
                 Response = new InMemoryResponse()
             };
+
             try
             {
                 using (new ContextScope(ambientContext))
                 {
-                    RaiseIncomingRequestReceived(context);
+                    this.RaiseIncomingRequestReceived(context);
                 }
             }
             finally
             {
                 using (new ContextScope(ambientContext))
                 {
-                    RaiseIncomingRequestProcessed(context);
+                    this.RaiseIncomingRequestProcessed(context);
                 }
             }
+
             return context.Response;
         }
 
         void IDisposable.Dispose()
         {
-            Close();
+            this.Close();
         }
 
         bool IHost.ConfigureLeafDependencies(IDependencyResolver resolver)
         {
-            CheckNotDisposed();
+            this.CheckNotDisposed();
+
             return true;
         }
 
         bool IHost.ConfigureRootDependencies(IDependencyResolver resolver)
         {
-            CheckNotDisposed();
+            this.CheckNotDisposed();
             resolver.AddDependencyInstance<IContextStore>(new InMemoryContextStore());
-            if (_configuration != null)
-                Resolver.AddDependencyInstance<IConfigurationSource>(_configuration, DependencyLifetime.Singleton);
+
+            if (this.configuration != null)
+            {
+                this.Resolver.AddDependencyInstance<IConfigurationSource>(
+                    this.configuration, DependencyLifetime.Singleton);
+            }
+
             return true;
         }
 
         protected virtual void RaiseIncomingRequestProcessed(ICommunicationContext context)
         {
-            IncomingRequestProcessed.Raise(this, new IncomingRequestProcessedEventArgs(context));
+            this.IncomingRequestProcessed.Raise(this, new IncomingRequestProcessedEventArgs(context));
         }
 
         protected virtual void RaiseIncomingRequestReceived(ICommunicationContext context)
         {
-            IncomingRequestReceived.Raise(this, new IncomingRequestReceivedEventArgs(context));
+            this.IncomingRequestReceived.Raise(this, new IncomingRequestReceivedEventArgs(context));
         }
 
         protected virtual void RaiseStart()
         {
-            Start.Raise(this, EventArgs.Empty);
+            this.Start.Raise(this, EventArgs.Empty);
         }
 
         protected virtual void RaiseStop()
         {
-            Stop.Raise(this, EventArgs.Empty);
+            this.Stop.Raise(this, EventArgs.Empty);
         }
 
-        void CheckNotDisposed()
+        private void CheckNotDisposed()
         {
-            if (_isDisposed)
+            if (this.isDisposed)
+            {
                 throw new ObjectDisposedException("HttpListenerHost");
+            }
         }
     }
 }

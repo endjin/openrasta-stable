@@ -15,11 +15,14 @@ namespace OpenRasta.Binding
     /// </summary>
     public class BindingResult
     {
-        BindingResult(bool successfull, object instance)
+        public BindingResult(bool successfull, object instance)
         {
-            Successful = successfull;
+            this.Successful = successfull;
+
             if (successfull)
-                Instance = instance;
+            {
+                this.Instance = instance;
+            }
         }
 
         /// <summary>

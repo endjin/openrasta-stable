@@ -8,14 +8,15 @@
  */
 #endregion
 
-using System;
-using System.IO;
-using System.Text;
-using OpenRasta.Diagnostics;
-using OpenRasta.IO.Diagnostics;
-
 namespace OpenRasta.IO
 {
+    using System;
+    using System.IO;
+    using System.Text;
+
+    using OpenRasta.Diagnostics;
+    using OpenRasta.IO.Diagnostics;
+
     public class BoundaryStreamReader
     {
         readonly byte[] _beginBoundary;

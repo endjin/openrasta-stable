@@ -8,10 +8,10 @@
  */
 #endregion
 
-using System;
-
 namespace OpenRasta.Binding
 {
+    using System;
+
     [Obsolete("The type was renamed. Please use BinderAttribute instead.")]
     public abstract class BinderBaseAttribute : BinderAttribute
     {

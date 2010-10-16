@@ -1,13 +1,13 @@
-using System;
-using OpenRasta.Codecs;
-using OpenRasta.Configuration.Fluent;
-
 namespace OpenRasta.Configuration
 {
+    using System;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.Configuration.Fluent;
+
     public static class CodecParentDefinitionExtensions
     {
-        public static ICodecDefinition TranscodedBy<TCodec>(this ICodecParentDefinition parent)
-            where TCodec : ICodec
+        public static ICodecDefinition TranscodedBy<TCodec>(this ICodecParentDefinition parent) where TCodec : ICodec
         {
             return parent.TranscodedBy<TCodec>(null);
         }

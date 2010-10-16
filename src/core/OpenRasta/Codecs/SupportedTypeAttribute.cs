@@ -1,7 +1,7 @@
-﻿using System;
-
-namespace OpenRasta.Codecs
+﻿namespace OpenRasta.Codecs
 {
+    using System;
+
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = true)]
     public class SupportedTypeAttribute : Attribute
     {

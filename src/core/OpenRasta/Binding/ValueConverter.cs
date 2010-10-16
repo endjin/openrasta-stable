@@ -8,10 +8,10 @@
  */
 #endregion
 
-using System;
-
 namespace OpenRasta.Binding
 {
+    using System;
+
     /// <summary>
     /// Defines a conversion method used to convert entities between multiple types.
     /// </summary>

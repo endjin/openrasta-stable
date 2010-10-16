@@ -1,16 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace OpenRasta.Collections.Specialized
+﻿namespace OpenRasta.Collections.Specialized
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public class DependencyNode<T>
     {
         public DependencyNode(T value)
         {
-            Value = value;
-            ParentNodes = new List<DependencyNode<T>>();
-            ChildNodes = new List<DependencyNode<T>>();
+            this.Value = value;
+            this.ParentNodes = new List<DependencyNode<T>>();
+            this.ChildNodes = new List<DependencyNode<T>>();
         }
 
         public ICollection<DependencyNode<T>> ChildNodes { get; private set; }
@@ -19,34 +18,48 @@ namespace OpenRasta.Collections.Specialized
         {
             get
             {
-                if (HasRecursiveNodes())
+                if (this.HasRecursiveNodes())
+                {
                     return -1;
-                return ChildNodes.Aggregate(ChildNodes.Count, (count, node) => count + node.OutgoingWeight);
+                }
+
+                return this.ChildNodes.Aggregate(this.ChildNodes.Count, (count, node) => count + node.OutgoingWeight);
             }
         }
 
         public ICollection<DependencyNode<T>> ParentNodes { get; private set; }
+
         public T Value { get; set; }
+
         protected bool Visited { get; set; }
 
         public bool HasRecursiveNodes()
         {
-            return HasRecursiveNodes(new Stack<DependencyNode<T>>());
+            return this.HasRecursiveNodes(new Stack<DependencyNode<T>>());
         }
 
         public void QueueNodes(ICollection<DependencyNode<T>> nodes)
         {
-            Visited = true;
-            foreach (var parentNode in ParentNodes.OrderBy(x => x.OutgoingWeight))
+            this.Visited = true;
+
+            foreach (var parentNode in this.ParentNodes.OrderBy(x => x.OutgoingWeight))
             {
                 if (parentNode.Visited)
+                {
                     continue;
+                }
+
                 parentNode.QueueNodes(nodes);
             }
+
             nodes.Add(this);
-            foreach (var childNode in ChildNodes.OrderBy(x => x.OutgoingWeight))
+            
+            foreach (var childNode in this.ChildNodes.OrderBy(x => x.OutgoingWeight))
             {
-                if (childNode.Visited) continue;
+                if (childNode.Visited)
+                {
+                    continue;
+                }
 
                 childNode.QueueNodes(nodes);
             }
@@ -54,26 +67,33 @@ namespace OpenRasta.Collections.Specialized
 
         public override string ToString()
         {
-            return Value.ToString();
+            return this.Value.ToString();
         }
 
-        bool HasRecursiveNodes(Stack<DependencyNode<T>> recursionDefender)
+        private bool HasRecursiveNodes(Stack<DependencyNode<T>> recursionDefender)
         {
             if (recursionDefender.Contains(this))
+            {
                 throw new RecursionException();
+            }
+
             recursionDefender.Push(this);
+            
             try
             {
-                foreach (var child in ChildNodes)
+                foreach (var child in this.ChildNodes)
                 {
                     if (child.HasRecursiveNodes(recursionDefender))
+                    {
                         return true;
+                    }
                 }
             }
             finally
             {
                 recursionDefender.Pop();
             }
+
             return false;
         }
     }

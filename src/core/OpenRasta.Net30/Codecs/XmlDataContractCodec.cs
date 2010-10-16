@@ -26,7 +26,7 @@ namespace OpenRasta.Web.Codecs
             return new DataContractSerializer(destinationType.StaticType).ReadObject(request.Stream);
         }
 
-        public override void WriteToCore(object entity, IHttpEntity response)
+        protected override void WriteToCore(object entity, IHttpEntity response)
         {
             new DataContractSerializer(entity.GetType()).WriteObject(Writer, entity);
         }

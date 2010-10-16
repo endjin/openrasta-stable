@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace OpenRasta.Collections
+﻿namespace OpenRasta.Collections
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class ObservableIteratorExtensions
     {
         /// <summary>
@@ -14,10 +14,11 @@ namespace OpenRasta.Collections
         /// <param name="onSelected"></param>
         /// <param name="onDiscarded"></param>
         /// <returns></returns>
-        public static IEnumerable<T> AsObservable<T>(this IEnumerable<T> target, 
-                                                     Func<IEnumerable<T>, IEnumerable<T>> filter, 
-                                                     Action<T> onSelected, 
-                                                     Action<T> onDiscarded)
+        public static IEnumerable<T> AsObservable<T>(
+            this IEnumerable<T> target, 
+            Func<IEnumerable<T>, IEnumerable<T>> filter, 
+            Action<T> onSelected, 
+            Action<T> onDiscarded)
         {
             return new ObservableIterator<T>(target, filter, onSelected, onDiscarded);
         }

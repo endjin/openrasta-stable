@@ -8,15 +8,14 @@
  */
 #endregion
 
-using System.Diagnostics;
-using System.Linq;
-
 namespace OpenRasta.Diagnostics
 {
+    using System.Diagnostics;
+    using System.Linq;
+
     public class DebuggerLoggingTraceListener : TraceListener
     {
-        public DebuggerLoggingTraceListener()
-            : base("DebuggerLoggingTraceListener")
+        public DebuggerLoggingTraceListener() : base("DebuggerLoggingTraceListener")
         {
         }
 
@@ -27,23 +26,23 @@ namespace OpenRasta.Diagnostics
 
         public override void TraceData(TraceEventCache eventCache, string source, TraceEventType eventType, int id, object data)
         {
-            WriteAll(eventCache, eventType, id, data.ToString());
+            this.WriteAll(eventCache, eventType, id, data.ToString());
         }
 
         public override void TraceData(TraceEventCache eventCache, string source, TraceEventType eventType, int id, params object[] data)
         {
             string message = string.Join(", ", data.Select(obj => obj.ToString()).ToArray());
-            WriteAll(eventCache, eventType, id, message);
+            this.WriteAll(eventCache, eventType, id, message);
         }
 
         public override void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string format, params object[] args)
         {
-            WriteAll(eventCache, eventType, id, format.With(args));
+            this.WriteAll(eventCache, eventType, id, format.With(args));
         }
 
         public override void TraceEvent(TraceEventCache eventCache, string source, TraceEventType eventType, int id, string message)
         {
-            WriteAll(eventCache, eventType, id, message);
+            this.WriteAll(eventCache, eventType, id, message);
         }
 
         public override void Write(string message)
@@ -51,7 +50,10 @@ namespace OpenRasta.Diagnostics
             if (Debugger.IsLogging())
             {
                 if (NeedIndent)
+                {
                     WriteIndent();
+                }
+
                 Debugger.Log(0, "OpenRasta", message);
             }
         }
@@ -61,21 +63,24 @@ namespace OpenRasta.Diagnostics
             if (Debugger.IsLogging())
             {
                 if (NeedIndent)
+                {
                     WriteIndent();
+                }
+
                 Debugger.Log(0, "OpenRasta", message + "\r\n");
                 NeedIndent = true;
             }
         }
 
-        void UpdateIndent()
+        private void UpdateIndent()
         {
             IndentLevel = Trace.CorrelationManager.LogicalOperationStack.Count;
         }
 
-        void WriteAll(TraceEventCache eventCache, TraceEventType eventType, int id, string message)
+        private void WriteAll(TraceEventCache eventCache, TraceEventType eventType, int id, string message)
         {
-            UpdateIndent();
-            WriteLine("{4}-[{0}] {1}({2}) {3}".With(eventCache.DateTime.ToString("u"), eventType.ToString(), id, message, eventCache.ThreadId));
+            this.UpdateIndent();
+            this.WriteLine("{4}-[{0}] {1}({2}) {3}".With(eventCache.DateTime.ToString("u"), eventType.ToString(), id, message, eventCache.ThreadId));
         }
     }
 }

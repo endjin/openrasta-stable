@@ -8,104 +8,129 @@
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.Web;
+
     public class MediaTypeDictionary<TValue> : IEnumerable<TValue>
     {
-        readonly Dictionary<string, IList<TValue>> _store = new Dictionary<string, IList<TValue>>();
-        readonly Dictionary<string, List<TValue>> _subwildcard = new Dictionary<string, List<TValue>>();
-        readonly List<TValue> _wildcard = new List<TValue>();
+        private readonly Dictionary<string, IList<TValue>> store = new Dictionary<string, IList<TValue>>();
+        private readonly Dictionary<string, List<TValue>> subwildcard = new Dictionary<string, List<TValue>>();
+        private readonly List<TValue> wildcard = new List<TValue>();
 
         public void Add(MediaType mediaType, TValue value)
         {
             if (mediaType == null)
+            {
                 throw new ArgumentNullException("mediaType", "mediaType is null.");
+            }
 
             if (mediaType.IsWildCard)
-                _wildcard.Add(value);
+            {
+                this.wildcard.Add(value);
+            }
             else if (mediaType.IsSubtypeWildcard)
-                GetSubtypeWildcardRegistration(mediaType.TopLevelMediaType).Add(value);
+            {
+                this.GetSubtypeWildcardRegistration(mediaType.TopLevelMediaType).Add(value);
+            }
             else
             {
-                AddIfNotPresent(GetForMediaType(mediaType), value);
-                AddIfNotPresent(GetForSubTypeWildcard(mediaType), value);
-                AddIfNotPresent(GetForWildcard(), value);
+                this.AddIfNotPresent(this.GetForMediaType(mediaType), value);
+                this.AddIfNotPresent(this.GetForSubTypeWildcard(mediaType), value);
+                this.AddIfNotPresent(this.GetForWildcard(), value);
             }
         }
 
         public void Clear()
         {
-            _store.Clear();
-            _wildcard.Clear();
-            _subwildcard.Clear();
+            this.store.Clear();
+            this.wildcard.Clear();
+            this.subwildcard.Clear();
         }
 
         public IEnumerable<TValue> Matching(MediaType mediaType)
         {
             // match the cache if a key already exists
-            foreach (var item in GetForMediaType(mediaType))
+            foreach (var item in this.GetForMediaType(mediaType))
+            {
                 yield return item;
+            }
 
             // try to match subtype
-            if (!mediaType.IsTopLevelWildcard && _subwildcard.ContainsKey(mediaType.TopLevelMediaType))
-                foreach (var item in _subwildcard[mediaType.TopLevelMediaType])
+            if (!mediaType.IsTopLevelWildcard && this.subwildcard.ContainsKey(mediaType.TopLevelMediaType))
+            {
+                foreach (var item in this.subwildcard[mediaType.TopLevelMediaType])
+                {
                     yield return item;
+                }
+            }
 
-            foreach (var item in _wildcard)
+            foreach (var item in this.wildcard)
+            {
                 yield return item;
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            return GetEnumerator();
+            return this.GetEnumerator();
         }
 
         public IEnumerator<TValue> GetEnumerator()
         {
-            foreach (var value in _store.SelectMany(key => key.Value))
+            foreach (var value in this.store.SelectMany(key => key.Value))
+            {
                 yield return value;
+            }
         }
 
-        void AddIfNotPresent(IList<TValue> list, TValue value)
+        private void AddIfNotPresent(IList<TValue> list, TValue value)
         {
             if (!list.Contains(value))
+            {
                 list.Add(value);
+            }
         }
 
-        IList<TValue> GetForMediaType(MediaType mediaType)
+        private IList<TValue> GetForMediaType(MediaType mediaType)
         {
-            return GetOrCreate(mediaType.MediaType);
+            return this.GetOrCreate(mediaType.MediaType);
         }
 
-        IList<TValue> GetForSubTypeWildcard(MediaType mediaType)
+        private IList<TValue> GetForSubTypeWildcard(MediaType mediaType)
         {
-            return GetOrCreate(mediaType.TopLevelMediaType + "/*");
+            return this.GetOrCreate(mediaType.TopLevelMediaType + "/*");
         }
 
-        IList<TValue> GetForWildcard()
+        private IList<TValue> GetForWildcard()
         {
-            return GetOrCreate("*/*");
+            return this.GetOrCreate("*/*");
         }
 
-        IList<TValue> GetOrCreate(string key)
+        private IList<TValue> GetOrCreate(string key)
         {
             IList<TValue> value;
-            if (!_store.TryGetValue(key, out value))
-                _store[key] = value = new List<TValue>();
+            if (!this.store.TryGetValue(key, out value))
+            {
+                this.store[key] = value = new List<TValue>();
+            }
+
             return value;
         }
 
-        List<TValue> GetSubtypeWildcardRegistration(string topLevelMediaType)
+        private List<TValue> GetSubtypeWildcardRegistration(string topLevelMediaType)
         {
-            if (!_subwildcard.ContainsKey(topLevelMediaType))
-                _subwildcard[topLevelMediaType] = new List<TValue>();
-            return _subwildcard[topLevelMediaType];
+            if (!this.subwildcard.ContainsKey(topLevelMediaType))
+            {
+                this.subwildcard[topLevelMediaType] = new List<TValue>();
+            }
+
+            return this.subwildcard[topLevelMediaType];
         }
     }
 }

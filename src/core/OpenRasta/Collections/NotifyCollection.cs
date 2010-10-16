@@ -8,11 +8,11 @@
  */
 #endregion
 
-using System;
-using System.Collections.ObjectModel;
-
 namespace OpenRasta.Collections
 {
+    using System;
+    using System.Collections.ObjectModel;
+
     public class NotifyCollection<T> : Collection<T>
     {
         public EventHandler<CollectionChangedEventArgs<T>> ItemAdded = (src, e) => { };
@@ -20,14 +20,14 @@ namespace OpenRasta.Collections
 
         protected override void ClearItems()
         {
-            this.ForEach(item => ItemRemoved(this, new CollectionChangedEventArgs<T>(item)));
+            this.ForEach(item => this.ItemRemoved(this, new CollectionChangedEventArgs<T>(item)));
             base.ClearItems();
         }
 
         protected override void InsertItem(int index, T item)
         {
-            OnItemInsert(index, item);
-            ItemAdded(this, new CollectionChangedEventArgs<T>(item));
+            this.OnItemInsert(index, item);
+            this.ItemAdded(this, new CollectionChangedEventArgs<T>(item));
         }
 
         protected virtual void OnItemAdd(int index, T item)
@@ -42,19 +42,22 @@ namespace OpenRasta.Collections
 
         protected override void RemoveItem(int index)
         {
-            OnItemRemoved(index);
-            ItemRemoved(this, new CollectionChangedEventArgs<T>(this[index]));
+            this.OnItemRemoved(index);
+            this.ItemRemoved(this, new CollectionChangedEventArgs<T>(this[index]));
         }
 
         protected override void SetItem(int index, T item)
         {
-            if (!ReferenceEquals(this[index],null))
-                ItemRemoved(this, new CollectionChangedEventArgs<T>(this[index]));
-            OnItemAdd(index, item);
-            ItemAdded(this, new CollectionChangedEventArgs<T>(item));
+            if (!ReferenceEquals(this[index], null))
+            {
+                this.ItemRemoved(this, new CollectionChangedEventArgs<T>(this[index]));
+            }
+
+            this.OnItemAdd(index, item);
+            this.ItemAdded(this, new CollectionChangedEventArgs<T>(item));
         }
 
-        void OnItemRemoved(int index)
+        private void OnItemRemoved(int index)
         {
             base.RemoveItem(index);
         }

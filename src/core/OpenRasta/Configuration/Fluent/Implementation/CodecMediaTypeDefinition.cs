@@ -1,32 +1,33 @@
-using OpenRasta.Configuration.MetaModel;
-using OpenRasta.Web;
-
 namespace OpenRasta.Configuration.Fluent.Implementation
 {
+    using OpenRasta.Configuration.MetaModel;
+    using OpenRasta.Web;
+
     public class CodecMediaTypeDefinition : ICodecWithMediaTypeDefinition
     {
-        readonly MediaTypeModel _model;
-        readonly CodecDefinition _parent;
+        private readonly MediaTypeModel model;
+        private readonly CodecDefinition parent;
 
         public CodecMediaTypeDefinition(CodecDefinition parent, MediaTypeModel model)
         {
-            _parent = parent;
-            _model = model;
+            this.parent = parent;
+            this.model = model;
         }
 
         public ICodecParentDefinition And
         {
-            get { return _parent.And; }
+            get { return this.parent.And; }
         }
 
         public ICodecWithMediaTypeDefinition ForMediaType(MediaType mediaType)
         {
-            return _parent.ForMediaType(mediaType);
+            return this.parent.ForMediaType(mediaType);
         }
 
         public ICodecWithMediaTypeDefinition ForExtension(string extension)
         {
-            _model.Extensions.Add(extension);
+            this.model.Extensions.Add(extension);
+
             return this;
         }
     }
