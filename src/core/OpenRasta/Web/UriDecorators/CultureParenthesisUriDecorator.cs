@@ -7,22 +7,24 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenRasta.Web.UriDecorators
 {
+    using System;
+
     public class CultureParenthesisUriDecorator : IUriDecorator
     {
-        private ICommunicationContext _context;
+        private ICommunicationContext context;
+        
         public CultureParenthesisUriDecorator(ICommunicationContext context)
         {
-            _context = context;
+            this.context = context;
         }
+        
         public bool Parse(Uri uri, out Uri processedUri)
         {
             processedUri = uri;
+            
             // TODO:Provide an implementation, maybe? 
             return false;
         }

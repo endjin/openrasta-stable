@@ -8,39 +8,52 @@
  */
 #endregion
 
-using System;
-using System.Text.RegularExpressions;
-
 namespace OpenRasta.Web.UriDecorators
 {
+    using System;
+    using System.Text.RegularExpressions;
+
     public class HttpMethodOverrideUriDecorator : IUriDecorator
     {
-        static readonly Regex segmentRegex = new Regex("!(?<method>[a-zA-Z]+)", RegexOptions.Compiled);
-        readonly ICommunicationContext _context;
-        string newVerb;
-        public HttpMethodOverrideUriDecorator(ICommunicationContext context) { _context = context; }
+        private static readonly Regex SegmentRegex = new Regex("!(?<method>[a-zA-Z]+)", RegexOptions.Compiled);
+        private readonly ICommunicationContext context;
+        private string newVerb;
+
+        public HttpMethodOverrideUriDecorator(ICommunicationContext context)
+        {
+            this.context = context;
+        }
 
         public bool Parse(Uri uri, out Uri processedUri)
         {
             string[] uriSegments = uri.GetSegments();
             string lastSegment = uriSegments[uriSegments.Length - 1];
-            var match = segmentRegex.Match(lastSegment);
+            var match = SegmentRegex.Match(lastSegment);
+            
             if (match.Success)
             {
-                newVerb = match.Groups["method"].Value;
+                this.newVerb = match.Groups["method"].Value;
 
-                UriBuilder builder = new UriBuilder(uri);
+                var builder = new UriBuilder(uri)
+                    {
+                        Path = string.Join(string.Empty, uriSegments, 1, uriSegments.Length - 2) + 
+                               SegmentRegex.Replace(lastSegment, string.Empty)
+                    };
 
-                builder.Path = string.Join("", uriSegments, 1, uriSegments.Length - 2)
-                               + segmentRegex.Replace(lastSegment, "");
                 processedUri = builder.Uri;
+
                 return true;
             }
+
             processedUri = uri;
+            
             return false;
         }
 
-        public void Apply() { _context.Request.HttpMethod = newVerb; }
+        public void Apply()
+        {
+            this.context.Request.HttpMethod = newVerb;
+        }
     }
 }
 

@@ -8,10 +8,10 @@
  */
 #endregion
 
-using System;
-
 namespace OpenRasta.Web.UriDecorators
 {
+    using System;
+
     /// <summary>
     /// Defines a decoration on a url, used to modify the context of the request and reshape a url before processing.
     /// </summary>

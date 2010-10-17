@@ -7,75 +7,117 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenRasta.Text;
 
 namespace OpenRasta.Web
 {
-    public class ContentDispositionHeader: IEquatable<ContentDispositionHeader>
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using OpenRasta.Text;
+
+    public class ContentDispositionHeader : IEquatable<ContentDispositionHeader>
     {
         public ContentDispositionHeader(string header)
         {
             var fragments = header.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+            
             if (fragments.Length == 0)
+            {
                 throw new FormatException("The header value {0} is invalid for Content-Disposition.".With(header));
-            Disposition = fragments[0].Trim();
+            }
+
+            this.Disposition = fragments[0].Trim();
 
             for (int i = 1; i < fragments.Length; i++)
             {
-                var parameter = ParseParameter(fragments[i]);
+                var parameter = this.ParseParameter(fragments[i]);
+                
                 if (string.Compare(parameter.Key, "filename", StringComparison.OrdinalIgnoreCase) == 0)
-                    FileName = parameter.Value;
+                {
+                    this.FileName = parameter.Value;
+                }
                 else if (string.Compare(parameter.Key, "name", StringComparison.OrdinalIgnoreCase) == 0)
-                    Name = Rfc2047Encoding.DecodeTextToken(parameter.Value);
+                {
+                    this.Name = Rfc2047Encoding.DecodeTextToken(parameter.Value);
+                }
             }
         }
 
-        private KeyValuePair<string,string> ParseParameter(string fragment)
-        {
-            var equalIndex = fragment.IndexOf('=');
-            if (equalIndex == -1)
-                throw new FormatException();
-            var key = fragment.Substring(0, equalIndex).Trim();
-            var beginningValue = fragment.IndexOf('"',equalIndex+1);
-            if (beginningValue == -1)
-                throw new FormatException(); 
-            var endValue = fragment.IndexOf('"',beginningValue+1);
-            if (endValue == -1)
-                throw new FormatException();
-
-            return new KeyValuePair<string, string>(key, fragment.Substring(beginningValue+1, endValue-beginningValue-1));
-        }
-        public string Disposition { get; set; }
         public string FileName { get; set; }
+
         public string Name { get; set; }
+
+        public string Disposition { get; set; }
+
         public override string ToString()
         {
-            StringBuilder header = new StringBuilder();
-            header.Append(Disposition);
-            if (Name != null)
-                header.Append("; name=\"").Append(Name).Append("\"");
-            if (FileName != null)
-                header.Append("; filename=\"").Append(FileName).Append("\"");
+            var header = new StringBuilder();
+            header.Append(this.Disposition);
+            
+            if (this.Name != null)
+            {
+                header.Append("; name=\"").Append(this.Name).Append("\"");
+            }
+            
+            if (this.FileName != null)
+            {
+                header.Append("; filename=\"").Append(this.FileName).Append("\"");
+            }
+
             return header.ToString();
         }
+
         public bool Equals(ContentDispositionHeader other)
         {
             if (other == null)
+            {
                 return false;
-            return Disposition == other.Disposition && Name == other.Name && FileName == other.FileName;
+            }
+
+            return this.Disposition == other.Disposition && this.Name == other.Name && this.FileName == other.FileName;
         }
+
         public override int GetHashCode()
         {
-            return (Disposition ?? string.Empty).GetHashCode() ^ (Name ?? string.Empty).GetHashCode() ^ (FileName ?? string.Empty).GetHashCode();
+            return (this.Disposition ?? string.Empty).GetHashCode() ^ (this.Name ?? string.Empty).GetHashCode() ^ (this.FileName ?? string.Empty).GetHashCode();
         }
+        
         public override bool Equals(object obj)
         {
             if (!(obj is ContentDispositionHeader) || obj == null)
+            {
                 return false;
-            return Equals((ContentDispositionHeader)obj);
+            }
+
+            return this.Equals((ContentDispositionHeader)obj);
+        }
+
+        private KeyValuePair<string, string> ParseParameter(string fragment)
+        {
+            var equalIndex = fragment.IndexOf('=');
+            
+            if (equalIndex == -1)
+            {
+                throw new FormatException();
+            }
+            
+            var key = fragment.Substring(0, equalIndex).Trim();
+            var beginningValue = fragment.IndexOf('"', equalIndex + 1);
+            
+            if (beginningValue == -1)
+            {
+                throw new FormatException();
+            }
+
+            var endValue = fragment.IndexOf('"', beginningValue + 1);
+
+            if (endValue == -1)
+            {
+                throw new FormatException();
+            }
+
+            return new KeyValuePair<string, string>(key, fragment.Substring(beginningValue + 1, endValue - beginningValue - 1));
         }
     }
 }

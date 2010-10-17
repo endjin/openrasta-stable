@@ -7,21 +7,18 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Xml.Serialization;
-using System.Xml.Schema;
-using System.Collections.ObjectModel;
 
 namespace OpenRasta.Web.Configuration.Wadl
 {
+    using System.Collections.ObjectModel;
+
     public class WadlApplication
     {
         public WadlApplication()
         {
-            Resources = new WadlResourceCollection();
+            this.Resources = new WadlResourceCollection();
         }
+
         public WadlResourceCollection Resources { get; set; }
     }
     
@@ -29,19 +26,28 @@ namespace OpenRasta.Web.Configuration.Wadl
     {
         public string BasePath { get; set; }   
     }
+
     public class WadlResource
     {
-        public WadlResource() { Parameters = new Collection<WadlResourceParameter>(); }
+        public WadlResource()
+        {
+            this.Parameters = new Collection<WadlResourceParameter>();
+        }
 
         public string Path { get; set; }
+
         public string QueryType { get; set; }
+
         public Collection<WadlResourceParameter> Parameters { get; set; }
     }
+    
     public class WadlResourceParameter
     {
         public WadlResourceParameterStyle Style { get; set; }
+
         public string Name { get; set; }
     }
+
     public enum WadlResourceParameterStyle
     {
         Template,

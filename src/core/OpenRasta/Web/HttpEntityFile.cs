@@ -1,35 +1,36 @@
-using System.IO;
-using OpenRasta.IO;
-
 namespace OpenRasta.Web
 {
+    using System.IO;
+
+    using OpenRasta.IO;
+
     public class HttpEntityFile : IFile
     {
-        readonly IHttpEntity _entity;
+        private readonly IHttpEntity entity;
 
         public HttpEntityFile(IHttpEntity entity)
         {
-            _entity = entity;
+            this.entity = entity;
         }
 
         public MediaType ContentType
         {
-            get { return _entity.ContentType ?? MediaType.ApplicationOctetStream; }
+            get { return this.entity.ContentType ?? MediaType.ApplicationOctetStream; }
         }
 
         public string FileName
         {
-            get { return _entity.Headers.ContentDisposition != null ? _entity.Headers.ContentDisposition.FileName : null; }
+            get { return this.entity.Headers.ContentDisposition != null ? this.entity.Headers.ContentDisposition.FileName : null; }
         }
 
         public long Length
         {
-            get { return _entity.Stream.Length; }
+            get { return this.entity.Stream.Length; }
         }
 
         public Stream OpenStream()
         {
-            return _entity.Stream;
+            return this.entity.Stream;
         }
     }
 }

@@ -8,50 +8,58 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using OpenRasta.Codecs;
-using OpenRasta.IO;
-
 namespace OpenRasta.Web
 {
+    using System.Collections.Generic;
+    using System.IO;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.IO;
+
     public class HttpEntity : IHttpEntity
     {
         public HttpEntity(HttpHeaderDictionary messageheaders, Stream entityBodyStream)
         {
-            Headers = messageheaders;
+            this.Headers = messageheaders;
+            
             if (entityBodyStream != null)
             {
                 Stream = new LengthTrackingStream(entityBodyStream);
             }
-            Errors = new List<Error>();
+            
+            this.Errors = new List<Error>();
         }
 
-        public HttpEntity() : this(new HttpHeaderDictionary(), null) { }
-        public string FileName { get { return null; } }
+        public HttpEntity() : this(new HttpHeaderDictionary(), null)
+        {
+        }
+
+        public string FileName
+        {
+            get { return null; }
+        }
 
         public ICodec Codec { get; set; }
-        public MediaType ContentType
+
+        public long? ContentLength
         {
-            get
-            {
-                return Headers.ContentType;
-            }
-            set
-            {
-                Headers.ContentType = value;
-            }
+            get { return this.Headers.ContentLength; } 
+            set { this.Headers.ContentLength = value; }
         }
 
-        public object Instance { get; set; }
+        public MediaType ContentType
+        {
+            get { return this.Headers.ContentType; }
+            set { this.Headers.ContentType = value; }
+        }
 
-        public long? ContentLength { get { return Headers.ContentLength; } set { Headers.ContentLength = value; } }
+        public IList<Error> Errors { get; set; }
 
         public HttpHeaderDictionary Headers { get; private set; }
 
+        public object Instance { get; set; }
+
         public Stream Stream { get; private set; }
-        public IList<Error> Errors { get; set; }
     }
 }
 

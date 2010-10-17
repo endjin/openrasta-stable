@@ -545,7 +545,6 @@
   <ItemGroup>
     <Folder Include="Compat\" />
     <Folder Include="Web\Filters\" />
-    <Folder Include="Web\Pipeline\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

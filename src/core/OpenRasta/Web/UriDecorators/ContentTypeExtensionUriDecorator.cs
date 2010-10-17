@@ -8,12 +8,13 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Codecs;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Web.UriDecorators
 {
+    using System;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.TypeSystem;
+
     /// <summary>
     /// Decorates a uri with an extension, similar to a file system extension, to override content-type negotiation.
     /// </summary>
@@ -24,40 +25,41 @@ namespace OpenRasta.Web.UriDecorators
     /// </remarks>
     public class ContentTypeExtensionUriDecorator : IUriDecorator
     {
-        readonly ICodecRepository _codecs;
-        readonly ICommunicationContext _context;
-        readonly IUriResolver _uris;
-        UriRegistration _resourceMatch;
-        CodecRegistration _selectedCodec;
+        private readonly ICodecRepository codecs;
+        private readonly ICommunicationContext context;
+        private readonly IUriResolver uris;
+        private UriRegistration resourceMatch;
+        private CodecRegistration selectedCodec;
 
         public ContentTypeExtensionUriDecorator(ICommunicationContext context, IUriResolver uris, ICodecRepository codecs, ITypeSystem typeSystem)
         {
-            _context = context;
-            _codecs = codecs;
-            _uris = uris;
+            this.context = context;
+            this.codecs = codecs;
+            this.uris = uris;
         }
 
         public void Apply()
         {
             // other decorators may change the url later on and the match will have the wrong values
             // the content type however shouldn't change
-            var entity = _context.Response.Entity;
-            _context.PipelineData.ResponseCodec = _selectedCodec;
+            var entity = this.context.Response.Entity;
+            this.context.PipelineData.ResponseCodec = this.selectedCodec;
 
             // TODO: Check if this still works. 
-            entity.ContentType = _selectedCodec.MediaType;
+            entity.ContentType = this.selectedCodec.MediaType;
         }
 
         public bool Parse(Uri uri, out Uri processedUri)
         {
             processedUri = null;
 
-            var appBaseUri = _context.ApplicationBaseUri.EnsureHasTrailingSlash();
+            var appBaseUri = this.context.ApplicationBaseUri.EnsureHasTrailingSlash();
             var fakeBaseUri = new Uri("http://localhost/", UriKind.Absolute);
 
             var uriRelativeToAppBase = appBaseUri
                 .MakeRelativeUri(uri)
                 .MakeAbsolute(fakeBaseUri);
+
             // find the resource type for the uri
             string lastUriSegment = uriRelativeToAppBase.GetSegments()[uriRelativeToAppBase.GetSegments().Length - 1];
 
@@ -68,35 +70,36 @@ namespace OpenRasta.Web.UriDecorators
                 return false;
             }
 
-            var uriWithoutExtension = ChangePath(uriRelativeToAppBase, 
-                                                 srcUri =>
-                                                 srcUri.AbsolutePath.Substring(0, srcUri.AbsolutePath.LastIndexOf(".")));
+            var uriWithoutExtension = this.ChangePath(
+                uriRelativeToAppBase, srcUri => srcUri.AbsolutePath.Substring(0, srcUri.AbsolutePath.LastIndexOf(".")));
 
-            _resourceMatch = _uris.Match(uriWithoutExtension);
-            if (_resourceMatch == null)
-                return false;
-
-            string potentialExtension = lastUriSegment.Substring(lastDot + 1);
-
-// _codecs.
-            _selectedCodec = _codecs.FindByExtension(_resourceMatch.ResourceKey as IType, potentialExtension);
-
-            if (_selectedCodec == null)
+            this.resourceMatch = this.uris.Match(uriWithoutExtension);
+            
+            if (this.resourceMatch == null)
             {
                 return false;
             }
 
-            processedUri = fakeBaseUri.MakeRelativeUri(uriWithoutExtension)
-                .MakeAbsolute(appBaseUri);
+            string potentialExtension = lastUriSegment.Substring(lastDot + 1);
 
-// TODO: Ensure that if the Accept: is not compatible with the overriden value a 406 is returned.
+            // _codecs.
+            this.selectedCodec = this.codecs.FindByExtension(this.resourceMatch.ResourceKey as IType, potentialExtension);
+
+            if (this.selectedCodec == null)
+            {
+                return false;
+            }
+
+            processedUri = fakeBaseUri.MakeRelativeUri(uriWithoutExtension).MakeAbsolute(appBaseUri);
+
+            // TODO: Ensure that if the Accept: is not compatible with the overriden value a 406 is returned.
             return true;
         }
 
-        Uri ChangePath(Uri uri, Func<Uri, string> getPath)
+        private Uri ChangePath(Uri uri, Func<Uri, string> getPath)
         {
-            var builder = new UriBuilder(uri);
-            builder.Path = getPath(uri);
+            var builder = new UriBuilder(uri) { Path = getPath(uri) };
+            
             return builder.Uri;
         }
     }

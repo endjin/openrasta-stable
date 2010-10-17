@@ -7,51 +7,63 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenRasta.Collections;
-using OpenRasta.Handlers;
-using System.Text.RegularExpressions;
 
 namespace OpenRasta.Web.UriDecorators
 {
+    using System;
+    using System.Text.RegularExpressions;
+
+    using OpenRasta.Collections;
+    using OpenRasta.Handlers;
+
     public class PathSegmentAsParameterUriDecorator : IUriDecorator
     {
-        private static Regex segmentRegex = new Regex(";(?<segment>[a-zA-Z0-9-=]+)", RegexOptions.Compiled);
-        IHandlerRepository _handlers;
-        ICommunicationContext _context;
-        string[] matchingSegments = null;
+        private static readonly Regex SegmentRegex = new Regex(";(?<segment>[a-zA-Z0-9-=]+)", RegexOptions.Compiled);
+        private readonly ICommunicationContext context;
+
+        private IHandlerRepository handlers;
+        private string[] matchingSegments = null;
+
         public PathSegmentAsParameterUriDecorator(ICommunicationContext context, IHandlerRepository handlers)
         {
-            _context = context;
-            _handlers = handlers;
+            this.context = context;
+            this.handlers = handlers;
         }
+        
         public bool Parse(Uri uri, out Uri processedUri)
         {
             string[] uriSegments = uri.Segments;
             string lastSegment = uriSegments[uriSegments.Length - 1];
-            var matches = segmentRegex.Matches(lastSegment);
+            var matches = SegmentRegex.Matches(lastSegment);
+            
             if (matches.Count > 0)
             {
-                matchingSegments = new string[matches.Count];
+                this.matchingSegments = new string[matches.Count];
+                
                 for (int i = 0; i < matches.Count; i++)
                 {
-                    matchingSegments[i] = matches[i].Groups["segment"].Value;
+                    this.matchingSegments[i] = matches[i].Groups["segment"].Value;
                 }
-                UriBuilder builder = new UriBuilder(uri);
                 
-                builder.Path = string.Join("",uriSegments,1, uriSegments.Length-2) + segmentRegex.Replace(lastSegment, "");
+                var builder = new UriBuilder(uri)
+                    {
+                        Path = string.Join(string.Empty, uriSegments, 1, uriSegments.Length - 2) +
+                               SegmentRegex.Replace(lastSegment, string.Empty)
+                    };
+
                 processedUri = builder.Uri;
+                
                 return true;
             }
+
             processedUri = uri;
+            
             return false;
         }
 
         public void Apply()
         {
-            _context.Request.CodecParameters.AddRange(matchingSegments);
+            this.context.Request.CodecParameters.AddRange(this.matchingSegments);
         }
     }
 }

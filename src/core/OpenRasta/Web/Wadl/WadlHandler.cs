@@ -7,59 +7,66 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenRasta.Handlers;
-using OpenRasta.Configuration;
-using OpenRasta.DI;
 
 namespace OpenRasta.Web.Configuration.Wadl
 {
+    using System;
+
+    using OpenRasta.DI;
+    using OpenRasta.Handlers;
+
     public class WadlHandler
     {
-        readonly IDependencyResolver _resolver;
-        private IUriResolver _uriRepository;
-        private IHandlerRepository _handlerRepository;
+        private readonly IDependencyResolver resolver;
+        private readonly IUriResolver uriRepository;
+        private IHandlerRepository handlerRepository;
+
         public WadlHandler(IDependencyResolver resolver, IUriResolver uriRepository, IHandlerRepository handlerRepository)
         {
-            _resolver = resolver;
-            _uriRepository = uriRepository;
-            _handlerRepository = handlerRepository;
+            this.resolver = resolver;
+            this.uriRepository = uriRepository;
+            this.handlerRepository = handlerRepository;
         }
+        
         public WadlApplication Get()
         {
-            var templateProcessor = _uriRepository as IUriTemplateParser;
+            var templateProcessor = this.uriRepository as IUriTemplateParser;
+            
             if (templateProcessor == null)
+            {
                 throw new InvalidOperationException("The system doesn't have a IUriTemplateParser, WADL generation cannot proceed.");
+            }
 
             var app = new WadlApplication
                           {
                               Resources =
                                   {
-                                      BasePath = _resolver.Resolve<ICommunicationContext>().ApplicationBaseUri.ToString()
+                                      BasePath = this.resolver.Resolve<ICommunicationContext>().ApplicationBaseUri.ToString()
                                   }
                           };
 
-            foreach (var uriMap in _uriRepository)
+            foreach (var uriMap in this.uriRepository)
             {
                 var resource = new WadlResource { Path = uriMap.UriTemplate };
 
                 var templateParameters = templateProcessor.GetTemplateParameterNamesFor(uriMap.UriTemplate);
                 var queryParameters = templateProcessor.GetQueryParameterNamesFor(uriMap.UriTemplate);
-
                 
                 resource.Parameters = new System.Collections.ObjectModel.Collection<WadlResourceParameter>();
                 foreach (string parameter in templateParameters)
-                    resource.Parameters.Add(new WadlResourceParameter { Style= WadlResourceParameterStyle.Template, Name = parameter });
+                {
+                    resource.Parameters.Add(new WadlResourceParameter { Style = WadlResourceParameterStyle.Template, Name = parameter });
+                }
 
                 foreach (string parameter in queryParameters)
+                {
                     resource.Parameters.Add(new WadlResourceParameter { Style = WadlResourceParameterStyle.Query, Name = parameter });
+                }
 
                 // TODO: For each parameter, lookup the parameter type from the matched handler and include the xsd type in it
-
                 app.Resources.Add(resource);
             }
+
             return app;
         }
     }
