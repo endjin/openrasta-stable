@@ -24,12 +24,15 @@
       <WorkingDirectory>$(RootPath)\src\vside\templates\aspnet35-item-view</WorkingDirectory>
     </ProjectTemplate>
   </ItemGroup>
+  
   <Target Name="Verify">
     <MakeDir Directories="$(OutputPath)" Condition="!Exists('$()OutputPath)')" />
   </Target>
+  
   <Target Name="Package" DependsOnTargets="Verify">
     <Zip Files="@(ProjectTemplate)" WorkingDirectory="%(WorkingDirectory)" ZipFileName="$(OutputPath)\%(Package)" />
   </Target>
+  
   <Import Project="common.properties" />
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
 </Project>

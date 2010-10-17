@@ -5,23 +5,28 @@
       <MinVersion>20</MinVersion>
       <Merged>false</Merged>
     </Projects>
+    
     <Projects Include="$(SourcePath)\OpenBastard.Hosting.Iis7\OpenBastard.Hosting.Iis7.csproj">
       <MinVersion>20</MinVersion>
       <Merged>false</Merged>
     </Projects>
+    
     <Projects Include="$(SourcePath)\OpenBastard.Hosting.Iis7.WorkerProcess-32\OpenBastard.Hosting.Iis7.WorkerProcess-32.csproj">
       <MinVersion>20</MinVersion>
       <Merged>false</Merged>
     </Projects>
+    
     <Projects Include="$(SourcePath)\OpenBastard.Hosting.Iis7.WorkerProcess-64\OpenBastard.Hosting.Iis7.WorkerProcess-64.csproj">
       <MinVersion>20</MinVersion>
       <Merged>false</Merged>
     </Projects>
+    
     <Projects Include="$(SourcePath)\OpenBastard.TestRunner\OpenBastard.TestRunner.csproj">
       <MinVersion>20</MinVersion>
       <UnitTest>true</UnitTest>
       <NUnit-DisableShadowCopy>true</NUnit-DisableShadowCopy>
     </Projects>
+    
   </ItemGroup>
   <Import Project="module.targets" />
 </Project>

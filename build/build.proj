@@ -6,10 +6,8 @@
     <DefaultBuildVersionBuild>3</DefaultBuildVersionBuild>
     <DefaultBuildVersionRevision>0</DefaultBuildVersionRevision>
     <DefaultBuildVersionSuffix>0</DefaultBuildVersionSuffix>
-
     <PackageName>OpenRasta</PackageName>
     <ReleaseName>Release Candidate</ReleaseName>
-
   </PropertyGroup>
   
   <ItemGroup>

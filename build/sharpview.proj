@@ -6,11 +6,13 @@
       <Merged>false</Merged>
       <SignAssembly>true</SignAssembly>
     </Projects>
+    
     <Projects Include="$(SourcePath)\OpenRasta.Codecs.SharpView.Tests.Unit\OpenRasta.Codecs.SharpView.Tests.Unit.csproj">
       <MinVersion>35</MinVersion>
       <Merged>false</Merged>
       <UnitTest>true</UnitTest>
     </Projects>
+    
   </ItemGroup>
   <Import Project="module.targets" />
 </Project>

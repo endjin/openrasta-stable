@@ -16,6 +16,11 @@
       <Merged>true</Merged>
     </Projects>
 
+    <Projects Include="$(SourcePath)\OpenRasta.Net35\OpenRasta.Net40.csproj">
+      <MinVersion>40</MinVersion>
+      <Merged>true</Merged>
+    </Projects>
+
     <Projects Include="$(SourcePath)\OpenRasta.Testing\OpenRasta.Testing.csproj">
       <MinVersion>35</MinVersion>
       <Merged>false</Merged>

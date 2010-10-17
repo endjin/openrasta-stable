@@ -8,7 +8,6 @@
     <Projects Include="$(SourcePath)\OpenRasta.DI.Windsor-1.0.rc3.Tests.Unit\OpenRasta.DI.Windsor-1.0.rc3.Tests.Unit.csproj">
       <UnitTest>true</UnitTest>
     </Projects>
-    
     <Projects Include="$(SourcePath)\OpenRasta.DI.Windsor\OpenRasta.DI.Windsor.csproj"/>
     <Projects Include="$(SourcePath)\OpenRasta.DI.Windsor.Tests.Unit\OpenRasta.DI.Windsor.Tests.Unit.csproj">
       <UnitTest>true</UnitTest>

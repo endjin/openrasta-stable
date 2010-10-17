@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003"  DefaultTargets="Clean;Package" ToolsVersion="3.5">
-  <UsingTask TaskName="Microsoft.Build.Tasks.CreateItem"                            AssemblyName="Microsoft.Build.Tasks.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
-  <UsingTask TaskName="Microsoft.Build.Tasks.FindInList"                            AssemblyName="Microsoft.Build.Tasks.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
+  <UsingTask TaskName="Microsoft.Build.Tasks.CreateItem" AssemblyName="Microsoft.Build.Tasks.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
+  <UsingTask TaskName="Microsoft.Build.Tasks.FindInList" AssemblyName="Microsoft.Build.Tasks.v3.5, Version=3.5.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"/>
 
   <PropertyGroup>
     <RunTests Condition="'$(RunTests)' == ''">true</RunTests>
@@ -29,9 +29,7 @@
     <Configuration Condition="'$(Configuration)' == ''">Release</Configuration>
     <MergedAssemblyName>OpenRasta.dll</MergedAssemblyName>
     <CaffeineSignature>$(RootPath)\build\keys\caff\caff.snk</CaffeineSignature>
-    
   </PropertyGroup>
-
 
   <!-- Default locations -->
   <PropertyGroup>
@@ -43,35 +41,20 @@
     <AssemblyOriginatorKeyFile Condition="Exists('$(CaffeineSignature)')">$(CaffeineSignature)</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-
-
-
-
-
   <!--Tools locations-->
   <Import Project="$(RootPath)\build\common.properties"/>
-
-
-
-
-
-
 
   <Target Name="Clean">
     <Delete ContinueOnError="true" Files="$(TempPath)\**" />
     <RemoveDir Directories="$(TempPath)" ContinueOnError="true" />
   </Target>
 
-
-
   <Target Name="Verify">
     <Error Condition="!Exists('$(ILMergePath)')" Text="IlMerge has not been found. Either install it from http://www.microsoft.com/DOWNLOADS/details.aspx?FamilyID=22914587-b4ad-4eae-87cf-b14ae6a939b0&amp;displaylang=en  or specify the path to Ilmerge.exe as the ILMergePath property."/>
 
     <MakeDir Directories="$(OutputPath)" Condition="!Exists('$(OutputPath)')"/>
     <MakeDir Directories="$(NUnitReportsDirectory)" Condition="!Exists('$(NUnitReportsDirectory)')"/>
-
     <MakeDir Directories="$(NUnitDirectory)/addins" Condition="!Exists('$(NUnitDirectory)/addins')" />
-
 
     <ItemGroup>
       <NUnitAddinFiles Include="$(teamcity_dotnet_nunitaddin)-2.5.*" />
@@ -80,28 +63,11 @@
 
   </Target>
 
-
-
-
-
-
-
-
-
   <Target Name="GetProjectsForCurrentVersion">
     <Microsoft.Build.Tasks.CreateItem Include="@(Projects)" Condition="%(MinVersion) &lt;= $(FrameworkProfile)" PreserveExistingMetadata="true">
       <Output TaskParameter="Include" ItemName="VersionSpecificProject" />
     </Microsoft.Build.Tasks.CreateItem>
   </Target>
-
-
-
-
-
-
-
-
-
 
   <Target Name="BuildMerged" DependsOnTargets="Verify;GetProjectsForCurrentVersion">
     <MSBuild Projects="@(VersionSpecificProject)"
@@ -111,17 +77,6 @@
       <Output ItemName="MergedAssemblies" TaskParameter="TargetOutputs"/>
     </MSBuild>
   </Target>
-
-
-
-
-
-
-
-
-
-
-
 
   <Target Name="Merge" DependsOnTargets="BuildMerged" Inputs="@(MergedAssemblies)" Outputs="$(OutputPath)\$(MergedAssemblyName)">
     
@@ -138,17 +93,6 @@
     <Message Importance="high" Text="Merged assembly at $(MergedAssemblyFullPath)" />
   </Target>
 
-
-
-
-
-
-
-
-
-
-
-
   <Target Name="BuildNonMerged" DependsOnTargets="GetProjectsForCurrentVersion;Merge">
     <Message Importance="normal" Text="Building %(GetProjectsForCurrentVersion.Filename)" Condition="'%(Merged)'=='false'" />
     <MSBuild  Projects="@(VersionSpecificProject)"
@@ -164,23 +108,10 @@
     <Copy SourceFiles="@(NonMergedAssemblies)" DestinationFolder="$(OutputPath)" />
     <Copy SourceFiles="@(NonMergedAssemblies->'%(RootDir)\%(Directory)\%(Filename).pdb')" DestinationFolder="$(OutputPath)" ContinueOnError="true" Condition="'@(NonMergedAssemblies->'%(RootDir)\%(Directory)\%(Filename).pdb')' != ''" />
     <Copy SourceFiles="@(NonMergedAssemblies->'%(RootDir)\%(Directory)\%(Filename).xml')" DestinationFolder="$(OutputPath)" ContinueOnError="true" Condition="'@(NonMergedAssemblies->'%(RootDir)\%(Directory)\%(Filename).xml')' != ''" />
-    
     <Copy SourceFiles="@(AdditionalOutput)" DestinationFolder="$(OutputPath)" Condition="'@(AdditionalOutput)' != ''" />
   </Target>
 
-
-
-
-
-
-
-
   <Target Name="Build" DependsOnTargets="BuildMerged;BuildNonMerged"/>
-
-
-
-
-
 
   <Target Name="Test" DependsOnTargets="Build" Inputs="@(NonMergedAssemblies)" Outputs="$(NUnitReportsDirectory)\%(NonMergedAssemblies.Filename).xml" Condition="'$(RunTests)' == 'true'">
 
@@ -198,26 +129,8 @@
     <NUnit ToolPath="$(NUnitDirectory)" Assemblies="@(NonMergedAssemblies)" OutputXmlFile="$(NUnitReportsDirectory)\%(UnitTestAssembly.Filename).xml" Condition="'$(UnitTest)' == 'true'" DisableShadowCopy="$(NUnit-DisableShadowCopy)"  />
   </Target>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   <Target Name="Package" DependsOnTargets="Merge;BuildNonMerged;Test">
   </Target>
-
-
-
-  
- 
   <Import Project="$(MSBuildCommunityTasksPath)\MSBuild.Community.Tasks.Targets" />
+  
 </Project>

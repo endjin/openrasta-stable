@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  
   <PropertyGroup>
     <RootPath Condition="'$(RootPath)' == ''">$(MSBuildProjectDirectory)\..\..\..</RootPath>
     <FrameworkProfile Condition="'$(FrameworkProfile)' == ''">35</FrameworkProfile>
@@ -78,9 +79,6 @@
     </Reference>
   </ItemGroup>
   
-  
-  
-  
   <Target Name="VerifyDependencies">
     <Error Condition="'$(OpenRasta-DI-Windsor)' != '' and '$(CastleWindsor)' == ''" Text="If you add Windsor as a dependency, you need to specify which version with the CastleWindsor property." />
     <MSBuild Projects="$(RootPath)\build\core.proj"
@@ -91,11 +89,10 @@
              Properties="FrameworkProfileVersion=$(FrameworkProfile)" />
   </Target>
   
-  
-  
   <Target Name="BeforeBuild" DependsOnTargets="VerifyDependencies">
     <Message Importance="high" Text="$(CastleDirectory)" />
     <Message Importance="high" Text="@(Reference)" />
     <!--<MSBuild Condition="!Exists('$(OpenRastaDirectory)\OpenRasta.dll')" Projects="..\..\..\Build\core.proj" Properties="FrameworkProfile=$(FrameworkProfile)" />-->
   </Target>
+  
 </Project>

@@ -5,14 +5,17 @@
       <MinVersion>35</MinVersion>
       <Merged>false</Merged>
     </Projects>
+    
     <Projects Include="$(SourcePath)\OpenRasta.DI.Ninject.Tests.Unit\OpenRasta.DI.Ninject.Tests.Unit.csproj">
       <UnitTest>true</UnitTest>
     </Projects>
     
     <Projects Include="$(SourcePath)\OpenRasta.DI.Ninject\OpenRasta.DI.Ninject.csproj"/>
+    
     <Projects Include="$(SourcePath)\OpenRasta.DI.Ninject.Tests.Unit\OpenRasta.DI.Ninject.Tests.Unit.csproj">
       <UnitTest>true</UnitTest>
     </Projects>
+    
   </ItemGroup>
   <Import Project="module.targets" />
 </Project>
