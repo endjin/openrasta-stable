@@ -8,15 +8,16 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+
     public interface IUriResolver : ICollection<UriRegistration>
     {
         UriRegistration Match(Uri uriToMatch);
+
         Uri CreateUriFor(Uri baseAddress, object resourceKey, string uriName, NameValueCollection keyValues);
     }
 }

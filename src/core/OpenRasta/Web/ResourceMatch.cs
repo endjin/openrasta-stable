@@ -9,13 +9,13 @@
  */
 #endregion
 
-using System.Globalization;
-using System.Collections.Specialized;
-using System.Collections.Generic;
-using System;
-
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Globalization;
+
     public class UriRegistration
     {
         public UriRegistration(string uriTemplate, object resourceKey) : this(uriTemplate, resourceKey, null, null)
@@ -24,28 +24,38 @@ namespace OpenRasta.Web
 
         public UriRegistration(string uriTemplate, object resourceKey, string uriName, CultureInfo uriCulture)
         {
-            UriTemplate = uriTemplate;
-            UriTemplateParameters = new List<NameValueCollection>();
-            ResourceKey = resourceKey;
-            UriName = uriName;
-            UriCulture = uriCulture;
+            this.UriTemplate = uriTemplate;
+            this.UriTemplateParameters = new List<NameValueCollection>();
+            this.ResourceKey = resourceKey;
+            this.UriName = uriName;
+            this.UriCulture = uriCulture;
         }
 
         public IList<NameValueCollection> UriTemplateParameters { get; private set; }
+
         public object ResourceKey { get; private set; }
+
         public string UriName { get; private set; }
+
         public CultureInfo UriCulture { get; private set; }
+
         public string UriTemplate { get; private set; }
     }
+
     [Obsolete("Please use UriRegistration")]
     public class ResourceMatch : UriRegistration
     {
-        public ResourceMatch(object resourceKey, string uriName, CultureInfo uriCulture, string uriTemplate)
-            : base(uriTemplate, resourceKey, uriName, uriCulture)
+        public ResourceMatch(object resourceKey, string uriName, CultureInfo uriCulture, string uriTemplate) : base(uriTemplate, resourceKey, uriName, uriCulture)
         {
         }
 
-        public CultureInfo ResourcePathCulture { get { return base.UriCulture; } }
+        public CultureInfo ResourcePathCulture
+        {
+            get
+            {
+                return base.UriCulture;
+            }
+        }
     }
 }
 

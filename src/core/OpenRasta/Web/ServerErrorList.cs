@@ -1,30 +1,41 @@
-using System;
-using System.Collections.ObjectModel;
-using OpenRasta.Diagnostics;
-
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Collections.ObjectModel;
+
+    using OpenRasta.Diagnostics;
+
     public class ServerErrorList : Collection<Error>
     {
-        ILogger _log;
-        public ILogger Log
-        {
-            get { return _log; }
-            set { _log = value ?? new NullLogger(); }
-        }
+        private ILogger log;
 
         public ServerErrorList()
         {
-            Log = new NullLogger();
+            this.Log = new NullLogger();
         }
+
+        public ILogger Log
+        {
+            get { return this.log; }
+            set { this.log = value ?? new NullLogger(); }
+        }
+
         protected override void InsertItem(int index, Error item)
         {
-            if (item == null) throw new ArgumentNullException("item");
+            if (item == null)
+            {
+                throw new ArgumentNullException("item");
+            }
 
             if (item.Exception != null)
-                Log.WriteException(item.Exception);
+            {
+                this.Log.WriteException(item.Exception);
+            }
             else
-                Log.WriteError(item.Message);
+            {
+                this.Log.WriteError(item.Message);
+            }
+
             base.InsertItem(index, item);
         }
     }

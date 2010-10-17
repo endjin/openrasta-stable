@@ -8,13 +8,13 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using OpenRasta.Collections;
-
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Collections;
+
     public abstract class OperationResult
     {
         protected OperationResult()
@@ -23,21 +23,21 @@ namespace OpenRasta.Web
 
         protected OperationResult(int httpStatus)
         {
-            StatusCode = httpStatus;
-            Title = httpStatus + " " + this.GetType().Name;
-            Description = ToString();
+            this.StatusCode = httpStatus;
+            this.Title = httpStatus + " " + this.GetType().Name;
+            this.Description = this.ToString();
         }
 
         public virtual string Description { get; set; }
 
         public bool IsClientError
         {
-            get { return StatusCode >= 400 && StatusCode < 500; }
+            get { return this.StatusCode >= 400 && this.StatusCode < 500; }
         }
 
         public bool IsServerError
         {
-            get { return StatusCode >= 500; }
+            get { return this.StatusCode >= 500; }
         }
 
         public Uri RedirectLocation { get; set; }
@@ -48,20 +48,24 @@ namespace OpenRasta.Web
         public object ResponseResource { get; set; }
 
         public virtual string Title { get; set; }
+
         public virtual int StatusCode { get; set; }
 
         public void Execute(ICommunicationContext context)
         {
-            context.Response.StatusCode = StatusCode;
-            if (RedirectLocation != null)
-                context.Response.Headers["Location"] = RedirectLocation.AbsoluteUri;
+            context.Response.StatusCode = this.StatusCode;
 
-            OnExecute(context);
+            if (this.RedirectLocation != null)
+            {
+                context.Response.Headers["Location"] = this.RedirectLocation.AbsoluteUri;
+            }
+
+            this.OnExecute(context);
         }
 
         public override string ToString()
         {
-            return "OperationResult: type={0}, statusCode={1}".With(GetType().Name, StatusCode);
+            return "OperationResult: type={0}, statusCode={1}".With(this.GetType().Name, this.StatusCode);
         }
 
         protected virtual void OnExecute(ICommunicationContext context)
@@ -72,15 +76,16 @@ namespace OpenRasta.Web
         {
             public BadRequest() : base(400)
             {
-                Errors = new List<Error>();
+                this.Errors = new List<Error>();
             }
 
             public IList<Error> Errors { get; set; }
 
             protected override void OnExecute(ICommunicationContext context)
             {
-                context.Request.Entity.Errors.AddRange(Errors);
+                context.Request.Entity.Errors.AddRange(this.Errors);
                 context.Response.Entity.Errors.AddRange(context.Request.Entity.Errors);
+
                 base.OnExecute(context);
             }
         }
@@ -125,7 +130,7 @@ namespace OpenRasta.Web
         {
             public InternalServerError() : base(500)
             {
-                //Debugger.Launch();
+                // Debugger.Launch();
             }
         }
 
@@ -189,7 +194,7 @@ namespace OpenRasta.Web
         {
             public NoContent() : base(204)
             {
-                //Debugger.Launch();
+                // Debugger.Launch();
             }
         }
 

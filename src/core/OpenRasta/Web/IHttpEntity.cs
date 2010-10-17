@@ -8,24 +8,27 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using OpenRasta.Codecs;
-
 namespace OpenRasta.Web
 {
+    using System.Collections.Generic;
+    using System.IO;
+
+    using OpenRasta.Codecs;
+
     public interface IHttpEntity
     {
         ICodec Codec { get; set; }
+
         object Instance { get; set; }
+
         MediaType ContentType { get; set; }
+
         long? ContentLength { get; set; }
+
         HttpHeaderDictionary Headers { get; }
+
         Stream Stream { get; }
-        /// <summary>
-        /// Provides access to a list of errors associated with the entity
-        /// </summary>
+
         IList<Error> Errors { get; }
     }
 }

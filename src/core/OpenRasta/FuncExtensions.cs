@@ -1,20 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRasta.Collections;
-
-namespace OpenRasta
+﻿namespace OpenRasta
 {
+    using System;
+    using System.Collections.Generic;
+
     public static class FuncExtensions
     {
-        public static Func<T,T> Chain<T>(this IEnumerable<Func<T,T>> functions)
+        public static Func<T, T> Chain<T>(this IEnumerable<Func<T, T>> functions)
         {
             Func<T, T> root = null;
+            
             foreach (var func in functions)
             {
                 if (root == null)
+                {
                     root = func;
+                }
                 else
                 {
                     var current = root;
@@ -22,6 +22,7 @@ namespace OpenRasta
                     root = x => next(current(x));
                 }
             }
+
             return root;
         }
     }

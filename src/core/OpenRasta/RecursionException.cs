@@ -1,11 +1,10 @@
-using System;
-
 namespace OpenRasta
 {
+    using System;
+
     public class RecursionException : Exception
     {
-        public RecursionException()
-            : this("Recursion is not allowed.")
+        public RecursionException() : this("Recursion is not allowed.")
         {
         }
 

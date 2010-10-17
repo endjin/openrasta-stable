@@ -7,23 +7,31 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenRasta.Web
 {
+    using System;
+
     [Serializable]
     public class ResourceHandlerException : Exception
     {
-        public ResourceHandlerException() { }
-        public ResourceHandlerException(string message) : base(message) { }
-        public ResourceHandlerException(string message, Exception inner) : base(message, inner) { }
+        public ResourceHandlerException()
+        {
+        }
+
+        public ResourceHandlerException(string message) : base(message)
+        {
+        }
+
+        public ResourceHandlerException(string message, Exception inner) : base(message, inner)
+        {
+        }
+
 #if !SILVERLIGHT
-        protected ResourceHandlerException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context)
-            : base(info, context) { }
+        protected ResourceHandlerException(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context) 
+            : base(info, context)
+        {
+        }
 #endif
     }
 }

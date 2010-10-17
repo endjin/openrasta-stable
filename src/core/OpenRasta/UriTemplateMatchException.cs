@@ -7,26 +7,35 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.Serialization;
 
 namespace OpenRasta
 {
+    using System;
+    using System.Runtime.Serialization;
+
     public class UriTemplateMatchException : SystemException
     {
-        public UriTemplateMatchException() : base() { }
-        public UriTemplateMatchException(string message) : base(message) { }
-        public UriTemplateMatchException(string message, Exception innerException) : base(message, innerException) { }
+        public UriTemplateMatchException()
+        {
+        }
+
+        public UriTemplateMatchException(string message) : base(message)
+        {
+        }
+
+        public UriTemplateMatchException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
 #if !SILVERLIGHT
-        protected UriTemplateMatchException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+        protected UriTemplateMatchException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
 #endif
     }
 }
 
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -45,5 +54,4 @@ namespace OpenRasta
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

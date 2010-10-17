@@ -7,30 +7,34 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
 namespace OpenRasta
 {
+    using System;
+    using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+
     public class UriTemplateMatch
     {
         public Uri BaseUri { get; set; }
-        public NameValueCollection BoundVariables { get; internal set; }
-        public object Data { get; set; }
-        public NameValueCollection QueryParameters { get; internal set; }
-        public Collection<string> RelativePathSegments { get; internal set; }
-        public Uri RequestUri { get; set; }
-        public UriTemplate Template { get; set; }
-        public Collection<string> WildcardPathSegments { get; internal set; }
 
+        public NameValueCollection BoundVariables { get; internal set; }
+
+        public object Data { get; set; }
+
+        public NameValueCollection QueryParameters { get; internal set; }
+
+        public Collection<string> RelativePathSegments { get; internal set; }
+
+        public Uri RequestUri { get; set; }
+
+        public UriTemplate Template { get; set; }
+
+        public Collection<string> WildcardPathSegments { get; internal set; }
     }
 }
 
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -49,5 +53,4 @@ namespace OpenRasta
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

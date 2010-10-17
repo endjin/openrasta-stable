@@ -8,11 +8,10 @@
  */
 #endregion
 
-using System;
-using System.IO;
-
 namespace OpenRasta.Web
 {
+    using System.IO;
+
     public interface ISupportsTextWriter
     {
         TextWriter TextWriter { get; }

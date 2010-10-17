@@ -1,8 +1,8 @@
-using System;
-using System.Globalization;
-
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Globalization;
+
     public static class TemplatedUriResolverLegacyExtensions
     {
         [Obsolete("Please use the Add method.")]

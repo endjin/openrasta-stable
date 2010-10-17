@@ -8,26 +8,29 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Globalization;
+
     public interface IRequest : IHttpMessage
     {
         /// <summary>
         /// The request Uri
         /// </summary>
         Uri Uri { get; set; }
+
         /// <summary>
         /// The name associated with the requested URI
         /// </summary>
         string UriName { get; set; }
+        
         /// <summary>
         /// The culture in which the resource has been requested by the client.
         /// </summary>
         CultureInfo NegotiatedCulture { get; set; }
+        
         /// <summary>
         /// The HTTP method used.
         /// </summary>

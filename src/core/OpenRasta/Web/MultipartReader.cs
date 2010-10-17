@@ -9,96 +9,117 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using OpenRasta.Diagnostics;
-using OpenRasta.IO;
-using OpenRasta.IO.Diagnostics;
-
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+
+    using OpenRasta.Diagnostics;
+    using OpenRasta.IO;
+
     public class MultipartReader
     {
-        readonly BoundaryStreamReader _reader;
-        string _currentLine;
+        private readonly BoundaryStreamReader reader;
+
+        private string currentLine;
+        private ILogger log;
 
         public MultipartReader(string boundary, Stream inputStream)
         {
-            _reader = new BoundaryStreamReader(boundary, inputStream, Encoding.ASCII);
+            this.reader = new BoundaryStreamReader(boundary, inputStream, Encoding.ASCII);
         }
 
         public bool AtBeginBoundary
         {
-            get { return _reader.AtBoundary; }
+            get { return this.reader.AtBoundary; }
         }
 
         public bool AtBoundary
         {
-            get { return AtBeginBoundary || AtEndBoundary; }
+            get { return this.AtBeginBoundary || this.AtEndBoundary; }
         }
 
         public bool AtEndBoundary
         {
-            get { return _reader.AtEndBoundary; }
+            get { return this.reader.AtEndBoundary; }
         }
 
-        IMultipartHttpEntity CurrentEntity { get; set; }
-
-        ILogger _log;
         public ILogger Log
         {
-            get { return _log; }
-            set { _log = _reader.Log = value; }
+            get { return this.log; }
+            set { this.log = this.reader.Log = value; }
         }
+
+        private IMultipartHttpEntity CurrentEntity { get; set; }
 
         public IEnumerable<IMultipartHttpEntity> GetParts()
         {
-            if (AtEndBoundary)
-                throw new InvalidOperationException("Can only read through the enumerator once.");
-            _reader.SeekToNextPart(); // seeks to the first part
-
-            if (AtEndBoundary)
-                yield break;
-
-            while (ReadEntity())
+            if (this.AtEndBoundary)
             {
-                yield return CurrentEntity;
+                throw new InvalidOperationException("Can only read through the enumerator once.");
             }
+
+            this.reader.SeekToNextPart(); // seeks to the first part
+
+            if (this.AtEndBoundary)
+            {
+                yield break;
+            }
+
+            while (this.ReadEntity())
+            {
+                yield return this.CurrentEntity;
+            }
+
             yield break;
         }
 
         public void GoToNextBoundary()
         {
-            _reader.SeekToNextPart();
+            this.reader.SeekToNextPart();
         }
 
         public bool ReadNextLine()
         {
-            _currentLine = _reader.ReadLine();
-            return _currentLine != null;
+            this.currentLine = this.reader.ReadLine();
+            
+            return this.currentLine != null;
         }
 
-        bool ReadEntity()
+        private bool ReadEntity()
         {
-            if (AtEndBoundary)
+            if (this.AtEndBoundary)
+            {
                 return false;
+            }
+
             var entity = new MultipartHttpEntity();
 
-// TODO: Handle split headers
-            while (ReadNextLine() && !string.IsNullOrEmpty(_currentLine) && !AtBoundary && !AtEndBoundary)
+            // TODO: Handle split headers
+            while (this.ReadNextLine() && !string.IsNullOrEmpty(this.currentLine) && !this.AtBoundary && !this.AtEndBoundary)
             {
-                int columnIndex = _currentLine.IndexOf(":");
+                int columnIndex = this.currentLine.IndexOf(":");
                 if (columnIndex != -1)
-                    entity.Headers[_currentLine.Substring(0, columnIndex).Trim()] =
-                        _currentLine.Substring(columnIndex + 1).Trim();
+                {
+                    entity.Headers[this.currentLine.Substring(0, columnIndex).Trim()] =
+                        this.currentLine.Substring(columnIndex + 1).Trim();
+                }
             }
-            if (_currentLine == null)
+            
+            if (this.currentLine == null)
+            {
                 return false;
-            if (_currentLine.Length == 0)
-                entity.Stream = _reader.GetNextPart();
-            CurrentEntity = entity;
+            }
+
+            if (this.currentLine.Length == 0)
+            {
+                entity.Stream = this.reader.GetNextPart();
+            }
+
+            this.CurrentEntity = entity;
+            
             return true;
         }
     }
@@ -122,5 +143,4 @@ namespace OpenRasta.Web
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
 #endregion

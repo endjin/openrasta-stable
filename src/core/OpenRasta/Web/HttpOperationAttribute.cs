@@ -7,32 +7,35 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Reflection;
 
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Reflection;
+
     [AttributeUsage(AttributeTargets.Method)]
     public class HttpOperationAttribute : Attribute
     {
         public HttpOperationAttribute()
         {
-            ContentType = new MediaType("*/*");
+            this.ContentType = new MediaType("*/*");
         }
 
         public HttpOperationAttribute(HttpMethod method) : this()
         {
-            Method = method.ToString();
+            this.Method = method.ToString();
         }
 
         public HttpOperationAttribute(string method) : this()
         {
-            Method = method;
+            this.Method = method;
         }
 
-        public string ForUriName { get; set; }
-        public string Method { get; set; }
         public MediaType ContentType { get; set; }
+
+        public string ForUriName { get; set; }
+
+        public string Method { get; set; }
 
         /// <summary>
         /// Tries to find an HttpOperation attribute on a method. 
@@ -43,7 +46,7 @@ namespace OpenRasta.Web
         {
             try
             {
-                return GetCustomAttribute(mi, typeof (HttpOperationAttribute)) as HttpOperationAttribute;
+                return GetCustomAttribute(mi, typeof(HttpOperationAttribute)) as HttpOperationAttribute;
             }
             catch
             {
@@ -51,14 +54,14 @@ namespace OpenRasta.Web
             }
         }
 
-        public bool MatchesUriName(string uriName)
-        {
-            return string.Compare(ForUriName, uriName, StringComparison.OrdinalIgnoreCase) == 0;
-        }
-
         public bool MatchesHttpMethod(string httpMethod)
         {
-            return string.CompareOrdinal(Method, httpMethod) == 0;
+            return string.CompareOrdinal(this.Method, httpMethod) == 0;
+        }
+
+        public bool MatchesUriName(string uriName)
+        {
+            return string.Compare(this.ForUriName, uriName, StringComparison.OrdinalIgnoreCase) == 0;
         }
     }
 }

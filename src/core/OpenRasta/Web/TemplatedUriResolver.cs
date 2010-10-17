@@ -8,42 +8,48 @@
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Globalization;
-using System.Linq;
-using OpenRasta.Collections;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Globalization;
+    using System.Linq;
+
+    using OpenRasta.Collections;
+    using OpenRasta.TypeSystem;
+
     public class TemplatedUriResolver : IUriResolver, IUriTemplateParser
     {
-        UriTemplateTable _templates = new UriTemplateTable();
-        public ITypeSystem TypeSystem { get; set; }
+        private UriTemplateTable templates = new UriTemplateTable();
+
+        public TemplatedUriResolver()
+        {
+            this.TypeSystem = TypeSystems.Default;
+        }
+
         public int Count
         {
-            get { return _templates.KeyValuePairs.Count; }
+            get { return this.templates.KeyValuePairs.Count; }
         }
 
         public bool IsReadOnly
         {
-            get { return _templates.IsReadOnly; }
+            get { return this.templates.IsReadOnly; }
         }
 
-        public TemplatedUriResolver()
-        {
-            TypeSystem = TypeSystems.Default;
-        }
-        /// <exception cref="InvalidOperationException">Cannot add a Uri mapping once the configuration has been done.</exception>
-        /// <exception cref="ArgumentException">Cannot use a Type as the resourceKey. Use an <see cref="IType"/> instead or assign the <see cref="TypeSystem"/> property.</exception>
+        public ITypeSystem TypeSystem { get; set; }
+
         public void Add(UriRegistration registration)
         {
-            if (_templates.IsReadOnly)
+            if (this.templates.IsReadOnly)
+            {
                 throw new InvalidOperationException("Cannot add a Uri mapping once the configuration has been done.");
-            var resourceKey = EnsureIsNotType(registration.ResourceKey);
+            }
+
+            var resourceKey = this.EnsureIsNotType(registration.ResourceKey);
+            
             var descriptor = new UrlDescriptor
             {
                 Uri = new UriTemplate(registration.UriTemplate), 
@@ -52,13 +58,14 @@ namespace OpenRasta.Web
                 UriName = registration.UriName, 
                 Registration = registration
             };
-            _templates.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(descriptor.Uri, descriptor));
-            _templates.BaseAddress = new Uri("http://localhost/").IgnoreAuthority();
+            
+            this.templates.KeyValuePairs.Add(new KeyValuePair<UriTemplate, object>(descriptor.Uri, descriptor));
+            this.templates.BaseAddress = new Uri("http://localhost/").IgnoreAuthority();
         }
 
         public void Clear()
         {
-            _templates = new UriTemplateTable();
+            this.templates = new UriTemplateTable();
         }
 
         public bool Contains(UriRegistration item)
@@ -73,34 +80,29 @@ namespace OpenRasta.Web
 
         public bool Remove(UriRegistration item)
         {
-            var pairToRemove = _templates.KeyValuePairs
+            var pairToRemove = this.templates.KeyValuePairs
                 .Where(x => ((UrlDescriptor)x.Value).Registration == item)
                 .ToList();
 
             if (pairToRemove.Count > 0)
             {
-                _templates.KeyValuePairs.Remove(pairToRemove[0]);
+                this.templates.KeyValuePairs.Remove(pairToRemove[0]);
+                
                 return true;
             }
 
             return false;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
         public IEnumerator<UriRegistration> GetEnumerator()
         {
-            return _templates.KeyValuePairs.Select(x => ((UrlDescriptor)x.Value).Registration).GetEnumerator();
+            return this.templates.KeyValuePairs.Select(x => ((UrlDescriptor)x.Value).Registration).GetEnumerator();
         }
 
-        /// <exception cref="InvalidOperationException"><c>InvalidOperationException</c>.</exception>
         public Uri CreateUriFor(Uri baseAddress, object resourceKey, string uriName, NameValueCollection keyValues)
         {
-            resourceKey = EnsureIsNotType(resourceKey);
-            var template = FindBestMatchingTemplate(_templates, resourceKey, uriName, keyValues);
+            resourceKey = this.EnsureIsNotType(resourceKey);
+            var template = this.FindBestMatchingTemplate(this.templates, resourceKey, uriName, keyValues);
 
             if (template == null)
             {
@@ -117,13 +119,20 @@ namespace OpenRasta.Web
         public UriRegistration Match(Uri uriToMatch)
         {
             if (uriToMatch == null)
+            {
                 return null;
-            var tableMatches = _templates.Match(uriToMatch.IgnoreSchemePortAndAuthority());
-            if (tableMatches == null || tableMatches.Count == 0)
-                return null;
-            var urlDescriptor = (UrlDescriptor)tableMatches[0].Data;
+            }
 
+            var tableMatches = this.templates.Match(uriToMatch.IgnoreSchemePortAndAuthority());
+            
+            if (tableMatches == null || tableMatches.Count == 0)
+            {
+                return null;
+            }
+
+            var urlDescriptor = (UrlDescriptor)tableMatches[0].Data;
             var result = new UriRegistration(urlDescriptor.Uri.ToString(), urlDescriptor.ResourceKey, urlDescriptor.UriName, urlDescriptor.Culture);
+            
             foreach (var tableMatch in tableMatches)
             {
                 var allVariables = new NameValueCollection
@@ -131,6 +140,7 @@ namespace OpenRasta.Web
                     tableMatch.BoundVariables, 
                     tableMatch.QueryParameters
                 };
+                
                 result.UriTemplateParameters.Add(allVariables);
             }
 
@@ -147,30 +157,46 @@ namespace OpenRasta.Web
             return new UriTemplate(uriTemplate).PathSegmentVariableNames;
         }
 
-        static bool CompatibleKeys(object requestResourceKey, object templateResourceKey)
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this.GetEnumerator();
+        }
+
+        private static bool UriNameMatches(string requestUriName, string templateUriName)
+        {
+            return (!requestUriName.IsNullOrEmpty() &&
+                    requestUriName.EqualsOrdinalIgnoreCase(templateUriName)) ||
+                   (requestUriName.IsNullOrEmpty() &&
+                    templateUriName.IsNullOrEmpty());
+        }
+
+        private static bool CompatibleKeys(object requestResourceKey, object templateResourceKey)
         {
             var requestType = requestResourceKey as IType;
             var templateType = templateResourceKey as IType;
+            
             return (requestType != null &&
                     templateType != null &&
                     requestType.IsAssignableTo(templateType)) ||
-                   requestResourceKey.Equals(templateResourceKey);
+                    requestResourceKey.Equals(templateResourceKey);
         }
 
-        object EnsureIsNotType(object resourceKey)
+        private object EnsureIsNotType(object resourceKey)
         {
             var resourceType = resourceKey as Type;
+            
             if (resourceType != null)
-                resourceKey = TypeSystem.FromClr(resourceType);
+            {
+                resourceKey = this.TypeSystem.FromClr(resourceType);
+            }
+
             return resourceKey;
         }
 
-        UriTemplate FindBestMatchingTemplate(UriTemplateTable templates, 
-                                                    object resourceKey, 
-                                                    string uriName, 
-                                                    NameValueCollection keyValues)
+        private UriTemplate FindBestMatchingTemplate(UriTemplateTable templates, object resourceKey, string uriName, NameValueCollection keyValues)
         {
-            resourceKey = EnsureIsNotType(resourceKey);
+            resourceKey = this.EnsureIsNotType(resourceKey);
+
             var matchingTemplates =
                 from template in templates.KeyValuePairs
                 let descriptor = (UrlDescriptor)template.Value
@@ -189,20 +215,16 @@ namespace OpenRasta.Web
             return matchingTemplates.FirstOrDefault();
         }
 
-        static bool UriNameMatches(string requestUriName, string templateUriName)
-        {
-            return (!requestUriName.IsNullOrEmpty() &&
-                    requestUriName.EqualsOrdinalIgnoreCase(templateUriName)) ||
-                   (requestUriName.IsNullOrEmpty() &&
-                    templateUriName.IsNullOrEmpty());
-        }
-
-        class UrlDescriptor
+        private class UrlDescriptor
         {
             public CultureInfo Culture { get; set; }
+
             public UriRegistration Registration { get; set; }
+
             public object ResourceKey { get; set; }
+            
             public UriTemplate Uri { get; set; }
+            
             public string UriName { get; set; }
         }
     }

@@ -7,127 +7,143 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.IO;
-using OpenRasta.Codecs;
-using OpenRasta.Diagnostics;
 
 namespace OpenRasta.Web
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.Diagnostics;
+
     public interface IMultipartHttpEntity : IHttpEntity
     {
         void SwapStream(string filepath);
+
         void SwapStream(Stream stream);
     }
 
     public class MultipartHttpEntity : IMultipartHttpEntity, IDisposable
     {
-        ILogger Log { get; set; }
+        private bool disposed;
+        private string filePath;
+        private Stream internalStream;
 
         public MultipartHttpEntity()
         {
-            Headers = new HttpHeaderDictionary();
+            this.Headers = new HttpHeaderDictionary();
         }
+
+        ~MultipartHttpEntity()
+        {
+            this.Dispose(false);
+        }
+
+        public ICodec Codec { get; set; }
 
         public MediaType ContentType
         {
-            get { return Headers.ContentType; }
-            set { Headers.ContentType = value; }
+            get { return this.Headers.ContentType; }
+            set { this.Headers.ContentType = value; }
         }
 
         public long? ContentLength
         {
-            get { return Headers.ContentLength; }
-            set { Headers.ContentLength = value; }
+            get { return this.Headers.ContentLength; }
+            set { this.Headers.ContentLength = value; }
         }
 
-        private Stream _stream;
         public Stream Stream
         {
             get
             {
-                if (_stream == null && File.Exists(_filePath))
-                    _stream = File.Open(_filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
-                return _stream;
+                if (this.internalStream == null && File.Exists(this.filePath))
+                {
+                    this.internalStream = File.Open(this.filePath, FileMode.Open, FileAccess.Read, FileShare.Read);
+                }
+
+                return this.internalStream;
             }
+
             set
             {
-                _stream = value;
-                _filePath = null;
+                this.internalStream = value;
+                this.filePath = null;
             }
         }
-        public IList<Error> Errors{ get; private set; }
+
+        public IList<Error> Errors { get; private set; }
 
         public HttpHeaderDictionary Headers { get; private set; }
-        public ICodec Codec { get; set; }
+
         public object Instance { get; set; }
 
-        private string _filePath = null;
+        private ILogger Log { get; set; }
+
         public void SwapStream(Stream stream)
         {
             Stream = stream;
         }
+
         public void SwapStream(string filepath)
         {
-            _filePath = filepath;
-            _stream = null;
+            this.filePath = filepath;
+            this.internalStream = null;
         }
+
         public void Dispose()
         {
-            Dispose(true);
+            this.Dispose(true);
             GC.SuppressFinalize(this);
         }
-        private bool _disposed = false;
+
         protected virtual void Dispose(bool disposing)
         {
-            if (!_disposed)
+            if (!this.disposed)
             {
                 if (disposing)
                 {
-                    if (_stream != null)
+                    if (this.internalStream != null)
                     {
                         try
                         {
-                            _stream.Dispose();
+                            this.internalStream.Dispose();
                         }
-                        catch (ObjectDisposedException) { }
+                        catch (ObjectDisposedException)
+                        {
+                        }
                         finally
                         {
-                            _stream = null;
+                            this.internalStream = null;
                         }
                     }
-                    if (_filePath != null && File.Exists(_filePath))
+
+                    if (this.filePath != null && File.Exists(this.filePath))
                     {
                         try
                         {
-                            File.Delete(_filePath);
+                            File.Delete(this.filePath);
                         }
                         catch (Exception e)
                         {
-                            Log.Safe().WriteError("Could not delete file {0} after use. See exception for details.", _filePath);
-                            Log.Safe().WriteException(e);
+                            this.Log.Safe().WriteError("Could not delete file {0} after use. See exception for details.", this.filePath);
+                            this.Log.Safe().WriteException(e);
                         }
                         finally
                         {
-                            _filePath = null;
+                            this.filePath = null;
                         }
                     }
                 }
 
-                _disposed = true;
+                this.disposed = true;
             }
-        }
-        ~MultipartHttpEntity()
-        {
-            Dispose(false);
         }
     }
 }
 
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -146,5 +162,4 @@ namespace OpenRasta.Web
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

@@ -8,13 +8,12 @@
  */
 #endregion
 
-using System;
-
 namespace OpenRasta.Web
 {
     public interface IHttpMessage
     {
         IHttpEntity Entity { get; }
+
         HttpHeaderDictionary Headers { get; }
     }
 }
