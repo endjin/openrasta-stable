@@ -7,42 +7,44 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRasta.Web.Markup.Modules;
 
 namespace OpenRasta.Web.Markup
 {
+    using OpenRasta.Web.Markup.Modules;
+
     public static class IIFrameModuleExtensions
     {
-        public static T FrameBorder<T>(this T element, bool frameBorder) where T:IIFrameElement
+        public static T FrameBorder<T>(this T element, bool frameBorder) where T : IIFrameElement
         {
             element.FrameBorder = frameBorder;
+            
             return element;
         }
+
         public static T MarginWidth<T>(this T element, int marginWidth) where T : IIFrameElement
         {
             element.MarginWidth = marginWidth;
-            return element;
-        }
-        public static T MarginHeight<T>(this T element, int marginHeight) where T : IIFrameElement
-        {
-            element.MarginHeight = marginHeight;
-            return element;
-        }
-        public static T Scrolling<T>(this T element, Scrolling scrolling) where T : IIFrameElement
-        {
-            element.Scrolling = scrolling;
+            
             return element;
         }
         
+        public static T MarginHeight<T>(this T element, int marginHeight) where T : IIFrameElement
+        {
+            element.MarginHeight = marginHeight;
+            
+            return element;
+        }
+        
+        public static T Scrolling<T>(this T element, Scrolling scrolling) where T : IIFrameElement
+        {
+            element.Scrolling = scrolling;
+            
+            return element;
+        }
     }
 }
 
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -61,5 +63,4 @@ namespace OpenRasta.Web.Markup
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

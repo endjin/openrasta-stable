@@ -8,16 +8,16 @@
  */
 #endregion
 
-using System;
-
-namespace OpenRasta.Web.Markup.Attributes
+namespace OpenRasta.Web.Markup.Attributes.Nodes
 {
+    using System;
+
     public class XhtmlAttributeNode<T> : IAttribute<T>
     {
-        protected Func<string, T> Reader;
-        protected Func<T, string> Writer;
-        T _value;
-        bool _valueHasBeenSet;
+        private Func<string, T> reader;
+        private Func<T, string> writer;
+        private T value;
+        private bool valueHasBeenSet;
 
         public XhtmlAttributeNode(string name, bool renderWhenDefault) : this(name, renderWhenDefault, null, null)
         {
@@ -25,10 +25,10 @@ namespace OpenRasta.Web.Markup.Attributes
 
         public XhtmlAttributeNode(string name, bool renderWhenDefault, Func<T, string> write, Func<string, T> read)
         {
-            Name = name;
-            RendersOnDefaultValue = renderWhenDefault;
-            Writer = write;
-            Reader = read;
+            this.Name = name;
+            this.RendersOnDefaultValue = renderWhenDefault;
+            this.writer = write;
+            this.reader = read;
         }
 
         public string DefaultValue { get; set; }
@@ -37,41 +37,75 @@ namespace OpenRasta.Web.Markup.Attributes
         {
             get
             {
-                if (DefaultValue != null)
+                if (this.DefaultValue != null)
                 {
-                    return DefaultValue.Equals(Writer(Value));
+                    return this.DefaultValue.Equals(this.writer(this.Value));
                 }
 
-                return Writer(Value) == null;
+                return this.writer(this.Value) == null;
             }
         }
 
         public string Name { get; set; }
+
         public bool RendersOnDefaultValue { get; set; }
 
         public string SerializedValue
         {
-            get { return _valueHasBeenSet ? Writer(Value) : DefaultValue; }
+            get
+            {
+                return this.valueHasBeenSet ? this.writer(this.Value) : this.DefaultValue;
+            }
+
             set
             {
-                _valueHasBeenSet = true;
-                Value = Reader(value);
+                this.valueHasBeenSet = true;
+                this.Value = this.reader(value);
             }
         }
 
         public T Value
         {
-            get { return (!_valueHasBeenSet && DefaultValue != null) ? Reader(DefaultValue) : _value; }
+            get
+            {
+                return (!this.valueHasBeenSet && this.DefaultValue != null) ? this.reader(this.DefaultValue) : this.value;
+            }
+
             set
             {
-                _value = value;
-                _valueHasBeenSet = true;
+                this.value = value;
+                this.valueHasBeenSet = true;
+            }
+        }
+
+        public Func<T, string> Writer
+        {
+            get
+            {
+                return this.writer;
+            }
+
+            set
+            {
+                this.writer = value;
+            }
+        }
+
+        public Func<string, T> Reader
+        {
+            get
+            {
+                return this.reader;
+            }
+            set
+            {
+                this.reader = value;
             }
         }
 
         public override string ToString()
         {
-            return SerializedValue;
+            return this.SerializedValue;
         }
     }
 }

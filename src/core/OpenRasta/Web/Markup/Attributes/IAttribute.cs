@@ -7,17 +7,19 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
 
 namespace OpenRasta.Web.Markup.Attributes
 {
     public interface IAttribute
     {
         string Name { get; set; }
+
         string SerializedValue { get; set; }
+
         string DefaultValue { get; set; }
-       
+
         bool IsDefault { get; }
+
         bool RendersOnDefaultValue { get; set; }
     }
 

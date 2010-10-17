@@ -7,14 +7,15 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
 
 // the Style Sheet and the Style Attribute modules.
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_stylemodule
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_styleattributemodule
 namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
     /// <summary>
     /// Represents the &lt;style&gt; element.
     /// </summary>
@@ -23,7 +24,7 @@ namespace OpenRasta.Web.Markup.Modules
                                      IMediaAttribute,
                                      ITitleAttribute,
                                      ITypeAttribute,
-                                     IContentModel<IStyleElement,string>
+                                     IContentModel<IStyleElement, string>
     {
     }
 

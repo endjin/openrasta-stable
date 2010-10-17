@@ -7,33 +7,40 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRasta.Collections;
-using OpenRasta.Web.Markup.Elements;
 
 namespace OpenRasta.Web.Markup.Controls
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.Collections;
+    using OpenRasta.Web.Markup.Elements;
+
     public class ValidationSummaryControl : Element
     {
         public ValidationSummaryControl(IList<Error> errors)
         {
-            if (errors == null) errors = new List<Error>();
+            if (errors == null)
+            {
+                errors = new List<Error>();
+            }
+
             var ulElement = ul;
             var liElements = errors.Select(error => li[error.Message]).ForEach(li=>ulElement.ChildNodes.Add(li));
             var thisElement = this[div.Class("error")[ulElement]];
         }
     }
+
     public static class TagBuilder {}
+    
     public static class ValidationSummaryExtensions
     {
-
         public static Element ValidationErrors(this IXhtmlAnchor anchor, IList<Error> errors)
         {
             if (errors == null || errors.Count == 0)
+            {
                 return null;
+            }
 
             return new ValidationSummaryControl(errors);
         }

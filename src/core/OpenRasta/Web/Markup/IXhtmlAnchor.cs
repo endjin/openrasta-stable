@@ -8,25 +8,23 @@
  */
 #endregion
 
-using System;
-using System.ComponentModel;
-using System.Security.Principal;
-using OpenRasta.Configuration.Fluent;
-using OpenRasta.DI;
-
 namespace OpenRasta.Web.Markup
 {
-    public interface IXhtmlAnchor: IDependencyResolverAccessor, INoIzObject
+    using System.ComponentModel;
+    using System.Security.Principal;
+
+    using OpenRasta.Configuration.Fluent;
+    using OpenRasta.DI;
+    using OpenRasta.Web.Markup.Rendering;
+
+    public interface IXhtmlAnchor : IDependencyResolverAccessor, INoIzObject
     {
         [EditorBrowsable(EditorBrowsableState.Never)]
         IXhtmlWriter AmbientWriter { get; }
+
         IUriResolver Uris { get; }
-        /// <summary>
-        /// Gets the principal object representing the current user's credentials.
-        /// </summary>
+
         IPrincipal User { get; }
-
-
     }
 }
 

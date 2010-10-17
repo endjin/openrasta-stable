@@ -8,77 +8,91 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Collections;
-using OpenRasta.Web.Markup.Elements;
-using OpenRasta.Web.Markup.Modules;
-using OpenRasta.Web.UriDecorators;
-
 namespace OpenRasta.Web.Markup
 {
+    using System;
+
+    using OpenRasta.Collections;
+    using OpenRasta.Web.Markup.Elements;
+    using OpenRasta.Web.Markup.Modules;
+    using OpenRasta.Web.UriDecorators;
+
     public class FormElement : GenericElement
     {
-        Uri _originalAction;
-        public FormElement(bool allowMethodOverrideSyntax)
-            : base("form")
+        private Uri originalAction;
+        private string originalMethod;
+
+        public FormElement(bool allowMethodOverrideSyntax) : base("form")
         {
             ContentModel.Clear();
             ContentModel.AddRange(Document.GetContentModelFor<IFormElement>());
             Attributes.AllowedAttributes = Document.GetAllowedAttributesFor<IFormElement>();
-            IsMethodOverrideActive = allowMethodOverrideSyntax;
+            this.IsMethodOverrideActive = allowMethodOverrideSyntax;
         }
 
-        bool IsMethodOverrideActive { get; set; }
-        string _originalMethod;
-        public override string Method
-        {
-            get{ return _originalMethod ?? Attributes.GetAttribute("method");}
-            set
-            {
-                
-                if (!IsMethodOverrideActive && !IsMethodHtmlFriendly(value))
-                    throw new InvalidOperationException("Cannot use any other method than POST and GET unless you register the {0} uri decorator".With(typeof(HttpMethodOverrideUriDecorator).Name));
-                if (IsMethodOverrideActive && !IsMethodHtmlFriendly(value))
-                {
-                    Attributes.SetAttribute("method", "POST");
-                    _originalMethod = value;
-                    Action = Action;
-                }
-                else
-                {
-                    Attributes.SetAttribute("method",value);
-                    _originalMethod = null;
-                }
-            }
-        }
         public override Uri Action
         { 
             get
             {
-                return _originalAction;
+                return this.originalAction;
             }
             set
             {
-                if (value == null || IsMethodHtmlFriendly(Method))
+                if (value == null || IsMethodHtmlFriendly(this.Method))
                 {
-                    _originalAction = value;
-                    Attributes.SetAttribute("action",value);
+                    this.originalAction = value;
+                    this.Attributes.SetAttribute("action",value);
                 }
                 else
                 {
-                    _originalAction = value;
-                    Attributes.SetAttribute("action",AddHttpOverrider(value,Method));
+                    this.originalAction = value;
+                    this.Attributes.SetAttribute("action",AddHttpOverrider(value,this.Method));
                 }
             }
         }
-        static Uri AddHttpOverrider(Uri uri, string httpMethod)
+
+        public override string Method
+        {
+            get
+            {
+                return this.originalMethod ?? Attributes.GetAttribute("method");
+            }
+
+            set
+            {
+                if (!this.IsMethodOverrideActive && !IsMethodHtmlFriendly(value))
+                {
+                    throw new InvalidOperationException("Cannot use any other method than POST and GET unless you register the {0} uri decorator".With(typeof(HttpMethodOverrideUriDecorator).Name));
+                }
+
+                if (this.IsMethodOverrideActive && !IsMethodHtmlFriendly(value))
+                {
+                    Attributes.SetAttribute("method", "POST");
+                    this.originalMethod = value;
+                    this.Action = this.Action;
+                }
+                else
+                {
+                    Attributes.SetAttribute("method", value);
+                    this.originalMethod = null;
+                }
+            }
+        }
+
+        private bool IsMethodOverrideActive { get; set; }
+
+        private static Uri AddHttpOverrider(Uri uri, string httpMethod)
         {
             var builder = new UriBuilder(uri);
             builder.Path += "!" + httpMethod;
+            
             return builder.Uri;
         }
 
-        static bool IsMethodHtmlFriendly(string method) { return method.EqualsOrdinalIgnoreCase("POST") || method.EqualsOrdinalIgnoreCase("GET"); }
+        private static bool IsMethodHtmlFriendly(string method)
+        {
+            return method.EqualsOrdinalIgnoreCase("POST") || method.EqualsOrdinalIgnoreCase("GET");
+        }
     }
 }
 

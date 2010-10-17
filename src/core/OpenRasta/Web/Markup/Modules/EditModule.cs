@@ -7,13 +7,16 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using OpenRasta.Web.Markup.Attributes;
 
 // Edit module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_editmodule
 namespace OpenRasta.Web.Markup.Modules
 {
+    using System;
+
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
     /// <summary>
     /// Represents the &lt;del&gt; and &lt;ins&gt; elements.
     /// </summary>

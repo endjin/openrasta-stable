@@ -1,36 +1,34 @@
-using System;
-
-namespace OpenRasta.Web.Markup.Attributes
+namespace OpenRasta.Web.Markup.Attributes.Nodes
 {
+    using System;
+
     public class EnumAttributeNode<T> : XhtmlAttributeNode<T>
     {
-        public EnumAttributeNode(string name)
-            : this(name, false) { }
-
-        public EnumAttributeNode(string name, T defaultValue)
-            : this(name, defaultValue, false)
+        public EnumAttributeNode(string name) : this(name, false)
         {
         }
 
-        public EnumAttributeNode(string name, T defaultValue, bool renderWhenDefault)
-            : this(name, renderWhenDefault)
+        public EnumAttributeNode(string name, T defaultValue) : this(name, defaultValue, false)
+        {
+        }
+
+        public EnumAttributeNode(string name, T defaultValue, bool renderWhenDefault) : this(name, renderWhenDefault)
         {
             DefaultValue = Write(defaultValue);
         }
 
-        public EnumAttributeNode(string name, bool renderWhenDefault)
-            : base(name, renderWhenDefault, Write, Read)
+        public EnumAttributeNode(string name, bool renderWhenDefault) : base(name, renderWhenDefault, Write, Read)
         {
         }
 
-        static string Write(T value)
+        private static string Write(T value)
         {
-            return Enum.GetName(typeof (T), value).ToLowerInvariant();
+            return Enum.GetName(typeof(T), value).ToLowerInvariant();
         }
 
-        static T Read(string value)
+        private static T Read(string value)
         {
-            return (T)Enum.Parse(typeof (T), value, true);
+            return (T)Enum.Parse(typeof(T), value, true);
         }
     }
 }

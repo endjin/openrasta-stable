@@ -7,17 +7,19 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System.Collections.Generic;
-using System.Xml;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
 
 namespace OpenRasta.Web.Markup.Attributes
 {
+    using System.Collections.Generic;
+    using System.Xml;
+
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
     public interface IAttributesCore : IIDAttribute, ITitleAttribute
     {
         [NMTOKENS]
         IList<string> Class { get; }
+        
         [XmlSpaceAttribute]
         XmlSpace XmlSpace { get; set; }
     }

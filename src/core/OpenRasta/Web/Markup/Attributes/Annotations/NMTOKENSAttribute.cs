@@ -7,19 +7,27 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
 
 namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
+    using System;
+
+    using OpenRasta.Web.Markup.Attributes.Nodes;
+
     public class NMTOKENSAttribute : XhtmlAttributeCore
     {
-        public NMTOKENSAttribute() { }
-        public NMTOKENSAttribute(string attribName) : base(attribName) { }
+        public NMTOKENSAttribute()
+        {
+        }
+
+        public NMTOKENSAttribute(string attribName) : base(attribName)
+        {
+        }
+
         protected override Func<IAttribute> Factory(string propertyName)
         {
             return () => (IAttribute)new NMTOKENSAttributeNode(propertyName);
         }
-
     }
 }
 

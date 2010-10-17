@@ -7,15 +7,14 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenRasta.Collections;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
 
 namespace OpenRasta.Web.Markup.Attributes
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
     public interface IAcceptAttribute
     {
         [ContentTypes]
@@ -92,14 +91,12 @@ namespace OpenRasta.Web.Markup.Attributes
     {
         [ContentType]
         MediaType Type { get; set; }
-        
     }
 
     public interface ICharSetAttribute
     {
         [Charset]
         string CharSet { get; set; }
-        
     }
 
     public interface ITitleAttribute
@@ -135,11 +132,13 @@ namespace OpenRasta.Web.Markup.Attributes
         [URI]
         Uri LongDesc { get; set; }
     }
+
     public interface IWidthAttribute
     {
         [Length]
         string Width { get; set; }
     }
+
     public interface IWidthHeightAttribute : IWidthAttribute
     {
         [Length]
@@ -153,7 +152,6 @@ namespace OpenRasta.Web.Markup.Attributes
     }
 }
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -172,5 +170,4 @@ namespace OpenRasta.Web.Markup.Attributes
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

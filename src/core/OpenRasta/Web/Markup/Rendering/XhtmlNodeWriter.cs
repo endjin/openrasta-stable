@@ -7,13 +7,13 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using OpenRasta.Collections;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Elements;
-using OpenRasta.Web.Markup.Modules;
 
 namespace OpenRasta.Web.Markup.Rendering
 {
+    using OpenRasta.Collections;
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Elements;
+
     public class XhtmlNodeWriter
     {
         public  virtual void WriteStartTag(IXhtmlWriter writer, IElement element)
@@ -21,40 +21,66 @@ namespace OpenRasta.Web.Markup.Rendering
             if (!string.IsNullOrEmpty(element.TagName))
             {
                 writer.BeginWriteStartElement(element.TagName);
-                element.Attributes.ForEach(a => WriteAttribute(writer, a));
-                if (element.ContentModel.Count == 0) writer.EndWriteStartElementFinal();
-                else writer.EndWriteStartElement();
+                element.Attributes.ForEach(a => this.WriteAttribute(writer, a));
+
+                if (element.ContentModel.Count == 0)
+                {
+                    writer.EndWriteStartElementFinal();
+                }
+                else
+                {
+                    writer.EndWriteStartElement();
+                }
             }
         }
 
         protected virtual void WriteAttribute(IXhtmlWriter writer, IAttribute attribute)
         {
             if (!attribute.IsDefault || attribute.RendersOnDefaultValue)
+            {
                 writer.WriteAttributeString(attribute.Name.ToLowerInvariant(), attribute.SerializedValue);
+            }
         }
 
         public virtual void WriteChildren(IXhtmlWriter writer, IElement element)
         {
-            if (element.ChildNodes.Count > 0) element.ChildNodes.ForEach(child => Write(writer, child));
+            if (element.ChildNodes.Count > 0)
+            {
+                element.ChildNodes.ForEach(child => Write(writer, child));
+            }
         }
 
         public virtual void WriteEndTag(IXhtmlWriter writer, IElement element)
         {
-            if (element.ContentModel.Count > 0) writer.WriteEndElement(element.TagName);
+            if (element.ContentModel.Count > 0)
+            {
+                writer.WriteEndElement(element.TagName);
+            }
         }
 
         public void Write(IXhtmlWriter writer, INode element)
         {
-            if (element is ITextNode) writer.WriteString(((ITextNode) element).Text);
-            else if (element is IAttribute) WriteAttribute(writer, (IAttribute) element);
+            if (element is ITextNode)
+            {
+                writer.WriteString(((ITextNode)element).Text);
+            }
+            else if (element is IAttribute)
+            {
+                this.WriteAttribute(writer, (IAttribute)element);
+            }
             else if (element is IElement)
             {
                 var el = (IElement)element;
                 el.Prepare();
-                if (!el.IsVisible) return;
-                WriteStartTag(writer,el);
-                WriteChildren(writer, el);
-                WriteEndTag(writer, el);
+                
+                if (!el.IsVisible)
+                {
+                    return;
+                }
+
+                this.WriteStartTag(writer, el);
+                this.WriteChildren(writer, el);
+                this.WriteEndTag(writer, el);
             }
         }
     }

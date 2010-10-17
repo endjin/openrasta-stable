@@ -7,55 +7,27 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Text;
-using OpenRasta.Collections;
-using OpenRasta.Web.Markup.Attributes;
 
-namespace OpenRasta.Web.Markup.Attributes
+namespace OpenRasta.Web.Markup.Attributes.Nodes
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
     public class CharacterSeparatedAttributeNode<T> : XhtmlAttributeNode<IList<T>>
     {
-        readonly Func<T, string> _write;
-        readonly Func<string, T> _read;
-        public string SeparatorCharacter { get; set; }
+        private readonly Func<T, string> write;
 
-        public CharacterSeparatedAttributeNode(string name, string separator, Func<T,string> write, Func<string,T> read)
-            : base(name, false)
+        private readonly Func<string, T> read;
+
+        public CharacterSeparatedAttributeNode(string name, string separator, Func<T, string> write, Func<string, T> read) : base(name, false)
         {
-            _write = write;
-            _read = read;
-            Writer = Write;
-            Reader = Read;
+            this.write = write;
+            this.read = read;
+            this.Writer = this.Write;
+            this.Reader = this.Read;
             Value = new List<T>();
-            SeparatorCharacter = separator;
-        }
-
-        string[] Split(string value)
-        {
-            return value.Split(new[]{SeparatorCharacter},StringSplitOptions.RemoveEmptyEntries);
-        }
-
-        IList<T> Read(string value)
-        {
-            string[] entries = Split(value);
-            Value.Clear();
-            foreach(var entry in entries)
-                Value.Add(_read(entry));
-            return Value;
-        }
-
-        string Write(IList<T> values)
-        {
-            var sb = new StringBuilder();
-            foreach(var val in values)
-            {
-                if (sb.Length > 0) sb.Append(SeparatorCharacter);
-                sb.Append(_write(val));
-            }
-            return sb.ToString();
+            this.SeparatorCharacter = separator;
         }
 
         public override bool IsDefault
@@ -64,6 +36,44 @@ namespace OpenRasta.Web.Markup.Attributes
             {
                 return Value.Count == 0;
             }
+        }
+
+        public string SeparatorCharacter { get; set; }
+
+        private string[] Split(string value)
+        {
+            return value.Split(new[] { this.SeparatorCharacter }, StringSplitOptions.RemoveEmptyEntries);
+        }
+
+        private IList<T> Read(string value)
+        {
+            string[] entries = this.Split(value);
+            
+            Value.Clear();
+
+            foreach (var entry in entries)
+            {
+                Value.Add(this.read(entry));
+            }
+
+            return Value;
+        }
+
+        private string Write(IList<T> values)
+        {
+            var sb = new StringBuilder();
+
+            foreach (var val in values)
+            {
+                if (sb.Length > 0)
+                {
+                    sb.Append(this.SeparatorCharacter);
+                }
+
+                sb.Append(this.write(val));
+            }
+
+            return sb.ToString();
         }
     }
 }

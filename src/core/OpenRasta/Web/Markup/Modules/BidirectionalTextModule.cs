@@ -10,13 +10,13 @@
 
 #endregion
 
-using OpenRasta.Web.Markup.Attributes;
-
 // Bi-directional text module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_bdomodule
 
 namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Web.Markup.Attributes;
+
     /// <summary>
     /// Represents the &lt;bdo&gt; element.
     /// </summary>

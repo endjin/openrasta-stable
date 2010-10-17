@@ -7,20 +7,24 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using OpenRasta.Web.Markup.Attributes;
 
 namespace OpenRasta.Web.Markup
 {
+    using OpenRasta.Web.Markup.Attributes;
+
     public static class IAttributesI18NExtensions
     {
-        public static T Dir<T>(this T element, Direction textDirection) where T:IAttributesI18N
+        public static T Dir<T>(this T element, Direction textDirection) where T : IAttributesI18N
         {
             element.Dir = textDirection;
+
             return element;
         }
+
         public static T XmlLang<T>(this T element, string language) where T : IAttributesI18N
         {
             element.XmlLang = language;
+
             return element;
         }
     }

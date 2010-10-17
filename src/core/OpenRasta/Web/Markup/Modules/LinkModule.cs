@@ -7,15 +7,13 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenRasta.Web.Markup.Attributes;
 
 // the Link Module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_linkmodule
 namespace OpenRasta.Web.Markup.Elements
 {
+    using OpenRasta.Web.Markup.Attributes;
+
     /// <summary>
     /// Represents the &lt;link&gt; element.
     /// </summary>

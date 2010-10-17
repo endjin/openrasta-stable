@@ -7,22 +7,26 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System.Xml;
-using OpenRasta.Web.Markup.Attributes;
 
 namespace OpenRasta.Web.Markup
 {
+    using System.Xml;
+
+    using OpenRasta.Web.Markup.Attributes;
+
     public static class IAttributesCoreExtensions
     {
         public static T Class<T>(this T element, string className) where T : IAttributesCore
         {
             element.Class.Add(className);
+            
             return element;
         }
 
         public static T XmlSpace<T>(this T element, XmlSpace xmlSpace) where T : IAttributesCore
         {
             element.XmlSpace = xmlSpace;
+
             return element;
         }
     }

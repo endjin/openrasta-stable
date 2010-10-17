@@ -1,24 +1,34 @@
-using System;
-
 namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
+    using System;
+
+    using OpenRasta.Web.Markup.Attributes.Nodes;
+
     public abstract class PrimaryTypeAttributeCore : XhtmlAttributeCore
     {
-        readonly Func<string, Func<IAttribute>> _factory;
-        protected PrimaryTypeAttributeCore() {}
-        protected PrimaryTypeAttributeCore(Func<string,Func<IAttribute>> factory) : this(null,factory) {}
-        protected PrimaryTypeAttributeCore(string attribName,Func<string,Func<IAttribute>> factory) : base(attribName)
+        private readonly Func<string, Func<IAttribute>> factory;
+
+        protected PrimaryTypeAttributeCore()
         {
-            _factory = factory;
+        }
+
+        protected PrimaryTypeAttributeCore(Func<string, Func<IAttribute>> factory) : this(null, factory)
+        {
+        }
+
+        protected PrimaryTypeAttributeCore(string attribName, Func<string, Func<IAttribute>> factory) : base(attribName)
+        {
+            this.factory = factory;
         }
 
         public static Func<IAttribute> Factory<T>(string propertyName)
         {
-            return () => (IAttribute) new PrimaryTypeAttributeNode<T>(propertyName);
+            return () => (IAttribute)new PrimaryTypeAttributeNode<T>(propertyName);
         }
+
         protected override Func<IAttribute> Factory(string propertyName)
         {
-            return _factory(propertyName);
+            return this.factory(propertyName);
         }
     }
 }

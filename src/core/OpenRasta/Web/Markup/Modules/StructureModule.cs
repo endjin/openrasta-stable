@@ -7,16 +7,18 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
-using OpenRasta.Web.Markup.Modules;
 
 // Structure module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_structuremodule
 namespace OpenRasta.Web.Markup.Elements
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+    using OpenRasta.Web.Markup.Modules;
+
     /// <summary>
     /// Represents the &lt;html&gt; element.
     /// </summary>
@@ -27,7 +29,8 @@ namespace OpenRasta.Web.Markup.Elements
     {
         [CDATA]
         string Version { get; set; }
-        [URI("http://www.w3.org/1999/xhtml",true)]
+
+        [URI("http://www.w3.org/1999/xhtml", true)]
         Uri XmlNS { get; set; }
     }
 

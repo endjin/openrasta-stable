@@ -544,7 +544,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Compat\" />
-    <Folder Include="Web\Codecs\" />
     <Folder Include="Web\Filters\" />
     <Folder Include="Web\Pipeline\" />
   </ItemGroup>

@@ -10,15 +10,63 @@
 
 #endregion
 
-using System.Collections.Generic;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
-
 // The Table module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_tablemodule
 
 namespace OpenRasta.Web.Markup.Modules
 {
+    using System.Collections.Generic;
+
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
+    public enum Alignment
+    {
+        Left,
+        Center,
+        Right,
+        Justify,
+        Char
+    }
+
+    public enum Frame
+    {
+        Void,
+        Above,
+        Below,
+        Hsides,
+        Lhs,
+        Rhs,
+        Vsides,
+        Box,
+        Borer
+    }
+
+    public enum Rules
+    {
+        None,
+        Groups,
+        Rows,
+        Cols,
+        All
+    }
+
+    public enum Scope
+    {
+        Row,
+        Col,
+        RowGroup,
+        ColGroup
+    }
+
+    public enum VerticalAlignment
+    {
+        Top,
+        Middle,
+        Bottom,
+        Baseline
+    }
+
     /// <summary>
     /// Represents the &lt;caption&gt; element.
     /// </summary>
@@ -40,18 +88,22 @@ namespace OpenRasta.Web.Markup.Modules
                                      IContentModel<ITableElement, ITBodyElement>,
                                      IContentModel<ITableElement, ITFootElement>,
                                      IContentSetBlock
-
     {
         [Pixels]
         int? Border { get; set; }
+
         [Length]
         string CellPadding { get; set; }
+        
         [Length]
         string CellSpacing { get; set; }
+        
         [Frame]
         Frame Frame { get; set; }
+        
         [Rules]
         Rules Rules { get; set; }
+        
         [Text]
         string Summary { get; set; }
     }
@@ -105,6 +157,7 @@ namespace OpenRasta.Web.Markup.Modules
         [Number(DefaultValue = "1")]
         int? Span { get; set; }
     }
+
     /// <summary>
     /// Defines the &lt;col&gt; element.
     /// </summary>
@@ -167,7 +220,6 @@ namespace OpenRasta.Web.Markup.Modules
         VerticalAlignment Valign { get; set; }
     }
 
-
     public interface ICharAttribute
     {
         [Character]
@@ -182,74 +234,44 @@ namespace OpenRasta.Web.Markup.Modules
         Alignment Align { get; set; }
     }
 
-    public enum Scope
-    {
-        Row,
-        Col,
-        RowGroup,
-        ColGroup
-    }
     public class ScopeAttribute : EnumAttributeCore
     {
-        public ScopeAttribute() : base(Factory<Scope>){}
+        public ScopeAttribute() : base(Factory<Scope>)
+        {
+        }
     }
-    public enum Alignment
-    {
-        Left,
-        Center,
-        Right,
-        Justify,
-        Char
-    }
+
     public class AlignmentAttribute : EnumAttributeCore
     {
-        public AlignmentAttribute(): base(Factory<Alignment>){}
+        public AlignmentAttribute() : base(Factory<Alignment>)
+        {
+        }
     }
-    public enum VerticalAlignment
+
+    public class VerticalAlignmentAttribute : EnumAttributeCore
     {
-        Top,
-        Middle,
-        Bottom,
-        Baseline
+        public VerticalAlignmentAttribute() : base(Factory<VerticalAlignment>)
+        {
+        }
     }
-    public class VerticalAlignmentAttribute:EnumAttributeCore
-    {
-        public VerticalAlignmentAttribute(): base(Factory<VerticalAlignment>){}
-    }
-    public enum Rules
-    {
-        None,
-        Groups,
-        Rows,
-        Cols,
-        All
-    }
+
     public class RulesAttribute : EnumAttributeCore
     {
-        public RulesAttribute() : base(Factory<Rules>){}
-    }
-    public enum Frame
-    {
-        Void,
-        Above,
-        Below,
-        Hsides,
-        Lhs,
-        Rhs,
-        Vsides,
-        Box,
-        Borer
+        public RulesAttribute() : base(Factory<Rules>)
+        {
+        }
     }
 
     public class FrameAttribute : EnumAttributeCore
     {
-        public FrameAttribute() : base(Factory<Frame>) { }
+        public FrameAttribute() : base(Factory<Frame>)
+        {
+        }
     }
 }
 
 #region Full license
 
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -268,6 +290,5 @@ namespace OpenRasta.Web.Markup.Modules
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 
 #endregion

@@ -7,11 +7,12 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using OpenRasta.Web.Markup.Elements;
-using OpenRasta.Web.Markup.Modules;
 
 namespace OpenRasta.Web.Markup.Rendering
 {
+    using OpenRasta.Web.Markup.Elements;
+    using OpenRasta.Web.Markup.Modules;
+
     public interface IXhtmlTagBuilder
     {
         IBodyElement body { get; }

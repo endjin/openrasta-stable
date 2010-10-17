@@ -10,16 +10,17 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
-
 // Defines the Forms module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_extformsmodule
 
 namespace OpenRasta.Web.Markup.Modules
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
     /// <summary>
     /// Represents the &lt;form&gt; element.
     /// </summary>

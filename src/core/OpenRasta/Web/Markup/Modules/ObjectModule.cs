@@ -10,16 +10,24 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
-using OpenRasta.Web.Markup.Modules;
-
 // The object module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_objectmodule
 namespace OpenRasta.Web.Markup.Elements
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+    using OpenRasta.Web.Markup.Modules;
+
+    public enum ParamValueType
+    {
+        Data,
+        Ref,
+        Object
+    }
+
     /// <summary>
     /// Represents the &lt;object&gt; element
     /// </summary>
@@ -74,13 +82,6 @@ namespace OpenRasta.Web.Markup.Elements
             : base(Factory<ParamValueType>)
         {
         }
-    }
-
-    public enum ParamValueType
-    {
-        Data,
-        Ref,
-        Object
     }
 }
 

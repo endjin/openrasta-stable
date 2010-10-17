@@ -7,17 +7,25 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
 
 namespace OpenRasta.Web.Markup.Attributes
 {
+    using System;
+    using System.Collections.Generic;
+
     public interface IAttributeCollection : IList<IAttribute>
     {
-        IAttribute this[string key] { get; set; }
         IDictionary<string, Func<IAttribute>> AllowedAttributes { get; set; }
+
+        IAttribute this[string key]
+        {
+            get; set;
+        }
+
         string GetAttribute(string attributeName);
+
         T GetAttribute<T>(string attributeName);
+
         void SetAttribute<T>(string attributeName, T value);
     }
 }

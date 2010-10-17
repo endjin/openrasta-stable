@@ -10,11 +10,10 @@
 
 #endregion
 
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
-
 namespace OpenRasta.Web.Markup
 {
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
     public enum Direction
     {
         Ltr,
@@ -23,8 +22,7 @@ namespace OpenRasta.Web.Markup
 
     public class DirectionAttributeAttribute : EnumAttributeCore
     {
-        public DirectionAttributeAttribute()
-            : base(Factory<Direction>)
+        public DirectionAttributeAttribute() : base(Factory<Direction>)
         {
         }
     }

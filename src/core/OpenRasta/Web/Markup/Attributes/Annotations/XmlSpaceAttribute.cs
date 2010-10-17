@@ -7,16 +7,19 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System.Xml;
-using OpenRasta.Web.Markup.Attributes.Annotations;
 
-namespace OpenRasta.Web.Markup.Attributes
+namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
+    using System.Xml;
+
     public class XmlSpaceAttribute : PrimaryTypeAttributeCore
     {
-        public XmlSpaceAttribute():base("xml:space",Factory<XmlSpace>){}
+        public XmlSpaceAttribute() : base("xml:space", Factory<XmlSpace>)
+        {
+        }
     }
 }
+
 #region Full license
 //
 // Permission is hereby granted, free of charge, to any person obtaining

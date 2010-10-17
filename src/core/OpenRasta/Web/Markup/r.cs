@@ -7,9 +7,6 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace OpenRasta.Web.Markup
 {
@@ -19,6 +16,7 @@ namespace OpenRasta.Web.Markup
         {
             return new r { Value = text };
         }
+
         public static implicit operator string(r val)
         {
             return val.Value;
@@ -27,7 +25,6 @@ namespace OpenRasta.Web.Markup
 }
 
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -46,5 +43,4 @@ namespace OpenRasta.Web.Markup
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

@@ -21,6 +21,7 @@ namespace OpenRasta.CodeDom.Compiler
 
     using OpenRasta.DI;
     using OpenRasta.Web.Markup;
+    using OpenRasta.Web.Markup.Rendering;
 
     public class ExtensibleCSharpCodeProvider : CSharpCodeProvider
     {

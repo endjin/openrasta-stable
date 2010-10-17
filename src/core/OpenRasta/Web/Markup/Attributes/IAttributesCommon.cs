@@ -7,12 +7,16 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using OpenRasta.Web.Markup.Modules;
 
 namespace OpenRasta.Web.Markup.Attributes
 {
-    public interface IAttributesCommon : IAttributesCore,IAttributesI18N,IStyleAttribute{}
+    using OpenRasta.Web.Markup.Modules;
+
+    public interface IAttributesCommon : IAttributesCore, IAttributesI18N, IStyleAttribute
+    {
+    }
 }
+
 #region Full license
 //
 // Permission is hereby granted, free of charge, to any person obtaining

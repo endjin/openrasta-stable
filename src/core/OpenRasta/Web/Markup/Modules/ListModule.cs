@@ -10,13 +10,12 @@
 
 #endregion
 
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Modules;
-
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_listmodule
 
-namespace OpenRasta.Web.Markup.Elements
+namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Web.Markup.Attributes;
+
     /// <summary>
     /// Represents the &lt;dl&gt; element
     /// </summary>

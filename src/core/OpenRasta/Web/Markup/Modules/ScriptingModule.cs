@@ -10,14 +10,13 @@
 
 #endregion
 
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
-using OpenRasta.Web.Markup.Modules;
-
 // the Scripting Module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_scriptmodule
-namespace OpenRasta.Web.Markup.Elements
+namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
     /// <summary>
     /// Represents the &lt;script&lt; element.
     /// </summary>

@@ -10,14 +10,15 @@
 
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Xml;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Modules;
-
 namespace OpenRasta.Web.Markup.Elements
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Xml;
+
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Modules;
+
     public class GenericElement : Element,
                                   IBodyElement, IHeadElement, IHtmlElement, ITitleElement, IHElement, IAddressElement, IBlockQuoteElement, IDivElement, IPreElement, IQElement,
                                   IAElement, IDlElement, IDtElement, IDdElement, IListElement, ILiElement, IEditElement, IImgElement, IFormElement, IInputCheckedElement,
@@ -43,6 +44,7 @@ namespace OpenRasta.Web.Markup.Elements
         {
             get { return this[new TextNode(child)]; }
         }
+
         IAddressElement IContentModel<IAddressElement, string>.this[string child]
         {
             get { return this[child]; }

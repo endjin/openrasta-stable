@@ -10,14 +10,13 @@
 
 #endregion
 
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Modules;
-
 // Text module and presentation module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_textmodule
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_presentationmodule
-namespace OpenRasta.Web.Markup.Elements
+namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Web.Markup.Attributes;
+
     /// <summary>
     /// Represents the &lt;address&gt; element.
     /// </summary>
@@ -50,7 +49,6 @@ namespace OpenRasta.Web.Markup.Elements
     {
     }
 
-
     /// <summary>
     /// Represents the &lt;p&gt; element.
     /// </summary>
@@ -74,7 +72,6 @@ namespace OpenRasta.Web.Markup.Elements
     public interface IQElement : IInlineElement,
                                  ICiteAttribute
     {
-
     }
 
     /// <summary>
@@ -86,6 +83,7 @@ namespace OpenRasta.Web.Markup.Elements
                                       IContentModel<IInlineElement, IContentSetInline>
     {
     }
+
     /// <summary>
     /// Represents the &lt;h1&gt;, &lt;h2&gt;, &lt;h3&gt;, &lt;h4&gt;, &lt;h5&gt; and &lt;h6&gt; elements.
     /// </summary>
@@ -108,7 +106,6 @@ namespace OpenRasta.Web.Markup.Elements
 
 #region Full license
 
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -127,6 +124,5 @@ namespace OpenRasta.Web.Markup.Elements
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 
 #endregion

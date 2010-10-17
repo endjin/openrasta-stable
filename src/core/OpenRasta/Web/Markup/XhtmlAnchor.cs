@@ -8,35 +8,44 @@
  */
 #endregion
 
-using System;
-using System.Security.Principal;
-using OpenRasta.DI;
-
 namespace OpenRasta.Web.Markup
 {
+    using System;
+    using System.Security.Principal;
+
+    using OpenRasta.DI;
+    using OpenRasta.Web.Markup.Rendering;
+
     /// <summary>
     /// Marker class used to provide xhtml-related functionality from within pages using extension methods.
     /// </summary>
     public class XhtmlAnchor : IXhtmlAnchor
     {
-        readonly IDependencyResolver _resolver;
-        readonly Func<IPrincipal> _userGetter;
+        private readonly IDependencyResolver resolver;
+        private readonly Func<IPrincipal> userGetter;
 
-        public XhtmlAnchor(IDependencyResolver resolver, IXhtmlWriter writer, Func<IPrincipal> userGetter )
+        public XhtmlAnchor(IDependencyResolver resolver, IXhtmlWriter writer, Func<IPrincipal> userGetter)
         {
-            _resolver = resolver;
-            this._userGetter = userGetter;
-            AmbientWriter = writer;
+            this.resolver = resolver;
+            this.userGetter = userGetter;
+            this.AmbientWriter = writer;
         }
 
         public IXhtmlWriter AmbientWriter { get; private set; }
 
-        public IUriResolver Uris { get { return _resolver.Resolve<IUriResolver>(); } }
-        public IPrincipal User { get { return _userGetter();}}
+        public IUriResolver Uris
+        {
+            get { return this.resolver.Resolve<IUriResolver>(); }
+        }
+
+        public IPrincipal User
+        {
+            get { return this.userGetter(); }
+        }
 
         public IDependencyResolver Resolver
         {
-            get { return _resolver; }
+            get { return this.resolver; }
         }
     }
 }

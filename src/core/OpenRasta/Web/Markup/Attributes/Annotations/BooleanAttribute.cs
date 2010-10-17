@@ -8,10 +8,12 @@
  */
 #endregion
 
-using System;
-
 namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
+    using System;
+
+    using OpenRasta.Web.Markup.Attributes.Nodes;
+
     /// <summary>
     /// Represents a boolean sgmml attribute, of the form attrib="attrib"
     /// </summary>

@@ -10,19 +10,17 @@
 
 #endregion
 
-using OpenRasta.Web.Markup.Attributes;
-
 // Base module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_basemodule
 
 namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Web.Markup.Attributes;
+
     /// <summary>
     /// Represents the &lt;base&gt; element.
     /// </summary>
-    public interface IBaseElement : IElement,
-                                    IHrefAttribute,
-                                    IIDAttribute
+    public interface IBaseElement : IElement, IHrefAttribute, IIDAttribute
     {
     }
 }

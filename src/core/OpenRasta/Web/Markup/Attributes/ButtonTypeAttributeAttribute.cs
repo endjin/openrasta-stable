@@ -8,13 +8,15 @@
  */
 #endregion
 
-using OpenRasta.Web.Markup.Attributes.Annotations;
-
 namespace OpenRasta.Web.Markup.Attributes
 {
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
     public class ButtonTypeAttributeAttribute : PrimaryTypeAttributeCore
     {
-        public ButtonTypeAttributeAttribute():base(Factory<ButtonType>) {}
+        public ButtonTypeAttributeAttribute() : base(Factory<ButtonType>)
+        {
+        }
     }
 }
 #region Full license

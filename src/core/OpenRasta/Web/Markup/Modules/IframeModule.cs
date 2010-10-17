@@ -10,14 +10,21 @@
 
 #endregion
 
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Attributes.Annotations;
-
 // IFrame module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_iframemodule
 
 namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Attributes.Annotations;
+
+    public enum Scrolling
+    {
+        Yes,
+        No,
+        Auto
+    }
+
     /// <summary>
     /// Represents the &lt;iframe&gt; element.
     /// </summary>
@@ -44,16 +51,9 @@ namespace OpenRasta.Web.Markup.Modules
 
     public class ScrollingAttribute : EnumAttributeCore
     {
-        public ScrollingAttribute()
-            : base(Factory<Scrolling>)
+        public ScrollingAttribute() : base(Factory<Scrolling>)
         {
         }
-    }
-    public enum Scrolling
-    {
-        Yes,
-        No,
-        Auto
     }
 }
 

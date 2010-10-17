@@ -7,38 +7,36 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using OpenRasta.Web.Markup.Attributes;
 
-namespace OpenRasta.Web.Markup.Attributes
+namespace OpenRasta.Web.Markup.Attributes.Nodes
 {
+    using System;
+
     public class PrimaryTypeAttributeNode<T> : XhtmlAttributeNode<T>
     {
-        public PrimaryTypeAttributeNode(string name)
-            : this(name, false) { }
-        public PrimaryTypeAttributeNode(string name, bool renderWhenDefault)
-            : base(name, renderWhenDefault, Write, Read)
-        {
-
-        }
-
-        public PrimaryTypeAttributeNode(string name, T defaultValue)
-            : this(name, defaultValue, false)
+        public PrimaryTypeAttributeNode(string name) : this(name, false)
         {
         }
 
-        public PrimaryTypeAttributeNode(string name, T defaultValue, bool renderWhenDefault)
-            : base(name, renderWhenDefault, Write, Read)
+        public PrimaryTypeAttributeNode(string name, bool renderWhenDefault) : base(name, renderWhenDefault, Write, Read)
+        {
+        }
+
+        public PrimaryTypeAttributeNode(string name, T defaultValue) : this(name, defaultValue, false)
+        {
+        }
+
+        public PrimaryTypeAttributeNode(string name, T defaultValue, bool renderWhenDefault) : base(name, renderWhenDefault, Write, Read)
         {
             DefaultValue = Write(defaultValue);
         }
 
-        static string Write(T value)
+        private static string Write(T value)
         {
             return (string)Convert.ChangeType(value, typeof(string));
         }
 
-        static T Read(string value)
+        private static T Read(string value)
         {
             return (T)Convert.ChangeType(value, typeof(T));
         }

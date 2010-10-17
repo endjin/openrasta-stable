@@ -7,11 +7,12 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using OpenRasta.Web.Markup.Attributes;
 
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_hypertextmodule
 namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Web.Markup.Attributes;
+
     /// <summary>
     /// Represents the &lt;a&gt; element
     /// </summary>

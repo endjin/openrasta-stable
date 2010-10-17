@@ -8,75 +8,10 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Collections;
-
 namespace OpenRasta.Web.Markup
 {
-    public class SelectElement //: ContainerElement<SelectElement,OptionElement>, INameValueElement
+    public class SelectElement 
     {
-        public SelectElement()
-        {
-        }
-
-        // : base("select") { }
-
-        //public string Name
-        //{
-        //    get { return Attributes["name"]; }
-        //    set
-        //    {
-        //        if (Attributes.ContainsKey("name") && value == null)
-        //            Attributes.Remove("name");
-        //        else
-        //            Attributes["name"] = value;
-        //    }
-        //}
-        //string _pendingValue;
-        //public string Value
-        //{
-        //    get
-        //    {
-        //        if (_pendingValue != null) return _pendingValue;
-        //        var option = SelectedOption;
-        //        return option != null ? option.Value : null;
-        //    }
-        //    set
-        //    {
-        //        var optionTag = Children.FirstOrDefault(o=>o.Value == value);
-        //        if (optionTag != null)
-        //        {
-        //            _pendingValue = null;
-        //            optionTag.Selected = true;
-        //        }
-        //        else
-        //            _pendingValue = value;
-        //    }
-        //}
-        //private OptionElement SelectedOption { get { return Children.FirstOrDefault(o => o.Selected == true); } }
-        //protected override void OnChildAdded(OptionElement child)
-        //{
-        //    if (_pendingValue != null)
-        //    {
-        //        child.Selected = (_pendingValue != null && child.Value == _pendingValue);
-        //    }
-        //    else
-        //        child.Selected = false;
-        //    base.OnChildAdded(child);
-        //}
-        //protected override void OnChildRemoved(OptionElement child)
-        //{
-        //    if (child.Value == Value)
-        //        _pendingValue = child.Value;
-        //    base.OnChildRemoved(child);
-        //}
-        //public override void WriteAll(IXhtmlWriter writer)
-        //{
-        //    if (_pendingValue != null)
-        //        throw new InvalidOperationException("An <option> wasn't found with value {0}".With(_pendingValue));
-        //    base.WriteAll(writer);
-        //}
-        //public int? Size { get { return GetAttribute<int>("size"); } set { SetAttribute("size", value); } }
     }
 }
 

@@ -7,43 +7,44 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Security.Principal;
-using System.Text;
-using OpenRasta.Web.Markup.Modules;
-using OpenRasta.Web.Markup.Rendering;
 
 namespace OpenRasta.Web.Markup
 {
+    using System;
+
+    using OpenRasta.Web.Markup.Modules;
+    using OpenRasta.Web.Markup.Rendering;
+
     public interface IXhtmlAnchorSite
     {
         IXhtmlAnchor Xhtml { get; }
     }
+
     public static class IXhtmlAnchorSiteExtensions
     {
         public static IDisposable scope(this IXhtmlAnchorSite site, IContentModel element)
         {
             var nodeWriter = new XhtmlNodeWriter();
-            nodeWriter.WriteStartTag(site.Xhtml.AmbientWriter,element);
+            nodeWriter.WriteStartTag(site.Xhtml.AmbientWriter, element);
             return new NodeWriterTerminator(nodeWriter, site.Xhtml.AmbientWriter, element);
         }
+
         private class NodeWriterTerminator : IDisposable
         {
-            readonly XhtmlNodeWriter _nodeWriter;
-            readonly IXhtmlWriter _writer;
-            readonly IElement _element;
+            private readonly XhtmlNodeWriter nodeWriter;
+            private readonly IXhtmlWriter writer;
+            private readonly IElement element;
 
             public NodeWriterTerminator(XhtmlNodeWriter nodeWriter, IXhtmlWriter writer, IElement element)
             {
-                _nodeWriter = nodeWriter;
-                _writer = writer;
-                _element = element;
+                this.nodeWriter = nodeWriter;
+                this.writer = writer;
+                this.element = element;
             }
 
             public void Dispose()
             {
-                _nodeWriter.WriteEndTag(_writer,_element);
+                this.nodeWriter.WriteEndTag(this.writer, this.element);
             }
         }
     }

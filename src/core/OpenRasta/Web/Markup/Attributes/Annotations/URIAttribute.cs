@@ -7,28 +7,33 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
 
-namespace OpenRasta.Web.Markup.Attributes
+namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
+    using System;
+
+    using OpenRasta.Web.Markup.Attributes.Nodes;
+
     public class URIAttribute : XhtmlAttributeCore
     {
-        bool _renderOnDefault;
+        private readonly bool renderOnDefault;
+
         public URIAttribute()
         {
         }
-        public URIAttribute(string name, bool renderOnDefault)
-            : base(name)
+        
+        public URIAttribute(string name, bool renderOnDefault) : base(name)
         {
-            _renderOnDefault = renderOnDefault;
+            this.renderOnDefault = renderOnDefault;
         }
 
         protected override Func<IAttribute> Factory(string propertyName)
         {
-            return () => (IAttribute)new XhtmlAttributeNode<Uri>(propertyName, _renderOnDefault, u => u.ToString(), s => new Uri(s, UriKind.RelativeOrAbsolute));
+            return () => (IAttribute)new XhtmlAttributeNode<Uri>(propertyName, this.renderOnDefault, u => u.ToString(), s => new Uri(s, UriKind.RelativeOrAbsolute));
         }
     }
 }
+
 #region Full license
 //
 // Permission is hereby granted, free of charge, to any person obtaining

@@ -8,46 +8,44 @@
  */
 #endregion
 
-using System;
-using System.IO;
-using System.Text;
-
-namespace OpenRasta.Web.Markup
+namespace OpenRasta.Web.Markup.Rendering
 {
+    using System;
+    using System.IO;
+    using System.Text;
+
     public class XhtmlTextWriter : IXhtmlWriter, ISupportsTextWriter
     {
-        const string TAG_ATTR = " {0}=\"{1}\"";
-        const string TAG_END = "</{0}>";
-        const string TAG_START_BEGIN = "<{0}";
-        const string TAG_START_END = ">";
-        const string TAG_START_END_FINAL = " />";
+        private const string TagAttr = " {0}=\"{1}\"";
+        private const string TagEnd = "</{0}>";
+        private const string TagStartBegin = "<{0}";
+        private const string TagStartEnd = ">";
+        private const string TagStartEndFinal = " />";
 
         public XhtmlTextWriter(TextWriter source)
         {
             if (source == null)
+            {
                 throw new ArgumentNullException("source", "source is null.");
+            }
+
             TextWriter = source;
         }
 
-        public TextWriter TextWriter { get; private set; }
-
-        public void BeginWriteStartElement(string TagName) { TextWriter.Write(TAG_START_BEGIN.With(TagName)); }
-
-        public void EndWriteStartElement() { TextWriter.Write(TAG_START_END); }
-        public void EndWriteStartElementFinal() { TextWriter.Write(TAG_START_END_FINAL); }
-
-        public void WriteEndElement(string tagName) { TextWriter.Write(TAG_END.With(tagName)); }
-
-        public void WriteAttributeString(string key, string value) { TextWriter.Write(TAG_ATTR.With(key, HtmlEncode(value))); }
-        public void WriteString(string content) { TextWriter.Write(HtmlEncode(content)); }
-
-        public void WriteUnencodedString(string content) { TextWriter.Write(content); }
+        public TextWriter TextWriter
+        {
+            get; private set;
+        }
 
         public static string HtmlEncode(string source)
         {
             if (source == null)
+            {
                 return null;
-            StringBuilder builder = new StringBuilder();
+            }
+
+            var builder = new StringBuilder();
+            
             foreach (var c in source)
             {
                 switch (c)
@@ -57,20 +55,55 @@ namespace OpenRasta.Web.Markup
                     case '&':
                     case '<':
                     case '>':
-                        builder.Append("&#").Append((int) c).Append(';');
+                        builder.Append("&#").Append((int)c).Append(';');
                         break;
                     default:
                         builder.Append(c);
                         break;
                 }
             }
+
             return builder.ToString();
+        }
+
+        public void BeginWriteStartElement(string tagName)
+        {
+            TextWriter.Write(TagStartBegin.With(tagName));
+        }
+
+        public void EndWriteStartElement()
+        {
+            TextWriter.Write(TagStartEnd);
+        }
+
+        public void EndWriteStartElementFinal()
+        {
+            TextWriter.Write(TagStartEndFinal);
+        }
+
+        public void WriteEndElement(string tagName)
+        {
+            TextWriter.Write(TagEnd.With(tagName));
+        }
+
+        public void WriteAttributeString(string key, string value)
+        {
+            TextWriter.Write(TagAttr.With(key, HtmlEncode(value)));
+        }
+
+        public void WriteString(string content)
+        {
+            TextWriter.Write(HtmlEncode(content));
+        }
+
+        public void WriteUnencodedString(string content)
+        {
+            TextWriter.Write(content);
         }
     }
 }
 
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -89,5 +122,4 @@ namespace OpenRasta.Web.Markup
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

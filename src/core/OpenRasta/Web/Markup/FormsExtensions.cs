@@ -7,39 +7,38 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using OpenRasta.DI;
-using OpenRasta.Collections;
-using OpenRasta.Web.Markup.Modules;
-using OpenRasta.Web.UriDecorators;
-using System.IO;
 
 namespace OpenRasta.Web.Markup
 {
+    using OpenRasta.DI;
+    using OpenRasta.Web.Markup.Modules;
+    using OpenRasta.Web.UriDecorators;
+
     public static class FormsExtensions
     {
-        private static bool IsUriMethodOverrideActive(IDependencyResolver resolver)
-        {
-                return resolver.HasDependencyImplementation(typeof (IUriDecorator), typeof (HttpMethodOverrideUriDecorator));
-         
-        }
         public static IFormElement Form(this IXhtmlAnchor anchor, object resourceInstance)
         {
             return new FormElement(IsUriMethodOverrideActive(anchor.Resolver)).Action(resourceInstance.CreateUri());
         }
+
         public static IFormElement Form<TResource>(this IXhtmlAnchor anchor)
         {
             return new FormElement(IsUriMethodOverrideActive(anchor.Resolver)).Action(anchor.Uris.CreateUriFor<TResource>());
         }
+        
         public static IAElement Link<T>(this IXhtmlAnchor anchor)
         {
             return Document.CreateElement<IAElement>().Href(anchor.Uris.CreateUriFor<T>());
         }
+        
         public static IAElement Link(this IXhtmlAnchor anchor, object instance)
         {
             return Document.CreateElement<IAElement>().Href(instance.CreateUri());
+        }
+
+        private static bool IsUriMethodOverrideActive(IDependencyResolver resolver)
+        {
+            return resolver.HasDependencyImplementation(typeof(IUriDecorator), typeof(HttpMethodOverrideUriDecorator));
         }
     }
 }

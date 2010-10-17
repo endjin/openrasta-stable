@@ -1,10 +1,13 @@
-using OpenRasta.Web.Markup.Attributes.Annotations;
-
-namespace OpenRasta.Web.Markup.Attributes
+namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
     public class LinkTypesAttribute : NMTOKENSAttribute
     {
-        public LinkTypesAttribute() { }
-        public LinkTypesAttribute(string attribName) : base(attribName) { }
+        public LinkTypesAttribute()
+        {
+        }
+
+        public LinkTypesAttribute(string attribName) : base(attribName)
+        {
+        }
     }
 }

@@ -7,17 +7,22 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using OpenRasta.Web.Markup.Attributes;
 
 namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
+    using System;
+
+    using OpenRasta.Web.Markup.Attributes.Nodes;
+
     public class ContentTypeAttribute : XhtmlAttributeCore
     {
         public ContentTypeAttribute()
         {
         }
-        public ContentTypeAttribute(string attribName) : base(attribName) { }
+
+        public ContentTypeAttribute(string attribName) : base(attribName)
+        {
+        }
 
         protected override Func<IAttribute> Factory(string propertyName)
         {

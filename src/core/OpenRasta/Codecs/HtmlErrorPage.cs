@@ -4,6 +4,7 @@ namespace OpenRasta.Codecs
 
     using OpenRasta.Web.Markup;
     using OpenRasta.Web.Markup.Elements;
+    using OpenRasta.Web.Markup.Modules;
 
     public class HtmlErrorPage : Element
     {

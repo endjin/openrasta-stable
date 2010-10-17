@@ -7,33 +7,51 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Collections;
 
 namespace OpenRasta.Web.Markup
 {
-    public interface INode{}
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Attributes.Nodes;
+
+    public interface INode
+    {
+    }
+
     public interface IElement : INode
     {
         IList<INode> ChildNodes { get; }
+
         IEnumerable<IElement> ChildElements { get; }
+
         string TagName { get; set; }
+
         IAttributeCollection Attributes { get; }
+
         IList<Type> ContentModel { get; }
+
         string InnerText { get; }
+
         string OuterXml { get; }
+
         bool IsVisible { get; set; }
+
         void Prepare();
     }
+
     public static class IElementExtensions
     {
-        public static T Attr<T>(this T element, string attributeName, string attributeValue)
-            where T:IElement
+        public static T Attr<T>(this T element, string attributeName, string attributeValue) where T:IElement
         {
-            if (element.Attributes[attributeName] == null) element.Attributes[attributeName] = new PrimaryTypeAttributeNode<string>(attributeName, true);
+            if (element.Attributes[attributeName] == null)
+            {
+                element.Attributes[attributeName] = new PrimaryTypeAttributeNode<string>(attributeName, true);
+            }
+
             element.Attributes[attributeName].SerializedValue = attributeValue;
+            
             return element;
         }
     }

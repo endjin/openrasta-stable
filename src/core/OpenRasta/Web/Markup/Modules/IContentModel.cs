@@ -9,11 +9,16 @@
 #endregion
 namespace OpenRasta.Web.Markup.Modules
 {
-    public interface IContentModel : IElement {}
+    public interface IContentModel : IElement
+    {
+    }
 
     public interface IContentModel<TElement, TChild> : IContentModel
     {
-        TElement this[TChild child] { get; }
+        TElement this[TChild child]
+        {
+            get;
+        }
     }
 
 }

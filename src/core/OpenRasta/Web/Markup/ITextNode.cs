@@ -7,15 +7,16 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-namespace OpenRasta.Web.Markup.Elements
+
+namespace OpenRasta.Web.Markup
 {
     public interface ITextNode : INode
     {
         string Text { get; set; }
     }
 }
+
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -34,5 +35,4 @@ namespace OpenRasta.Web.Markup.Elements
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

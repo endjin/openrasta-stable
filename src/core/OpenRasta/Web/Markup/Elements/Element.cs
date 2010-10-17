@@ -7,51 +7,51 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using OpenRasta.Collections;
-using OpenRasta.Web.Markup.Attributes;
-using OpenRasta.Web.Markup.Modules;
-using OpenRasta.Web.Markup.Rendering;
 
 namespace OpenRasta.Web.Markup.Elements
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Text;
+
+    using OpenRasta.Web.Markup.Attributes;
+    using OpenRasta.Web.Markup.Modules;
+    using OpenRasta.Web.Markup.Rendering;
+
     public abstract class Element : IElement, IXhtmlTagBuilder
     {
+        protected Element()
+        {
+            this.Attributes = new XhtmlAttributeCollection();
+            this.ChildNodes = new List<INode>();
+            this.ContentModel = new List<Type>();
+            this.IsVisible = true;
+        }
+
+        public Element(string tagName) : this()
+        {
+            this.TagName = tagName;
+        }
+
         public IList<INode> ChildNodes { get; protected set; }
         
         public string TagName { get; set; }
+
         public IAttributeCollection Attributes { get; protected set; }
 
-        protected Element(){
-            Attributes = new XhtmlAttributeCollection();
-            ChildNodes = new List<INode>();
-            ContentModel = new List<Type>();
-            IsVisible = true;
-        } 
-        public Element(string tagName) : this()
+        public IEnumerable<IElement> ChildElements
         {
-            TagName = tagName;
+            get { return this.ChildNodes.OfType<IElement>(); }
         }
-        
-        public IEnumerable<IElement> ChildElements { get { return ChildNodes.OfType<IElement>(); } }
         
         public IList<Type> ContentModel
         {
             get; protected set;
         }
+
         public bool IsVisible { get; set; }
-        protected Element this[INode child]
-        {
-            get
-            {
-                ChildNodes.Add(child);
-                return this;
-            }
-        }
 
         public string OuterXml
         {
@@ -64,24 +64,27 @@ namespace OpenRasta.Web.Markup.Elements
                 return sb.ToString();
             }
         }
-        public override string ToString()
-        {
-            return OuterXml;
-        }
+
         public string InnerText
         {
             get
             {
                 var sb = new StringBuilder();
-                foreach (var childNode in ChildNodes)
-                    if (childNode is ITextNode) sb.Append(((ITextNode)childNode).Text);
-                    else if (childNode is IElement) sb.Append(((IElement)childNode).InnerText);
+                
+                foreach (var childNode in this.ChildNodes)
+                {
+                    if (childNode is ITextNode)
+                    {
+                        sb.Append(((ITextNode)childNode).Text);
+                    }
+                    else if (childNode is IElement)
+                    {
+                        sb.Append(((IElement)childNode).InnerText);
+                    }
+                }
+
                 return sb.ToString();
             }
-        }
-
-        public virtual void Prepare()
-        {
         }
 
         /* Implementation of TagBuilder */
@@ -173,6 +176,7 @@ namespace OpenRasta.Web.Markup.Elements
         {
             get { return Document.CreateElement<IInlineElement>("em"); }
         }
+
         public IInlineElement kbd
         {
             get { return Document.CreateElement<IInlineElement>("kbd"); }
@@ -325,6 +329,7 @@ namespace OpenRasta.Web.Markup.Elements
         {
             get { return Document.CreateElement<IButtonElement>(); }
         }
+
         public IFieldsetElement fieldset
         {
             get { return Document.CreateElement<IFieldsetElement>(); }
@@ -426,6 +431,24 @@ namespace OpenRasta.Web.Markup.Elements
         public IColGroupElement colgroup
         {
             get { return Document.CreateElement<IColGroupElement>(); }
+        }
+
+        protected Element this[INode child]
+        {
+            get
+            {
+                this.ChildNodes.Add(child);
+                return this;
+            }
+        }
+
+        public virtual void Prepare()
+        {
+        }
+
+        public override string ToString()
+        {
+            return this.OuterXml;
         }
     }
     public class EmptyElement : Element{}

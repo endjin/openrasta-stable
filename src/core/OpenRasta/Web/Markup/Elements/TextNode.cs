@@ -8,28 +8,27 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-
 namespace OpenRasta.Web.Markup.Elements
 {
     public class TextNode : ITextNode
     {
         public TextNode(string content)
         {
-            Text = content;
+            this.Text = content;
         }
+
         public TextNode()
         {
-        }
-        public static implicit operator TextNode(string textNodeValue)
-        {
-            return new TextNode(textNodeValue);
         }
 
         public string Text
         {
             get; set;
+        }
+
+        public static implicit operator TextNode(string textNodeValue)
+        {
+            return new TextNode(textNodeValue);
         }
     }
 }

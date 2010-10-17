@@ -7,11 +7,12 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Reflection;
 
-namespace OpenRasta.Web.Markup.Attributes
+namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
+    using System;
+    using System.Reflection;
+
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public abstract class XhtmlAttributeCore : Attribute
     {
@@ -21,23 +22,32 @@ namespace OpenRasta.Web.Markup.Attributes
 
         protected XhtmlAttributeCore(string name)
         {
-            Name = name;
+            this.Name = name;
         }
 
+        public string DefaultValue { get; set; }
+
         public string Name { get; private set; }
+
         public Func<IAttribute> Factory(PropertyInfo pi)
         {
-            return ()=>
-            {
-                var value = Factory(Name ?? pi.Name)();
-                if (DefaultValue != null) value.DefaultValue = DefaultValue;
-                return value;
-            };
+            return () =>
+                {
+                    var value = Factory(Name ?? pi.Name)();
+                
+                    if (DefaultValue != null)
+                    {
+                        value.DefaultValue = DefaultValue;
+                    }
+
+                    return value;
+                };
         }
+
         protected abstract Func<IAttribute> Factory(string propertyName);
-        public string DefaultValue { get; set; }
     }
 }
+
 #region Full license
 //
 // Permission is hereby granted, free of charge, to any person obtaining
