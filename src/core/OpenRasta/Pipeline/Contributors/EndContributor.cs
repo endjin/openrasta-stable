@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-
-namespace OpenRasta.Pipeline.Contributors
+﻿namespace OpenRasta.Pipeline.Contributors
 {
+    using System.Linq;
+
+    using OpenRasta.Web;
+
     public class EndContributor : KnownStages.IEnd
     {
         public void Initialize(IPipeline pipelineRunner)
         {
-            var notification = pipelineRunner.Notify(ReturnFinished);
+            var notification = pipelineRunner.Notify(this.ReturnFinished);
             IPipelineExecutionOrderAnd and = null;
-            foreach(var contributor in pipelineRunner.Contributors.Where(x=>x != this))
+
+            foreach (var contributor in pipelineRunner.Contributors.Where(x => x != this))
             {
                 if (and == null)
                 {
@@ -26,7 +24,7 @@ namespace OpenRasta.Pipeline.Contributors
             }
         }
 
-        PipelineContinuation ReturnFinished(ICommunicationContext arg)
+        private PipelineContinuation ReturnFinished(ICommunicationContext arg)
         {
             return PipelineContinuation.Finished;
         }

@@ -8,75 +8,82 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.DI;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-using OpenRasta.Web.UriDecorators;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.DI;
+    using OpenRasta.Web;
+    using OpenRasta.Web.UriDecorators;
+
     public class UriDecoratorsContributor : IPipelineContributor
     {
-        readonly IDependencyResolver _resolver;
+        private readonly IDependencyResolver resolver;
 
         public UriDecoratorsContributor(IDependencyResolver resolver)
         {
-            _resolver = resolver;
+            this.resolver = resolver;
         }
 
         public PipelineContinuation ProcessDecorators(ICommunicationContext context)
         {
             Uri currentUri = context.Request.Uri;
-            IList<DecoratorPointer> decorators = CreateDecorators();
+            IList<DecoratorPointer> decorators = this.CreateDecorators();
 
             /* Whenever we execute the decorators, each decorator gets a say in matching a url.
              * Whenever a decorator fails, it is ignored.
              * Whenever a decorator succeeds, it is marked as such so that its Apply() method gets called
              * Whenever a decorator that succeeded has changed the url, we reprocess all the decorators that failed before with the new url.
-             * */
+            */
             for (int i = 0; i < decorators.Count; i++)
             {
                 DecoratorPointer decorator = decorators[i];
                 Uri processedUri;
-                if (!decorator.Successful
-                    && decorator.Decorator.Parse(currentUri, out processedUri))
+                
+                if (!decorator.Successful && decorator.Decorator.Parse(currentUri, out processedUri))
                 {
                     decorator.Successful = true;
+
                     if (currentUri != processedUri && processedUri != null)
                     {
                         currentUri = processedUri;
                         i = -1;
+
                         continue;
                     }
                 }
             }
+
             foreach (var decorator in decorators)
             {
                 if (decorator.Successful)
+                {
                     decorator.Decorator.Apply();
+                }
             }
 
             context.Request.Uri = currentUri;
+
             return PipelineContinuation.Continue;
         }
 
         public void Initialize(IPipeline pipelineRunner)
         {
-            pipelineRunner.Notify(ProcessDecorators).Before<KnownStages.IUriMatching>();
+            pipelineRunner.Notify(this.ProcessDecorators).Before<KnownStages.IUriMatching>();
         }
 
-        IList<DecoratorPointer> CreateDecorators()
+        private IList<DecoratorPointer> CreateDecorators()
         {
-            return _resolver.ResolveAll<IUriDecorator>()
+            return this.resolver.ResolveAll<IUriDecorator>()
                 .Select(decorator => new DecoratorPointer { Decorator = decorator }).ToList();
         }
 
-        class DecoratorPointer
+        private class DecoratorPointer
         {
             public IUriDecorator Decorator { get; set; }
+
             public bool Successful { get; set; }
         }
     }

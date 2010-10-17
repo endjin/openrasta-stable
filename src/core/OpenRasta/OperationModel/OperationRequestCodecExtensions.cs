@@ -1,22 +1,19 @@
-using OpenRasta.Codecs;
-
 namespace OpenRasta.OperationModel
 {
+    using OpenRasta.Codecs;
+
     public static class OperationRequestCodecExtensions
     {
-        const string REQUEST_CODEC = "_REQUEST_CODEC";
+        private const string RequestCodec = "_REQUEST_CODEC";
 
-        /// <summary>
-        /// Gets The codec used to read the request.
-        /// </summary>
         public static CodecMatch GetRequestCodec(this IOperation operation)
         {
-            return operation.ExtendedProperties[REQUEST_CODEC] as CodecMatch;
+            return operation.ExtendedProperties[RequestCodec] as CodecMatch;
         }
 
         public static void SetRequestCodec(this IOperation operation, CodecMatch codecMatch)
         {
-            operation.ExtendedProperties[REQUEST_CODEC] = codecMatch;
+            operation.ExtendedProperties[RequestCodec] = codecMatch;
         }
     }
 }

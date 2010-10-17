@@ -9,12 +9,13 @@
  */
 #endregion
 
-using System.IO;
-using System.Text;
-using OpenRasta.Web;
-
 namespace OpenRasta.IO
 {
+    using System.IO;
+    using System.Text;
+
+    using OpenRasta.Web;
+
     public class BoundaryStreamWriter
     {
         public BoundaryStreamWriter(string boundary, Stream baseStream, Encoding streamEncoding)

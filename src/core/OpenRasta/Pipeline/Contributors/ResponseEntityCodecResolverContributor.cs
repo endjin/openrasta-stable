@@ -9,26 +9,27 @@
  */
 #endregion
 
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.Codecs;
-using OpenRasta.Diagnostics;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Pipeline;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     public class ResponseEntityCodecResolverContributor : KnownStages.ICodecResponseSelection
     {
-        const string HEADER_ACCEPT = "Accept";
-        readonly ICodecRepository _codecs;
-        readonly ITypeSystem _typeSystem;
+        private const string HeaderAccept = "Accept";
+        private readonly ICodecRepository codecs;
+        private readonly ITypeSystem typeSystem;
 
         public ResponseEntityCodecResolverContributor(ICodecRepository repository, ITypeSystem typeSystem)
         {
-            _codecs = repository;
-            _typeSystem = typeSystem;
+            this.codecs = repository;
+            this.typeSystem = typeSystem;
         }
 
         public ILogger Log { get; set; }
@@ -37,24 +38,22 @@ namespace OpenRasta.Pipeline.Contributors
         {
             if (context.Response.Entity.Instance == null || context.PipelineData.ResponseCodec != null)
             {
-                LogNoResponseEntity();
+                this.LogNoResponseEntity();
                 return PipelineContinuation.Continue;
             }
 
-            string acceptHeader = context.Request.Headers[HEADER_ACCEPT];
+            string acceptHeader = context.Request.Headers[HeaderAccept];
 
-            IEnumerable<MediaType> acceptedContentTypes =
-                MediaType.Parse(string.IsNullOrEmpty(acceptHeader) ? "*/*" : acceptHeader);
-            IType responseEntityType = _typeSystem.FromInstance(context.Response.Entity.Instance);
+            IEnumerable<MediaType> acceptedContentTypes = MediaType.Parse(string.IsNullOrEmpty(acceptHeader) ? "*/*" : acceptHeader);
+            IType responseEntityType = this.typeSystem.FromInstance(context.Response.Entity.Instance);
 
-            IEnumerable<CodecRegistration> sortedCodecs = _codecs.FindMediaTypeWriter(responseEntityType,
-                                                                                      acceptedContentTypes);
+            IEnumerable<CodecRegistration> sortedCodecs = this.codecs.FindMediaTypeWriter(responseEntityType, acceptedContentTypes);
             int codecsCount = sortedCodecs.Count();
             CodecRegistration negotiatedCodec = sortedCodecs.FirstOrDefault();
 
             if (negotiatedCodec != null)
             {
-                LogCodecSelected(responseEntityType, negotiatedCodec, codecsCount);
+                this.LogCodecSelected(responseEntityType, negotiatedCodec, codecsCount);
                 context.Response.Entity.ContentType = negotiatedCodec.MediaType.WithoutQuality();
                 context.PipelineData.ResponseCodec = negotiatedCodec;
             }
@@ -63,16 +62,16 @@ namespace OpenRasta.Pipeline.Contributors
                 context.OperationResult = ResponseEntityHasNoCodec(acceptHeader, responseEntityType);
                 return PipelineContinuation.RenderNow;
             }
+
             return PipelineContinuation.Continue;
         }
 
         public void Initialize(IPipeline pipeline)
         {
-            pipeline.Notify(FindResponseCodec).After<KnownStages.IOperationResultInvocation>();
+            pipeline.Notify(this.FindResponseCodec).After<KnownStages.IOperationResultInvocation>();
         }
 
-        static OperationResult.ResponseMediaTypeUnsupported ResponseEntityHasNoCodec(string acceptHeader,
-                                                                                     IType responseEntityType)
+        private static OperationResult.ResponseMediaTypeUnsupported ResponseEntityHasNoCodec(string acceptHeader, IType responseEntityType)
         {
             return new OperationResult.ResponseMediaTypeUnsupported
             {
@@ -85,19 +84,19 @@ namespace OpenRasta.Pipeline.Contributors
             };
         }
 
-        void LogCodecSelected(IType responseEntityType, CodecRegistration negotiatedCodec, int codecsCount)
+        private void LogCodecSelected(IType responseEntityType, CodecRegistration negotiatedCodec, int codecsCount)
         {
-            Log.WriteInfo(
-                "Selected codec {0} out of {1} codecs for entity of type {2} and negotiated media type {3}.".
-                    With(negotiatedCodec.CodecType.Name,
-                         codecsCount,
-                         responseEntityType.Name,
-                         negotiatedCodec.MediaType));
+            this.Log.WriteInfo(
+                "Selected codec {0} out of {1} codecs for entity of type {2} and negotiated media type {3}.".With(
+                    negotiatedCodec.CodecType.Name,
+                    codecsCount,
+                    responseEntityType.Name,
+                    negotiatedCodec.MediaType));
         }
 
-        void LogNoResponseEntity()
+        private void LogNoResponseEntity()
         {
-            Log.WriteInfo(
+            this.Log.WriteInfo(
                 "No response codec was searched for. The response entity is null or a response codec is already set.");
         }
     }

@@ -9,16 +9,16 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
-
 namespace OpenRasta.Security
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Security.Cryptography;
+    using System.Text;
+
     public class DigestHeader
     {
-        readonly Dictionary<string, string> _values = new Dictionary<string, string>();
+        private readonly Dictionary<string, string> values = new Dictionary<string, string>();
 
         public DigestHeader()
         {
@@ -26,14 +26,16 @@ namespace OpenRasta.Security
 
         public DigestHeader(DigestHeader copy)
         {
-            foreach (var kv in copy._values)
-                _values.Add(kv.Key, kv.Value);
+            foreach (var kv in copy.values)
+            {
+                this.values.Add(kv.Key, kv.Value);
+            }
         }
 
         public string ClientNonce
         {
-            get { return _values.ContainsKey("cnonce") ? _values["cnonce"] : null; }
-            set { _values["cnonce"] = value; }
+            get { return this.values.ContainsKey("cnonce") ? this.values["cnonce"] : null; }
+            set { this.values["cnonce"] = value; }
         }
 
         public string ClientRequestHeader
@@ -41,56 +43,56 @@ namespace OpenRasta.Security
             get
             {
                 var builder = new StringBuilder();
-                builder.AppendFormat("Digest username=\"{0}\", realm=\"{1}\",nonce=\"{2}\"",
-                                     Username, Realm, Nonce);
+                builder.AppendFormat("Digest username=\"{0}\", realm=\"{1}\",nonce=\"{2}\"", this.Username, this.Realm, this.Nonce);
                 builder.AppendFormat(
-                    @",uri=""{0}"",
-                 qop={1},
-                 nc={2},
-                 cnonce=""{3}"",
-                 response=""{4}"",
-                 opaque=""{5}""",
-                    Uri, QualityOfProtection, NonceCount, ClientNonce, Response, Opaque);
+                    @",uri=""{0}"",qop={1},nc={2},cnonce=""{3}"",response=""{4}"", opaque=""{5}""",
+                    this.Uri,
+                    this.QualityOfProtection,
+                    this.NonceCount,
+                    this.ClientNonce,
+                    this.Response,
+                    this.Opaque);
+
                 return builder.ToString();
             }
         }
 
         public string Nonce
         {
-            get { return _values.ContainsKey("nonce") ? _values["nonce"] : null; }
-            set { _values["nonce"] = value; }
+            get { return this.values.ContainsKey("nonce") ? this.values["nonce"] : null; }
+            set { this.values["nonce"] = value; }
         }
 
         public string NonceCount
         {
-            get { return _values.ContainsKey("nc") ? _values["nc"] : null; }
-            set { _values["nc"] = value; }
+            get { return this.values.ContainsKey("nc") ? this.values["nc"] : null; }
+            set { this.values["nc"] = value; }
         }
 
         public string Opaque
         {
-            get { return _values.ContainsKey("opaque") ? _values["opaque"] : null; }
-            set { _values["opaque"] = value; }
+            get { return this.values.ContainsKey("opaque") ? this.values["opaque"] : null; }
+            set { this.values["opaque"] = value; }
         }
 
         public string Password { get; set; }
 
         public string QualityOfProtection
         {
-            get { return _values.ContainsKey("qop") ? _values["qop"] : null; }
-            set { _values["qop"] = value; }
+            get { return this.values.ContainsKey("qop") ? this.values["qop"] : null; }
+            set { this.values["qop"] = value; }
         }
 
         public string Realm
         {
-            get { return _values.ContainsKey("realm") ? _values["realm"] : null; }
-            set { _values["realm"] = value; }
+            get { return this.values.ContainsKey("realm") ? this.values["realm"] : null; }
+            set { this.values["realm"] = value; }
         }
 
         public string Response
         {
-            get { return _values.ContainsKey("response") ? _values["response"] : null; }
-            set { _values["response"] = value; }
+            get { return this.values.ContainsKey("response") ? this.values["response"] : null; }
+            set { this.values["response"] = value; }
         }
 
         public string ServerResponseHeader
@@ -98,10 +100,11 @@ namespace OpenRasta.Security
             get
             {
                 var builder = new StringBuilder();
-                builder.AppendFormat("Digest realm=\"{0}\",nonce=\"{1}\",opaque=\"{2}\"",
-                                     Realm, Nonce, Opaque);
-                builder.AppendFormat(",stale={0}", Stale);
+
+                builder.AppendFormat("Digest realm=\"{0}\",nonce=\"{1}\",opaque=\"{2}\"", this.Realm, this.Nonce, this.Opaque);
+                builder.AppendFormat(",stale={0}", this.Stale);
                 builder.Append(",algorithm=MD5, qop=\"auth\"");
+                
                 return builder.ToString();
             }
         }
@@ -111,51 +114,60 @@ namespace OpenRasta.Security
             get
             {
                 string stale;
-                return _values.TryGetValue("stale", out stale) ? bool.Parse(stale) : false;
+                return this.values.TryGetValue("stale", out stale) ? bool.Parse(stale) : false;
             }
-            set { _values["stale"] = value ? "TRUE" : "FALSE"; }
+
+            set
+            {
+                this.values["stale"] = value ? "TRUE" : "FALSE";
+            }
         }
 
         public string Uri
         {
-            get { return _values.ContainsKey("uri") ? _values["uri"] : null; }
-            set { _values["uri"] = value; }
+            get { return this.values.ContainsKey("uri") ? this.values["uri"] : null; }
+            set { this.values["uri"] = value; }
         }
 
         public string Username
         {
-            get { return _values.ContainsKey("username") ? _values["username"] : null; }
-            set { _values["username"] = value; }
+            get { return this.values.ContainsKey("username") ? this.values["username"] : null; }
+            set { this.values["username"] = value; }
         }
 
         public static DigestHeader Parse(string header)
         {
             if (!header.ToUpper().StartsWith("DIGEST"))
+            {
                 return null;
+            }
+
             var credentials = new DigestHeader();
             string arguments = header.Substring(6);
 
             string[] keyValues = arguments.Split(',');
+            
             foreach (string kv in keyValues)
             {
-                string[] parts = kv.Split(new[] {'='}, 2);
+                string[] parts = kv.Split(new[] { '=' }, 2);
                 string key = parts[0].Trim(' ', '\t', '\r', '\n', '\"');
                 string value = parts[1].Trim(' ', '\t', '\r', '\n', '\"');
-                credentials._values.Add(key, value);
+                credentials.values.Add(key, value);
             }
+            
             return credentials;
         }
 
         public string GetCalculatedResponse(string httpMethod)
         {
             // A1 = unq(username-value) ":" unq(realm-value) ":" passwd
-            string A1 = String.Format("{0}:{1}:{2}", Username, Realm, Password);
+            string A1 = String.Format("{0}:{1}:{2}", this.Username, this.Realm, this.Password);
 
             // H(A1) = MD5(A1)
             string HA1 = GetMD5HashBinHex(A1);
 
             // A2 = Method ":" digest-uri-value
-            string A2 = String.Format("{0}:{1}", httpMethod, Uri);
+            string A2 = String.Format("{0}:{1}", httpMethod, this.Uri);
 
             // H(A2)
             string HA2 = GetMD5HashBinHex(A2);
@@ -170,36 +182,44 @@ namespace OpenRasta.Security
             // ) <">
             // if qop is missing,
             // request-digest  = <"> < KD ( H(A1), unq(nonce-value) ":" H(A2) ) > <">
+            
             string unhashedDigest;
-            if (QualityOfProtection != null)
+
+            if (this.QualityOfProtection != null)
             {
-                unhashedDigest = String.Format("{0}:{1}:{2}:{3}:{4}:{5}",
-                                               HA1,
-                                               Nonce,
-                                               NonceCount,
-                                               ClientNonce,
-                                               QualityOfProtection,
-                                               HA2);
+                unhashedDigest = String.Format(
+                    "{0}:{1}:{2}:{3}:{4}:{5}",
+                    HA1,
+                    this.Nonce,
+                    this.NonceCount,
+                    this.ClientNonce,
+                    this.QualityOfProtection,
+                    HA2);
             }
             else
             {
-                unhashedDigest = String.Format("{0}:{1}:{2}",
-                                               HA1,
-                                               NonceCount,
-                                               HA2);
+                unhashedDigest = String.Format(
+                    "{0}:{1}:{2}",
+                    HA1,
+                    this.NonceCount,
+                    HA2);
             }
 
             return GetMD5HashBinHex(unhashedDigest);
         }
 
-        static string GetMD5HashBinHex(string toBeHashed)
+        private static string GetMD5HashBinHex(string toBeHashed)
         {
             MD5 hash = MD5.Create();
             byte[] result = hash.ComputeHash(Encoding.ASCII.GetBytes(toBeHashed));
 
             var sb = new StringBuilder();
+            
             foreach (byte b in result)
+            {
                 sb.Append(b.ToString("x2"));
+            }
+
             return sb.ToString();
         }
     }

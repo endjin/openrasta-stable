@@ -7,14 +7,14 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Globalization;
-using System.IO;
 
 namespace OpenRasta.Text
 {
+    using System;
+    using System.Globalization;
+    using System.IO;
+    using System.Text;
+
     /// <summary>
     /// Provides partial implementation for decoding strings according to RFC2047.
     /// </summary>
@@ -37,36 +37,49 @@ namespace OpenRasta.Text
                 {
                     i += 2;
                     charsetBuilder = new StringBuilder();
+                    
                     while (i < textToDecode.Length && textToDecode[i] != '?')
                     {
                         charsetBuilder.Append(textToDecode[i]);
                         i++;
                     }
+                    
                     i++;
                     string charset = charsetBuilder.ToString();
                     Encoding textEncoder = null;
+                    
                     try
                     {
                         textEncoder = Encoding.GetEncoding(charset);
                     }
-                    catch { }
+                    catch
+                    {
+                    }
+                    
                     char encoding = textToDecode[i];
                     Func<string, Encoding, string> decoder = null;
+                    
                     if ((encoding == 'Q' || encoding == 'q') && i + 1 < textToDecode.Length && textToDecode[i + 1] == '?')
-                    { decoder = DecodeQuotedPrintable; }
+                    {
+                        decoder = DecodeQuotedPrintable;
+                    }
                     else if ((encoding == 'B' || encoding == 'b') && i + 1 < textToDecode.Length && textToDecode[i + 1] == '?')
-                    { decoder = DecodeBase64; }
+                    {
+                        decoder = DecodeBase64;
+                    }
 
                     if (textEncoder != null && decoder != null)
                     {
                         i += 2;
                         encodedText = new StringBuilder();
                         byte[] encodedBuffer = new byte[4];
+                        
                         for (; i + 1 < textToDecode.Length && !(textToDecode[i] == '?' && textToDecode[i + 1] == '='); i++)
                         {
                             encodedText.Append(textToDecode[i]);
                         }
-                        decoded.Append(decoder(encodedText.ToString(),textEncoder));
+
+                        decoded.Append(decoder(encodedText.ToString(), textEncoder));
                         i += 1;
                     }
                     else
@@ -76,11 +89,14 @@ namespace OpenRasta.Text
                     }
                 }
                 else
+                {
                     decoded.Append(ch);
-
+                }
             }
+
             return decoded.ToString();
         }
+
         private static string DecodeQuotedPrintable(string textToDecode, Encoding textEncoder)
         {
             MemoryStream toDecode = new MemoryStream(textToDecode.Length);
@@ -88,27 +104,34 @@ namespace OpenRasta.Text
             for (int i = 0; i < textToDecode.Length; i++)
             {
                 byte byteToAdd = 0;
+                
                 if (textToDecode[i] == '_')
                 {
                     byteToAdd = (byte)' ';
                 }
                 else if (textToDecode[i] == '=' && i + 2 < textToDecode.Length)
                 {
-                    byteToAdd = byte.Parse(textToDecode[i+1] + "" + textToDecode[i + 2], NumberStyles.HexNumber,CultureInfo.InvariantCulture);
+                    byteToAdd = byte.Parse(
+                        textToDecode[i + 1] + string.Empty + textToDecode[i + 2], 
+                        NumberStyles.HexNumber, 
+                        CultureInfo.InvariantCulture);
                     i += 2;
                 }
                 else
                 {
                     byteToAdd = (byte)textToDecode[i];
                 }
+
                 toDecode.WriteByte(byteToAdd);
             }
 
             return textEncoder.GetString(toDecode.GetBuffer(), 0, (int)toDecode.Length);
         }
+
         private static string DecodeBase64(string text, Encoding textEncoder)
         {
             var bytes = Convert.FromBase64String(text);
+            
             return textEncoder.GetString(bytes);
         }
     }

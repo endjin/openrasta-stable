@@ -1,8 +1,8 @@
-using System.Collections.Generic;
-using System.Linq;
-
 namespace OpenRasta.OperationModel
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public static class OperationExtensions
     {
         public static bool AllReady(this IEnumerable<InputMember> members)

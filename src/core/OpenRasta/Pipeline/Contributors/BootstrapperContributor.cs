@@ -8,8 +8,6 @@
  */
 #endregion
 
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Pipeline.Contributors
 {
     public class BootstrapperContributor : KnownStages.IBegin

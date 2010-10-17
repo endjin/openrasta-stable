@@ -8,11 +8,11 @@
  */
 #endregion
 
-using System;
-using System.IO;
-
 namespace OpenRasta.IO
 {
+    using System;
+    using System.IO;
+
     public static class StreamExtensions
     {
         public static long CopyTo(this Stream stream, Stream destinationStream)
@@ -20,6 +20,7 @@ namespace OpenRasta.IO
             var buffer = new byte[4096];
             int readCount = 0;
             long totalWritten = 0;
+
             while ((readCount = stream.Read(buffer, 0, buffer.Length)) > 0)
             {
                 totalWritten += readCount;
@@ -32,6 +33,7 @@ namespace OpenRasta.IO
         public static byte[] ReadToEnd(this Stream stream)
         {
             var streamToReturn = stream as MemoryStream;
+            
             if (streamToReturn == null)
             {
                 streamToReturn = new MemoryStream();
@@ -40,11 +42,14 @@ namespace OpenRasta.IO
             }
 
             var destinationBytes = new byte[streamToReturn.Length - streamToReturn.Position];
-            Buffer.BlockCopy(streamToReturn.GetBuffer(),
-                             (int)streamToReturn.Position, 
-                             destinationBytes, 
-                             0, 
-                             (int)(streamToReturn.Length - streamToReturn.Position));
+            
+            Buffer.BlockCopy(
+                streamToReturn.GetBuffer(),
+                (int)streamToReturn.Position,
+                destinationBytes, 
+                0, 
+                (int)(streamToReturn.Length - streamToReturn.Position));
+            
             return destinationBytes;
         }
 

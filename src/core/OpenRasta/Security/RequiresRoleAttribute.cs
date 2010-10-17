@@ -1,26 +1,33 @@
-using System;
-using System.Collections.Generic;
-using OpenRasta.DI;
-using OpenRasta.OperationModel;
-using OpenRasta.OperationModel.Interceptors;
-
 namespace OpenRasta.Security
 {
-    public class RequiresRoleAttribute : OpenRasta.OperationModel.Interceptors.InterceptorProviderAttribute
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.DI;
+    using OpenRasta.OperationModel;
+    using OpenRasta.OperationModel.Interceptors;
+
+    public class RequiresRoleAttribute : InterceptorProviderAttribute
     {
-        readonly string _roleName;
+        private readonly string roleName;
 
         public RequiresRoleAttribute(string roleName)
         {
-            if (roleName == null) throw new ArgumentNullException("roleName");
-            _roleName = roleName;
+            if (roleName == null)
+            {
+                throw new ArgumentNullException("roleName");
+            }
+
+            this.roleName = roleName;
         }
 
         public override IEnumerable<IOperationInterceptor> GetInterceptors(IOperation operation)
         {
             yield return DependencyManager.GetService<RequiresAuthenticationInterceptor>();
+            
             var roleInterceptor = DependencyManager.GetService<RequiresRoleInterceptor>();
-            roleInterceptor.Role = _roleName;
+            roleInterceptor.Role = this.roleName;
+            
             yield return roleInterceptor;
         }
     }

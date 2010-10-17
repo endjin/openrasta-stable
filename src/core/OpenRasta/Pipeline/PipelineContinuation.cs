@@ -8,8 +8,6 @@
  */
 #endregion
 
-using System;
-
 namespace OpenRasta.Pipeline
 {
     public enum PipelineContinuation
@@ -20,14 +18,17 @@ namespace OpenRasta.Pipeline
         /// <remarks>Aborting the pipeline will result in the error list 
         /// being sent back to the client</remarks>
         Abort,
+
         /// <summary>
         /// Processing of the pipeline is complete.
         /// </summary>
         Finished,
+
         /// <summary>
         /// Continue processing the pipeline.
         /// </summary>
         Continue,
+        
         RenderNow
     }
 }

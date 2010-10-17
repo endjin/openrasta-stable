@@ -1,12 +1,9 @@
-using System.Collections.Generic;
-using OpenRasta.DI;
-using OpenRasta.OperationModel;
-using OpenRasta.OperationModel.Filters;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.DI;
+    using OpenRasta.OperationModel;
+    using OpenRasta.Web;
+
     public class OperationCodecSelectorContributor
         : AbstractOperationProcessing<IOperationCodecSelector, KnownStages.ICodecRequestSelection>,
           KnownStages.ICodecRequestSelection
@@ -19,9 +16,11 @@ namespace OpenRasta.Pipeline.Contributors
         {
             pipeline.After<KnownStages.IOperationFiltering>();
         }
+
         protected override PipelineContinuation OnOperationsEmpty(ICommunicationContext context)
         {
             context.OperationResult = new OperationResult.RequestMediaTypeUnsupported();
+            
             return PipelineContinuation.RenderNow;
         }
     }

@@ -19,12 +19,12 @@ namespace OpenRasta.IO
 
     public class BoundaryStreamReader
     {
-        readonly byte[] _beginBoundary;
-        readonly string _beginBoundaryAsString;
-        readonly byte[] _localBuffer;
-        readonly byte[] _newLine = new byte[] { 13, 10 };
-        int _localBufferLength;
-        BoundarySubStream _previousStream;
+        private readonly byte[] beginBoundary;
+        private readonly string beginBoundaryAsString;
+        private readonly byte[] localBuffer;
+        private readonly byte[] newLine = new byte[] { 13, 10 };
+        private int localBufferLength;
+        private BoundarySubStream previousStream;
 
         public BoundaryStreamReader(string boundary, Stream baseStream)
             : this(boundary, baseStream, Encoding.ASCII)
@@ -39,14 +39,24 @@ namespace OpenRasta.IO
         public BoundaryStreamReader(string boundary, Stream baseStream, Encoding streamEncoding, int bufferLength)
         {
             if (baseStream == null)
+            {
                 throw new ArgumentNullException("baseStream");
-            if (!baseStream.CanSeek || !baseStream.CanRead)
-                throw new ArgumentException("baseStream must be a seekable readable stream.");
-            if (bufferLength < boundary.Length + 6)
-                throw new ArgumentOutOfRangeException("bufferLength", "The buffer needs to be big enough to contain the boundary and control characters (6 bytes)");
+            }
 
-            Log = NullLogger<IOLogSource>.Instance;
-            BaseStream = baseStream;
+            if (!baseStream.CanSeek || !baseStream.CanRead)
+            {
+                throw new ArgumentException("baseStream must be a seekable readable stream.");
+            }
+
+            if (bufferLength < boundary.Length + 6)
+            {
+                throw new ArgumentOutOfRangeException(
+                    "bufferLength",
+                    "The buffer needs to be big enough to contain the boundary and control characters (6 bytes)");
+            }
+
+            this.Log = NullLogger<IOLogSource>.Instance;
+            this.BaseStream = baseStream;
 
             // by default if unspecified an encoding should be ascii
             // some people are of the opinion that utf-8 should be parsed by default
@@ -54,28 +64,41 @@ namespace OpenRasta.IO
             // Need to test what browsers do in the wild.
             Encoding = streamEncoding;
             Encoding.GetBytes("--" + boundary);
-            _beginBoundary = Encoding.GetBytes("\r\n--" + boundary);
-            _localBuffer = new byte[bufferLength];
-            _beginBoundaryAsString = "--" + boundary;
-            AtPreamble = true;
+            this.beginBoundary = Encoding.GetBytes("\r\n--" + boundary);
+            this.localBuffer = new byte[bufferLength];
+            this.beginBoundaryAsString = "--" + boundary;
+            this.AtPreamble = true;
         }
 
         public bool AtBoundary { get; private set; }
+
         public bool AtEndBoundary { get; private set; }
+
         public bool AtPreamble { get; private set; }
+
         public Stream BaseStream { get; private set; }
+
         public Encoding Encoding { get; private set; }
+
         public ILogger Log { get; set; }
 
         public Stream GetNextPart()
         {
-            if (AtEndBoundary)
+            if (this.AtEndBoundary)
+            {
                 return null;
-            SkipPreamble();
-            if (AtEndBoundary)
+            }
+
+            this.SkipPreamble();
+
+            if (this.AtEndBoundary)
+            {
                 return null;
-            TerminateExistingStream();
-            return _previousStream = new BoundarySubStream(this);
+            }
+
+            this.TerminateExistingStream();
+
+            return this.previousStream = new BoundarySubStream(this);
         }
 
         /// <summary>
@@ -85,38 +108,42 @@ namespace OpenRasta.IO
         public string ReadLine()
         {
             bool temp;
-            return ReadLine(out temp);
+            return this.ReadLine(out temp);
         }
 
         public string ReadLine(out bool crlfFound)
         {
-            TerminateExistingStream();
-            if (AtEndBoundary)
+            this.TerminateExistingStream();
+            if (this.AtEndBoundary)
             {
                 crlfFound = true;
                 return null;
             }
 
-            var toConvert = ReadUntil(_newLine, true, out crlfFound);
+            var toConvert = this.ReadUntil(this.newLine, true, out crlfFound);
+            
             if (toConvert == null)
             {
-                AtEndBoundary = true; // reached the end of the steam
+                this.AtEndBoundary = true; // reached the end of the steam
                 return null;
             }
 
             string convertedLine = toConvert.Length == 0 ? string.Empty : Encoding.GetString(toConvert).TrimEnd();
-            if (string.Compare(convertedLine, _beginBoundaryAsString, StringComparison.OrdinalIgnoreCase) == 0)
+            
+            if (string.Compare(convertedLine, this.beginBoundaryAsString, StringComparison.OrdinalIgnoreCase) == 0)
             {
-                AtPreamble = false;
-                AtBoundary = true;
+                this.AtPreamble = false;
+                this.AtBoundary = true;
+                
                 return convertedLine;
             }
 
-            if (string.Compare(convertedLine, _beginBoundaryAsString + "--", StringComparison.OrdinalIgnoreCase) == 0)
+            if (string.Compare(convertedLine, this.beginBoundaryAsString + "--", StringComparison.OrdinalIgnoreCase) == 0)
             {
-                AtPreamble = false;
-                AtBoundary = true;
-                AtEndBoundary = true;
+                this.AtPreamble = false;
+                this.AtBoundary = true;
+                this.AtEndBoundary = true;
+
                 return convertedLine;
             }
 
@@ -125,48 +152,68 @@ namespace OpenRasta.IO
 
         public byte[] ReadNextPart()
         {
-            if (AtEndBoundary)
+            if (this.AtEndBoundary)
+            {
                 return new byte[0];
+            }
+
             var part = new MemoryStream();
-            long count = ReadNextPart(part, true);
+            long count = this.ReadNextPart(part, true);
             var result = new byte[count];
             Buffer.BlockCopy(part.GetBuffer(), 0, result, 0, (int)count);
+            
             return result;
         }
 
         public long ReadNextPart(Stream destinationStream, bool continueToNextBoundaryOnEmptyRead)
         {
-            if (AtEndBoundary)
+            if (this.AtEndBoundary)
+            {
                 return 0;
-            TerminateExistingStream();
-            if (AtEndBoundary)
+            }
+
+            this.TerminateExistingStream();
+
+            if (this.AtEndBoundary)
+            {
                 return 0;
+            }
+
             long bytesRead = 0;
             long lastRead;
-            if (TryReadPreamble(destinationStream, ref bytesRead))
+
+            if (this.TryReadPreamble(destinationStream, ref bytesRead))
+            {
                 return bytesRead;
+            }
 
             bool markerFound;
-            while ((lastRead = ReadUntil(destinationStream, _beginBoundary, false, out markerFound)) >= 0)
+
+            while ((lastRead = this.ReadUntil(destinationStream, this.beginBoundary, false, out markerFound)) >= 0)
             {
                 bytesRead += lastRead;
+                
                 if (markerFound)
                 {
-                    BaseStream.Read(new byte[2], 0, 2);
+                    this.BaseStream.Read(new byte[2], 0, 2);
 
-                    string line = ReadLine();
+                    string line = this.ReadLine();
 
-                    if (AtBoundary || AtEndBoundary)
+                    if (this.AtBoundary || this.AtEndBoundary)
                     {
-                        if (bytesRead == 0 && continueToNextBoundaryOnEmptyRead) // no data between boundaries
+                        // no data between boundaries
+                        if (bytesRead == 0 && continueToNextBoundaryOnEmptyRead) 
+                        {
                             continue;
+                        }
+
                         break;
                     }
 
-                    destinationStream.Write(_newLine, 0, 2);
+                    destinationStream.Write(this.newLine, 0, 2);
                     var encodedLine = Encoding.GetBytes(line);
                     destinationStream.Write(encodedLine, 0, encodedLine.Length);
-                    destinationStream.Write(_newLine, 0, 2);
+                    destinationStream.Write(this.newLine, 0, 2);
                     bytesRead += encodedLine.Length + 4;
                 }
                 else
@@ -180,91 +227,104 @@ namespace OpenRasta.IO
 
         public long SeekToNextPart()
         {
-            Log.WriteDebug("Seeking to next available part");
-            if (AtEndBoundary)
-                return 0;
-            if (AtPreamble)
+            this.Log.WriteDebug("Seeking to next available part");
+            if (this.AtEndBoundary)
             {
-                SkipPreamble();
                 return 0;
             }
 
-            return ReadNextPart(Stream.Null, false);
+            if (this.AtPreamble)
+            {
+                this.SkipPreamble();
+                return 0;
+            }
+
+            return this.ReadNextPart(Stream.Null, false);
         }
 
-        byte[] ReadUntil(byte[] marker, bool swallowMarker, out bool markerFound)
+        private byte[] ReadUntil(byte[] marker, bool swallowMarker, out bool markerFound)
         {
             var dataToSendBack = new MemoryStream();
 
-            long count = ReadUntil(dataToSendBack, marker, swallowMarker, out markerFound);
+            long count = this.ReadUntil(dataToSendBack, marker, swallowMarker, out markerFound);
             if (count == 0 && markerFound)
+            {
                 return new byte[0];
+            }
+
             if (count == 0 && !markerFound)
+            {
                 return null;
+            }
+
             return dataToSendBack.ToArray();
         }
 
-        int ReadUntil(byte[] buffer, int offset, int count, byte[] marker, out MatchState lastMatch)
+        private int ReadUntil(byte[] buffer, int offset, int count, byte[] marker, out MatchState lastMatch)
         {
             lastMatch = MatchState.NotFound;
-            int maxReadLength = count > _localBuffer.Length - _localBufferLength ? _localBuffer.Length - _localBufferLength : count;
+            int maxReadLength = count > this.localBuffer.Length - this.localBufferLength ? this.localBuffer.Length - this.localBufferLength : count;
 
             int totalRead = 0;
-            int lastReadCount = BaseStream.Read(_localBuffer, _localBufferLength, maxReadLength);
+            int lastReadCount = this.BaseStream.Read(this.localBuffer, this.localBufferLength, maxReadLength);
+            
             if (lastReadCount > 0)
             {
-                var searchResult = _localBuffer.Match(0L, marker, 0, lastReadCount + _localBufferLength);
+                var searchResult = this.localBuffer.Match(0L, marker, 0, lastReadCount + this.localBufferLength);
                 lastMatch = searchResult.State;
+                
                 if (searchResult.State == MatchState.Found)
                 {
                     if (searchResult.Index > 0)
-                        Buffer.BlockCopy(_localBuffer, 0, buffer, offset, (int)searchResult.Index);
+                    {
+                        Buffer.BlockCopy(this.localBuffer, 0, buffer, offset, (int)searchResult.Index);
+                    }
 
-                    long leftOver = (_localBufferLength + lastReadCount) - searchResult.Index;
-                    BaseStream.Seek(leftOver * -1, SeekOrigin.Current);
-                    _localBufferLength = 0;
+                    long leftOver = (this.localBufferLength + lastReadCount) - searchResult.Index;
+                    this.BaseStream.Seek(leftOver * -1, SeekOrigin.Current);
+                    this.localBufferLength = 0;
                     totalRead = (int)searchResult.Index;
                 }
                 else if (searchResult.State == MatchState.NotFound)
                 {
-                    totalRead = lastReadCount + _localBufferLength;
-                    Buffer.BlockCopy(_localBuffer, 0, buffer, offset, totalRead);
+                    totalRead = lastReadCount + this.localBufferLength;
+                    Buffer.BlockCopy(this.localBuffer, 0, buffer, offset, totalRead);
 
-                    _localBufferLength = 0;
+                    this.localBufferLength = 0;
                 }
                 else if (searchResult.State == MatchState.Truncated)
                 {
                     totalRead = (int)searchResult.Index;
-                    Buffer.BlockCopy(_localBuffer, 0, buffer, offset, totalRead);
+                    Buffer.BlockCopy(this.localBuffer, 0, buffer, offset, totalRead);
 
-                    int datalength = lastReadCount + _localBufferLength;
+                    int datalength = lastReadCount + this.localBufferLength;
                     int leftover = datalength - (int)searchResult.Index;
-                    Buffer.BlockCopy(_localBuffer, (int)searchResult.Index, _localBuffer, 0, leftover);
-                    _localBufferLength = leftover;
+                    Buffer.BlockCopy(this.localBuffer, (int)searchResult.Index, this.localBuffer, 0, leftover);
+                    this.localBufferLength = leftover;
                 }
             }
             else
             {
-                Buffer.BlockCopy(_localBuffer, 0, buffer, offset, _localBufferLength);
-                totalRead = _localBufferLength;
-                _localBufferLength = 0;
+                Buffer.BlockCopy(this.localBuffer, 0, buffer, offset, this.localBufferLength);
+                totalRead = this.localBufferLength;
+                this.localBufferLength = 0;
             }
 
             return totalRead;
         }
 
-        long ReadUntil(Stream destinationStream, byte[] marker, bool swallowMarker, out bool markerFound)
+        private long ReadUntil(Stream destinationStream, byte[] marker, bool swallowMarker, out bool markerFound)
         {
             var buffer = new byte[4096];
 
             markerFound = false;
-            AtBoundary = false;
-            AtEndBoundary = false;
+            this.AtBoundary = false;
+            this.AtEndBoundary = false;
             int lastReadCount;
             long totalCount = 0;
             MatchState lastState;
 
-            while ((lastReadCount = ReadUntil(buffer, 0, buffer.Length, marker, out lastState)) > 0)
+            while ((lastReadCount = this.ReadUntil(buffer, 0, buffer.Length, marker, out lastState)) > 0)
             {
                 destinationStream.Write(buffer, 0, lastReadCount);
                 totalCount += lastReadCount;
@@ -274,53 +334,66 @@ namespace OpenRasta.IO
             {
                 markerFound = true;
                 if (swallowMarker)
-                    BaseStream.Seek(marker.Length, SeekOrigin.Current);
+                {
+                    this.BaseStream.Seek(marker.Length, SeekOrigin.Current);
+                }
             }
 
             return totalCount;
         }
 
-        void SkipPreamble()
+        private void SkipPreamble()
         {
-            Log.WriteDebug("Skip the preamble. AtPreamble was {0}.", AtPreamble);
+            this.Log.WriteDebug("Skip the preamble. AtPreamble was {0}.", this.AtPreamble);
             long preambleSize = 0;
             bool preambleRead = false;
-            if (AtPreamble)
-                preambleRead = TryReadPreamble(Stream.Null, ref preambleSize);
-            Log.WriteDebug("Preamble found: {0} of size {1}", preambleRead, preambleSize);
+            
+            if (this.AtPreamble)
+            {
+                preambleRead = this.TryReadPreamble(Stream.Null, ref preambleSize);
+            }
+
+            this.Log.WriteDebug("Preamble found: {0} of size {1}", preambleRead, preambleSize);
         }
 
-        void TerminateExistingStream()
+        private void TerminateExistingStream()
         {
-            Log.WriteDebug("TerminateExistingStream(), previous stream was " + _previousStream == null ? "null" : "not null");
-            if (_previousStream != null)
+            this.Log.WriteDebug("TerminateExistingStream(), previous stream was " + this.previousStream == null ? "null" : "not null");
+            
+            if (this.previousStream != null)
             {
-                _previousStream.AtEnd = true;
-                _previousStream = null;
-                SeekToNextPart();
+                this.previousStream.AtEnd = true;
+                this.previousStream = null;
+                this.SeekToNextPart();
             }
         }
 
-        bool TryReadPreamble(Stream destinationStream, ref long bytesRead)
+        private bool TryReadPreamble(Stream destinationStream, ref long bytesRead)
         {
-            bool wasAtPreamble = AtPreamble;
+            bool wasAtPreamble = this.AtPreamble;
 
             bool preambleRead = false;
             bool lastPreambleCrLfPending = false;
-            while (AtPreamble)
+
+            while (this.AtPreamble)
             {
                 bool crlfFound;
-                string currentLine = ReadLine(out crlfFound);
+                string currentLine = this.ReadLine(out crlfFound);
+                
                 if (currentLine == null)
+                {
                     break;
+                }
+                
                 lastPreambleCrLfPending = crlfFound;
-                if (!AtBoundary)
+                
+                if (!this.AtBoundary)
                 {
                     if (currentLine != string.Empty)
                     {
                         if (preambleRead)
                         {
-                            destinationStream.Write(_newLine);
+                            destinationStream.Write(this.newLine);
                             bytesRead += 2;
                         }
 
@@ -332,25 +405,27 @@ namespace OpenRasta.IO
                     preambleRead = true;
                 }
                 else
+                {
                     lastPreambleCrLfPending = false;
+                }
             }
 
             if (wasAtPreamble && lastPreambleCrLfPending && bytesRead > 0)
             {
-                destinationStream.Write(_newLine);
+                destinationStream.Write(this.newLine);
                 bytesRead += 2;
             }
 
             return wasAtPreamble;
         }
 
-        class BoundarySubStream : Stream
+        private class BoundarySubStream : Stream
         {
-            readonly BoundaryStreamReader _reader;
+            private readonly BoundaryStreamReader reader;
 
             public BoundarySubStream(BoundaryStreamReader reader)
             {
-                _reader = reader;
+                this.reader = reader;
             }
 
             public bool AtEnd { get; set; }
@@ -390,12 +465,19 @@ namespace OpenRasta.IO
 
             public override int Read(byte[] buffer, int offset, int count)
             {
-                if (AtEnd)
+                if (this.AtEnd)
+                {
                     return 0;
+                }
+
                 MatchState state;
-                int resultCount = _reader.ReadUntil(buffer, offset, count, _reader._beginBoundary, out state);
-                if (state == MatchState.Found) // reached a boundary
-                    AtEnd = true;
+                int resultCount = this.reader.ReadUntil(buffer, offset, count, this.reader.beginBoundary, out state);
+
+                // reached a boundary
+                if (state == MatchState.Found) 
+                {
+                    this.AtEnd = true;
+                }
 
                 return resultCount;
             }

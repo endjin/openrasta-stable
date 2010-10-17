@@ -10,23 +10,24 @@
 
 #endregion
 
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using OpenRasta.Binding;
-
 namespace OpenRasta.TypeSystem.ReflectionBased
 {
+    using System.Collections.Generic;
+    using System.Diagnostics;
+    using System.Linq;
+    using System.Reflection;
+
+    using OpenRasta.Binding;
+
     [DebuggerDisplay("{global::OpenRasta.TypeSystem.DebuggerStrings.Property(this)}")]
     public class ReflectionBasedProperty : ReflectionBasedMember<IPropertyBuilder>, IProperty
     {
         public ReflectionBasedProperty(ITypeSystem typeSystem, IMember parent, PropertyInfo property, object[] propertyParameters)
             : base(typeSystem, property.PropertyType)
         {
-            PropertyParameters = propertyParameters ?? new object[0];
-            Property = property;
-            Owner = parent;
+            this.PropertyParameters = propertyParameters ?? new object[0];
+            this.Property = property;
+            this.Owner = parent;
         }
 
         /// <summary>
@@ -36,7 +37,7 @@ namespace OpenRasta.TypeSystem.ReflectionBased
 
         public override string Name
         {
-            get { return Property.Name; }
+            get { return this.Property.Name; }
         }
 
         /// <summary>
@@ -51,29 +52,35 @@ namespace OpenRasta.TypeSystem.ReflectionBased
 
         public override bool CanSetValue(object value)
         {
-            return base.CanSetValue(value) && Property.CanWrite;
+            return base.CanSetValue(value) && this.Property.CanWrite;
         }
 
         public bool CanWrite
         {
-            get { return Property.CanWrite; }
+            get { return this.Property.CanWrite; }
         }
 
         public bool TrySetValue(object target, object value)
         {
-            if (!Property.CanWrite)
+            if (!this.Property.CanWrite)
+            {
                 return false;
+            }
 
-            Property.SetValue(target, value, PropertyParameters);
+            this.Property.SetValue(target, value, this.PropertyParameters);
 
             return true;
         }
 
         public bool TrySetValue<T>(object target, IEnumerable<T> values, ValueConverter<T> converter)
         {
-            if (!Property.CanWrite)
+            if (!this.Property.CanWrite)
+            {
                 return false;
-            Property.SetValue(target, Property.PropertyType.CreateInstanceFrom(values, converter), PropertyParameters);
+            }
+
+            this.Property.SetValue(target, this.Property.PropertyType.CreateInstanceFrom(values, converter), this.PropertyParameters);
+            
             return true;
         }
 
@@ -85,14 +92,21 @@ namespace OpenRasta.TypeSystem.ReflectionBased
         public IEnumerable<IMember> GetCallStack()
         {
             IMember current = this;
+            
             while (current != null)
             {
                 yield return current;
+                
                 var currentIsProp = current as IProperty;
+
                 if (currentIsProp != null)
+                {
                     current = currentIsProp.Owner;
+                }
                 else
+                {
                     break;
+                }
             }
         }
 
@@ -100,7 +114,7 @@ namespace OpenRasta.TypeSystem.ReflectionBased
         {
             try
             {
-                return Property.GetValue(target, PropertyParameters);
+                return this.Property.GetValue(target, this.PropertyParameters);
             }
             catch
             {
@@ -111,41 +125,66 @@ namespace OpenRasta.TypeSystem.ReflectionBased
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is ReflectionBasedProperty))
+            {
                 return false;
+            }
 
-            var other = (ReflectionBasedProperty) obj;
-            bool isEqual = Property.Equals(other.Property);
-            if (!isEqual) return false;
+            var other = (ReflectionBasedProperty)obj;
+            bool isEqual = this.Property.Equals(other.Property);
+            
+            if (!isEqual)
+            {
+                return false;
+            }
+            
             // equality depends on the owner stacks being equal and the index parameters being equal
-            if ((PropertyParameters == null && other.PropertyParameters != null)
-                || (PropertyParameters != null && other.PropertyParameters == null)
-                || (PropertyParameters != null && PropertyParameters.Length != other.PropertyParameters.Length))
+            if ((this.PropertyParameters == null && other.PropertyParameters != null)
+                || (this.PropertyParameters != null && other.PropertyParameters == null)
+                || (this.PropertyParameters != null && this.PropertyParameters.Length != other.PropertyParameters.Length))
+            {
                 return false;
+            }
 
-            if (PropertyParameters != null)
-                for (int i = 0; i < PropertyParameters.Length; i++)
+            if (this.PropertyParameters != null)
+            {
+                for (int i = 0; i < this.PropertyParameters.Length; i++)
                 {
-                    if (!PropertyParameters[i].Equals(other.PropertyParameters[i]))
+                    if (!this.PropertyParameters[i].Equals(other.PropertyParameters[i]))
+                    {
                         return false;
+                    }
                 }
+            }
 
-            List<IMember> thisOwners = GetCallStack().Skip(1).ToList();
+            List<IMember> thisOwners = this.GetCallStack().Skip(1).ToList();
             List<IMember> otherOwners = other.GetCallStack().Skip(1).ToList();
-            if (thisOwners.Count != otherOwners.Count) return false;
+            
+            if (thisOwners.Count != otherOwners.Count)
+            {
+                return false;
+            }
 
             for (int i = 0; i < thisOwners.Count; i++)
             {
-                if (!thisOwners[i].Equals(otherOwners[i])) return false;
+                if (!thisOwners[i].Equals(otherOwners[i]))
+                {
+                    return false;
+                }
             }
+
             return true;
         }
 
         public override int GetHashCode()
         {
-            int hashCode = Property.GetHashCode();
-            hashCode = GetCallStack().Skip(1).Aggregate(hashCode, (code, owner) => code ^ owner.GetHashCode());
-            if (PropertyParameters != null)
-                hashCode = PropertyParameters.Aggregate(hashCode, (hash, param) => hash ^ param.GetHashCode());
+            int hashCode = this.Property.GetHashCode();
+            hashCode = this.GetCallStack().Skip(1).Aggregate(hashCode, (code, owner) => code ^ owner.GetHashCode());
+            
+            if (this.PropertyParameters != null)
+            {
+                hashCode = this.PropertyParameters.Aggregate(hashCode, (hash, param) => hash ^ param.GetHashCode());
+            }
+
             return hashCode;
         }
     }

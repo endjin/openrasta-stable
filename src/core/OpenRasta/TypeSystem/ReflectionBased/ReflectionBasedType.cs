@@ -8,22 +8,22 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using OpenRasta.Binding;
-using OpenRasta.DI;
-
 namespace OpenRasta.TypeSystem.ReflectionBased
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
+    using OpenRasta.Binding;
+    using OpenRasta.DI;
+
     /// <summary>
     /// Represents a CLR-based type.
     /// </summary>
     [DebuggerDisplay("Name={TargetType.Name}, FullName={TargetType.ToString()}")]
     public class ReflectionBasedType : ReflectionBasedMember<ITypeBuilder>, IResolverAwareType
     {
-        public ReflectionBasedType(ITypeSystem typeSystem, Type type)
-            : base(typeSystem, type)
+        public ReflectionBasedType(ITypeSystem typeSystem, Type type) : base(typeSystem, type)
         {
         }
 
@@ -35,7 +35,10 @@ namespace OpenRasta.TypeSystem.ReflectionBased
         public override bool Equals(object obj)
         {
             if (obj == null || !(obj is ReflectionBasedType))
+            {
                 return false;
+            }
+
             return TargetType.Equals(((ReflectionBasedType)obj).TargetType);
         }
 
@@ -47,13 +50,20 @@ namespace OpenRasta.TypeSystem.ReflectionBased
         public int CompareTo(IType other)
         {
             if (other == null || other.StaticType == null)
+            {
                 return -1;
+            }
+
             return TargetType.GetInheritanceDistance(other.StaticType);
         }
 
         public object CreateInstance(IDependencyResolver resolver)
         {
-            if (resolver == null) throw new ArgumentNullException("resolver");
+            if (resolver == null)
+            {
+                throw new ArgumentNullException("resolver");
+            }
+
             return resolver.Resolve(TargetType, UnregisteredAction.AddAsTransient);
         }
 

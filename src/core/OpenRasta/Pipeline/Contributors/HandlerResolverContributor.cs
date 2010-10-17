@@ -10,44 +10,43 @@
 
 #endregion
 
-using System;
-using System.Linq;
-using OpenRasta.DI;
-using OpenRasta.Handlers;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using System.Linq;
+
+    using OpenRasta.DI;
+    using OpenRasta.Handlers;
+    using OpenRasta.Web;
+
     /// <summary>
     /// Resolves the handler attached to a resource type.
     /// </summary>
     public class HandlerResolverContributor : KnownStages.IHandlerSelection
     {
-        readonly IDependencyResolver _resolver;
-        readonly IHandlerRepository _handlers;
+        private readonly IDependencyResolver resolver;
+        private readonly IHandlerRepository handlers;
 
         public HandlerResolverContributor(IDependencyResolver resolver, IHandlerRepository repository)
         {
-            _resolver = resolver;
-            _handlers = repository;
+            this.resolver = resolver;
+            this.handlers = repository;
         }
 
         public void Initialize(IPipeline pipelineRunner)
         {
-            pipelineRunner.Notify(ResolveHandler).After<KnownStages.IUriMatching>();
+            pipelineRunner.Notify(this.ResolveHandler).After<KnownStages.IUriMatching>();
         }
 
         public PipelineContinuation ResolveHandler(ICommunicationContext context)
         {
-            var handlerTypes = _handlers.GetHandlerTypesFor(context.PipelineData.ResourceKey);
+            var handlerTypes = this.handlers.GetHandlerTypesFor(context.PipelineData.ResourceKey);
 
             if (handlerTypes != null && handlerTypes.Count() > 0)
             {
                 context.PipelineData.SelectedHandlers = handlerTypes.ToList();
                 return PipelineContinuation.Continue;
             }
+
             return PipelineContinuation.Abort;
         }
     }

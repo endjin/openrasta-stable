@@ -26,27 +26,33 @@ namespace OpenRasta.IO
         public static MatchResult Match(this byte[] source, long sourceIndex, byte[] marker, long markerIndex, long count)
         {
             long endOfArray = sourceIndex + count > source.Length ? source.Length : sourceIndex + count;
+            
             for (long sourceCurrentIndex = sourceIndex; sourceCurrentIndex < endOfArray; sourceCurrentIndex++)
             {
                 long markerCurrentIndex = markerIndex;
+                
                 for (; markerCurrentIndex < marker.Length; markerCurrentIndex++)
                 {
-                    if (sourceCurrentIndex + markerCurrentIndex >= endOfArray || source[sourceCurrentIndex + markerCurrentIndex] != marker[markerCurrentIndex]) // match
+                    if (sourceCurrentIndex + markerCurrentIndex >= endOfArray ||
+                        source[sourceCurrentIndex + markerCurrentIndex] != marker[markerCurrentIndex])
+                    {
                         break;
+                    }
                 }
-                if (markerCurrentIndex == marker.Length)
-                    return new MatchResult {State = MatchState.Found, Index = sourceCurrentIndex};
-                else if (sourceCurrentIndex + markerCurrentIndex == endOfArray)
-                    return new MatchResult {State = MatchState.Truncated, Index = sourceCurrentIndex};
-            }
-            return new MatchResult {State = MatchState.NotFound, Index = -1};
-        }
-    }
 
-    public struct MatchResult
-    {
-        public long Index;
-        public MatchState State;
+                if (markerCurrentIndex == marker.Length)
+                {
+                    return new MatchResult { State = MatchState.Found, Index = sourceCurrentIndex };
+                }
+                
+                if (sourceCurrentIndex + markerCurrentIndex == endOfArray)
+                {
+                    return new MatchResult { State = MatchState.Truncated, Index = sourceCurrentIndex };
+                }
+            }
+
+            return new MatchResult { State = MatchState.NotFound, Index = -1 };
+        }
     }
 
     public enum MatchState
@@ -54,6 +60,12 @@ namespace OpenRasta.IO
         Found,
         NotFound,
         Truncated
+    }
+
+    public struct MatchResult
+    {
+        public long Index;
+        public MatchState State;
     }
 }
 

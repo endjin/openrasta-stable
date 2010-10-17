@@ -1,82 +1,87 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-
-namespace OpenRasta.OperationModel.Interceptors
+﻿namespace OpenRasta.OperationModel.Interceptors
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
     public class OperationWithInterceptors : IOperation
     {
-        readonly IEnumerable<IOperationInterceptor> _interceptors;
-        readonly IOperation _wrappedOperation;
+        private readonly IEnumerable<IOperationInterceptor> interceptors;
+        private readonly IOperation wrappedOperation;
 
         public OperationWithInterceptors(IOperation wrappedOperation, IEnumerable<IOperationInterceptor> systemInterceptors)
         {
-            _wrappedOperation = wrappedOperation;
-            _interceptors = systemInterceptors;
+            this.wrappedOperation = wrappedOperation;
+            this.interceptors = systemInterceptors;
         }
 
         public IDictionary ExtendedProperties
         {
-            get { return _wrappedOperation.ExtendedProperties; }
+            get { return this.wrappedOperation.ExtendedProperties; }
         }
 
         public IEnumerable<InputMember> Inputs
         {
-            get { return _wrappedOperation.Inputs; }
+            get { return this.wrappedOperation.Inputs; }
         }
 
         public string Name
         {
-            get { return _wrappedOperation.Name; }
+            get { return this.wrappedOperation.Name; }
         }
 
         public T FindAttribute<T>() where T : class
         {
-            return _wrappedOperation.FindAttribute<T>();
+            return this.wrappedOperation.FindAttribute<T>();
         }
 
         public IEnumerable<T> FindAttributes<T>() where T : class
         {
-            return _wrappedOperation.FindAttributes<T>();
+            return this.wrappedOperation.FindAttributes<T>();
         }
 
         public IEnumerable<OutputMember> Invoke()
         {
-            ExecutePreConditions();
+            this.ExecutePreConditions();
 
-            Func<IEnumerable<OutputMember>> operation = () => _wrappedOperation.Invoke();
-            foreach (var executingCondition in _interceptors)
+            Func<IEnumerable<OutputMember>> operation = () => this.wrappedOperation.Invoke();
+
+            foreach (var executingCondition in this.interceptors)
             {
                 operation = executingCondition.RewriteOperation(operation) ?? operation;
             }
+
             var results = operation();
 
-            ExecutePostConditions(results);
+            this.ExecutePostConditions(results);
+
             return results;
         }
 
-        void ExecutePostConditions(IEnumerable<OutputMember> results)
+        private void ExecutePostConditions(IEnumerable<OutputMember> results)
         {
-            foreach (var postCondition in _interceptors)
+            foreach (var postCondition in this.interceptors)
             {
-                TryExecute(() => postCondition.AfterExecute(_wrappedOperation, results), "The interceptor {0} stopped execution.".With(postCondition.GetType().Name));
+                this.TryExecute(() => postCondition.AfterExecute(this.wrappedOperation, results), "The interceptor {0} stopped execution.".With(postCondition.GetType().Name));
             }
         }
 
-        void ExecutePreConditions()
+        private void ExecutePreConditions()
         {
-            foreach (var precondition in _interceptors)
+            foreach (var precondition in this.interceptors)
             {
-                TryExecute(() => precondition.BeforeExecute(_wrappedOperation), "The interceptor {0} stopped execution.".With(precondition.GetType().Name));
+                this.TryExecute(() => precondition.BeforeExecute(this.wrappedOperation), "The interceptor {0} stopped execution.".With(precondition.GetType().Name));
             }
         }
 
-        void TryExecute(Func<bool> interception, string exceptionMessage)
+        private void TryExecute(Func<bool> interception, string exceptionMessage)
         {
             Exception exception = null;
+
             try
             {
                 bool isSuccessful = interception();
+
                 if (!isSuccessful)
                 {
                     exception = new InterceptorException(exceptionMessage);
@@ -86,6 +91,7 @@ namespace OpenRasta.OperationModel.Interceptors
             {
                 exception = new InterceptorException(exceptionMessage, e);
             }
+
             if (exception != null)
             {
                 throw exception;

@@ -8,15 +8,16 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using OpenRasta.DI;
-using OpenRasta.OperationModel;
-using OpenRasta.OperationModel.Interceptors;
-using OpenRasta.Web;
-
 namespace OpenRasta.Security
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.DI;
+    using OpenRasta.OperationModel;
+    using OpenRasta.OperationModel.Interceptors;
+    using OpenRasta.Web;
+
     [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
     public class RequiresAuthenticationAttribute : InterceptorProviderAttribute
     {

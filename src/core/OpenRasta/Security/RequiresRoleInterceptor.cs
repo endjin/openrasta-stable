@@ -1,26 +1,29 @@
-using OpenRasta.OperationModel;
-using OpenRasta.OperationModel.Interceptors;
-using OpenRasta.Web;
-
 namespace OpenRasta.Security
 {
+    using OpenRasta.OperationModel;
+    using OpenRasta.OperationModel.Interceptors;
+    using OpenRasta.Web;
+
     public class RequiresRoleInterceptor : OperationInterceptor
     {
-        ICommunicationContext _context;
+        private readonly ICommunicationContext context;
 
         public RequiresRoleInterceptor(ICommunicationContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public string Role { get; set; }
+
         public override bool BeforeExecute(IOperation operation)
         {
-            var isAuthorized = Role == null || _context.User.IsInRole(Role);
+            var isAuthorized = this.Role == null || this.context.User.IsInRole(this.Role);
+            
             if (!isAuthorized)
             {
-                _context.OperationResult = new OperationResult.Unauthorized();
+                this.context.OperationResult = new OperationResult.Unauthorized();
             }
+            
             return isAuthorized;
         }
     }

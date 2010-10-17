@@ -8,12 +8,10 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.Web;
+
     /// <summary>
     /// Supports the use of the X-HTTP-Method-Override header to override the verb used
     /// by OpenRasta for processing.
@@ -21,23 +19,27 @@ namespace OpenRasta.Pipeline.Contributors
     /// <remarks>Clients that can add http headers may not support other verbs than POST (Flash and Silverlight for example). With the X-HTTP-Method-Override header, OpenRasta will process the request as if it was made using a genuine http verb.</remarks>
     public class HttpMethodOverriderContributor : IPipelineContributor
     {
-        const string HTTP_METHOD_OVERRIDE = "X-HTTP-Method-Override";
+        private const string HttpMethodOverride = "X-HTTP-Method-Override";
+        
         public void Initialize(IPipeline pipelineRunner)
         {
-            pipelineRunner.Notify(OverrideHttpVerb).Before<KnownStages.IHandlerSelection>();
+            pipelineRunner.Notify(this.OverrideHttpVerb).Before<KnownStages.IHandlerSelection>();
         }
 
         public PipelineContinuation OverrideHttpVerb(ICommunicationContext context)
         {
-            if (context.Request.Headers[HTTP_METHOD_OVERRIDE] != null)
+            if (context.Request.Headers[HttpMethodOverride] != null)
             {
                 if (context.Request.HttpMethod != "POST")
                 {
                     context.ServerErrors.Add(new MethodIsNotPostError(context.Request.HttpMethod));
+
                     return PipelineContinuation.Abort;
                 }
-                context.Request.HttpMethod = context.Request.Headers[HTTP_METHOD_OVERRIDE];
+
+                context.Request.HttpMethod = context.Request.Headers[HttpMethodOverride];
             }
+
             return PipelineContinuation.Continue;
         }
 

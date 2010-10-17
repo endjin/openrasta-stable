@@ -1,44 +1,41 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-
 namespace OpenRasta.TypeSystem.ReflectionBased
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+
     public abstract class ReflectionBasedMember<T> : IMember
         where T : IMemberBuilder
     {
-        readonly Dictionary<string, IProperty> _propertiesCachedByPath =
-            new Dictionary<string, IProperty>(StringComparer.OrdinalIgnoreCase);
+        private readonly Dictionary<string, IProperty> propertiesCachedByPath = new Dictionary<string, IProperty>(StringComparer.OrdinalIgnoreCase);
+        private readonly object syncRoot = new object();
 
-        readonly object _syncRoot = new object();
-
-        IType _memberType;
-
-        ILookup<string, IMethod> _methodsCache;
+        private IType memberType;
+        private ILookup<string, IMethod> methodsCache;
 
         protected ReflectionBasedMember(ITypeSystem typeSystem, Type targetType)
         {
-            TypeSystem = typeSystem;
-            SurrogateProvider = typeSystem.SurrogateProvider;
-            PathManager = typeSystem.PathManager;
-            TargetType = targetType;
+            this.TypeSystem = typeSystem;
+            this.SurrogateProvider = typeSystem.SurrogateProvider;
+            this.PathManager = typeSystem.PathManager;
+            this.TargetType = targetType;
         }
 
         public virtual bool IsEnumerable
         {
-            get { return TargetType.IsArray || (TargetType.Implements(typeof(IEnumerable<>)) && !TargetType.Implements(typeof(IDictionary<,>))); }
+            get { return this.TargetType.IsArray || (this.TargetType.Implements(typeof(IEnumerable<>)) && !this.TargetType.Implements(typeof(IDictionary<,>))); }
         }
 
         public virtual string Name
         {
-            get { return TargetType.Name; }
+            get { return this.TargetType.Name; }
         }
 
         public Type StaticType
         {
-            get { return TargetType; }
+            get { return this.TargetType; }
         }
 
         public IPathManager PathManager { get; set; }
@@ -51,23 +48,26 @@ namespace OpenRasta.TypeSystem.ReflectionBased
         {
             get
             {
-                if (_memberType == null)
+                if (this.memberType == null)
                 {
-                    lock (_syncRoot)
+                    lock (this.syncRoot)
                     {
                         Thread.MemoryBarrier();
-                        if (_memberType == null)
-                            _memberType = TypeSystem.FromClr(TargetType);
+
+                        if (this.memberType == null)
+                        {
+                            this.memberType = this.TypeSystem.FromClr(this.TargetType);
+                        }
                     }
                 }
 
-                return _memberType;
+                return this.memberType;
             }
         }
 
         public virtual string TypeName
         {
-            get { return TargetType.Name; }
+            get { return this.TargetType.Name; }
         }
 
         public ITypeSystem TypeSystem { get; set; }
@@ -79,72 +79,85 @@ namespace OpenRasta.TypeSystem.ReflectionBased
 
         public IEnumerable<TAttribute> FindAttributes<TAttribute>() where TAttribute : class
         {
-            return Attribute.GetCustomAttributes(TargetType, true).OfType<TAttribute>();
+            return Attribute.GetCustomAttributes(this.TargetType, true).OfType<TAttribute>();
         }
 
         public virtual bool CanSetValue(object value)
         {
             return
-                (TargetType.IsValueType && value != null && TargetType.IsAssignableFrom(value.GetType()))
-                || (!TargetType.IsValueType && (value == null || TargetType.IsAssignableFrom(value.GetType())));
+                (this.TargetType.IsValueType && value != null && this.TargetType.IsAssignableFrom(value.GetType()))
+                || (!this.TargetType.IsValueType && (value == null || this.TargetType.IsAssignableFrom(value.GetType())));
         }
 
         public virtual IProperty GetIndexer(string indexerParameter)
         {
-            var indexer = TargetType.FindIndexers(1).FindIndexer(indexerParameter);
+            var indexer = this.TargetType.FindIndexers(1).FindIndexer(indexerParameter);
 
-            return indexer != null ? SurrogateProperty(new ReflectionBasedProperty(TypeSystem, this, indexer.Value.Key, indexer.Value.Value)) : null;
+            return indexer != null ? this.SurrogateProperty(new ReflectionBasedProperty(this.TypeSystem, this, indexer.Value.Key, indexer.Value.Value)) : null;
         }
 
         public IMethod GetMethod(string methodName)
         {
-            VerifyMethodsInitialized();
+            this.VerifyMethodsInitialized();
 
-            return _methodsCache.Contains(methodName) ? _methodsCache[methodName].FirstOrDefault() : null;
+            return this.methodsCache.Contains(methodName) ? this.methodsCache[methodName].FirstOrDefault() : null;
         }
 
         public IList<IMethod> GetMethods()
         {
-            VerifyMethodsInitialized();
-            return _methodsCache.SelectMany(x => x).ToList().AsReadOnly();
+            this.VerifyMethodsInitialized();
+
+            return this.methodsCache.SelectMany(x => x).ToList().AsReadOnly();
         }
 
         public virtual IProperty GetProperty(string propertyName)
         {
-            lock (_syncRoot)
+            lock (this.syncRoot)
             {
-                if (_propertiesCachedByPath.ContainsKey(propertyName))
-                    return _propertiesCachedByPath[propertyName];
-                var pi = TargetType.FindPropertyCaseInvariant(propertyName);
-                if (pi == null)
-                    return null;
+                if (this.propertiesCachedByPath.ContainsKey(propertyName))
+                {
+                    return this.propertiesCachedByPath[propertyName];
+                }
 
-                var pa = SurrogateProperty(new ReflectionBasedProperty(TypeSystem, this, pi, null));
-                _propertiesCachedByPath.Add(propertyName, pa);
+                var pi = this.TargetType.FindPropertyCaseInvariant(propertyName);
+
+                if (pi == null)
+                {
+                    return null;
+                }
+
+                var pa = this.SurrogateProperty(new ReflectionBasedProperty(this.TypeSystem, this, pi, null));
+                this.propertiesCachedByPath.Add(propertyName, pa);
+                
                 return pa;
             }
         }
 
-        IProperty SurrogateProperty(IProperty property)
+        private IProperty SurrogateProperty(IProperty property)
         {
-            if (TypeSystem.SurrogateProvider == null) return property;
-            return TypeSystem.SurrogateProvider.FindSurrogate(property);
+            if (this.TypeSystem.SurrogateProvider == null)
+            {
+                return property;
+            }
+
+            return this.TypeSystem.SurrogateProvider.FindSurrogate(property);
         }
 
-        void VerifyMethodsInitialized()
+        private void VerifyMethodsInitialized()
         {
-            if (_methodsCache == null)
+            if (this.methodsCache == null)
             {
-                lock (_syncRoot)
+                lock (this.syncRoot)
                 {
                     Thread.MemoryBarrier();
-                    if (_methodsCache == null)
+                    
+                    if (this.methodsCache == null)
                     {
-                        var allProperties = TargetType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
-                        _methodsCache = (from method in TargetType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy)
-                                         where !allProperties.Any(x => x.GetGetMethod() == method || x.GetSetMethod() == method)
-                                         select new ReflectionBasedMethod(TypeSystem.FromClr(method.DeclaringType), method) as IMethod)
-                            .ToLookup(x => x.Name, StringComparer.OrdinalIgnoreCase);
+                        var allProperties = this.TargetType.GetProperties(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy);
+                        this.methodsCache = (from method in this.TargetType.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static | BindingFlags.FlattenHierarchy)
+                                             where !allProperties.Any(x => x.GetGetMethod() == method || x.GetSetMethod() == method)
+                                             select new ReflectionBasedMethod(this.TypeSystem.FromClr(method.DeclaringType), method) as IMethod)
+                                             .ToLookup(x => x.Name, StringComparer.OrdinalIgnoreCase);
                     }
                 }
             }

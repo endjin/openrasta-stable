@@ -9,37 +9,36 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Diagnostics;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-using OpenRasta.Web.Internal;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Web;
+    using OpenRasta.Web.Internal;
+
     public class ResourceTypeResolverContributor : KnownStages.IUriMatching
     {
-        readonly IUriResolver _uriRepository;
+        private readonly IUriResolver uriRepository;
 
         public ResourceTypeResolverContributor(IUriResolver uriRepository)
         {
-            _uriRepository = uriRepository;
-            Log = NullLogger.Instance;
+            this.uriRepository = uriRepository;
+            this.Log = NullLogger.Instance;
         }
 
         public ILogger Log { get; set; }
 
         public void Initialize(IPipeline pipelineRunner)
         {
-            pipelineRunner.Notify(ResolveResource).After<BootstrapperContributor>();
+            pipelineRunner.Notify(this.ResolveResource).After<BootstrapperContributor>();
         }
 
-        PipelineContinuation ResolveResource(ICommunicationContext context)
+        private PipelineContinuation ResolveResource(ICommunicationContext context)
         {
             if (context.PipelineData.SelectedResource == null)
             {
                 var uriToMath = context.GetRequestUriRelativeToRoot();
-                var uriMatch = _uriRepository.Match(uriToMath);
+                var uriMatch = this.uriRepository.Match(uriToMath);
+                
                 if (uriMatch != null)
                 {
                     context.PipelineData.SelectedResource = uriMatch;
@@ -48,16 +47,18 @@ namespace OpenRasta.Pipeline.Contributors
                 }
                 else
                 {
-                    context.OperationResult = CreateNotFound(context);
+                    context.OperationResult = this.CreateNotFound(context);
+                    
                     return PipelineContinuation.RenderNow;
                 }
             }
             else
             {
-                Log.WriteInfo(
+                this.Log.WriteInfo(
                     "Not resolving any resource as a resource with key {0} has already been selected.".With(
                         context.PipelineData.SelectedResource.ResourceKey));
             }
+
             return PipelineContinuation.Continue;
         }
 

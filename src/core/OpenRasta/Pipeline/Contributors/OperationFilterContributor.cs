@@ -1,10 +1,8 @@
-using OpenRasta.DI;
-using OpenRasta.OperationModel;
-using OpenRasta.OperationModel.Filters;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.DI;
+    using OpenRasta.OperationModel;
+
     public class OperationFilterContributor :
         AbstractOperationProcessing<IOperationFilter, KnownStages.IOperationFiltering>,
         KnownStages.IOperationFiltering

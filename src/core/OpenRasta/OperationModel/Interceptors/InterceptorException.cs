@@ -1,7 +1,7 @@
-using System;
-
 namespace OpenRasta.OperationModel.Interceptors
 {
+    using System;
+
     public class InterceptorException : Exception
     {
         public InterceptorException(string message) : base(message)

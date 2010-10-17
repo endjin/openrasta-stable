@@ -8,12 +8,13 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using OpenRasta.Web;
-
 namespace OpenRasta.Pipeline
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Web;
+
     /// <summary>
     /// Represents an instance of an OpenRasta pipeline
     /// </summary>
@@ -22,7 +23,9 @@ namespace OpenRasta.Pipeline
         bool IsInitialized { get; }
 
         IList<IPipelineContributor> Contributors { get; }
+
         IEnumerable<ContributorCall> CallGraph { get; }
+
         void Initialize();
 
         IPipelineExecutionOrder Notify(Func<ICommunicationContext, PipelineContinuation> notification);

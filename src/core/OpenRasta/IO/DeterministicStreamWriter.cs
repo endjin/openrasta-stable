@@ -9,17 +9,17 @@
  */
 #endregion
 
-using System.IO;
-using System.Text;
-
 namespace OpenRasta.IO
 {
+    using System.IO;
+    using System.Text;
+
     /// <summary>
     /// Implements a StreamWriter that does not close or dispose the stream when it doesn't own it.
     /// </summary>
     public class DeterministicStreamWriter : StreamWriter
     {
-        readonly StreamActionOnDispose _closeAction;
+        private readonly StreamActionOnDispose closeAction;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="DeterministicStreamWriter"/> class.
@@ -30,7 +30,7 @@ namespace OpenRasta.IO
         public DeterministicStreamWriter(Stream stream, Encoding encoding, StreamActionOnDispose action)
             : base(stream, encoding)
         {
-            _closeAction = action;
+            this.closeAction = action;
         }
 
         protected override void Dispose(bool disposing)
@@ -38,11 +38,13 @@ namespace OpenRasta.IO
             try
             {
                 if (BaseStream != null && disposing)
+                {
                     Flush();
+                }
             }
             finally
             {
-                if (_closeAction == StreamActionOnDispose.Close && BaseStream != null && disposing)
+                if (this.closeAction == StreamActionOnDispose.Close && BaseStream != null && disposing)
                 {
                     BaseStream.Close();
                 }

@@ -18,29 +18,31 @@
 // Portions (C) 2003 Motus Technologies Inc. (http://www.motus.com)
 // Original source code available at
 // http://www.rassoc.com/gregr/weblog/stories/2002/07/09/webServicesSecurityHttpDigestAuthenticationWithoutActiveDirectory.html
-using System;
-using System.Linq;
-using System.Security.Principal;
-using OpenRasta.DI;
-using OpenRasta.Security;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
 
 namespace OpenRasta.Pipeline.Contributors
 {
+    using System;
+    using System.Linq;
+    using System.Security.Principal;
+
+    using OpenRasta.DI;
+    using OpenRasta.Pipeline;
+    using OpenRasta.Security;
+    using OpenRasta.Web;
+
     public class DigestAuthorizerContributor : IPipelineContributor
     {
-        readonly IDependencyResolver _resolver;
-        IAuthenticationProvider _authentication;
+        private readonly IDependencyResolver resolver;
+        private IAuthenticationProvider authentication;
 
         public DigestAuthorizerContributor(IDependencyResolver resolver)
         {
-            _resolver = resolver;
+            this.resolver = resolver;
         }
 
         public void Initialize(IPipeline pipelineRunner)
         {
-            pipelineRunner.Notify(ReadCredentials)
+            pipelineRunner.Notify(this.ReadCredentials)
                 .After<KnownStages.IBegin>()
                 .And
                 .Before<KnownStages.IHandlerSelection>();
@@ -53,57 +55,68 @@ namespace OpenRasta.Pipeline.Contributors
 
         public PipelineContinuation ReadCredentials(ICommunicationContext context)
         {
-            if (!_resolver.HasDependency(typeof(IAuthenticationProvider)))
+            if (!this.resolver.HasDependency(typeof(IAuthenticationProvider)))
+            {
                 return PipelineContinuation.Continue;
+            }
 
-            _authentication = _resolver.Resolve<IAuthenticationProvider>();
+            this.authentication = this.resolver.Resolve<IAuthenticationProvider>();
 
             DigestHeader authorizeHeader = GetDigestHeader(context);
 
             if (authorizeHeader == null)
+            {
                 return PipelineContinuation.Continue;
+            }
 
             string digestUri = GetAbsolutePath(authorizeHeader.Uri);
 
             if (digestUri != context.Request.Uri.AbsolutePath)
+            {
                 return ClientError(context);
+            }
 
-            Credentials creds = _authentication.GetByUsername(authorizeHeader.Username);
+            Credentials creds = this.authentication.GetByUsername(authorizeHeader.Username);
 
             if (creds == null)
-                return NotAuthorized(context);
-            var checkHeader = new DigestHeader(authorizeHeader)
             {
-                Password = creds.Password,
-                Uri = authorizeHeader.Uri
-            };
+                return NotAuthorized(context);
+            }
+
+            var checkHeader = new DigestHeader(authorizeHeader) { Password = creds.Password, Uri = authorizeHeader.Uri };
             string hashedDigest = checkHeader.GetCalculatedResponse(context.Request.HttpMethod);
 
             if (authorizeHeader.Response == hashedDigest)
             {
                 IIdentity id = new GenericIdentity(creds.Username, "Digest");
                 context.User = new GenericPrincipal(id, creds.Roles);
+                
                 return PipelineContinuation.Continue;
             }
+
             return NotAuthorized(context);
         }
 
-        static DigestHeader GetDigestHeader(ICommunicationContext context)
+        private static DigestHeader GetDigestHeader(ICommunicationContext context)
         {
             string header = context.Request.Headers["Authorization"];
+            
             return string.IsNullOrEmpty(header) ? null : DigestHeader.Parse(header);
         }
-        static bool HasDigestHeader(ICommunicationContext context)
+
+        private static bool HasDigestHeader(ICommunicationContext context)
         {
             return GetDigestHeader(context) != null;
         }
-        static PipelineContinuation ClientError(ICommunicationContext context)
+        
+        private static PipelineContinuation ClientError(ICommunicationContext context)
         {
             context.OperationResult = new OperationResult.BadRequest();
+            
             return PipelineContinuation.RenderNow;
         }
 
-        static string GetAbsolutePath(string uri)
+        private static string GetAbsolutePath(string uri)
         {
             uri = uri.TrimStart();
 
@@ -111,16 +124,18 @@ namespace OpenRasta.Pipeline.Contributors
             {
                 return new Uri(uri).AbsolutePath;
             }
+
             return uri.Any(ch => ch > 127) ? Uri.EscapeUriString(uri) : uri;
         }
 
-        static PipelineContinuation NotAuthorized(ICommunicationContext context)
+        private static PipelineContinuation NotAuthorized(ICommunicationContext context)
         {
             context.OperationResult = new OperationResult.Unauthorized();
+            
             return PipelineContinuation.RenderNow;
         }
 
-        static PipelineContinuation WriteCredentialRequest(ICommunicationContext context)
+        private static PipelineContinuation WriteCredentialRequest(ICommunicationContext context)
         {
             if (context.OperationResult is OperationResult.Unauthorized)
             {
@@ -135,6 +150,7 @@ namespace OpenRasta.Pipeline.Contributors
                     }
                         .ServerResponseHeader;
             }
+
             return PipelineContinuation.Continue;
         }
     }

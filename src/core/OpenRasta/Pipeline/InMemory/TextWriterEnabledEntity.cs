@@ -8,15 +8,19 @@
  */
 #endregion
 
-using System;
-using System.IO;
-using OpenRasta.Web;
-
 namespace OpenRasta.Pipeline.InMemory
 {
+    using System.IO;
+
+    using OpenRasta.Web;
+
     public class TextWriterEnabledEntity : HttpEntity, ISupportsTextWriter
     {
-        public TextWriterEnabledEntity(TextWriter writer) : base(new HttpHeaderDictionary(), new MemoryStream()) { TextWriter = writer; }
+        public TextWriterEnabledEntity(TextWriter writer) : base(new HttpHeaderDictionary(), new MemoryStream())
+        {
+            TextWriter = writer;
+        }
+
         public TextWriter TextWriter { get; set; }
     }
 }

@@ -1,10 +1,8 @@
-using OpenRasta.DI;
-using OpenRasta.OperationModel;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.DI;
+    using OpenRasta.OperationModel;
+
     public class OperationHydratorContributor :
         AbstractOperationProcessing<IOperationHydrator, KnownStages.IRequestDecoding>,
         KnownStages.IRequestDecoding
@@ -16,10 +14,6 @@ namespace OpenRasta.Pipeline.Contributors
         protected override void InitializeWhen(IPipelineExecutionOrder pipeline)
         {
             pipeline.After<KnownStages.ICodecRequestSelection>();
-        }
-        protected override PipelineContinuation OnOperationsEmpty(ICommunicationContext context)
-        {
-            return base.OnOperationsEmpty(context);
         }
     }
 }

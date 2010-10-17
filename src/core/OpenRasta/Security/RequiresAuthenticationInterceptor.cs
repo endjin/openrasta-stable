@@ -1,23 +1,23 @@
-﻿using OpenRasta.OperationModel;
-using OpenRasta.OperationModel.Interceptors;
-using OpenRasta.Web;
-
-namespace OpenRasta.Security
+﻿namespace OpenRasta.Security
 {
+    using OpenRasta.OperationModel;
+    using OpenRasta.OperationModel.Interceptors;
+    using OpenRasta.Web;
+
     public class RequiresAuthenticationInterceptor : OperationInterceptor
     {
-        readonly ICommunicationContext _context;
+        private readonly ICommunicationContext context;
 
         public RequiresAuthenticationInterceptor(ICommunicationContext context)
         {
-            _context = context;
+            this.context = context;
         }
 
         public override bool BeforeExecute(IOperation operation)
         {
-            if (_context.User == null || _context.User.Identity == null || !_context.User.Identity.IsAuthenticated)
+            if (this.context.User == null || this.context.User.Identity == null || !this.context.User.Identity.IsAuthenticated)
             {
-                _context.OperationResult = new OperationResult.Unauthorized();
+                this.context.OperationResult = new OperationResult.Unauthorized();
                 return false;
             }
 

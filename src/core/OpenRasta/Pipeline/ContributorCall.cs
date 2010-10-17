@@ -8,34 +8,48 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Web;
-
 namespace OpenRasta.Pipeline
 {
+    using System;
+
+    using OpenRasta.Web;
+
     public class ContributorCall
     {
-        IPipelineContributor _target;
-        public ContributorCall() { ContributorTypeName = "Unknown"; }
+        private IPipelineContributor target;
+
+        public ContributorCall()
+        {
+            this.ContributorTypeName = "Unknown";
+        }
 
         public ContributorCall(IPipelineContributor target, Func<ICommunicationContext, PipelineContinuation> action, string description)
         {
-            Action = action;
-            ContributorTypeName = description;
-            Target = target;
+            this.Action = action;
+            this.ContributorTypeName = description;
+            this.Target = target;
         }
 
         public string ContributorTypeName { get; set; }
+
         public IPipelineContributor Target
         {
-            get { return _target; }
+            get
+            {
+                return this.target;
+            }
+
             set
             {
-                _target = value;
-                if (_target != null && ContributorTypeName == null)
-                    ContributorTypeName = _target.GetType().Name;
+                this.target = value;
+
+                if (this.target != null && this.ContributorTypeName == null)
+                {
+                    this.ContributorTypeName = this.target.GetType().Name;
+                }
             }
         }
+
         public Func<ICommunicationContext, PipelineContinuation> Action { get; set; }
     }
 }

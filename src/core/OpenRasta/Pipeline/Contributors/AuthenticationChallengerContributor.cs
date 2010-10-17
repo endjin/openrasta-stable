@@ -1,23 +1,24 @@
-﻿using OpenRasta.Authentication;
-using OpenRasta.DI;
-using OpenRasta.Diagnostics;
-using OpenRasta.Web;
-
-namespace OpenRasta.Pipeline.Contributors
+﻿namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.Authentication;
+    using OpenRasta.DI;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Web;
+
     public class AuthenticationChallengerContributor : IPipelineContributor
     {
-        readonly IDependencyResolver _resolver;
-        public ILogger Log { get; set; }
+        private readonly IDependencyResolver resolver;
 
         public AuthenticationChallengerContributor(IDependencyResolver resolver)
         {
-            _resolver = resolver;
+            this.resolver = resolver;
         }
+
+        public ILogger Log { get; set; }
 
         public void Initialize(IPipeline pipelineRunner)
         {
-            pipelineRunner.Notify(ChallengeIfUnauthorized)
+            pipelineRunner.Notify(this.ChallengeIfUnauthorized)
                 .After<KnownStages.IOperationExecution>()
                 .And
                 .Before<KnownStages.IResponseCoding>();
@@ -27,7 +28,7 @@ namespace OpenRasta.Pipeline.Contributors
         {
             if (context.OperationResult is OperationResult.Unauthorized)
             {
-                var supportedSchemes = _resolver.ResolveAll<IAuthenticationScheme>();
+                var supportedSchemes = this.resolver.ResolveAll<IAuthenticationScheme>();
 
                 foreach (var scheme in supportedSchemes)
                 {

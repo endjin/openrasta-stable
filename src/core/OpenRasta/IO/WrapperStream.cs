@@ -9,68 +9,68 @@
  */
 #endregion
 
-using System.IO;
-
 namespace OpenRasta.IO
 {
+    using System.IO;
+
     public class WrapperStream : Stream
     {
         public WrapperStream(Stream underlyingStream)
         {
-            UnderlyingStream = underlyingStream;
+            this.UnderlyingStream = underlyingStream;
         }
 
         public override bool CanRead
         {
-            get { return UnderlyingStream.CanRead; }
+            get { return this.UnderlyingStream.CanRead; }
         }
 
         public override bool CanSeek
         {
-            get { return UnderlyingStream.CanSeek; }
+            get { return this.UnderlyingStream.CanSeek; }
         }
 
         public override bool CanWrite
         {
-            get { return UnderlyingStream.CanWrite; }
+            get { return this.UnderlyingStream.CanWrite; }
         }
 
         public override long Length
         {
-            get { return UnderlyingStream.Length; }
+            get { return this.UnderlyingStream.Length; }
         }
 
         public override long Position
         {
-            get { return UnderlyingStream.Position; }
-            set { UnderlyingStream.Position = value; }
+            get { return this.UnderlyingStream.Position; }
+            set { this.UnderlyingStream.Position = value; }
         }
 
         protected Stream UnderlyingStream { get; private set; }
 
         public override void Flush()
         {
-            UnderlyingStream.Flush();
+            this.UnderlyingStream.Flush();
         }
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            return UnderlyingStream.Read(buffer, offset, count);
+            return this.UnderlyingStream.Read(buffer, offset, count);
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            return UnderlyingStream.Seek(offset, origin);
+            return this.UnderlyingStream.Seek(offset, origin);
         }
 
         public override void SetLength(long value)
         {
-            UnderlyingStream.SetLength(value);
+            this.UnderlyingStream.SetLength(value);
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            UnderlyingStream.Write(buffer, offset, count);
+            this.UnderlyingStream.Write(buffer, offset, count);
         }
     }
 }

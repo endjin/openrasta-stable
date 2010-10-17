@@ -9,19 +9,18 @@
  */
 #endregion
 
-using System.IO;
-
 namespace OpenRasta.IO
 {
+    using System.IO;
+
     /// <summary>
     /// Provides a stream that can keep track of how much data was written to a non-seekable stream.
     /// </summary>
     public class LengthTrackingStream : WrapperStream
     {
-        long _length;
+        private long length;
 
-        public LengthTrackingStream(Stream underlyingStream)
-            : base(underlyingStream)
+        public LengthTrackingStream(Stream underlyingStream) : base(underlyingStream)
         {
         }
 
@@ -30,17 +29,22 @@ namespace OpenRasta.IO
             get
             {
                 if (base.CanSeek)
+                {
                     return base.Length;
-                else
-                    return _length;
+                }
+                
+                return this.length;
             }
         }
 
         public override void Write(byte[] buffer, int offset, int count)
         {
             base.Write(buffer, offset, count);
+            
             if (!CanSeek)
-                _length += count;
+            {
+                this.length += count;
+            }
         }
     }
 }

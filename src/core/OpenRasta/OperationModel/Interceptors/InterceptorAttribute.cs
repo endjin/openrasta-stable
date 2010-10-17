@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace OpenRasta.OperationModel.Interceptors
 {
+    using System;
+    using System.Collections.Generic;
+
     public abstract class InterceptorAttribute : Attribute, IOperationInterceptor
     {
         public virtual bool AfterExecute(IOperation operation, IEnumerable<OutputMember> outputMembers)

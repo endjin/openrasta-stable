@@ -1,61 +1,66 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-
-namespace OpenRasta.TypeSystem.ReflectionBased
+﻿namespace OpenRasta.TypeSystem.ReflectionBased
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading;
+
     public class ReflectionBasedTypeSystem : ITypeSystem
     {
-        static readonly IDictionary<Type, IType> _cache = new Dictionary<Type, IType>();
-        readonly Stack<Type> _recursionDefender = new Stack<Type>();
+        private static readonly IDictionary<Type, IType> Cache = new Dictionary<Type, IType>();
+        private readonly Stack<Type> recursionDefender = new Stack<Type>();
 
         public ReflectionBasedTypeSystem()
         {
-            SurrogateProvider = null;
-            PathManager = new PathManager();
+            this.SurrogateProvider = null;
+            this.PathManager = new PathManager();
         }
 
         public ReflectionBasedTypeSystem(ISurrogateProvider surrogateProvider, IPathManager pathManager)
         {
-            SurrogateProvider = surrogateProvider;
-            PathManager = pathManager;
+            this.SurrogateProvider = surrogateProvider;
+            this.PathManager = pathManager;
         }
 
         public IPathManager PathManager { get; private set; }
+
         public ISurrogateProvider SurrogateProvider { get; private set; }
 
         public IType FromClr(Type type)
         {
-            if (type == null) throw new ArgumentNullException("type");
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
 
             IType result;
-            if (!_cache.TryGetValue(type, out result))
+            if (!Cache.TryGetValue(type, out result))
             {
-                lock (_cache)
+                lock (Cache)
                 {
                     // if (_recursionDefender.Contains(type))
                     // throw new RecursionException();
                     try
                     {
-                        _recursionDefender.Push(type);
+                        this.recursionDefender.Push(type);
                         Thread.MemoryBarrier();
-                        if (!_cache.TryGetValue(type, out result))
+                        
+                        if (!Cache.TryGetValue(type, out result))
                         {
                             var typeAccessor = new ReflectionBasedType(this, type);
 
                             // write the temporary type in the cache to avoid recursion
-                            _cache[type] = typeAccessor;
-                            result = SurrogateProvider != null
-                                         ? (SurrogateProvider.FindSurrogate((IType)typeAccessor) ?? typeAccessor)
+                            Cache[type] = typeAccessor;
+                            result = this.SurrogateProvider != null
+                                         ? (this.SurrogateProvider.FindSurrogate((IType)typeAccessor) ?? typeAccessor)
                                          : typeAccessor;
 
                             // and update
-                            _cache[type] = result;
+                            Cache[type] = result;
                         }
                     }
                     finally
                     {
-                        _recursionDefender.Pop();
+                        this.recursionDefender.Pop();
                     }
                 }
             }
@@ -65,8 +70,12 @@ namespace OpenRasta.TypeSystem.ReflectionBased
 
         public IType FromInstance(object instance)
         {
-            if (instance == null) throw new ArgumentNullException("instance");
-            return FromClr(instance.GetType());
+            if (instance == null)
+            {
+                throw new ArgumentNullException("instance");
+            }
+
+            return this.FromClr(instance.GetType());
         }
     }
 }

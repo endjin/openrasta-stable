@@ -8,93 +8,101 @@
  */
 #endregion
 
-using System;
-using System.Linq;
-using OpenRasta.Codecs;
-using OpenRasta.DI;
-using OpenRasta.Diagnostics;
-using OpenRasta.IO;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using System.Linq;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.DI;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Web;
+
     public class ResponseEntityWriterContributor : KnownStages.IResponseCoding
     {
-        static readonly byte[] PADDING = Enumerable.Repeat((byte)' ', 512).ToArray();
+        private static readonly byte[] Padding = Enumerable.Repeat((byte)' ', 512).ToArray();
 
         public ILogger Log { get; set; }
+
         public void Initialize(IPipeline pipeline)
         {
-            pipeline.Notify(WriteResponse).After<KnownStages.ICodecResponseSelection>();
-            //.And
-            //.Before<KnownStages.IEnd>();
+            pipeline.Notify(this.WriteResponse).After<KnownStages.ICodecResponseSelection>();
         }
 
         public PipelineContinuation WriteResponse(ICommunicationContext context)
         {
             if (context.Response.Entity.Instance == null)
             {
-                Log.WriteDebug("There was no response entity, not rendering.");
+                this.Log.WriteDebug("There was no response entity, not rendering.");
             }
             else
             {
                 var codecInstance = context.Response.Entity.Codec as IMediaTypeWriter;
+                
                 if (codecInstance != null)
-                    Log.WriteDebug("Codec instance with type {0} has already been defined.",
-                                   codecInstance.GetType().Name);
+                {
+                    this.Log.WriteDebug("Codec instance with type {0} has already been defined.", codecInstance.GetType().Name);
+                }
                 else
                 {
-                    context.Response.Entity.Codec =
-                        codecInstance =
-                        DependencyManager.GetService(context.PipelineData.ResponseCodec.CodecType) as IMediaTypeWriter;
+                    context.Response.Entity.Codec = codecInstance = DependencyManager.GetService(context.PipelineData.ResponseCodec.CodecType) as IMediaTypeWriter;
                 }
+
                 if (codecInstance == null)
                 {
-                    context.ServerErrors.Add(new Error {
-                                                           Title =
-                                                               "Codec {0} couldn't be initialized. Ensure the codec implements {1}.".
-                                                               With(context.PipelineData.ResponseCodec.CodecType,
-                                                                    typeof (IMediaTypeReader).Name)
-                                                       });
+                    context.ServerErrors.Add(
+                        new Error
+                            {
+                                Title = "Codec {0} couldn't be initialized. Ensure the codec implements {1}.".With(
+                                        context.PipelineData.ResponseCodec.CodecType, typeof(IMediaTypeReader).Name)
+                            });
+
                     return PipelineContinuation.Abort;
                 }
-                else
+
+                this.Log.WriteDebug("Codec {0} selected.", codecInstance.GetType().Name);
+                
+                if (context.PipelineData.ResponseCodec != null && context.PipelineData.ResponseCodec.Configuration != null)
                 {
-                    Log.WriteDebug("Codec {0} selected.", codecInstance.GetType().Name);
-                    if (context.PipelineData.ResponseCodec != null &&
-                        context.PipelineData.ResponseCodec.Configuration != null)
-                        codecInstance.Configuration = context.PipelineData.ResponseCodec.Configuration;
+                    codecInstance.Configuration = context.PipelineData.ResponseCodec.Configuration;
+                }
 
-                    using (Log.Operation(this, "Generating response entity."))
-                    {
-                        codecInstance.WriteTo(
-                            context.Response.Entity.Instance,
-                            context.Response.Entity,
-                            context.Request.CodecParameters.ToArray());
-                        PadErrorMessageForIE(context);
+                using (this.Log.Operation(this, "Generating response entity."))
+                {
+                    codecInstance.WriteTo(
+                        context.Response.Entity.Instance,
+                        context.Response.Entity,
+                        context.Request.CodecParameters.ToArray());
+                    
+                    PadErrorMessageForIE(context);
 
-                        Log.WriteDebug("Setting Content-Length to {0}", context.Response.Entity.Stream.Length);
-                        context.Response.Entity.ContentLength = context.Response.Entity.Stream.Length;
-                    }
+                    this.Log.WriteDebug("Setting Content-Length to {0}", context.Response.Entity.Stream.Length);
+                    
+                    context.Response.Entity.ContentLength = context.Response.Entity.Stream.Length;
                 }
             }
-            SendResponseHeaders(context);
+
+            this.SendResponseHeaders(context);
+            
             return PipelineContinuation.Finished;
         }
 
-        void SendResponseHeaders(ICommunicationContext context)
+        private void SendResponseHeaders(ICommunicationContext context)
         {
-            Log.WriteDebug("Writing http headers.");
+            this.Log.WriteDebug("Writing http headers.");
+            
             context.Response.WriteHeaders();
         }
 
-        static void PadErrorMessageForIE(ICommunicationContext context)
+        private static void PadErrorMessageForIE(ICommunicationContext context)
         {
             // IE display "friendly" messages for http errors unless the content sent is more than 512 bytes.
             if (context.OperationResult.IsClientError || context.OperationResult.IsServerError)
+            {
                 if (context.Response.Entity.Stream.Length <= 512 && context.Response.Entity.ContentType == MediaType.Html)
-                    context.Response.Entity.Stream.Write(PADDING, 0, (int)(512 - context.Response.Entity.Stream.Length));
+                {
+                    context.Response.Entity.Stream.Write(Padding, 0, (int)(512 - context.Response.Entity.Stream.Length));
+                }
+            }
         }
     }
 }

@@ -8,185 +8,223 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Text;
-using OpenRasta.Collections.Specialized;
-using OpenRasta.DI;
-using OpenRasta.Diagnostics;
-using OpenRasta.Pipeline.Diagnostics;
-using OpenRasta.Web;
-
 namespace OpenRasta.Pipeline
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq;
+    using System.Text;
+
+    using OpenRasta.Collections.Specialized;
+    using OpenRasta.DI;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Pipeline.Diagnostics;
+    using OpenRasta.Web;
+
     public class PipelineRunner : IPipeline
     {
-        readonly IList<IPipelineContributor> _contributors = new List<IPipelineContributor>();
-        readonly ICollection<Notification> _notificationRegistrations = new List<Notification>();
-
-
-        readonly IDependencyResolver _resolver;
-        IEnumerable<ContributorCall> _callGraph;
+        private readonly IList<IPipelineContributor> contributors = new List<IPipelineContributor>();
+        private readonly ICollection<Notification> notificationRegistrations = new List<Notification>();
+        private readonly IDependencyResolver resolver;
+        private IEnumerable<ContributorCall> callGraph;
 
         public PipelineRunner(IDependencyResolver resolver)
         {
-            Contributors = new ReadOnlyCollection<IPipelineContributor>(_contributors);
-
-            _resolver = resolver;
-            PipelineLog = NullLogger<PipelineLogSource>.Instance;
-            Log = NullLogger.Instance;
+            this.Contributors = new ReadOnlyCollection<IPipelineContributor>(this.contributors);
+            this.resolver = resolver;
+            this.PipelineLog = NullLogger<PipelineLogSource>.Instance;
+            this.Log = NullLogger.Instance;
         }
 
         public IList<IPipelineContributor> Contributors { get; private set; }
 
         public bool IsInitialized { get; private set; }
+
         public ILogger<PipelineLogSource> PipelineLog { get; set; }
+
         public ILogger Log { get; set; }
 
         IEnumerable<ContributorCall> IPipeline.CallGraph
         {
-            get { return _callGraph; }
+            get { return this.callGraph; }
         }
-        void CheckPipelineIsInitialized()
+
+        private void CheckPipelineIsInitialized()
         {
-            if (!IsInitialized)
+            if (!this.IsInitialized)
+            {
                 throw new InvalidOperationException("The pipeline has not been initialized and cannot run.");
+            }
         }
+
         public void Initialize()
         {
-            if (IsInitialized)
-                return;
-            using (PipelineLog.Operation(this, "Initializing the pipeline."))
+            if (this.IsInitialized)
             {
-                foreach (var item in _resolver.ResolveAll<IPipelineContributor>())
-                {
-                    PipelineLog.WriteDebug("Initialized contributor {0}.", item.GetType().Name);
-                    _contributors.Add(item);
-                }
-                _callGraph = GenerateCallGraph();
+                return;
             }
-            IsInitialized = true;
-            PipelineLog.WriteInfo("Pipeline has been successfully initialized.");
+
+            using (this.PipelineLog.Operation(this, "Initializing the pipeline."))
+            {
+                foreach (var item in this.resolver.ResolveAll<IPipelineContributor>())
+                {
+                    this.PipelineLog.WriteDebug("Initialized contributor {0}.", item.GetType().Name);
+                    this.contributors.Add(item);
+                }
+
+                this.callGraph = this.GenerateCallGraph();
+            }
+
+            this.IsInitialized = true;
+
+            this.PipelineLog.WriteInfo("Pipeline has been successfully initialized.");
         }
 
         public IPipelineExecutionOrder Notify(Func<ICommunicationContext, PipelineContinuation> action)
         {
-            if (IsInitialized)
+            if (this.IsInitialized)
             {
-                PipelineLog.WriteWarning("A pipeline registration through Notify() has been done after the pipeline was initialized. Ignoring.");
-                return new Notification(this,action);
+                this.PipelineLog.WriteWarning("A pipeline registration through Notify() has been done after the pipeline was initialized. Ignoring.");
+                
+                return new Notification(this, action);
             }
+
             var notification = new Notification(this, action);
-            _notificationRegistrations.Add(notification);
+            
+            this.notificationRegistrations.Add(notification);
 
             return notification;
         }
 
-
         public void Run(ICommunicationContext context)
         {
-            if (context == null) throw new ArgumentNullException("context");
-            CheckPipelineIsInitialized();
+            if (context == null)
+            {
+                throw new ArgumentNullException("context");
+            }
+
+            this.CheckPipelineIsInitialized();
 
             if (context.PipelineData.PipelineStage == null)
+            {
                 context.PipelineData.PipelineStage = new PipelineStage(this);
-            RunCallGraph(context, context.PipelineData.PipelineStage);
+            }
+
+            this.RunCallGraph(context, context.PipelineData.PipelineStage);
         }
-        void RunCallGraph(ICommunicationContext context, PipelineStage stage)
+
+        private void RunCallGraph(ICommunicationContext context, PipelineStage stage)
         {
             lock (stage)
             {
                 foreach (var contrib in stage)
                 {
-                    if (!CanBeExecuted(contrib))
+                    if (!this.CanBeExecuted(contrib))
+                    {
                         continue;
-                    stage.CurrentState = ExecuteContributor(context, contrib);
+                    }
+
+                    stage.CurrentState = this.ExecuteContributor(context, contrib);
+                    
                     switch (stage.CurrentState)
                     {
                         case PipelineContinuation.Abort:
-                            AbortPipeline(context);
+                            this.AbortPipeline(context);
                             goto case PipelineContinuation.RenderNow;
                         case PipelineContinuation.RenderNow:
-                            RenderNow(context, stage);
+                            this.RenderNow(context, stage);
                             break;
                         case PipelineContinuation.Finished:
-                            FinishPipeline(context);
+                            this.FinishPipeline(context);
                             return;
-
                     }
                 }
             }
         }
-        void RenderNow(ICommunicationContext context, PipelineStage stage)
+
+        private void RenderNow(ICommunicationContext context, PipelineStage stage)
         {
-            PipelineLog.WriteDebug("Pipeline is in RenderNow mode.");
+            this.PipelineLog.WriteDebug("Pipeline is in RenderNow mode.");
+            
             if (!stage.ResumeFrom<KnownStages.IOperationResultInvocation>())
             {
                 if (stage.OwnerStage != null)
                 {
-                    PipelineLog.WriteError("Trying to launch nested pipeline to render error failed.");
+                    this.PipelineLog.WriteError("Trying to launch nested pipeline to render error failed.");
                     AttemptCatastrophicErrorNotification(context);
+                    
                     return;
                 }
-                using (PipelineLog.Operation(this, "Rendering contributor has already been executed. Calling a nested pipeline to render the error."))
+
+                using (this.PipelineLog.Operation(this, "Rendering contributor has already been executed. Calling a nested pipeline to render the error."))
                 {
                     var nestedPipeline = new PipelineStage(this, stage);
                     if (!nestedPipeline.ResumeFrom<KnownStages.IOperationResultInvocation>())
-                        throw new InvalidOperationException("Could not find an IOperationResultInvocation in the new pipeline.");
-                    RunCallGraph(context, nestedPipeline);
+                    {
+                        throw new InvalidOperationException(
+                            "Could not find an IOperationResultInvocation in the new pipeline.");
+                    }
+
+                    this.RunCallGraph(context, nestedPipeline);
                 }
             }
         }
 
-        static void AttemptCatastrophicErrorNotification(ICommunicationContext context)
+        private static void AttemptCatastrophicErrorNotification(ICommunicationContext context)
         {
             try
             {
                 string fatalError = "An error in one of the rendering components of OpenRasta prevents the error message from being sent back.";
+
                 context.Response.StatusCode = 500;
                 context.Response.Entity.ContentLength = fatalError.Length;
                 context.Response.Entity.Stream.Write(Encoding.ASCII.GetBytes(fatalError), 0, fatalError.Length);
                 context.Response.WriteHeaders();
             }
             catch
-            {}
-    }
+            {
+            }
+        }
 
-        bool CanBeExecuted(ContributorCall call)
+        private bool CanBeExecuted(ContributorCall call)
         {
             if (call.Action == null)
             {
-                PipelineLog.WriteWarning("Contributor call for {0} had a null Action.", call.ContributorTypeName);
+                this.PipelineLog.WriteWarning("Contributor call for {0} had a null Action.", call.ContributorTypeName);
+                
                 return false;
             }
+
             return true;
         }
 
         protected virtual void AbortPipeline(ICommunicationContext context)
         {
-            PipelineLog.WriteError("Aborting the pipeline and rendering the errors.");
+            this.PipelineLog.WriteError("Aborting the pipeline and rendering the errors.");
+
             context.OperationResult = new OperationResult.InternalServerError
             {
-                Title =
-                    "The request could not be processed because of a fatal error. See log below.",
+                Title = "The request could not be processed because of a fatal error. See log below.",
                 ResponseResource = context.ServerErrors
             };
+
             context.PipelineData.ResponseCodec = null;
             context.Response.Entity.Instance = context.ServerErrors;
             context.Response.Entity.Codec = null;
             context.Response.Entity.ContentLength = null;
 
-            Log.WriteError("An error has occurred and the processing of the request has stopped.\r\n{0}", context.ServerErrors.Aggregate(string.Empty, (str, error) => str + "\r\n" + error.ToString()));
+            this.Log.WriteError(
+                "An error has occurred and the processing of the request has stopped.\r\n{0}", 
+                context.ServerErrors.Aggregate(string.Empty, (str, error) => str + "\r\n" + error.ToString()));
         }
 
         protected virtual PipelineContinuation ExecuteContributor(ICommunicationContext context, ContributorCall call)
         {
-            using (PipelineLog.Operation(this, "Executing contributor {0}.{1}".With(call.ContributorTypeName, call.Action.Method.Name)))
+            using (this.PipelineLog.Operation(this, "Executing contributor {0}.{1}".With(call.ContributorTypeName, call.Action.Method.Name)))
             {
                 PipelineContinuation nextStep;
+
                 try
                 {
                     nextStep = call.Action(context);
@@ -199,52 +237,61 @@ namespace OpenRasta.Pipeline
                         Message = "An exception was thrown while processing a pipeline contributor",
                         Exception = e
                     });
+
                     nextStep = PipelineContinuation.Abort;
                 }
+
                 return nextStep;
             }
         }
 
         protected virtual void FinishPipeline(ICommunicationContext context)
         {
-            PipelineLog.WriteInfo("Pipeline finished.");
+            this.PipelineLog.WriteInfo("Pipeline finished.");
         }
 
 
-        IEnumerable<ContributorCall> GenerateCallGraph()
+        private IEnumerable<ContributorCall> GenerateCallGraph()
         {
-            var bootstrapper = _contributors.OfType<KnownStages.IBegin>().Single();
+            var bootstrapper = this.contributors.OfType<KnownStages.IBegin>().Single();
             var tree = new DependencyTree<ContributorNotification>(
                 new ContributorNotification(bootstrapper, new Notification(this, null)));
 
-            foreach (var contrib in _contributors.Where(x=>x != bootstrapper))
+            foreach (var contrib in this.contributors.Where(x => x != bootstrapper))
             {
-                _notificationRegistrations.Clear();
-                using (PipelineLog.Operation(this, "Initializing contributor {0}.".With(contrib.GetType().Name)))
+                this.notificationRegistrations.Clear();
+                
+                using (this.PipelineLog.Operation(this, "Initializing contributor {0}.".With(contrib.GetType().Name)))
+                {
                     contrib.Initialize(this);
-                foreach (var reg in _notificationRegistrations.DefaultIfEmpty(new Notification(this, null)))
+                }
+
+                foreach (var reg in this.notificationRegistrations.DefaultIfEmpty(new Notification(this, null)))
                 {
                     tree.CreateNode(new ContributorNotification(contrib, reg));
                 }
             }
             foreach (var notificationNode in tree.Nodes)
             {
-                foreach (var parentNode in GetCompatibleTypes(tree,
-                                                              notificationNode,
-                                                              notificationNode.Value.Notification.AfterTypes))
+                foreach (var parentNode in GetCompatibleTypes(tree, notificationNode, notificationNode.Value.Notification.AfterTypes))
+                {
                     parentNode.ChildNodes.Add(notificationNode);
-                foreach (var childNode in GetCompatibleTypes(tree,
-                                                             notificationNode,
-                                                             notificationNode.Value.Notification.BeforeTypes))
+                }
+
+                foreach (var childNode in GetCompatibleTypes(tree, notificationNode, notificationNode.Value.Notification.BeforeTypes))
+                {
                     childNode.ParentNodes.Add(notificationNode);
+                }
             }
-            var graph = tree.GetCallGraph().Select(x =>
-                                                   new ContributorCall(x.Value.Contributor, x.Value.Notification.Target, x.Value.Notification.Description));
-            LogContributorCallChainCreated(graph);
+
+            var graph = tree.GetCallGraph().Select(x => new ContributorCall(x.Value.Contributor, x.Value.Notification.Target, x.Value.Notification.Description));
+            
+            this.LogContributorCallChainCreated(graph);
+            
             return graph;
         }
 
-        static IEnumerable<DependencyNode<ContributorNotification>> GetCompatibleTypes(DependencyTree<ContributorNotification> tree,
+        private static IEnumerable<DependencyNode<ContributorNotification>> GetCompatibleTypes(DependencyTree<ContributorNotification> tree,
                                                                                 DependencyNode<ContributorNotification> notificationNode,
                                                                                 IEnumerable<Type> beforeTypes)
         {
@@ -254,55 +301,61 @@ namespace OpenRasta.Pipeline
                          && childType.IsAssignableFrom(compatibleNode.Value.Contributor.GetType())
                    select compatibleNode;
         }
-        IEnumerable<IPipelineContributor> GetContributorsOfType(Type contributorType)
+
+        private IEnumerable<IPipelineContributor> GetContributorsOfType(Type contributorType)
         {
-            return from contributor in _contributors
+            return from contributor in this.contributors
                    where contributorType.IsAssignableFrom(contributor.GetType())
                    select contributor;
         }
 
-        void LogContributorCallChainCreated(IEnumerable<ContributorCall> callGraph)
+        private void LogContributorCallChainCreated(IEnumerable<ContributorCall> callGraph)
         {
-            PipelineLog.WriteInfo("Contributor call chain has been processed and results in the following pipeline:");
+            this.PipelineLog.WriteInfo("Contributor call chain has been processed and results in the following pipeline:");
+            
             int pos = 0;
+
             foreach (var contributor in callGraph)
-                PipelineLog.WriteInfo("{0} {1}", pos++, contributor.ContributorTypeName);
+            {
+                this.PipelineLog.WriteInfo("{0} {1}", pos++, contributor.ContributorTypeName);
+            }
         }
 
-        void VerifyContributorIsRegistered(Type contributorType)
+        private void VerifyContributorIsRegistered(Type contributorType)
         {
-            if (!GetContributorsOfType(contributorType).Any())
-                throw new ArgumentOutOfRangeException("There is no registered contributor matching type "
-                                                      + contributorType.FullName);
+            if (!this.GetContributorsOfType(contributorType).Any())
+            {
+                throw new ArgumentOutOfRangeException("There is no registered contributor matching type " + contributorType.FullName);
+            }
         }
 
-        struct ContributorNotification
+        private struct ContributorNotification
         {
             public readonly IPipelineContributor Contributor;
             public readonly Notification Notification;
 
             public ContributorNotification(IPipelineContributor contributor, Notification notification)
             {
-                Notification = notification;
-                Contributor = contributor;
+                this.Notification = notification;
+                this.Contributor = contributor;
             }
         }
 
-        class Notification : IPipelineExecutionOrder, IPipelineExecutionOrderAnd
+        private class Notification : IPipelineExecutionOrder, IPipelineExecutionOrderAnd
         {
-            readonly ICollection<Type> _after = new List<Type>();
-            readonly ICollection<Type> _before = new List<Type>();
-            readonly PipelineRunner _runner;
+            private readonly ICollection<Type> after = new List<Type>();
+            private readonly ICollection<Type> before = new List<Type>();
+            private readonly PipelineRunner runner;
 
             public Notification(PipelineRunner runner, Func<ICommunicationContext, PipelineContinuation> action)
             {
-                _runner = runner;
-                Target = action;
+                this.runner = runner;
+                this.Target = action;
             }
 
             public ICollection<Type> AfterTypes
             {
-                get { return _after; }
+                get { return this.after; }
             }
 
             public IPipelineExecutionOrder And
@@ -312,27 +365,29 @@ namespace OpenRasta.Pipeline
 
             public ICollection<Type> BeforeTypes
             {
-                get { return _before; }
+                get { return this.before; }
             }
 
             public string Description
             {
-                get { return Target != null && Target.Target != null ? Target.Target.GetType().Name : null; }
+                get { return this.Target != null && this.Target.Target != null ? this.Target.Target.GetType().Name : null; }
             }
 
             public Func<ICommunicationContext, PipelineContinuation> Target { get; private set; }
 
             public IPipelineExecutionOrderAnd After(Type contributorType)
             {
-                _runner.VerifyContributorIsRegistered(contributorType);
-                AfterTypes.Add(contributorType);
+                this.runner.VerifyContributorIsRegistered(contributorType);
+                this.AfterTypes.Add(contributorType);
+
                 return this;
             }
 
             public IPipelineExecutionOrderAnd Before(Type contributorType)
             {
-                _runner.VerifyContributorIsRegistered(contributorType);
-                BeforeTypes.Add(contributorType);
+                this.runner.VerifyContributorIsRegistered(contributorType);
+                this.BeforeTypes.Add(contributorType);
+                
                 return this;
             }
         }

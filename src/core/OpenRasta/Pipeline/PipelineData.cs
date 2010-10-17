@@ -8,30 +8,29 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Reflection;
-using OpenRasta.Codecs;
-using OpenRasta.OperationModel;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Pipeline
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.OperationModel;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     /// <summary>
     /// </summary>
     /// <remarks>Need to inherit from a yet to be created SafeDictionary</remarks>
     public class PipelineData : Dictionary<object, object>
     {
-        const string PIPELINE_STATE = OR_PIPELINE + "PipelineStage";
-        const string HANDLER_TYPE = OR_PIPELINE + "HandlerType";
-        const string OPERATIONS = OR_PIPELINE + "Operations";
-        const string OR_PIPELINE = "__OR_PIPELINE_";
-        const string RESOURCE_KEY = OR_PIPELINE + "ResourceKey";
-        const string RESPONSE_CODEC = OR_PIPELINE + "ResponseCodec";
-        const string SELECTED_HANDLERS = OR_PIPELINE + "SelectedHandlers";
-        const string SELECTED_RESOURCE = OR_PIPELINE + "SelectedResource";
+        private const string PipelineState = OrPipeline + "PipelineStage";
+        private const string HANDLER_TYPE = OrPipeline + "HandlerType";
+        private const string OPERATIONS = OrPipeline + "Operations";
+        private const string OrPipeline = "__OR_PIPELINE_";
+        private const string RESOURCE_KEY = OrPipeline + "ResourceKey";
+        private const string RESPONSE_CODEC = OrPipeline + "ResponseCodec";
+        private const string SELECTED_HANDLERS = OrPipeline + "SelectedHandlers";
+        private const string SELECTED_RESOURCE = OrPipeline + "SelectedResource";
 
         /// <summary>
         /// Gets the type of the handler selected when matching a request against the registerd resource.
@@ -83,8 +82,8 @@ namespace OpenRasta.Pipeline
 
         public PipelineStage PipelineStage
         {
-            get { return SafeGet<PipelineStage>(PIPELINE_STATE); }
-            set { base[PIPELINE_STATE] = value; }
+            get { return SafeGet<PipelineStage>(PipelineState); }
+            set { base[PipelineState] = value; }
         }
 
         public new object this[object key]
@@ -93,7 +92,7 @@ namespace OpenRasta.Pipeline
             set { base[key] = value; }
         }
 
-        T SafeGet<T>(string key) where T : class
+        private T SafeGet<T>(string key) where T : class
         {
             object o;
             return TryGetValue(key, out o) ? o as T : null;

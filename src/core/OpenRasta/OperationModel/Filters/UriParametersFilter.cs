@@ -1,30 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using System.Text;
-using OpenRasta.Binding;
-using OpenRasta.Collections;
-using OpenRasta.Diagnostics;
-using OpenRasta.Pipeline;
-using OpenRasta.TypeSystem.ReflectionBased;
-using OpenRasta.Web;
-
-namespace OpenRasta.OperationModel.Filters
+﻿namespace OpenRasta.OperationModel.Filters
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Linq;
+    using System.Text;
+
+    using OpenRasta.Binding;
+    using OpenRasta.Collections;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Pipeline;
+    using OpenRasta.TypeSystem.ReflectionBased;
+    using OpenRasta.Web;
+
     public class UriParametersFilter : IOperationFilter
     {
-        readonly PipelineData _pipelineData;
+        private readonly PipelineData pipelineData;
 
         public UriParametersFilter(ICommunicationContext context, IErrorCollector collector)
         {
-            Logger = NullLogger.Instance;
-            Errors = collector;
-            _pipelineData = context.PipelineData;
+            this.Logger = NullLogger.Instance;
+            this.Errors = collector;
+            this.pipelineData = context.PipelineData;
         }
 
-        IErrorCollector Errors { get; set; }
-        ILogger Logger { get; set; }
+        private IErrorCollector Errors { get; set; }
+        
+        private ILogger Logger { get; set; }
 
         public IEnumerable<IOperation> Process(IEnumerable<IOperation> operations)
         {
@@ -32,39 +34,45 @@ namespace OpenRasta.OperationModel.Filters
 
             foreach (var operation in operations)
             {
-                if (IsEmpty(_pipelineData.SelectedResource.UriTemplateParameters))
+                if (IsEmpty(this.pipelineData.SelectedResource.UriTemplateParameters))
                 {
-                    LogAcceptNoUriParameters(operation);
+                    this.LogAcceptNoUriParameters(operation);
                     acceptedMethods++;
+                    
                     yield return operation;
+                    
                     continue;
                 }
 
-                foreach (var uriParameterMatches in _pipelineData.SelectedResource.UriTemplateParameters)
+                foreach (var uriParameterMatches in this.pipelineData.SelectedResource.UriTemplateParameters)
                 {
                     var uriParametersCopy = new NameValueCollection(uriParameterMatches);
 
                     var matchedParameters = from member in operation.Inputs
                                             from matchedParameterName in uriParametersCopy.AllKeys
-                                            where TrySetPropertyAndRemoveUsedKey(member, matchedParameterName, uriParametersCopy, ConvertFromString)
+                                            where this.TrySetPropertyAndRemoveUsedKey(member, matchedParameterName, uriParametersCopy, ConvertFromString)
                                             select matchedParameterName;
 
                     if (matchedParameters.Count() == uriParameterMatches.Count)
                     {
-                        LogOperationAccepted(uriParameterMatches, operation);
+                        this.LogOperationAccepted(uriParameterMatches, operation);
                         acceptedMethods++;
+
                         yield return operation;
                     }
                 }
             }
 
-            LogAcceptedCount(acceptedMethods);
+            this.LogAcceptedCount(acceptedMethods);
 
             if (acceptedMethods <= 0)
-                Errors.AddServerError(CreateErrorNoOperationFound(_pipelineData.SelectedResource.UriTemplateParameters));
+            {
+                this.Errors.AddServerError(
+                    CreateErrorNoOperationFound(this.pipelineData.SelectedResource.UriTemplateParameters));
+            }
         }
 
-        static BindingResult ConvertFromString(string strings, Type entityType)
+        private static BindingResult ConvertFromString(string strings, Type entityType)
         {
             try
             {
@@ -73,12 +81,15 @@ namespace OpenRasta.OperationModel.Filters
             catch (Exception e)
             {
                 if (e.InnerException is FormatException)
+                {
                     return BindingResult.Failure();
+                }
+
                 throw;
             }
         }
 
-        static ErrorFrom<UriParametersFilter> CreateErrorNoOperationFound(IEnumerable<NameValueCollection> uriTemplateParameters)
+        private static ErrorFrom<UriParametersFilter> CreateErrorNoOperationFound(IEnumerable<NameValueCollection> uriTemplateParameters)
         {
             return new ErrorFrom<UriParametersFilter>
             {
@@ -89,43 +100,48 @@ namespace OpenRasta.OperationModel.Filters
             };
         }
 
-        static string FormatUriParameterMatches(IEnumerable<NameValueCollection> uriParameterMatches)
+        private static string FormatUriParameterMatches(IEnumerable<NameValueCollection> uriParameterMatches)
         {
             var builder = new StringBuilder();
+            
             foreach (var nvc in uriParameterMatches)
+            {
                 builder.AppendLine(nvc.ToHtmlFormEncoding());
+            }
+
             return builder.ToString();
         }
 
-        static bool IsEmpty(IList<NameValueCollection> parameters)
+        private static bool IsEmpty(IList<NameValueCollection> parameters)
         {
             return parameters.Count == 0 || (parameters.Count == 1 && parameters[0].Count == 0);
         }
 
-        void LogAcceptedCount(int operationCount)
+        private void LogAcceptedCount(int operationCount)
         {
-            Logger.WriteInfo("Found {0} potential operations to resolve.", operationCount);
+            this.Logger.WriteInfo("Found {0} potential operations to resolve.", operationCount);
         }
 
-        void LogAcceptNoUriParameters(IOperation operation)
+        private void LogAcceptNoUriParameters(IOperation operation)
         {
-            Logger.WriteDebug("Empty parameter list, selected method {0}.", operation);
+            this.Logger.WriteDebug("Empty parameter list, selected method {0}.", operation);
         }
 
-        void LogOperationAccepted(NameValueCollection uriParameterMatches, IOperation operation)
+        private void LogOperationAccepted(NameValueCollection uriParameterMatches, IOperation operation)
         {
-            Logger.WriteDebug(
+            this.Logger.WriteDebug(
                 "Accepted operation {0} with {1} matched parameters for uri parameter list {2}.", 
                 operation.Name, 
                 operation.Inputs.CountReady(), 
                 uriParameterMatches.ToHtmlFormEncoding());
         }
 
-        bool TrySetPropertyAndRemoveUsedKey(InputMember member, string uriParameterName, NameValueCollection uriParameters, ValueConverter<string> converter)
+        private bool TrySetPropertyAndRemoveUsedKey(InputMember member, string uriParameterName, NameValueCollection uriParameters, ValueConverter<string> converter)
         {
             if (member.Binder.SetProperty(uriParameterName, uriParameters.GetValues(uriParameterName), converter))
             {
                 uriParameters.Remove(uriParameterName);
+
                 return true;
             }
 

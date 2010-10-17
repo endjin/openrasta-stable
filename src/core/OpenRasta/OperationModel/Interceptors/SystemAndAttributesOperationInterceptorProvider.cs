@@ -1,12 +1,13 @@
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.DI;
-
 namespace OpenRasta.OperationModel.Interceptors
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.DI;
+
     public class SystemAndAttributesOperationInterceptorProvider : IOperationInterceptorProvider
     {
-        readonly IOperationInterceptor[] _systemInterceptors;
+        private readonly IOperationInterceptor[] systemInterceptors;
 
         public SystemAndAttributesOperationInterceptorProvider(IDependencyResolver resolver)
             : this(resolver.ResolveAll<IOperationInterceptor>().ToArray())
@@ -15,23 +16,23 @@ namespace OpenRasta.OperationModel.Interceptors
 
         public SystemAndAttributesOperationInterceptorProvider(IOperationInterceptor[] systemInterceptors)
         {
-            _systemInterceptors = systemInterceptors;
+            this.systemInterceptors = systemInterceptors;
         }
 
         public IEnumerable<IOperationInterceptor> GetInterceptors(IOperation operation)
         {
-            return _systemInterceptors
+            return this.systemInterceptors
                 .Concat(GetInterceptorAttributes(operation))
                 .Concat(GetInterceptorProviderAttributes(operation))
                 .ToList();
         }
 
-        static IEnumerable<IOperationInterceptor> GetInterceptorAttributes(IOperation operation)
+        private static IEnumerable<IOperationInterceptor> GetInterceptorAttributes(IOperation operation)
         {
             return operation.FindAttributes<IOperationInterceptor>();
         }
 
-        static IEnumerable<IOperationInterceptor> GetInterceptorProviderAttributes(IOperation operation)
+        private static IEnumerable<IOperationInterceptor> GetInterceptorProviderAttributes(IOperation operation)
         {
             return operation.FindAttributes<IOperationInterceptorProvider>().SelectMany(x => x.GetInterceptors(operation));
         }

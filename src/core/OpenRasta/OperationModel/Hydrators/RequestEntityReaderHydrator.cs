@@ -1,72 +1,78 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using OpenRasta.Binding;
-using OpenRasta.Codecs;
-using OpenRasta.Collections;
-using OpenRasta.DI;
-using OpenRasta.Diagnostics;
-using OpenRasta.OperationModel.Hydrators.Diagnostics;
-using OpenRasta.TypeSystem.ReflectionBased;
-using OpenRasta.Web;
-using OpenRasta.Pipeline;
-
-namespace OpenRasta.OperationModel.Hydrators
+﻿namespace OpenRasta.OperationModel.Hydrators
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
+
+    using OpenRasta.Codecs;
+    using OpenRasta.DI;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.OperationModel.Hydrators.Diagnostics;
+    using OpenRasta.TypeSystem.ReflectionBased;
+    using OpenRasta.Web;
+
     public class RequestEntityReaderHydrator : IOperationHydrator
     {
-        readonly IRequest _request;
-        readonly IDependencyResolver _resolver;
+        private readonly IRequest request;
+        private readonly IDependencyResolver resolver;
 
         public RequestEntityReaderHydrator(IDependencyResolver resolver, IRequest request)
         {
-            Log = NullLogger<CodecLogSource>.Instance;
-            ErrorCollector = NullErrorCollector.Instance;
-            _resolver = resolver;
-            _request = request;
+            this.Log = NullLogger<CodecLogSource>.Instance;
+            this.ErrorCollector = NullErrorCollector.Instance;
+            this.resolver = resolver;
+            this.request = request;
         }
 
         public IErrorCollector ErrorCollector { get; set; }
+
         public ILogger<CodecLogSource> Log { get; set; }
 
         public IEnumerable<IOperation> Process(IEnumerable<IOperation> operations)
         {
             var operation = operations.Where(x => x.GetRequestCodec() != null)
-                                .OrderByDescending(x => x.GetRequestCodec()).FirstOrDefault()
+                                      .OrderByDescending(x => x.GetRequestCodec()).FirstOrDefault()
                             ?? operations.Where(x => x.Inputs.AllReady())
-                                   .OrderByDescending(x => x.Inputs.CountReady()).FirstOrDefault();
+                                         .OrderByDescending(x => x.Inputs.CountReady()).FirstOrDefault();
             if (operation == null)
             {
-                Log.OperationNotFound();
+                this.Log.OperationNotFound();
+
                 yield break;
             }
 
-            Log.OperationFound(operation);
+            this.Log.OperationFound(operation);
 
             if (operation.GetRequestCodec() != null)
             {
-                var codecInstance = CreateMediaTypeReader(operation);
+                var codecInstance = this.CreateMediaTypeReader(operation);
 
                 var codecType = codecInstance.GetType();
-                Log.CodecLoaded(codecType);
+                this.Log.CodecLoaded(codecType);
 
                 if (codecType.Implements(typeof(IKeyedValuesMediaTypeReader<>)))
-                    if (TryAssignKeyedValues(_request.Entity, codecInstance, codecType, operation))
+                {
+                    if (this.TryAssignKeyedValues(this.request.Entity, codecInstance, codecType, operation))
                     {
                         yield return operation;
                         yield break;
                     }
+                }
 
                 if (codecType.Implements<IMediaTypeReader>())
-                    if (!TryReadPayloadAsObject(_request.Entity, (IMediaTypeReader)codecInstance, operation))
+                {
+                    if (!this.TryReadPayloadAsObject(this.request.Entity, (IMediaTypeReader)codecInstance, operation))
+                    {
                         yield break;
+                    }
+                }
             }
+
             yield return operation;
         }
 
-        static ErrorFrom<RequestEntityReaderHydrator> CreateErrorForException(Exception e)
+        private static ErrorFrom<RequestEntityReaderHydrator> CreateErrorForException(Exception e)
         {
             return new ErrorFrom<RequestEntityReaderHydrator>
             {
@@ -76,49 +82,54 @@ namespace OpenRasta.OperationModel.Hydrators
         }
 
 
-        ICodec CreateMediaTypeReader(IOperation operation)
+        private ICodec CreateMediaTypeReader(IOperation operation)
         {
-            return _resolver.Resolve(operation.GetRequestCodec().CodecRegistration.CodecType, UnregisteredAction.AddAsTransient) as ICodec;
+            return this.resolver.Resolve(operation.GetRequestCodec().CodecRegistration.CodecType, UnregisteredAction.AddAsTransient) as ICodec;
         }
 
-        bool TryAssignKeyedValues(IHttpEntity requestEntity, ICodec codec, Type codecType, IOperation operation)
+        private bool TryAssignKeyedValues(IHttpEntity requestEntity, ICodec codec, Type codecType, IOperation operation)
         {
-            Log.CodecSupportsKeyedValues();
+            this.Log.CodecSupportsKeyedValues();
 
-            return codec.TryAssignKeyValues(requestEntity, operation.Inputs.Select(x => x.Binder), Log.KeyAssigned, Log.KeyFailed);
+            return codec.TryAssignKeyValues(requestEntity, operation.Inputs.Select(x => x.Binder), this.Log.KeyAssigned, this.Log.KeyFailed);
         }
 
-        bool TryReadPayloadAsObject(IHttpEntity requestEntity, IMediaTypeReader reader, IOperation operation)
+        private bool TryReadPayloadAsObject(IHttpEntity requestEntity, IMediaTypeReader reader, IOperation operation)
         {
-            Log.CodecSupportsFullObjectResolution();
+            this.Log.CodecSupportsFullObjectResolution();
+
             foreach (var member in from m in operation.Inputs
                                    where m.Binder.IsEmpty
                                    select m)
             {
-                Log.ProcessingMember(member);
+                this.Log.ProcessingMember(member);
+
                 try
                 {
-                    var entityInstance = reader.ReadFrom(requestEntity,
-                                                         member.Member.Type,
-                                                         member.Member.Name);
-                    Log.Result(entityInstance);
+                    var entityInstance = reader.ReadFrom(requestEntity, member.Member.Type, member.Member.Name);
+                    
+                    this.Log.Result(entityInstance);
 
                     if (entityInstance != Missing.Value)
                     {
                         if (!member.Binder.SetInstance(entityInstance))
                         {
-                            Log.BinderInstanceAssignmentFailed();
+                            this.Log.BinderInstanceAssignmentFailed();
+                            
                             return false;
                         }
-                        Log.BinderInstanceAssignmentSucceeded();
+
+                        this.Log.BinderInstanceAssignmentSucceeded();
                     }
                 }
                 catch (Exception e)
                 {
-                    ErrorCollector.AddServerError(CreateErrorForException(e));
+                    this.ErrorCollector.AddServerError(CreateErrorForException(e));
+                    
                     return false;
                 }
             }
+
             return true;
         }
     }

@@ -1,46 +1,76 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Principal;
-using OpenRasta.Authentication;
-using OpenRasta.DI;
-using OpenRasta.Diagnostics;
-using OpenRasta.Web;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using System;
+    using System.Linq;
+    using System.Security.Principal;
+
+    using OpenRasta.Authentication;
+    using OpenRasta.DI;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Web;
+
     public class AuthenticationContributor : KnownStages.IAuthentication
     {
-        readonly IDependencyResolver _resolver;
-        public ILogger Log { get; set; }
+        private readonly IDependencyResolver resolver;
 
         public AuthenticationContributor(IDependencyResolver resolver)
         {
-            _resolver = resolver;
+            this.resolver = resolver;
         }
+
+        public ILogger Log { get; set; }
 
         public void Initialize(IPipeline pipelineRunner)
         {
-            pipelineRunner.Notify(AuthoriseRequest)
+            pipelineRunner.Notify(this.AuthoriseRequest)
                 .After<KnownStages.IBegin>()
                 .And
                 .Before<KnownStages.IHandlerSelection>();
         }
 
+        private static string ExtractRequestedAuthScheme(IRequest request)
+        {
+            var authRequestHeader = request.Headers["Authorization"];
+
+            if (string.IsNullOrEmpty(authRequestHeader))
+            {
+                return null;
+            }
+
+            var requestedAuthSchemeName = authRequestHeader.Split(' ')[0];
+
+            if (string.IsNullOrEmpty(requestedAuthSchemeName))
+            {
+                return null;
+            }
+
+            return requestedAuthSchemeName;
+        }
+
+        private static IPrincipal CreatePrincipal(AuthenticationResult.Success success, IAuthenticationScheme scheme)
+        {
+            var identity = new GenericIdentity(success.Username, scheme.Name);
+
+            return new GenericPrincipal(identity, success.Roles);
+        }
+
         private PipelineContinuation AuthoriseRequest(ICommunicationContext context)
         {
-            var requestedAuthSchemeName= ExtractRequestedAuthScheme(context.Request);
+            var requestedAuthSchemeName = ExtractRequestedAuthScheme(context.Request);
 
             if (requestedAuthSchemeName == null)
+            {
                 return PipelineContinuation.Continue;
+            }
 
-            var authenticators = _resolver.ResolveAll<IAuthenticationScheme>();
+            var authenticators = this.resolver.ResolveAll<IAuthenticationScheme>();
 
             var schemeToUse = authenticators.SingleOrDefault(scheme => string.Equals(scheme.Name, requestedAuthSchemeName, StringComparison.InvariantCultureIgnoreCase));
 
-            if(schemeToUse == null)
+            if (schemeToUse == null)
             {
                 context.Response.Headers["Warning"] = "Unsupported Authentication Scheme";
+                
                 return PipelineContinuation.Continue;
             }
 
@@ -48,7 +78,7 @@ namespace OpenRasta.Pipeline.Contributors
 
             if (authResult is AuthenticationResult.Success)
             {
-                var success = (authResult as AuthenticationResult.Success);
+                var success = authResult as AuthenticationResult.Success;
                 context.User = CreatePrincipal(success, schemeToUse);
             }
 
@@ -56,6 +86,7 @@ namespace OpenRasta.Pipeline.Contributors
             {
                 context.OperationResult = new OperationResult.BadRequest();
                 context.Response.Headers["Warning"] = "Malformed credentials";
+                
                 return PipelineContinuation.RenderNow;
             }
 
@@ -65,27 +96,6 @@ namespace OpenRasta.Pipeline.Contributors
             }
 
             return PipelineContinuation.Continue;
-        }
-
-        static string ExtractRequestedAuthScheme(IRequest request)
-        {
-            var authRequestHeader = request.Headers["Authorization"];
-
-            if (string.IsNullOrEmpty(authRequestHeader))
-                return null;
-
-            var requestedAuthSchemeName = authRequestHeader.Split(' ')[0];
-
-            if (string.IsNullOrEmpty(requestedAuthSchemeName))
-                return null;
-
-            return requestedAuthSchemeName;
-        }
-
-        static IPrincipal CreatePrincipal(AuthenticationResult.Success success, IAuthenticationScheme scheme)
-        {
-            var identity = new GenericIdentity(success.Username, scheme.Name);
-            return new GenericPrincipal(identity, success.Roles);
         }
     }
 }

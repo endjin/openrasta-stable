@@ -8,21 +8,20 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Diagnostics;
-using OpenRasta.Web;
-
 namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Web;
+
     public class OperationResultInvokerContributor : KnownStages.IOperationResultInvocation
     {
         public ILogger Log { get; set; }
 
         public PipelineContinuation RunOperationResult(ICommunicationContext context)
         {
-            Log.WriteInfo("Executing OperationResult {0}.".With(context.OperationResult));
+            this.Log.WriteInfo("Executing OperationResult {0}.".With(context.OperationResult));
+            
             context.OperationResult.Execute(context);
-
             context.Response.Entity.Instance = context.OperationResult.ResponseResource;
 
             return PipelineContinuation.Continue;
@@ -30,7 +29,7 @@ namespace OpenRasta.Pipeline.Contributors
 
         public void Initialize(IPipeline pipelineRunner)
         {
-            pipelineRunner.Notify(RunOperationResult).After<KnownStages.IOperationExecution>();
+            pipelineRunner.Notify(this.RunOperationResult).After<KnownStages.IOperationExecution>();
         }
     }
 }

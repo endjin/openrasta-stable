@@ -9,12 +9,13 @@
  */
 #endregion
 
-using System;
-using System.IO;
-using OpenRasta.Web;
-
 namespace OpenRasta.IO
 {
+    using System;
+    using System.IO;
+
+    using OpenRasta.Web;
+
     public interface IFile
     {
         MediaType ContentType { get; }
@@ -22,47 +23,55 @@ namespace OpenRasta.IO
         long Length { get; }
         Stream OpenStream();
     }
+
     [Obsolete("IReiceivedFile has been depreciated. Please use the IFile interface instead.")]
     public interface IReceivedFile : IFile
     {
         string OriginalName { get; }
     }
+
     public interface IDownloadableFile : IFile
     {
         DownloadableFileOptions Options { get; }
     }
+
     [Flags]
     public enum DownloadableFileOptions
     {
         Open,
         Save
     }
+
 #pragma warning disable 0618
     public class InMemoryFile : IFile, IReceivedFile
     {
+        private readonly Stream stream;
+        
         public InMemoryFile() : this(new MemoryStream())
         {
         }
 
         public InMemoryFile(Stream stream)
         {
-            _stream = stream;
-            ContentType = MediaType.ApplicationOctetStream;
+            this.stream = stream;
+            this.ContentType = MediaType.ApplicationOctetStream;
         }
 
-        readonly Stream _stream;
         public MediaType ContentType { get; set; }
+
         public string FileName { get; set; }
+
         public long Length { get; set; }
+
         public Stream OpenStream()
         {
-            _stream.Position = 0;
-            return _stream;
+            this.stream.Position = 0;
+            return this.stream;
         }
 
         string IReceivedFile.OriginalName
         {
-            get { return FileName; }
+            get { return this.FileName; }
         }
     }
 #pragma warning restore 0618
@@ -70,8 +79,9 @@ namespace OpenRasta.IO
     {
         public InMemoryDownloadableFile()
         {
-            Options = DownloadableFileOptions.Save | DownloadableFileOptions.Open;
+            this.Options = DownloadableFileOptions.Save | DownloadableFileOptions.Open;
         }
+
         public DownloadableFileOptions Options { get; set; }
     }
 }

@@ -1,8 +1,8 @@
 // ReSharper disable UnusedTypeParameter
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.OperationModel
 {
+    using OpenRasta.Pipeline;
+
     public interface IOperationProcessor<T> : IOperationProcessor
         where T : IPipelineContributor
     {
