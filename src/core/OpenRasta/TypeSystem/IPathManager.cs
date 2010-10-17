@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-
 namespace OpenRasta.TypeSystem
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents the component responsible for generating and parsing object paths.
     /// </summary>

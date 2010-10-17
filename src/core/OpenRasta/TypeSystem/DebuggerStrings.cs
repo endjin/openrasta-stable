@@ -1,13 +1,18 @@
-using System.Linq;
-
 namespace OpenRasta.TypeSystem
 {
+    using System.Linq;
+
     public static class DebuggerStrings
     {
         public static string Property(IProperty property)
         {
-            if (property == null) return null;
+            if (property == null)
+            {
+                return null;
+            }
+
             string propertyParams = string.Empty;
+            
             if (property.PropertyParameters != null && property.PropertyParameters.Length > 0)
             {
                 propertyParams = "[" + string.Join(", ", property.PropertyParameters.Select(x => x.ToString()).ToArray()) + "]";

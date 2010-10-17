@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace OpenRasta.TypeSystem
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents a member.
     /// </summary>

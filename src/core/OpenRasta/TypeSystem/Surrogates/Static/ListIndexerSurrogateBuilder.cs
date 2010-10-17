@@ -1,9 +1,10 @@
-using System;
-using System.Collections.Generic;
-using OpenRasta.TypeSystem.ReflectionBased;
-
 namespace OpenRasta.TypeSystem.Surrogates.Static
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.TypeSystem.ReflectionBased;
+
     public class ListIndexerSurrogateBuilder : AbstractStaticSurrogateBuilder
     {
         public override bool CanCreateFor(Type type)

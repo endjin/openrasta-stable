@@ -1,18 +1,18 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using OpenRasta.Binding;
-
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics;
+
+    using OpenRasta.Binding;
+
     [DebuggerDisplay("Name={OriginalNativeType.Name}, Alien={OriginalAlienType.Name}")]
     public class AlienType : AlienMember, IType
     {
-        public AlienType(IType alienType, IMember nativeType)
-            : base(alienType, nativeType)
+        public AlienType(IType alienType, IMember nativeType) : base(alienType, nativeType)
         {
-            OriginalAlienType = alienType;
-            OriginalNativeType = nativeType;
+            this.OriginalAlienType = alienType;
+            this.OriginalNativeType = nativeType;
         }
 
         public override IType Type
@@ -21,11 +21,12 @@ namespace OpenRasta.TypeSystem.Surrogated
         }
 
         protected IType OriginalAlienType { get; private set; }
+
         protected IMember OriginalNativeType { get; set; }
 
         public int CompareTo(IType other)
         {
-            return OriginalAlienType.CompareTo(other);
+            return this.OriginalAlienType.CompareTo(other);
         }
 
         public ITypeBuilder CreateBuilder()
@@ -35,17 +36,17 @@ namespace OpenRasta.TypeSystem.Surrogated
 
         public object CreateInstance()
         {
-            return OriginalAlienType.CreateInstance();
+            return this.OriginalAlienType.CreateInstance();
         }
 
         public bool IsAssignableFrom(IType type)
         {
-            return OriginalAlienType.IsAssignableFrom(type);
+            return this.OriginalAlienType.IsAssignableFrom(type);
         }
 
         public bool TryCreateInstance<T>(IEnumerable<T> values, ValueConverter<T> converter, out object result)
         {
-            return OriginalAlienType.TryCreateInstance(values, converter, out result);
+            return this.OriginalAlienType.TryCreateInstance(values, converter, out result);
         }
     }
 }

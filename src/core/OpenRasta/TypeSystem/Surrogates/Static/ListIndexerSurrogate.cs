@@ -8,35 +8,44 @@
  */
 #endregion
 // ReSharper disable UnusedMember.Global
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using OpenRasta.TypeSystem.ReflectionBased;
-
 namespace OpenRasta.TypeSystem.Surrogates.Static
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+
+    using OpenRasta.TypeSystem.ReflectionBased;
+
     /// <summary>
     /// Provides a surrogate for types implementing <see cref="IList" />(Of T)
     /// </summary>
     public class ListIndexerSurrogate<T> : ISurrogate
     {
-        readonly Dictionary<int, int> _binderIndexToRealIndex = new Dictionary<int, int>();
-        IList<T> _value;
+        private readonly Dictionary<int, int> binderIndexToRealIndex = new Dictionary<int, int>();
+        
+        private IList<T> value;
 
         public object Value
         {
             get
             {
-                return _value;
+                return this.value;
             }
+
             set
             {
                 if (value.GetType().InheritsFrom(typeof(ListIndexerSurrogate<>)))
-                    _value = new List<T>();
+                {
+                    this.value = new List<T>();
+                }
                 else if (value is IList<T>)
-                    _value = (IList<T>)value;
+                {
+                    this.value = (IList<T>)value;
+                }
                 else
+                {
                     throw new ArgumentException();
+                }
             }
         }
 
@@ -44,10 +53,11 @@ namespace OpenRasta.TypeSystem.Surrogates.Static
         {
             get
             {
-                if (_binderIndexToRealIndex.ContainsKey(index))
+                if (this.binderIndexToRealIndex.ContainsKey(index))
                 {
-                    int realIndex = _binderIndexToRealIndex[index];
-                    return _value[realIndex];
+                    int realIndex = this.binderIndexToRealIndex[index];
+                    
+                    return this.value[realIndex];
                 }
 
                 return default(T);
@@ -55,15 +65,15 @@ namespace OpenRasta.TypeSystem.Surrogates.Static
 
             set
             {
-                if (_binderIndexToRealIndex.ContainsKey(index))
+                if (this.binderIndexToRealIndex.ContainsKey(index))
                 {
-                    _value[_binderIndexToRealIndex[index]] = value;
+                    this.value[this.binderIndexToRealIndex[index]] = value;
                 }
                 else
                 {
-                    _value.Add(value);
-                    int realIndex = _value.IndexOf(value);
-                    _binderIndexToRealIndex[index] = realIndex;
+                    this.value.Add(value);
+                    int realIndex = this.value.IndexOf(value);
+                    this.binderIndexToRealIndex[index] = realIndex;
                 }
             }
         }

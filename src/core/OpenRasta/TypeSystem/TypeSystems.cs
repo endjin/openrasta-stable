@@ -1,13 +1,13 @@
-using OpenRasta.TypeSystem.ReflectionBased;
-using OpenRasta.TypeSystem.Surrogated;
-using OpenRasta.TypeSystem.Surrogates;
-using OpenRasta.TypeSystem.Surrogates.Static;
-
 namespace OpenRasta.TypeSystem
 {
+    using OpenRasta.TypeSystem.ReflectionBased;
+    using OpenRasta.TypeSystem.Surrogated;
+    using OpenRasta.TypeSystem.Surrogates;
+    using OpenRasta.TypeSystem.Surrogates.Static;
+
     public static class TypeSystems
     {
-        static readonly ITypeSystem _default = new ReflectionBasedTypeSystem(
+        private static readonly ITypeSystem defaultType = new ReflectionBasedTypeSystem(
             new SurrogateBuilderProvider(
                 new ISurrogateBuilder[]
                 {
@@ -19,7 +19,7 @@ namespace OpenRasta.TypeSystem
 
         public static ITypeSystem Default
         {
-            get { return _default; }
+            get { return defaultType; }
         }
     }
 }

@@ -1,8 +1,8 @@
-using System;
-using System.Collections.Generic;
-
 namespace OpenRasta.TypeSystem
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents an object that can create new objects or update existing objects
     /// from a list of property values.

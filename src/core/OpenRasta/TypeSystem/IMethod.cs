@@ -1,7 +1,7 @@
-using System.Collections.Generic;
-
 namespace OpenRasta.TypeSystem
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents a method on a type.
     /// </summary>

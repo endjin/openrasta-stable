@@ -8,14 +8,14 @@
  */
 #endregion
 
-using System;
-
 namespace OpenRasta.TypeSystem.Surrogates.Static
 {
+    using System;
+
     public class DateTimeSurrogate : AbstractStaticSurrogate<DateTime>
     {
 #pragma warning disable 169
-        DateTime _value = DateTime.MinValue;
+        private DateTime value = DateTime.MinValue;
 #pragma warning restore 169
 
         public int Day

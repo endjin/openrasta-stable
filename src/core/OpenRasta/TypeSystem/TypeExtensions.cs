@@ -1,8 +1,7 @@
-using System;
-using OpenRasta.DI;
-
 namespace OpenRasta.TypeSystem
 {
+    using OpenRasta.DI;
+
     public static class TypeExtensions
     {
         /// <summary>
@@ -14,6 +13,7 @@ namespace OpenRasta.TypeSystem
         public static object CreateInstance(this IType type, IDependencyResolver resolver)
         {
             var typeForResolver = type as IResolverAwareType;
+
             return resolver == null || typeForResolver == null ? type.CreateInstance() : typeForResolver.CreateInstance(resolver);
         }
 

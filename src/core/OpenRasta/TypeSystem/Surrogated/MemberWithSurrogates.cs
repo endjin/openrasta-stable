@@ -1,33 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace OpenRasta.TypeSystem.Surrogated
+﻿namespace OpenRasta.TypeSystem.Surrogated
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
     public abstract class MemberWithSurrogates : WrappedMember
-
     {
-        readonly IMember _wrappedMember;
+        private readonly IMember wrappedMember;
 
-        protected MemberWithSurrogates(IMember wrappedMember, IEnumerable<IType> alienTypes)
-            : base(wrappedMember)
+        protected MemberWithSurrogates(IMember wrappedMember, IEnumerable<IType> alienTypes) : base(wrappedMember)
         {
-            _wrappedMember = wrappedMember;
-            AlienTypes = alienTypes.Select(x => (IType)new AlienType(x, this)).ToList();
+            this.wrappedMember = wrappedMember;
+            this.AlienTypes = alienTypes.Select(x => (IType)new AlienType(x, this)).ToList();
         }
 
         protected IEnumerable<IType> AlienTypes { get; set; }
 
         public override IProperty GetIndexer(string parameter)
         {
-            return CachedProperty(parameter, ()=> AlienTypes.Select(x => Reroot(x.GetIndexer(parameter))).FirstOrDefault()
-                           ?? base.GetIndexer(parameter));
+            return this.CachedProperty(
+                parameter,
+                () =>
+                this.AlienTypes.Select(x => this.Reroot(x.GetIndexer(parameter))).FirstOrDefault() ??
+                base.GetIndexer(parameter));
         }
 
         public override IProperty GetProperty(string name)
         {
-            return CachedProperty(name, ()=> AlienTypes.Select(x => Reroot(x.GetProperty(name))).FirstOrDefault()
-                           ?? base.GetProperty(name));
+            return CachedProperty(
+                name,
+                () => this.AlienTypes.Select(x => this.Reroot(x.GetProperty(name))).FirstOrDefault() ?? 
+                base.GetProperty(name));
         }
     }
 }

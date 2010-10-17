@@ -1,10 +1,11 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.Binding;
-
 namespace OpenRasta.TypeSystem
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.Binding;
+
     public abstract class MemberBuilder : IMemberBuilder
     {
         protected readonly Dictionary<string, IPropertyBuilder> PropertiesCache =
@@ -12,9 +13,9 @@ namespace OpenRasta.TypeSystem
 
         protected MemberBuilder(IMemberBuilder parent, IMember member)
         {
-            Parent = parent;
-            Member = member;
-            Assignment = new AssignmentFrame { Builder = this };
+            this.Parent = parent;
+            this.Member = member;
+            this.Assignment = new AssignmentFrame { Builder = this };
         }
 
         public virtual bool CanWrite
@@ -25,41 +26,53 @@ namespace OpenRasta.TypeSystem
         public abstract bool HasValue { get; }
 
         public IMember Member { get; private set; }
+
         public IMemberBuilder Parent { get; set; }
+
         public abstract object Value { get; }
+
         protected AssignmentFrame Assignment { get; set; }
+
         public abstract object Apply(object target, out object assignedValue);
 
         public virtual IPropertyBuilder GetProperty(string propertyPath)
         {
-            if (PropertiesCache.ContainsKey(propertyPath))
-                return PropertiesCache[propertyPath];
-
-            lock (PropertiesCache)
+            if (this.PropertiesCache.ContainsKey(propertyPath))
             {
-                var property = Member.FindPropertyByPath(propertyPath);
+                return this.PropertiesCache[propertyPath];
+            }
+
+            lock (this.PropertiesCache)
+            {
+                var property = this.Member.FindPropertyByPath(propertyPath);
 
                 if (property == null)
-                    return PropertiesCache[propertyPath] = null;
+                {
+                    return this.PropertiesCache[propertyPath] = null;
+                }
 
-                var currentFrame = Assignment;
+                var currentFrame = this.Assignment;
+
                 foreach (var member in property.GetCallStack().OfType<IProperty>().Reverse())
                 {
                     if (currentFrame.Children.ContainsKey(member))
                     {
                         currentFrame = currentFrame.Children[member];
+                        
                         continue;
                     }
 
-                    currentFrame.Children.Add(member, 
-                                              currentFrame = new AssignmentFrame
-                                              {
-                                                  Builder = member.CreateBuilder(currentFrame.Builder)
-                                              });
+                    currentFrame.Children.Add(
+                        member,
+                        currentFrame = new AssignmentFrame
+                        {
+                                Builder = member.CreateBuilder(currentFrame.Builder)
+                        });
                 }
 
                 var lastProperty = (IPropertyBuilder)currentFrame.Builder;
-                PropertiesCache[propertyPath] = lastProperty;
+                this.PropertiesCache[propertyPath] = lastProperty;
+
                 return lastProperty;
             }
         }
@@ -72,8 +85,8 @@ namespace OpenRasta.TypeSystem
         {
             public AssignmentFrame()
             {
-                Children = new Dictionary<IProperty, AssignmentFrame>();
-                Children = new Dictionary<IProperty, AssignmentFrame>();
+                this.Children = new Dictionary<IProperty, AssignmentFrame>();
+                this.Children = new Dictionary<IProperty, AssignmentFrame>();
             }
 
             public IMemberBuilder Builder { get; set; }

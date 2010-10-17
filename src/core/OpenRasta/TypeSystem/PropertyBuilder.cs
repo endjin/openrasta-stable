@@ -9,21 +9,21 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.Binding;
-
 namespace OpenRasta.TypeSystem
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.Binding;
+
     public class PropertyBuilder : MemberBuilder, IPropertyBuilder
     {
-        object _cachedValue;
+        private object cachedValue;
 
         public PropertyBuilder(IMemberBuilder parent, IProperty property)
             : base(parent, property)
         {
-            Owner = parent;
+            this.Owner = parent;
         }
 
         public int IndexAtCreation { get; set; }
@@ -35,26 +35,30 @@ namespace OpenRasta.TypeSystem
 
         public override bool CanWrite
         {
-            get { return Property.CanWrite; }
+            get { return this.Property.CanWrite; }
         }
 
         public IMemberBuilder Owner { get; private set; }
 
         public override object Value
         {
-            get { return _cachedValue; }
+            get { return this.cachedValue; }
         }
 
         public override bool HasValue
         {
-            get { return _cachedValue != null; }
+            get { return this.cachedValue != null; }
         }
 
         public override bool TrySetValue(object value)
         {
-            if (!Property.CanSetValue(value)) return false;
+            if (!this.Property.CanSetValue(value))
+            {
+                return false;
+            }
 
-            _cachedValue = value;
+            this.cachedValue = value;
+            
             return true;
         }
 
@@ -67,39 +71,52 @@ namespace OpenRasta.TypeSystem
         /// <returns></returns>
         public override bool TrySetValue<T>(IEnumerable<T> values, ValueConverter<T> converter)
         {
-            if (Property.Type.IsEnumerable && _cachedValue != null)
+            if (this.Property.Type.IsEnumerable && this.cachedValue != null)
             {
-                var addMethod = Property.Type.GetMethod("Add");
+                var addMethod = this.Property.Type.GetMethod("Add");
+                
                 if (addMethod != null)
                 {
                     var parameter = addMethod.InputMembers.FirstOrDefault();
                     var builder = parameter.Type.CreateBuilder();
+                    
                     if (builder.TrySetValue(values, converter))
                     {
-                        addMethod.Invoke(_cachedValue, builder.Value);
+                        addMethod.Invoke(this.cachedValue, builder.Value);
+                        
                         return true;
                     }
                 }
             }
+
             object newValue;
-            var success = Property.Type.TryCreateInstance(values, converter, out newValue);
+            
+            var success = this.Property.Type.TryCreateInstance(values, converter, out newValue);
+            
             if (success)
-                _cachedValue = newValue;
+            {
+                this.cachedValue = newValue;
+            }
+
             return success;
         }
 
         public override object Apply(object target, out object assignedValue)
         {
             if (target == null)
-                target = Owner.Member.Type.CreateInstance();
-            if (_cachedValue != null)
             {
-                Property.TrySetValue(target, assignedValue = _cachedValue);
+                target = this.Owner.Member.Type.CreateInstance();
+            }
+
+            if (this.cachedValue != null)
+            {
+                this.Property.TrySetValue(target, assignedValue = this.cachedValue);
             }
             else
             {
-                assignedValue = Property.GetValue(target);
+                assignedValue = this.Property.GetValue(target);
             }
+
             return target;
         }
     }

@@ -1,10 +1,11 @@
-using System;
-using System.Collections.Generic;
-using OpenRasta.Binding;
-using OpenRasta.DI;
-
 namespace OpenRasta.TypeSystem
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Binding;
+    using OpenRasta.DI;
+
     /// <summary>
     /// Represents a type used to manipulate objects.
     /// </summary>
@@ -39,6 +40,7 @@ namespace OpenRasta.TypeSystem
         /// <returns><c>true</c> if the types are compatible, otherwise <c>false</c>.</returns>
         bool IsAssignableFrom(IType type);
     }
+
     public interface IResolverAwareType : IType
     {
         object CreateInstance(IDependencyResolver resolver);

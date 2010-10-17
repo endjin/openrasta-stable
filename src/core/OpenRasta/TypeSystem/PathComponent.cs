@@ -4,10 +4,12 @@ namespace OpenRasta.TypeSystem
     {
         public PathComponent()
         {
-            ParsedValue = string.Empty;
-            Type = PathComponentType.None;
+            this.ParsedValue = string.Empty;
+            this.Type = PathComponentType.None;
         }
+
         public PathComponentType Type { get; set; }
+
         public string ParsedValue { get; set; }
     }
 }

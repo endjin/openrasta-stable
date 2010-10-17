@@ -1,8 +1,9 @@
-using System.Collections.Generic;
-using OpenRasta.Binding;
-
 namespace OpenRasta.TypeSystem
 {
+    using System.Collections.Generic;
+
+    using OpenRasta.Binding;
+
     public interface IProperty : IMember
     {
         /// <summary>

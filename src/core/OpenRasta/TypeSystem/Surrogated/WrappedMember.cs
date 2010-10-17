@@ -1,102 +1,114 @@
-using System;
-using System.Collections.Generic;
-
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    using System;
+    using System.Collections.Generic;
+
     public abstract class WrappedMember : IMember, IHasWrappedMember
     {
-        readonly IMember _wrapped;
-        Dictionary<string,IProperty> _cachedProperty = new Dictionary<string, IProperty>();
+        private readonly IMember wrapped;
+        private readonly Dictionary<string, IProperty> cachedProperty = new Dictionary<string, IProperty>();
 
         protected WrappedMember(IMember member)
         {
-            _wrapped = member;
+            this.wrapped = member;
         }
 
         public Type StaticType
         {
-            get { return _wrapped.StaticType; }
+            get { return this.wrapped.StaticType; }
         }
 
         public virtual bool IsEnumerable
         {
-            get { return _wrapped.IsEnumerable; }
+            get { return this.wrapped.IsEnumerable; }
         }
 
         public virtual string Name
         {
-            get { return _wrapped.Name; }
+            get { return this.wrapped.Name; }
         }
 
         public virtual IType Type
         {
-            get { return _wrapped.Type; }
+            get { return this.wrapped.Type; }
         }
 
         public virtual string TypeName
         {
-            get { return _wrapped.TypeName; }
+            get { return this.wrapped.TypeName; }
         }
 
         public virtual ITypeSystem TypeSystem
         {
-            get { return _wrapped.TypeSystem; }
-            set { _wrapped.TypeSystem = value; }
+            get { return this.wrapped.TypeSystem; }
+            set { this.wrapped.TypeSystem = value; }
         }
 
         IMember IHasWrappedMember.WrappedMember
         {
-            get { return _wrapped; }
+            get { return this.wrapped; }
         }
 
         public virtual T FindAttribute<T>() where T : class
         {
-            return _wrapped.FindAttribute<T>();
+            return this.wrapped.FindAttribute<T>();
         }
 
         public virtual IEnumerable<T> FindAttributes<T>() where T : class
         {
-            return _wrapped.FindAttributes<T>();
+            return this.wrapped.FindAttributes<T>();
         }
 
         public virtual bool CanSetValue(object value)
         {
-            return _wrapped.CanSetValue(value);
+            return this.wrapped.CanSetValue(value);
         }
 
         public virtual IProperty GetIndexer(string parameter)
         {
-            return CachedProperty(parameter, ()=> Reroot(_wrapped.GetIndexer(parameter)));
+            return this.CachedProperty(parameter, () => this.Reroot(this.wrapped.GetIndexer(parameter)));
         }
 
         public virtual IProperty GetProperty(string name)
         {
-            return CachedProperty(name, ()=> Reroot(_wrapped.GetProperty(name)));
+            return this.CachedProperty(name, () => this.Reroot(this.wrapped.GetProperty(name)));
         }
 
         public virtual IMethod GetMethod(string methodName)
         {
-            return _wrapped.GetMethod(methodName);
+            return this.wrapped.GetMethod(methodName);
         }
 
         public virtual IList<IMethod> GetMethods()
         {
-            return _wrapped.GetMethods();
+            return this.wrapped.GetMethods();
         }
 
         protected WrappedProperty Reroot(IProperty root)
         {
-            if (root == null) return null;
+            if (root == null)
+            {
+                return null;
+            }
+
             return new WrappedProperty(this, root);
         }
 
         protected IProperty CachedProperty(string parameter, Func<IProperty> propertyCreator)
         {
             IProperty output;
-            if (!_cachedProperty.TryGetValue(parameter, out output))
-                lock (_cachedProperty)
-                    if (!_cachedProperty.TryGetValue(parameter, out output))
-                        _cachedProperty[parameter] = output = propertyCreator();
+
+            if (!this.cachedProperty.TryGetValue(parameter, out output))
+            {
+                lock (this.cachedProperty)
+                {
+                    if (!this.cachedProperty.TryGetValue(parameter, out output))
+                    {
+                        this.cachedProperty[parameter] = output = propertyCreator();
+                    }
+                }
+            }
+
             return output;
         }
     }

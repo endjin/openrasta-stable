@@ -1,23 +1,22 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
 namespace OpenRasta.TypeSystem.Surrogates.Static
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
     /// <summary>
     /// Please do not use, it's not ready for prime time yet.
     /// </summary>
     /// <typeparam name="T"></typeparam>
     public class CollectionIndexerSurrogate<T> : ISurrogate
     {
-        ICollection<T> _surrogatedValue;
-
-        int _lastSeenIndex = -1;
+        private ICollection<T> surrogatedValue;
+        private int lastSeenIndex = -1;
 
         object ISurrogate.Value
         {
-            get { return _surrogatedValue; }
-            set { _surrogatedValue = (ICollection<T>)value; }
+            get { return this.surrogatedValue; }
+            set { this.surrogatedValue = (ICollection<T>)value; }
         }
 
         public T this[int index]
@@ -25,31 +24,40 @@ namespace OpenRasta.TypeSystem.Surrogates.Static
             get
             {
                 if (index < 0)
-                    throw new ArgumentOutOfRangeException("index");
-
-                if (index == _lastSeenIndex)
                 {
-                    return _surrogatedValue.Last();
+                    throw new ArgumentOutOfRangeException("index");
                 }
 
-                _lastSeenIndex = index;
-                _surrogatedValue.Add(default(T));
+                if (index == this.lastSeenIndex)
+                {
+                    return this.surrogatedValue.Last();
+                }
+
+                this.lastSeenIndex = index;
+                this.surrogatedValue.Add(default(T));
+                
                 return default(T);
             }
 
             set
             {
                 if (index < 0)
-                    throw new ArgumentOutOfRangeException("index");
-                if (index == _lastSeenIndex)
                 {
-                    var tempValues = _surrogatedValue.ToList();
-                    for (int i = 0; i < tempValues.Count - 1; i++)
-                        _surrogatedValue.Add(tempValues[i]);
+                    throw new ArgumentOutOfRangeException("index");
                 }
 
-                _lastSeenIndex = index;
-                _surrogatedValue.Add(value);
+                if (index == this.lastSeenIndex)
+                {
+                    var tempValues = this.surrogatedValue.ToList();
+                    
+                    for (int i = 0; i < tempValues.Count - 1; i++)
+                    {
+                        this.surrogatedValue.Add(tempValues[i]);
+                    }
+                }
+
+                this.lastSeenIndex = index;
+                this.surrogatedValue.Add(value);
             }
         }
     }

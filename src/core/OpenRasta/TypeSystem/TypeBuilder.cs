@@ -8,29 +8,29 @@
  */
 #endregion
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using OpenRasta.Binding;
-
 namespace OpenRasta.TypeSystem
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using OpenRasta.Binding;
+
     public class TypeBuilder : MemberBuilder, ITypeBuilder
     {
-        object _cacheValue;
+        private object cacheValue;
 
-        public TypeBuilder(IType type)
-            : base(null, type)
+        public TypeBuilder(IType type) : base(null, type)
         {
-            Changes = new PropertyDictionary(this);
+            this.Changes = new PropertyDictionary(this);
         }
 
         public IDictionary<string, IPropertyBuilder> Changes { get; private set; }
 
         public override bool HasValue
         {
-            get { return _cacheValue != null || Changes.Count > 0; }
+            get { return this.cacheValue != null || this.Changes.Count > 0; }
         }
 
         public IType Type
@@ -40,22 +40,27 @@ namespace OpenRasta.TypeSystem
 
         public override object Value
         {
-            get { return _cacheValue; }
+            get { return this.cacheValue; }
         }
 
         public override object Apply(object target, out object assignedValue)
         {
-            assignedValue = _cacheValue ?? target;
-            if (_cacheValue != null)
-                return _cacheValue;
+            assignedValue = this.cacheValue ?? target;
+            
+            if (this.cacheValue != null)
+            {
+                return this.cacheValue;
+            }
+
             return target;
         }
 
         public override bool TrySetValue(object value)
         {
-            if (Type.CanSetValue(value))
+            if (this.Type.CanSetValue(value))
             {
-                _cacheValue = value;
+                this.cacheValue = value;
+                
                 return true;
             }
 
@@ -65,25 +70,35 @@ namespace OpenRasta.TypeSystem
         public override bool TrySetValue<T>(IEnumerable<T> values, ValueConverter<T> converter)
         {
             object result;
-            if (!Type.TryCreateInstance(values, converter, out result))
+
+            if (!this.Type.TryCreateInstance(values, converter, out result))
+            {
                 return false;
-            _cacheValue = result;
+            }
+
+            this.cacheValue = result;
+            
             return true;
         }
 
         /// <exception cref="ArgumentNullException"><c>instance</c> is null.</exception>
         public object Create()
         {
-            return AssignFrame(_cacheValue ?? Type.CreateInstance(), Assignment);
+            return this.AssignFrame(this.cacheValue ?? this.Type.CreateInstance(), this.Assignment);
         }
 
         /// <exception cref="ArgumentNullException"><c>instance</c> is null.</exception>
         public object Update(object instance)
         {
-            if (instance == null) throw new ArgumentNullException("instance");
-            return AssignFrame(instance, Assignment);
+            if (instance == null)
+            {
+                throw new ArgumentNullException("instance");
+            }
+
+            return this.AssignFrame(instance, this.Assignment);
         }
-        object AssignFrame(object instance, AssignmentFrame currentFrame)
+
+        private object AssignFrame(object instance, AssignmentFrame currentFrame)
         {
             object assignedValue;
             var hasChildren = currentFrame.Children.Any();
@@ -91,8 +106,11 @@ namespace OpenRasta.TypeSystem
             instance = currentFrame.Builder.Apply(instance, out assignedValue);
 
             object newValue = assignedValue;
+            
             foreach (var childFrame in currentFrame.Children.Values)
-                newValue = AssignFrame(newValue, childFrame);
+            {
+                newValue = this.AssignFrame(newValue, childFrame);
+            }
 
             if (hasChildren && currentFrame.Builder.Value != newValue)
             {
@@ -101,19 +119,20 @@ namespace OpenRasta.TypeSystem
                 instance = currentFrame.Builder.Apply(instance, out assignedValue);
                 currentFrame.Builder.TrySetValue(oldValue);
             }
+
             return instance;
         }
 
-        class PropertyDictionary : IDictionary<string, IPropertyBuilder>
+        private class PropertyDictionary : IDictionary<string, IPropertyBuilder>
         {
             public PropertyDictionary(TypeBuilder owner)
             {
-                Owner = owner;
+                this.Owner = owner;
             }
 
             public int Count
             {
-                get { return TheOnesWithValues().Count(); }
+                get { return this.TheOnesWithValues().Count(); }
             }
 
             public bool IsReadOnly
@@ -123,14 +142,14 @@ namespace OpenRasta.TypeSystem
 
             public ICollection<string> Keys
             {
-                get { return TheOnesWithValues().Select(kv => kv.Key).ToList(); }
+                get { return this.TheOnesWithValues().Select(kv => kv.Key).ToList(); }
             }
 
             public TypeBuilder Owner { get; private set; }
 
             public ICollection<IPropertyBuilder> Values
             {
-                get { return TheOnesWithValues().Select(kv => kv.Value).ToList(); }
+                get { return this.TheOnesWithValues().Select(kv => kv.Value).ToList(); }
             }
 
             public IPropertyBuilder this[string key]
@@ -138,8 +157,12 @@ namespace OpenRasta.TypeSystem
                 get
                 {
                     IPropertyBuilder property;
-                    if (!TryGetValue(key, out property))
+
+                    if (!this.TryGetValue(key, out property))
+                    {
                         throw new ArgumentOutOfRangeException();
+                    }
+                    
                     return property;
                 }
 
@@ -161,7 +184,7 @@ namespace OpenRasta.TypeSystem
 
             public bool Contains(KeyValuePair<string, IPropertyBuilder> item)
             {
-                return ContainsKey(item.Key);
+                return this.ContainsKey(item.Key);
             }
 
             public void CopyTo(KeyValuePair<string, IPropertyBuilder>[] array, int arrayIndex)
@@ -181,8 +204,8 @@ namespace OpenRasta.TypeSystem
 
             public bool ContainsKey(string key)
             {
-                return Owner.PropertiesCache.ContainsKey(key) && Owner.PropertiesCache[key] != null &&
-                       Owner.PropertiesCache[key].HasValue;
+                return this.Owner.PropertiesCache.ContainsKey(key) && this.Owner.PropertiesCache[key] != null &&
+                       this.Owner.PropertiesCache[key].HasValue;
             }
 
             public bool Remove(string key)
@@ -192,30 +215,34 @@ namespace OpenRasta.TypeSystem
 
             public bool TryGetValue(string key, out IPropertyBuilder value)
             {
-                if (ContainsKey(key))
+                if (this.ContainsKey(key))
                 {
-                    value = Owner.PropertiesCache[key];
+                    value = this.Owner.PropertiesCache[key];
+                    
                     return true;
                 }
 
                 value = null;
+                
                 return false;
             }
 
             IEnumerator IEnumerable.GetEnumerator()
             {
-                return GetEnumerator();
+                return this.GetEnumerator();
             }
 
             public IEnumerator<KeyValuePair<string, IPropertyBuilder>> GetEnumerator()
             {
-                foreach (var value in TheOnesWithValues())
+                foreach (var value in this.TheOnesWithValues())
+                {
                     yield return value;
+                }
             }
 
-            IEnumerable<KeyValuePair<string, IPropertyBuilder>> TheOnesWithValues()
+            private IEnumerable<KeyValuePair<string, IPropertyBuilder>> TheOnesWithValues()
             {
-                return Owner.PropertiesCache.Where(kv => kv.Value != null && kv.Value.HasValue);
+                return this.Owner.PropertiesCache.Where(kv => kv.Value != null && kv.Value.HasValue);
             }
         }
     }

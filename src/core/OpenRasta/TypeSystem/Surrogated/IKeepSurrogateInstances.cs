@@ -1,8 +1,9 @@
-using System.Collections.Generic;
-using OpenRasta.TypeSystem.Surrogates;
-
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    using System.Collections.Generic;
+
+    using OpenRasta.TypeSystem.Surrogates;
+
     /// <summary>
     /// Represents an object that keeps a list of surrogate instances for members, usually for usage in member builders.
     /// </summary>

@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-
 namespace OpenRasta.TypeSystem
 {
+    using System.Collections.Generic;
+
     /// <summary>
     /// Represents an object that provides attributes.
     /// </summary>
