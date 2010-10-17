@@ -7,141 +7,85 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq.Expressions;
+
 
 namespace OpenRasta.Reflection
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq.Expressions;
+    
     public abstract class ExpressionVisitor
     {
         protected virtual Expression Visit(Expression exp)
         {
             if (exp == null)
-
+            {
                 return exp;
+            }
 
             switch (exp.NodeType)
             {
                 case ExpressionType.Negate:
-
                 case ExpressionType.NegateChecked:
-
                 case ExpressionType.Not:
-
                 case ExpressionType.Convert:
-
                 case ExpressionType.ConvertChecked:
-
                 case ExpressionType.ArrayLength:
-
                 case ExpressionType.Quote:
-
                 case ExpressionType.TypeAs:
-
-                    return VisitUnary((UnaryExpression) exp);
-
+                    return VisitUnary((UnaryExpression)exp);
                 case ExpressionType.Add:
-
                 case ExpressionType.AddChecked:
-
                 case ExpressionType.Subtract:
-
                 case ExpressionType.SubtractChecked:
-
                 case ExpressionType.Multiply:
-
                 case ExpressionType.MultiplyChecked:
-
                 case ExpressionType.Divide:
-
                 case ExpressionType.Modulo:
-
                 case ExpressionType.And:
-
                 case ExpressionType.AndAlso:
-
                 case ExpressionType.Or:
-
                 case ExpressionType.OrElse:
-
                 case ExpressionType.LessThan:
-
                 case ExpressionType.LessThanOrEqual:
-
                 case ExpressionType.GreaterThan:
-
                 case ExpressionType.GreaterThanOrEqual:
-
                 case ExpressionType.Equal:
-
                 case ExpressionType.NotEqual:
-
                 case ExpressionType.Coalesce:
-
                 case ExpressionType.ArrayIndex:
-
                 case ExpressionType.RightShift:
-
                 case ExpressionType.LeftShift:
-
                 case ExpressionType.ExclusiveOr:
-
-                    return VisitBinary((BinaryExpression) exp);
-
+                    return VisitBinary((BinaryExpression)exp);
                 case ExpressionType.TypeIs:
-
-                    return VisitTypeIs((TypeBinaryExpression) exp);
-
+                    return VisitTypeIs((TypeBinaryExpression)exp);
                 case ExpressionType.Conditional:
-
-                    return VisitConditional((ConditionalExpression) exp);
-
+                    return VisitConditional((ConditionalExpression)exp);
                 case ExpressionType.Constant:
-
-                    return VisitConstant((ConstantExpression) exp);
-
+                    return VisitConstant((ConstantExpression)exp);
                 case ExpressionType.Parameter:
-
-                    return VisitParameter((ParameterExpression) exp);
-
+                    return VisitParameter((ParameterExpression)exp);
                 case ExpressionType.MemberAccess:
-
-                    return VisitMemberAccess((MemberExpression) exp);
-
+                    return VisitMemberAccess((MemberExpression)exp);
                 case ExpressionType.Call:
-
-                    return VisitMethodCall((MethodCallExpression) exp);
-
+                    return VisitMethodCall((MethodCallExpression)exp);
                 case ExpressionType.Lambda:
-
-                    return VisitLambda((LambdaExpression) exp);
-
+                    return VisitLambda((LambdaExpression)exp);
                 case ExpressionType.New:
-
-                    return VisitNew((NewExpression) exp);
-
+                    return VisitNew((NewExpression)exp);
                 case ExpressionType.NewArrayInit:
-
                 case ExpressionType.NewArrayBounds:
-
-                    return VisitNewArray((NewArrayExpression) exp);
-
+                    return VisitNewArray((NewArrayExpression)exp);
                 case ExpressionType.Invoke:
-
-                    return VisitInvocation((InvocationExpression) exp);
-
+                    return VisitInvocation((InvocationExpression)exp);
                 case ExpressionType.MemberInit:
-
-                    return VisitMemberInit((MemberInitExpression) exp);
-
+                    return VisitMemberInit((MemberInitExpression)exp);
                 case ExpressionType.ListInit:
-
-                    return VisitListInit((ListInitExpression) exp);
-
+                    return VisitListInit((ListInitExpression)exp);
                 default:
-
                     throw new Exception(string.Format("Unhandled expression type: '{0}'", exp.NodeType));
             }
         }
@@ -151,19 +95,12 @@ namespace OpenRasta.Reflection
             switch (binding.BindingType)
             {
                 case MemberBindingType.Assignment:
-
                     return VisitMemberAssignment((MemberAssignment) binding);
-
                 case MemberBindingType.MemberBinding:
-
                     return VisitMemberMemberBinding((MemberMemberBinding) binding);
-
                 case MemberBindingType.ListBinding:
-
                     return VisitMemberListBinding((MemberListBinding) binding);
-
                 default:
-
                     throw new Exception(string.Format("Unhandled binding type '{0}'", binding.BindingType));
             }
         }
@@ -195,16 +132,15 @@ namespace OpenRasta.Reflection
         protected virtual Expression VisitBinary(BinaryExpression b)
         {
             Expression left = Visit(b.Left);
-
             Expression right = Visit(b.Right);
-
             Expression conversion = Visit(b.Conversion);
 
             if (left != b.Left || right != b.Right || conversion != b.Conversion)
             {
                 if (b.NodeType == ExpressionType.Coalesce && b.Conversion != null)
-
+                {
                     return Expression.Coalesce(left, right, conversion as LambdaExpression);
+                }
 
                 return Expression.MakeBinary(b.NodeType, left, right, b.IsLiftedToNull, b.Method);
             }
@@ -229,9 +165,7 @@ namespace OpenRasta.Reflection
         protected virtual Expression VisitConditional(ConditionalExpression c)
         {
             Expression test = Visit(c.Test);
-
             Expression ifTrue = Visit(c.IfTrue);
-
             Expression ifFalse = Visit(c.IfFalse);
 
             if (test != c.Test || ifTrue != c.IfTrue || ifFalse != c.IfFalse)
@@ -282,7 +216,6 @@ namespace OpenRasta.Reflection
                 {
                     list.Add(p);
                 }
-
                 else if (p != original[i])
                 {
                     list = new List<Expression>(n);
@@ -352,7 +285,6 @@ namespace OpenRasta.Reflection
                 {
                     list.Add(b);
                 }
-
                 else if (b != original[i])
                 {
                     list = new List<MemberBinding>(n);
@@ -367,8 +299,9 @@ namespace OpenRasta.Reflection
             }
 
             if (list != null)
-
+            {
                 return list;
+            }
 
             return original;
         }
@@ -385,7 +318,6 @@ namespace OpenRasta.Reflection
                 {
                     list.Add(init);
                 }
-
                 else if (init != original[i])
                 {
                     list = new List<ElementInit>(n);
@@ -425,8 +357,9 @@ namespace OpenRasta.Reflection
             if (args != nex.Arguments)
             {
                 if (nex.Members != null)
-
+                {
                     return Expression.New(nex.Constructor, args, nex.Members);
+                }
 
                 return Expression.New(nex.Constructor, args);
             }
@@ -472,7 +405,6 @@ namespace OpenRasta.Reflection
                 {
                     return Expression.NewArrayInit(na.Type.GetElementType(), exprs);
                 }
-
                 else
                 {
                     return Expression.NewArrayBounds(na.Type.GetElementType(), exprs);

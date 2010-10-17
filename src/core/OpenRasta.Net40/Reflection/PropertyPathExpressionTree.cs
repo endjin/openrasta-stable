@@ -8,16 +8,14 @@
  */
 #endregion
 
-using System;
-using System.Linq.Expressions;
-using OpenRasta.Web.Markup;
-
 namespace OpenRasta.Reflection
 {
+    using System;
+    using System.Linq.Expressions;
+
     public abstract class PropertyPathExpressionTree
     {
         protected PropertyPathExpressionTree() { }
-
         
         protected PropertyPathExpressionTree(Expression property)
         {
@@ -25,8 +23,11 @@ namespace OpenRasta.Reflection
         }
 
         public Type PropertyType { get; private set; }
-        public Object Value { get; protected set; }
+
+        public object Value { get; protected set; }
+        
         public PropertyPath Path { get; private set; }
+        
         public string FullPath
         {
             get

@@ -10,14 +10,14 @@
 
 #endregion
 
-using System;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-using OpenRasta.TypeSystem.ReflectionBased;
-
 namespace OpenRasta.Reflection
 {
+    using System;
+    using System.Linq.Expressions;
+    using System.Reflection;
+    using System.Text;
+    using OpenRasta.TypeSystem.ReflectionBased;
+
     public class PropertyPathVisitor : ExpressionVisitor
     {
         public PropertyPathVisitor()
@@ -25,14 +25,16 @@ namespace OpenRasta.Reflection
             PropertyPathBuilder = new StringBuilder();
         }
 
-        protected StringBuilder PropertyPathBuilder { get; set; }
-        protected string RootType { get; set; }
-
         public Type PropertyType { get; private set; }
+
+        protected StringBuilder PropertyPathBuilder { get; set; }
+
+        protected string RootType { get; set; }
 
         public PropertyPath BuildPropertyPath(Expression expression)
         {
             Visit(expression);
+            
             if (RootType != null || PropertyPathBuilder.Length != 0)
             {
                 return new PropertyPath
@@ -41,61 +43,67 @@ namespace OpenRasta.Reflection
                     TypeSuffix = PropertyPathBuilder.ToString()
                 };
             }
+
             return null;
         }
 
         protected override Expression VisitMemberAccess(MemberExpression m)
         {
-            Visit(m.Expression);
-            PropertyType = m.Type;
-            // try to get the value
+            this.Visit(m.Expression);
+            this.PropertyType = m.Type;
+            
             try
             {
-                var rootInstance = Expression.Lambda(typeof (Func<object>), m.Expression).Compile().DynamicInvoke();
+                var rootInstance = Expression.Lambda(typeof(Func<object>), m.Expression).Compile().DynamicInvoke();
+
                 if (rootInstance != null)
                 {
                     {
                         var pi = m.Member as PropertyInfo;
                         object resultingInstance = null;
+
                         if (pi != null)
-                             resultingInstance = pi.GetValue(rootInstance, null);
+                        {
+                            resultingInstance = pi.GetValue(rootInstance, null);
+                        }
+                       
                         var fi = m.Member as FieldInfo;
+                        
                         if (fi != null)
+                        {
                             resultingInstance = fi.GetValue(rootInstance);
+                        }
+                        
                         if (resultingInstance != null)
                         {
                             var propertyPath = ObjectPaths.Get(resultingInstance);
+                            
                             if (propertyPath != null)
                             {
-                                RootType = propertyPath.TypePrefix;
-                                AppendPropertyPath(propertyPath.TypeSuffix);
+                                this.RootType = propertyPath.TypePrefix;
+                                this.AppendPropertyPath(propertyPath.TypeSuffix);
+                                
                                 return m;
                             }
                         }
                     }
-                        
                 }
             }
             catch
             {
             }
-            if (RootType == null)
+
+            if (this.RootType == null)
             {
-                RootType = ExtractType(m.Member).GetTypeString();
+                this.RootType = this.ExtractType(m.Member).GetTypeString();
             }
             else
             {
                 var name = m.Member.Name;
-                AppendPropertyPath(name);
+                this.AppendPropertyPath(name);
             }
+            
             return m;
-        }
-
-        void AppendPropertyPath(string name)
-        {
-            if (PropertyPathBuilder.Length > 0)
-                PropertyPathBuilder.Append(".");
-            PropertyPathBuilder.Append(name);
         }
 
         protected override Expression VisitParameter(ParameterExpression p)
@@ -116,6 +124,13 @@ namespace OpenRasta.Reflection
                 PropertyPathBuilder.Append(":").Append(argumentValue.ConvertToString());
             }
             return m;
+        }
+
+        void AppendPropertyPath(string name)
+        {
+            if (this.PropertyPathBuilder.Length > 0)
+                this.PropertyPathBuilder.Append(".");
+            this.PropertyPathBuilder.Append(name);
         }
 
         Type ExtractType(MemberInfo info)

@@ -10,17 +10,14 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (MS-PL)
 
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Text;
-
 namespace IQ
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
     /// <summary>
     /// Compare two expressions to determine if they are equivalent
     /// </summary>
@@ -47,16 +44,38 @@ namespace IQ
             return new ExpressionComparer(parameterScope).Compare(a, b);
         }
 
+        public bool Equals(Expression x, Expression y)
+        {
+            return AreEqual(x, y);
+        }
+
+        public int GetHashCode(Expression obj)
+        {
+            return (int)obj.NodeType ^ obj.GetType().GetHashCode();
+        }
+
         protected virtual bool Compare(Expression a, Expression b)
         {
             if (a == b)
+            {
                 return true;
+            }
+
             if (a == null || b == null)
+            {
                 return false;
+            }
+
             if (a.NodeType != b.NodeType)
+            {
                 return false;
+            }
+
             if (a.Type != b.Type)
+            {
                 return false;
+            }
+
             switch (a.NodeType)
             {
                 case ExpressionType.Negate:
@@ -167,8 +186,11 @@ namespace IQ
             {
                 ParameterExpression mapped;
                 if (this.parameterScope.TryGetValue(a, out mapped))
+                {
                     return mapped == b;
+                }
             }
+
             return a == b;
         }
 
@@ -188,22 +210,31 @@ namespace IQ
         protected virtual bool CompareLambda(LambdaExpression a, LambdaExpression b)
         {
             int n = a.Parameters.Count;
+            
             if (b.Parameters.Count != n)
+            {
                 return false;
+            }
+            
             // all must have same type
             for (int i = 0; i < n; i++)
             {
                 if (a.Parameters[i].Type != b.Parameters[i].Type)
+                {
                     return false;
+                }
             }
+            
             var save = this.parameterScope;
             this.parameterScope = new ScopedDictionary<ParameterExpression, ParameterExpression>(this.parameterScope);
+            
             try
             {
                 for (int i = 0; i < n; i++)
                 {
                     this.parameterScope.Add(a.Parameters[i], b.Parameters[i]);
                 }
+
                 return this.Compare(a.Body, b.Body);
             }
             finally
@@ -222,32 +253,56 @@ namespace IQ
         protected virtual bool CompareExpressionList(ReadOnlyCollection<Expression> a, ReadOnlyCollection<Expression> b)
         {
             if (a == b)
+            {
                 return true;
+            }
+
             if (a == null || b == null)
+            {
                 return false;
+            }
+            
             if (a.Count != b.Count)
+            {
                 return false;
+            }
+
             for (int i = 0, n = a.Count; i < n; i++)
             {
                 if (!this.Compare(a[i], b[i]))
+                {
                     return false;
+                }
             }
+
             return true;
         }
 
         protected virtual bool CompareMemberList(ReadOnlyCollection<MemberInfo> a, ReadOnlyCollection<MemberInfo> b)
         {
             if (a == b)
+            {
                 return true;
+            }
+
             if (a == null || b == null)
+            {
                 return false;
+            }
+
             if (a.Count != b.Count)
+            {
                 return false;
+            }
+
             for (int i = 0, n = a.Count; i < n; i++)
             {
                 if (a[i] != b[i])
+                {
                     return false;
+                }
             }
+
             return true;
         }
 
@@ -271,29 +326,53 @@ namespace IQ
         protected virtual bool CompareBindingList(ReadOnlyCollection<MemberBinding> a, ReadOnlyCollection<MemberBinding> b)
         {
             if (a == b)
+            {
                 return true;
+            }
+
             if (a == null || b == null)
+            {
                 return false;
+            }
+            
             if (a.Count != b.Count)
+            {
                 return false;
+            }
+
             for (int i = 0, n = a.Count; i < n; i++)
             {
                 if (!this.CompareBinding(a[i], b[i]))
+                {
                     return false;
+                }
             }
+
             return true;
         }
 
         protected virtual bool CompareBinding(MemberBinding a, MemberBinding b)
         {
             if (a == b)
+            {
                 return true;
+            }
+
             if (a == null || b == null)
+            {
                 return false;
+            }
+
             if (a.BindingType != b.BindingType)
+            {
                 return false;
+            }
+
             if (a.Member != b.Member)
+            {
                 return false;
+            }
+
             switch (a.BindingType)
             {
                 case MemberBindingType.Assignment:
@@ -334,16 +413,28 @@ namespace IQ
         protected virtual bool CompareElementInitList(ReadOnlyCollection<ElementInit> a, ReadOnlyCollection<ElementInit> b)
         {
             if (a == b)
+            {
                 return true;
+            }
+
             if (a == null || b == null)
+            {
                 return false;
+            }
+
             if (a.Count != b.Count)
+            {
                 return false;
+            }
+
             for (int i = 0, n = a.Count; i < n; i++)
             {
                 if (!this.CompareElementInit(a[i], b[i]))
+                {
                     return false;
+                }
             }
+
             return true;
         }
 
@@ -352,21 +443,10 @@ namespace IQ
             return a.AddMethod == b.AddMethod
                 && this.CompareExpressionList(a.Arguments, b.Arguments);
         }
-
-        public bool Equals(Expression x, Expression y)
-        {
-            return AreEqual(x, y);
-        }
-
-        public int GetHashCode(Expression obj)
-        {
-            return (int) obj.NodeType ^ obj.GetType().GetHashCode();
-        }
     }
 }
 
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -385,5 +465,4 @@ namespace IQ
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

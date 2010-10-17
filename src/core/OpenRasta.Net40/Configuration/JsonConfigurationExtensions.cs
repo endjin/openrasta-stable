@@ -8,13 +8,12 @@
  */
 #endregion
 
-using System;
-using System.Runtime.Serialization.Json;
-using OpenRasta.Codecs;
-using OpenRasta.Configuration.Fluent;
-
 namespace OpenRasta.Configuration
 {
+    using System.Runtime.Serialization.Json;
+    using OpenRasta.Codecs;
+    using OpenRasta.Configuration.Fluent;
+
     public static class JsonConfigurationExtensions
     {
         /// <summary>

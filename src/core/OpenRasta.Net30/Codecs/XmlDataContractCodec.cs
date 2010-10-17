@@ -8,21 +8,23 @@
  */
 #endregion
 
-using System;
-using System.Runtime.Serialization;
-using OpenRasta.Codecs;
-using OpenRasta.TypeSystem;
-
 namespace OpenRasta.Web.Codecs
 {
+    using System;
+    using System.Runtime.Serialization;
+    using OpenRasta.Codecs;
+    using OpenRasta.TypeSystem;
+    
     [MediaType("application/xml;q=0.5", "xml")]
     public class XmlDataContractCodec : XmlCodec
     {
         public override object ReadFrom(IHttpEntity request, IType destinationType, string parameterName)
         {
-            
             if (destinationType.StaticType == null)
+            {
                 throw new InvalidOperationException();
+            }
+
             return new DataContractSerializer(destinationType.StaticType).ReadObject(request.Stream);
         }
 
@@ -34,7 +36,6 @@ namespace OpenRasta.Web.Codecs
 }
 
 #region Full license
-//
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
 // "Software"), to deal in the Software without restriction, including
@@ -53,5 +54,4 @@ namespace OpenRasta.Web.Codecs
 // LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
 #endregion

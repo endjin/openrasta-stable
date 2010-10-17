@@ -1,38 +1,36 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using OpenRasta.Reflection;
-
-namespace OpenRasta
+﻿namespace OpenRasta
 {
+    using System;
+    using System.Collections.Generic;
+    using OpenRasta.Reflection;
+
     public static class ObjectPaths
     {
+        [ThreadStatic]
+        private static Dictionary<object, PropertyPath> objectPaths;
+
+        private static Dictionary<object, PropertyPath> ObjectPathsCore
+        {
+            get
+            {
+                return objectPaths ?? (objectPaths = new Dictionary<object, PropertyPath>());
+            }
+        }
 
         public static void Add(object o, PropertyPath path)
         {
             ObjectPathsCore[o] = path;
         }
 
-        public static void Remove(object o)
-        {
-            ObjectPathsCore.Remove(o);
-        }
         public static PropertyPath Get(object o)
         {
             PropertyPath result;
             return ObjectPathsCore.TryGetValue(o, out result) ? result : null;
         }
-        [ThreadStatic]
-        static Dictionary<object,PropertyPath> _objectPaths;
-        static Dictionary<object, PropertyPath> ObjectPathsCore
+
+        public static void Remove(object o)
         {
-            get
-            {
-                if (_objectPaths == null)
-                    _objectPaths = new Dictionary<object, PropertyPath>();
-                return _objectPaths;
-            }
+            ObjectPathsCore.Remove(o);
         }
     }
 }

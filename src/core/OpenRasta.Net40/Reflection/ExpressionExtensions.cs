@@ -7,17 +7,14 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
 
 namespace OpenRasta.Reflection
 {
+    using System.Linq.Expressions;
+    
     public static class ExpressionExtensions
     {
-        public static T ResolveReferences<T>(this T expression) where T:Expression
+        public static T ResolveReferences<T>(this T expression) where T : Expression
         {
             return (T)new SubtreeEvaluator(new SubtreeNominator(e => e.NodeType != ExpressionType.Parameter).Nominate(expression)).Eval(expression);
         }

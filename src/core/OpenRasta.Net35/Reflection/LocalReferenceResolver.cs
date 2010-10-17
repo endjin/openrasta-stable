@@ -87,7 +87,6 @@ namespace OpenRasta.Reflection
     public class SubtreeNominator : ExpressionVisitor
     {
         readonly Func<Expression, bool> fnCanBeEvaluated;
-
         HashSet<Expression> candidates;
         bool cannotBeEvaluated;
 

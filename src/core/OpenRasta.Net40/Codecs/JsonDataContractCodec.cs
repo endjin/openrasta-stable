@@ -8,17 +8,14 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.Serialization.Json;
-using OpenRasta.Binding;
-using OpenRasta.Codecs;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
 namespace OpenRasta.Codecs
 {
+    using System;
+    using System.Runtime.Serialization.Json;
+
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     [MediaType("application/json;q=0.5", "json")]
     public class JsonDataContractCodec : IMediaTypeReader, IMediaTypeWriter
     {
@@ -27,15 +24,20 @@ namespace OpenRasta.Codecs
         public object ReadFrom(IHttpEntity request, IType destinationType, string paramName)
         {
             if (destinationType.StaticType == null)
+            {
                 throw new InvalidOperationException();
-                return new DataContractJsonSerializer(destinationType.StaticType).ReadObject(request.Stream);
+            }
             
+            return new DataContractJsonSerializer(destinationType.StaticType).ReadObject(request.Stream);
         }
 
         public void WriteTo(object entity, IHttpEntity response, string[] paramneters)
         {
             if (entity == null)
+            {
                 return;
+            }
+
             var serializer = new DataContractJsonSerializer(entity.GetType());
             serializer.WriteObject(response.Stream, entity);
         }
