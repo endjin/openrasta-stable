@@ -334,7 +334,6 @@
     <Compile Include="TypeSystem\ReflectionBased\ReflectionBasedType.cs" />
     <Compile Include="TypeSystem\ReflectionBased\ReflectionBasedTypeSystem.cs" />
     <Compile Include="TypeSystem\ReflectionBased\ReflectionExtensions.cs" />
-    <Compile Include="TypeSystem\ReflectionBased\TypeSystems.cs" />
     <Compile Include="TypeSystem\Surrogated\AlienMember.cs" />
     <Compile Include="TypeSystem\Surrogated\AlienOwnedProperty.cs" />
     <Compile Include="TypeSystem\Surrogated\AlienPropertyBuilder.cs" />
