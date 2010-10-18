@@ -287,7 +287,6 @@
     <Compile Include="RecursionException.cs" />
     <Compile Include="Reflection\ExpressionComparer.cs" />
     <Compile Include="Reflection\ExpressionExtensions.cs" />
-    <Compile Include="Reflection\ExpressionVisitor.cs" />
     <Compile Include="Reflection\LocalReferenceResolver.cs" />
     <Compile Include="Reflection\PropertyPath.cs" />
     <Compile Include="Reflection\PropertyPathExpressionTree.cs" />

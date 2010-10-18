@@ -59,7 +59,7 @@ namespace OpenRasta.Reflection
             return this.Visit(exp);
         }
 
-        protected override Expression Visit(Expression exp)
+        public override Expression Visit(Expression exp)
         {
             if (exp == null) return null;
 
@@ -102,7 +102,7 @@ namespace OpenRasta.Reflection
             return this.candidates;
         }
 
-        protected override Expression Visit(Expression expression)
+        public override Expression Visit(Expression expression)
         {
             if (expression != null)
             {
@@ -113,11 +113,18 @@ namespace OpenRasta.Reflection
                 base.Visit(expression);
 
                 if (!this.cannotBeEvaluated)
-                    if (this.fnCanBeEvaluated(expression)) candidates.Add(expression);
+                {
+                    if (this.fnCanBeEvaluated(expression))
+                    {
+                        this.candidates.Add(expression);
+                    }
+                    else
+                    {
+                        this.cannotBeEvaluated = true;
+                    }
+                }
 
-                    else cannotBeEvaluated = true;
-
-                cannotBeEvaluated |= saveCannotBeEvaluated;
+                this.cannotBeEvaluated |= saveCannotBeEvaluated;
             }
 
             return expression;
