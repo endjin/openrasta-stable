@@ -16,15 +16,17 @@
 
     <MakeDir Directories="$(DropsPath)\$(GlobalBuildVersionNumber)\UnitTests"/>
     
-    <PropertyGroup>
-      <MSpecOptions>--html $(DropsPath)\$(GlobalBuildVersionNumber)\BDDSpecs\Specs.html</MSpecOptions>
-      <MSpecArgs>$(SolutionsPath)\MSpecTests.WhoCanHelpMe\Bin\Release\MSpecTests.WhoCanHelpMe.dll</MSpecArgs>
-      <MSpecCommand>$(ReferencedAssembliesPath)\Machine.Specifications\Machine.Specifications.ConsoleRunner.exe $(MSpecOptions) $(MSpecArgs)</MSpecCommand>
+    <!--<PropertyGroup>
+      <NUnit-DisableShadowCopy>%(OriginalProject.NUnit-DisableShadowCopy)</NUnit-DisableShadowCopy>
+      <NUnit-DisableShadowCopy Condition="'$(NUnit-DisableShadowCopy)' == ''">false</NUnit-DisableShadowCopy>
+      <UnitTest>%(OriginalProject.UnitTest)</UnitTest>
     </PropertyGroup>
-    
-    <Message Importance="high" Text="Running Specs with this command: $(MSpecCommand)"/>
-    
-    <!--<Exec Command="$(MSpecCommand)" />-->
+
+    <NUnit ToolPath="$(NUnitDirectory)" 
+           Assemblies="@(NonMergedAssemblies)" 
+           OutputXmlFile="$(NUnitReportsDirectory)\%(UnitTestAssembly.Filename).xml" 
+           Condition="'$(UnitTest)' == 'true'" 
+           DisableShadowCopy="$(NUnit-DisableShadowCopy)"  />-->
   
   </Target>
 
