@@ -1,10 +1,11 @@
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using OpenRasta.Reflection;
-
 namespace OpenRasta.Codecs.SharpView.Visitors
 {
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Reflection;
+
+    using ExpressionVisitor = OpenRasta.Reflection.ExpressionVisitor;
+
     public class ChildScopeRewriterVisitor : ExpressionVisitor
     {
         readonly Expression _htmlBuilder;

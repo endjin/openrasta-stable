@@ -1,11 +1,13 @@
-using System;
-using System.Linq.Expressions;
-using OpenRasta.Reflection;
-using OpenRasta.Web.Markup;
-using OpenRasta.Web.Markup.Elements;
-
 namespace OpenRasta.Codecs.SharpView.Visitors
 {
+    using System;
+    using System.Linq.Expressions;
+
+    using OpenRasta.Web.Markup;
+    using OpenRasta.Web.Markup.Elements;
+
+    using ExpressionVisitor = OpenRasta.Reflection.ExpressionVisitor;
+
     public class ScopedForEachFinder : ExpressionVisitor
     {
         readonly int _scopeLevel;

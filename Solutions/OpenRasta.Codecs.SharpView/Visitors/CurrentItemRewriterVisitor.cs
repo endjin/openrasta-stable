@@ -8,12 +8,14 @@
  */
 #endregion
 
-using System.Linq.Expressions;
-using IQ;
-using OpenRasta.Reflection;
-
 namespace OpenRasta.Codecs.SharpView.Visitors
 {
+    using System.Linq.Expressions;
+
+    using IQ;
+
+    using ExpressionVisitor = OpenRasta.Reflection.ExpressionVisitor;
+
     public class CurrentItemRewriterVisitor : ExpressionVisitor
     {
         readonly ExpressionComparer _comparer = new ExpressionComparer();

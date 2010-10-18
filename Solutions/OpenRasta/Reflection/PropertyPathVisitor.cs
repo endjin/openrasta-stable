@@ -47,7 +47,7 @@ namespace OpenRasta.Reflection
             return null;
         }
 
-        protected Expression VisitMemberAccess(MemberExpression m)
+        protected override Expression VisitMemberAccess(MemberExpression m)
         {
             this.Visit(m.Expression);
             this.PropertyType = m.Type;
