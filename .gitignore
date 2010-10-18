@@ -6,7 +6,6 @@ Debug
 Debug_NoPostSharp
 release
 Release
-Data
 _Resharper.*
 _ReSharper.*
 *.opensdf
