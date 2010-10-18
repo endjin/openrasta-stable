@@ -31,12 +31,39 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\ReferencedAssemblies\NUnit\2.5\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetHost_Specification.cs" />
+    <Compile Include="FileCopySetup.cs" />
+    <Compile Include="HandlerRegistration_Specification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="server_context.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenRasta.Hosting.AspNet\OpenRasta.Hosting.AspNet.csproj">
+      <Project>{89E49D60-F7E9-4099-A8F8-5E1A3836D3DF}</Project>
+      <Name>OpenRasta.Hosting.AspNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRasta.Testing\OpenRasta.Testing.csproj">
+      <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
+      <Name>OpenRasta.Testing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRasta\OpenRasta.csproj">
+      <Project>{92B7C8AF-0410-4BB8-9A0B-B236BC959865}</Project>
+      <Name>OpenRasta</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pages\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
