@@ -8,13 +8,15 @@
  */
 #endregion
 
-using System;
-using System.Linq.Expressions;
-using OpenRasta.Reflection;
-using OpenRasta.TypeSystem.ReflectionBased;
-
 namespace OpenRasta.Codecs.SharpView.Visitors
 {
+    using System;
+    using System.Linq.Expressions;
+
+    using OpenRasta.TypeSystem.ReflectionBased;
+
+    using ExpressionVisitor = OpenRasta.Reflection.ExpressionVisitor;
+
     public class MemberAccessNullPropagateVisitor : ExpressionVisitor
     {
         public Expression Rewrite(Expression expr)

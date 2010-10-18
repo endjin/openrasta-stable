@@ -8,14 +8,16 @@
  */
 #endregion
 
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using OpenRasta.Reflection;
-using OpenRasta.TypeSystem.ReflectionBased;
-
 namespace OpenRasta.Codecs.SharpView.Visitors
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Linq.Expressions;
+
+    using OpenRasta.TypeSystem.ReflectionBased;
+
+    using ExpressionVisitor = OpenRasta.Reflection.ExpressionVisitor;
+
     /// <summary>
     /// Rewrites the If extension method.
     /// </summary>

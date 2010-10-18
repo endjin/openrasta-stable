@@ -1,8 +1,11 @@
-﻿using System.Linq.Expressions;
-using OpenRasta.Reflection;
-
-namespace OpenRasta.Codecs.SharpView.Visitors
+﻿namespace OpenRasta.Codecs.SharpView.Visitors
 {
+    using System.Linq.Expressions;
+
+    using OpenRasta.Reflection;
+
+    using ExpressionVisitor = OpenRasta.Reflection.ExpressionVisitor;
+
     public class SelectHtmlPropertyPathRewriter : ExpressionVisitor
     {
         public Expression Rewrite(Expression expression)
