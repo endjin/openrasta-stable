@@ -29,4 +29,4 @@ _ReSharper.*
 *.log
 *.ser
 *.dbmdl
-/Prototypes/Rest/RestfulClientServer/Tools/MongoDB/logs
+AssemblyVersion.cs
