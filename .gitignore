@@ -4,6 +4,7 @@ Bin
 debug
 Debug
 Debug_NoPostSharp
+Drops
 release
 Release
 _Resharper.*
