@@ -326,6 +326,8 @@ namespace SharpView_Specification
         [Test]
         public void a_comparison_on_a_member_returing_false_results_in_an_empty_string()
         {
+            this.Principal = Thread.CurrentPrincipal;
+
             var inlineEelement = new InlineSharpViewElement(
                 () => Document.CreateElement<IDivElement>().If(Principal.Identity.Name == "john"));
 
@@ -371,29 +373,10 @@ namespace SharpView_Specification
         public void an_if_pointing_to_an_empty_string_generates_an_empty_element()
         {
             string value = string.Empty;
-            var e = new InlineSharpViewElement(() => Document.CreateElement<IDivElement>().If(value)["content"]);
-            e.OuterXml.ShouldBe(string.Empty);
+            var e = new InlineSharpViewElement(() => Document.CreateElement<IDivElement>().If(value));
+            e.OuterXml.ShouldBe("<div></div>");
         }
 
-        [Test]
-        public void an_intermediate_null_value_results_in_a_null_element()
-        {
-            var nested = new nested();
-            var inlineEelement = new InlineSharpViewElement(
-                () => Document.CreateElement<IDivElement>().If(nested.subnested.property));
-            inlineEelement.Prepare();
-            inlineEelement.ChildNodes.Count.ShouldBe(0);
-        }
-        [Test]
-        public void both_sides_of_conditionals_inside_ifs_are_propagating_null_values()
-        {
-            var nested = new nested();
-            string value = string.Empty;
-            var inlineEelement = new InlineSharpViewElement(
-                () => Document.CreateElement<IDivElement>().If(nested.subnested.booleanValue || false));
-            inlineEelement.Prepare();
-            inlineEelement.ChildNodes.Count.ShouldBe(0);
-        }
         [Test]
         public void multiple_methods_are_rewritten()
         {
