@@ -31,12 +31,77 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="nunit.core">
+      <HintPath>..\..\ReferencedAssemblies\NUnit\2.5\lib\nunit.core.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.core.interfaces">
+      <HintPath>..\..\ReferencedAssemblies\NUnit\2.5\lib\nunit.core.interfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\ReferencedAssemblies\NUnit\2.5\nunit.framework.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Environments\FileBasedAspNetEnvironment.cs" />
+    <Compile Include="Environments\HttpListenerEnvironment.cs" />
+    <Compile Include="Environments\HttpWebRequestEnvironment.cs" />
+    <Compile Include="Environments\IEnvironment.cs" />
+    <Compile Include="Environments\Iis7\Iis7ClassicEnvironment.cs" />
+    <Compile Include="Environments\Iis7\Iis7Environment.cs" />
+    <Compile Include="Environments\Iis7\Iis7IntegratedEnvironment.cs" />
+    <Compile Include="Environments\InMemoryEnvironment.cs" />
+    <Compile Include="Environments\WebRequestResponse.cs" />
+    <Compile Include="IisConfigFiles.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IisConfigFiles.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\RequestExtensions.cs" />
+    <Compile Include="Infrastructure\SuiteProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scenarios\accessing_the_homepage.cs" />
+    <Compile Include="Scenarios\manipulating_users.cs" />
+    <Compile Include="Scenarios\uploading_files.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iis7.applicationHost.config" />
+    <None Include="Resources\web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IisConfigFiles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IisConfigFiles.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenRasta.Hosting.Iis7.WorkerProcess-32\OpenRasta.Hosting.Iis7.WorkerProcess-32.csproj">
+      <Project>{777C124E-A087-4407-9D77-AAC8DB10D41F}</Project>
+      <Name>OpenRasta.Hosting.Iis7.WorkerProcess-32</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRasta.Hosting.Iis7.WorkerProcess-64\OpenRasta.Hosting.Iis7.WorkerProcess-64.csproj">
+      <Project>{4CC34437-7708-4584-BF29-1CBD5A9348BF}</Project>
+      <Name>OpenRasta.Hosting.Iis7.WorkerProcess-64</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRasta.Hosting.Iis7\OpenRasta.Hosting.Iis7.csproj">
+      <Project>{3CE81FBD-CE98-4EC7-A016-B2F95E1E2E63}</Project>
+      <Name>OpenRasta.Hosting.Iis7</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRasta.Hosting\OpenRasta.Hosting.csproj">
+      <Project>{9932054F-401D-4EFA-93A6-5D14B1585207}</Project>
+      <Name>OpenRasta.Hosting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRasta.Testing\OpenRasta.Testing.csproj">
+      <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
+      <Name>OpenRasta.Testing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRasta\OpenRasta.csproj">
+      <Project>{92B7C8AF-0410-4BB8-9A0B-B236BC959865}</Project>
+      <Name>OpenRasta</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
