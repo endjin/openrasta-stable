@@ -32,11 +32,38 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AspNetCommunicationContext.cs" />
+    <Compile Include="AspNetContextStore.cs" />
+    <Compile Include="AspNetHost.cs" />
+    <Compile Include="AspNetHttpListener\HttpListenerAspNetHost.cs" />
+    <Compile Include="AspNetHttpListener\HttpListenerController.cs" />
+    <Compile Include="AspNetHttpListener\HttpListenerWorkerRequest.cs" />
+    <Compile Include="AspNetLogSource.cs" />
+    <Compile Include="AspNetRequest.cs" />
+    <Compile Include="AspNetResponse.cs" />
+    <Compile Include="HttpHandlerRegistration.cs" />
+    <Compile Include="HttpInputStream.cs" />
+    <Compile Include="Iis.cs" />
+    <Compile Include="Iis6.cs" />
+    <Compile Include="Iis7.cs" />
+    <Compile Include="OpenRastaHandler.cs" />
+    <Compile Include="OpenRastaModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Pipeline\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenRasta\OpenRasta.csproj">
+      <Project>{92B7C8AF-0410-4BB8-9A0B-B236BC959865}</Project>
+      <Name>OpenRasta</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
