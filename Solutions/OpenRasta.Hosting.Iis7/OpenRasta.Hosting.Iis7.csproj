@@ -36,7 +36,23 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Iis7Server.cs" />
+    <Compile Include="Iis7Starter.cs" />
+    <Compile Include="IisConfigFiles.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>IisConfigFiles.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\iis7.applicationHost.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="IisConfigFiles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>IisConfigFiles.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
