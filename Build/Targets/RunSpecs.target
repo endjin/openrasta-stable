@@ -18,7 +18,7 @@
     
     <PropertyGroup>
       <MSpecOptions>--html $(DropsPath)\$(GlobalBuildVersionNumber)\BDDSpecs\Specs.html</MSpecOptions>
-      <MSpecArgs>$(SolutionsPath)\MSpecTests.WhoCanHelpMe\Bin\Release\MSpecTests.WhoCanHelpMe.dll</MSpecArgs>
+      <MSpecArgs>$(SolutionsPath)\MSpecTests.$(SolutionName)\Bin\Release\MSpecTests.$(SolutionName).dll</MSpecArgs>
       <MSpecCommand>$(ReferencedAssembliesPath)\Machine.Specifications\Machine.Specifications.ConsoleRunner.exe $(MSpecOptions) $(MSpecArgs)</MSpecCommand>
     </PropertyGroup>
     
