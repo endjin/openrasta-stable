@@ -4,6 +4,7 @@ Bin
 debug
 Debug
 Debug_NoPostSharp
+Drops
 release
 Release
 _Resharper.*
@@ -29,4 +30,4 @@ _ReSharper.*
 *.log
 *.ser
 *.dbmdl
-/Prototypes/Rest/RestfulClientServer/Tools/MongoDB/logs
+AssemblyVersion.cs
