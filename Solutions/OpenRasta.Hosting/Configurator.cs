@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using OpenBastard.Handlers;
-using OpenBastard.Resources;
-using OpenRasta.Configuration;
-using OpenRasta.DI;
-using OpenRasta.Security;
-
-namespace OpenBastard
+﻿namespace OpenBastard
 {
+    using System.Collections.Generic;
+
+    using OpenBastard.Handlers;
+    using OpenBastard.Resources;
+
+    using OpenRasta.Configuration;
+    using OpenRasta.DI;
+    using OpenRasta.Security;
+
     public class Configurator : IConfigurationSource
     {
         public void Configure()
