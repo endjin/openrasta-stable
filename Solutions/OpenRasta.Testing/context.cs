@@ -10,11 +10,12 @@
 
 #endregion
 
-using System;
-using NUnit.Framework;
-
 namespace OpenRasta.Testing
 {
+    using System;
+
+    using NUnit.Framework;
+
     [TestFixture]
     public class context
     {

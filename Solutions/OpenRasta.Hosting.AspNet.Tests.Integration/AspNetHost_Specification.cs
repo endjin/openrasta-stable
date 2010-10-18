@@ -24,11 +24,11 @@ namespace AspNetHost_Specification
             GivenATextRequest("PATCH", "/3", "new customer name", "UTF-16");
             GivenTheResponseIsInEncoding(Encoding.ASCII);
 
-            TheResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
-            TheResponse.ContentType.ShouldContain("text/plain");
-            TheResponse.Headers["Location"].ShouldBe("http://127.0.0.1:6687/3");
+            theResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
+            theResponse.ContentType.ShouldContain("text/plain");
+            theResponse.Headers["Location"].ShouldBe("http://127.0.0.1:6687/3");
 
-            TheResponseAsString.ShouldBe("new customer name");
+            theResponseAsString.ShouldBe("new customer name");
         }
     }
 
@@ -42,12 +42,12 @@ namespace AspNetHost_Specification
         }
 
         [Test]
-        public void oepnrasta_doesnt_process_the_request()
+        public void openrasta_doesnt_process_the_request()
         {
             GivenARequest("GET", "/customer/3.notimplemented");
             GivenTheResponseIsInEncoding(Encoding.ASCII);
 
-            TheResponse.StatusCode.ShouldBe(HttpStatusCode.NotImplemented);
+            theResponse.StatusCode.ShouldBe(HttpStatusCode.NotImplemented);
         }
     }
 
@@ -66,7 +66,7 @@ namespace AspNetHost_Specification
             GivenARequest("GET", "/mappedCustomers");
             GivenTheResponseIsInEncoding(Encoding.ASCII);
 
-            TheResponse.StatusCode.ShouldBe(HttpStatusCode.MethodNotAllowed);
+            theResponse.StatusCode.ShouldBe(HttpStatusCode.MethodNotAllowed);
         }
     }
 

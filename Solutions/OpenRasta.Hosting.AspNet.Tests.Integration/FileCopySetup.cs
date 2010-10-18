@@ -19,14 +19,15 @@ using OpenRasta.IO;
 public class FileCopySetup
 {
     public static DirectoryInfo TempFolder;
+
     [SetUp]
     public void CopyFiles()
     {
         TempFolder = PrepareFolderStructure();
-        //Debugger.Launch();
+        // Debugger.Launch();
     }
 
-    static DirectoryInfo PrepareFolderStructure()
+    private static DirectoryInfo PrepareFolderStructure()
     {
         var assembly = typeof(aspnet_server_context).Assembly;
         var rootFolder = Path.GetDirectoryName(assembly.Location);
@@ -34,6 +35,7 @@ public class FileCopySetup
         var tempFolder = CreateTempFolder();
 
         var filesToCopy = Directory.GetFiles(rootFolder);
+
         foreach (var file in filesToCopy)
         {
             var source = file;
@@ -42,6 +44,7 @@ public class FileCopySetup
             Console.WriteLine("Copying " + file);
             File.Copy(source, destination);
         }
+
         using (var webConfig = assembly.GetManifestResourceStream("OpenRasta.Hosting.AspNet.Tests.Integration.Web.config"))
         {
             var content = webConfig.ReadToEnd();
@@ -51,42 +54,38 @@ public class FileCopySetup
 
         return tempFolder;
     }
+
     static DirectoryInfo CreateTempFolder()
     {
         var tempFolder = Path.GetTempPath();
         string createdFolder;
         int count = 0;
+
         do
         {
             createdFolder = Path.Combine(tempFolder, "_ORTEST_" + count++);
-        } while (Directory.Exists(createdFolder));
+        }
+        while (Directory.Exists(createdFolder));
+
         Console.WriteLine("Creating {0}", createdFolder);
         var tempRoot = Directory.CreateDirectory(createdFolder);
         Console.WriteLine("Creating " + Directory.CreateDirectory(Path.Combine(createdFolder, "bin")).FullName);
 
         return tempRoot;
     }
+
     [TearDown]
     public void DeleteFiles()
     {
+        TempFolder.GetDirectories()
+            .SelectMany(subfolders => subfolders.GetFiles()).Concat(TempFolder.GetFiles())
+            .ForEach(f => f.Delete());
+
         try
         {
-            TempFolder.GetDirectories()
-                .SelectMany(subfolders => subfolders.GetFiles())
-                .Concat(TempFolder.GetFiles())
-                .ForEach(f =>
-                {
-                    try
-                    {
-                        f.Delete();
-                    }
-                    catch
-                    {
-                    }
-                });
-
             TempFolder.Delete(true);
-        }catch
+        }
+        catch
         {
         }
     }

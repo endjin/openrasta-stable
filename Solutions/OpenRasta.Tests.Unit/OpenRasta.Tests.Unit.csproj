@@ -134,7 +134,6 @@
     <Compile Include="TypeSystem\Surrogates_Specification.cs" />
     <Compile Include="UriTemplateTable_Specification.cs" />
     <Compile Include="UriTemplate_Specification.cs" />
-    <Compile Include="Web\Filters\PrincipalAuthorizationAttribute_Specification.cs" />
     <Compile Include="Web\Handlers\HandlerRepository_Specification.cs" />
     <Compile Include="Web\HttpHeaders_Specification.cs" />
     <Compile Include="Web\IUriResolverExtensions_Specification.cs" />
@@ -171,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Codecs\CodeDom.Compiler\" />
+    <Folder Include="Web\Filters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

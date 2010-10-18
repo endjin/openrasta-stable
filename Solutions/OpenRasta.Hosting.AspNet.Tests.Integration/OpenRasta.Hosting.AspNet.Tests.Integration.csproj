@@ -46,7 +46,7 @@
     <Compile Include="server_context.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web.config" />
+    <EmbeddedResource Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenRasta.Hosting.AspNet\OpenRasta.Hosting.AspNet.csproj">

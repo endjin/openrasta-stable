@@ -1,36 +1,35 @@
-﻿using System.Web.Hosting;
-
-namespace OpenRasta.Hosting.AspNet.AspNetHttpListener
+﻿namespace OpenRasta.Hosting.AspNet.AspNetHttpListener
 {
+    using System.Web.Hosting;
+
     // code originally based on xml-rpc.net under MIT license
     // see http://code.google.com/p/xmlrpcnet/
     public class HttpListenerController
     {
-        readonly string _physicalDir;
-        readonly string[] _prefixes;
-        readonly string _virtualDir;
+        private readonly string physicalDir;
+        private readonly string[] prefixes;
+        private readonly string virtualDir;
 
         public HttpListenerController(string[] prefixes, string vdir, string pdir)
         {
-            _prefixes = prefixes;
-            _virtualDir = vdir;
-            _physicalDir = pdir;
+            this.prefixes = prefixes;
+            this.virtualDir = vdir;
+            this.physicalDir = pdir;
         }
 
         public HttpListenerAspNetHost Host { get; private set; }
 
         public void Start()
         {
-            Host = (HttpListenerAspNetHost)ApplicationHost.CreateApplicationHost(
-                                               typeof(HttpListenerAspNetHost), _virtualDir, _physicalDir);
+            this.Host = (HttpListenerAspNetHost)ApplicationHost.CreateApplicationHost(typeof(HttpListenerAspNetHost), this.virtualDir, this.physicalDir);
 
-            Host.Configure(_prefixes, _virtualDir, _physicalDir);
-            Host.Start();
+            this.Host.Configure(this.prefixes, this.virtualDir, this.physicalDir);
+            this.Host.Start();
         }
 
         public void Stop()
         {
-            Host.Stop();
+            this.Host.Stop();
         }
     }
 }
