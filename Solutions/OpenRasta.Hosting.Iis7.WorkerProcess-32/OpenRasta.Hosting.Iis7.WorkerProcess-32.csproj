@@ -36,7 +36,14 @@
     <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenRasta.Hosting.Iis7\OpenRasta.Hosting.Iis7.csproj">
+      <Project>{3CE81FBD-CE98-4EC7-A016-B2F95E1E2E63}</Project>
+      <Name>OpenRasta.Hosting.Iis7</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
