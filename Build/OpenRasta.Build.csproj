@@ -101,7 +101,9 @@
     <None Include="Targets\BuildSolutions.target" />
     <None Include="Targets\BuildSuccess.target" />
     <None Include="Targets\CleanSolution.target" />
-    <None Include="Targets\RunUnitTests.target" />
+    <None Include="Targets\RunUnitTests.target">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Targets\CreateDrops.target" />
     <None Include="Targets\RunSpecs.target" />
     <None Include="Targets\VersionNumberGenerate.target" />

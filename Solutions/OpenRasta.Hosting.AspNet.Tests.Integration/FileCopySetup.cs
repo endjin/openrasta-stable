@@ -30,7 +30,10 @@ public class FileCopySetup
     private static DirectoryInfo PrepareFolderStructure()
     {
         var assembly = typeof(aspnet_server_context).Assembly;
-        var rootFolder = Path.GetDirectoryName(assembly.Location);
+
+        var uri = new Uri(assembly.CodeBase);
+
+        var rootFolder = Path.GetDirectoryName(uri.LocalPath);
 
         var tempFolder = CreateTempFolder();
 
