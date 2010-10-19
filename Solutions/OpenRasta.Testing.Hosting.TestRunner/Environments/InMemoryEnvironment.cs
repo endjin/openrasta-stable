@@ -2,8 +2,6 @@
 {
     using System;
 
-    using OpenBastard;
-
     using OpenRasta.Hosting.InMemory;
     using OpenRasta.Security;
     using OpenRasta.Testing.Hosting.TestRunner.Infrastructure;

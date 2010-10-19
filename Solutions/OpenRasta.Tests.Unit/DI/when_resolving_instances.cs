@@ -10,25 +10,28 @@
 
 #endregion
 
-using System;
-using System.Linq;
-using NUnit.Framework;
-using OpenRasta.DI;
-using OpenRasta.Hosting;
-using OpenRasta.Hosting.InMemory;
-using OpenRasta.Pipeline;
-using OpenRasta.Testing;
-using OpenRasta.Tests.Unit.DI;
-using OpenRasta.Tests.Unit.Fakes;
-
 namespace InternalDependencyResolver_Specification
 {
+    using System;
+    using System.Linq;
+
+    using NUnit.Framework;
+
+    using OpenRasta.DI;
+    using OpenRasta.Hosting;
+    using OpenRasta.Hosting.InMemory;
+    using OpenRasta.Pipeline;
+    using OpenRasta.Testing;
+    using OpenRasta.Tests.Unit.DI;
+    using OpenRasta.Tests.Unit.Fakes;
+
     public abstract class when_resolving_instances : dependency_resolver_context
     {
         public class TypeWithDependencyResolverAsProperty
         {
             public IDependencyResolver Resolver { get; set; }
         }
+
         public class TypeWithPropertyAlreadySet
         {
             public TypeWithPropertyAlreadySet()
@@ -37,6 +40,7 @@ namespace InternalDependencyResolver_Specification
             }
             public IDependencyResolver Resolver { get; set; }
         }
+        
         [Test]
         public void a_property_that_would_cause_a_cyclic_dependency_is_ignored()
         {
@@ -73,6 +77,7 @@ namespace InternalDependencyResolver_Specification
             Resolver.Resolve<TypeWithDependencyResolverAsProperty>()
                 .Resolver.ShouldBeTheSameInstanceAs(Resolver);
         }
+        
         [Test]
         public void a_property_for_which_there_is_a_property_already_assigned_is_replaced_with_value_from_container()
         {
@@ -100,6 +105,7 @@ namespace InternalDependencyResolver_Specification
             }
 
             TheClass _dependent;
+            
             public TheClass Dependent
             {
                 get { return _dependent; }

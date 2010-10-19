@@ -1,7 +1,5 @@
 ﻿namespace OpenRasta.Testing.Hosting.TestRunner.Environments
 {
-    using OpenBastard;
-
     using OpenRasta.Configuration;
     using OpenRasta.DI;
     using OpenRasta.Hosting.HttpListener;

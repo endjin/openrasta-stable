@@ -2,8 +2,6 @@
 {
     using System.Xml.Serialization;
 
-    using OpenBastard;
-
     using OpenRasta.Testing.Hosting.Resources;
     using OpenRasta.Testing.Hosting.TestRunner.Infrastructure;
 

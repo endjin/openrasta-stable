@@ -6,8 +6,6 @@ namespace OpenRasta.Testing.Hosting.TestRunner.Environments.Iis7
     using System.Runtime.InteropServices;
     using System.Threading;
 
-    using OpenBastard.Hosting.Iis7;
-
     using OpenRasta.Testing.Hosting.Iis7.WorkerProcess;
     using OpenRasta.Testing.Hosting.TestRunner;
 
