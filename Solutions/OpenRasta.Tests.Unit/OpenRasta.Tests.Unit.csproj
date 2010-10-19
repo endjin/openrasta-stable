@@ -43,6 +43,12 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\Common\AssemblyVersion.cs">
+      <Link>Properties\AssemblyVersion.cs</Link>
+    </Compile>
+    <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
+      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    </Compile>
     <Compile Include="Authentication\Basic\BasicAuthenticationScheme_Specification.cs" />
     <Compile Include="Binding\DefaultBinderLocator_Specification.cs" />
     <Compile Include="Binding\KeyedValuesBinder_Specification.cs" />

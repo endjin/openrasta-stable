@@ -1,9 +1,9 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyCompany("Who Can Help Me Development Team")]
-[assembly: AssemblyProduct("Who Can Help Me")]
-[assembly: AssemblyCopyright("Copyright © Who Can Help Me Development Team 2009")]
+[assembly: AssemblyCompany("Open Rasta Development Team")]
+[assembly: AssemblyProduct("Open Rasta")]
+[assembly: AssemblyCopyright("Copyright © Open Rasta Development Team 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
