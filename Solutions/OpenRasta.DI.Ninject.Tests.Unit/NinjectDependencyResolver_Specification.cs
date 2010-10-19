@@ -11,9 +11,9 @@
 
 namespace OpenRasta.DI.Ninject.Tests.Unit
 {
-    using InternalDependencyResolver_Specification;
-
     using NUnit.Framework;
+
+    using OpenRasta.Testing.Framework.DI;
 
     [TestFixture]
     public class when_resolving_instances_with_the_ninject_resolver : when_resolving_instances

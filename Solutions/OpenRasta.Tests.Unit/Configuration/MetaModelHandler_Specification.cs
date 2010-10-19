@@ -10,13 +10,12 @@ using OpenRasta.Configuration.MetaModel;
 using OpenRasta.Configuration.MetaModel.Handlers;
 using OpenRasta.DI;
 using OpenRasta.Handlers;
-
-using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 
 namespace MetaModelHandler_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class metamodelhandler_context<T> : context where T:IMetaModelHandler

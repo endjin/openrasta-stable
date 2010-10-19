@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{C3842264-9A89-42E3-9F1F-4604EEB86BCE}</ProjectGuid>
+    <ProjectGuid>{EFAD3295-C26A-4F0A-AF04-2A7E3A531F19}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenRasta.DI.Windsor.Tests.Unit</RootNamespace>
-    <AssemblyName>OpenRasta.DI.Windsor.Tests.Unit</AssemblyName>
+    <RootNamespace>OpenRasta.Testing.Framework</RootNamespace>
+    <AssemblyName>OpenRasta.Testing.Framework</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -31,12 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Castle.Core">
-      <HintPath>..\..\ReferencedAssemblies\Castle\Windsor\2.5.1\Castle.Core.dll</HintPath>
-    </Reference>
-    <Reference Include="Castle.Windsor">
-      <HintPath>..\..\ReferencedAssemblies\Castle\Windsor\2.5.1\Castle.Windsor.dll</HintPath>
-    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\..\ReferencedAssemblies\NUnit\2.5\nunit.framework.dll</HintPath>
     </Reference>
@@ -51,18 +45,41 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="DI\when_registering_dependencies.cs" />
+    <Compile Include="DI\when_registering_dependencies_with_internal_dependency_resolver.cs" />
+    <Compile Include="DI\when_registering_for_per_request_lifetime.cs" />
+    <Compile Include="DI\when_registering_for_per_request_lifetime_with_internal_dependency_resolver.cs" />
+    <Compile Include="DI\when_resolving_services.cs" />
+    <Compile Include="DI\dependency_resolver_context.cs" />
+    <Compile Include="DI\when_resolving_instances_with_internal_dependency_resolver.cs" />
+    <Compile Include="MockTypes\Another.cs" />
+    <Compile Include="MockTypes\IAnother.cs" />
+    <Compile Include="MockTypes\IAnotherSimple.cs" />
+    <Compile Include="MockTypes\ISimple.cs" />
+    <Compile Include="MockTypes\ISimpleChild.cs" />
+    <Compile Include="MockTypes\SimpleAbstract.cs" />
+    <Compile Include="DI\when_resolving_instances.cs" />
+    <Compile Include="Fakes\Address.cs" />
+    <Compile Include="Fakes\Customer.cs" />
+    <Compile Include="Fakes\CustomerCodec.cs" />
+    <Compile Include="Fakes\CustomerHandler.cs" />
+    <Compile Include="Fakes\CustomerReaderCodec.cs" />
+    <Compile Include="Fakes\CustomerWriterCodec.cs" />
+    <Compile Include="Fakes\Elrond.cs" />
+    <Compile Include="Fakes\FailingCodec.cs" />
+    <Compile Include="Fakes\Frodo.cs" />
+    <Compile Include="Fakes\Gandalf.cs" />
+    <Compile Include="Fakes\GilGalad.cs" />
+    <Compile Include="Fakes\House.cs" />
+    <Compile Include="Fakes\Sauron.cs" />
+    <Compile Include="MockTypes\RecursiveConstructor.cs" />
+    <Compile Include="MockTypes\RecursiveProperty.cs" />
+    <Compile Include="MockTypes\Simple.cs" />
+    <Compile Include="MockTypes\SimpleChild.cs" />
+    <Compile Include="MockTypes\TypeWithTwoConstructors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WindsorDependencyResolver_Specification.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenRasta.DI.Windsor\OpenRasta.DI.Windsor.csproj">
-      <Project>{9D8DA495-3174-4DC5-8A52-5E17B9EE8BDC}</Project>
-      <Name>OpenRasta.DI.Windsor</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenRasta.Testing.Framework\OpenRasta.Testing.Framework.csproj">
-      <Project>{EFAD3295-C26A-4F0A-AF04-2A7E3A531F19}</Project>
-      <Name>OpenRasta.Testing.Framework</Name>
-    </ProjectReference>
     <ProjectReference Include="..\OpenRasta.Testing.Specifications\OpenRasta.Testing.Specifications.csproj">
       <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
       <Name>OpenRasta.Testing.Specifications</Name>

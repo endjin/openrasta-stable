@@ -17,13 +17,13 @@ using OpenRasta.IO;
 using OpenRasta.Pipeline.Contributors;
 
 using OpenRasta.Tests;
-using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 using OpenRasta.Pipeline;
 
 namespace ResponseEntityWriter_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class when_there_is_no_response_entity : openrasta_context

@@ -8,31 +8,17 @@
  */
 #endregion
 
-using System;
-using NUnit.Framework;
-using OpenRasta.DI;
-
-
-namespace DependencyManager_Specification
+namespace OpenRasta.Testing.Framework.Fakes
 {
-    using OpenRasta.Testing.Specifications;
+    using System;
 
-    public class when_resolving_services : context
+    using OpenRasta.Codecs;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
+    public class FailingReaderCodec : Codec, IMediaTypeReader
     {
-        [Test]
-        public void resolving_a_dependency_when_there_is_no_resolver_raises_an_exception()
-        {
-            DependencyManager.SetResolver(null);
-            Executing(() => DependencyManager.GetService(typeof (IConvertible)))
-                .ShouldThrow<DependencyResolutionException>();
-        }
-
-        [Test]
-        public void resolving_a_null_dependency_returns_null()
-        {
-            DependencyManager.GetService(null).
-                ShouldBeNull();
-        }
+        public object ReadFrom(IHttpEntity request, IType destinationType, string param) { throw new NotImplementedException(); }
     }
 }
 

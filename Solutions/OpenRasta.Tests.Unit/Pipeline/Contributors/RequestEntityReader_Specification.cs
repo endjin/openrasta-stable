@@ -13,7 +13,6 @@ using NUnit.Framework;
 using OpenRasta.Codecs;
 
 using OpenRasta.Tests;
-using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.Pipeline;
 
 namespace RequestEntityReader_Specification

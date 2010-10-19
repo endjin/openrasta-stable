@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 /* Authors:
  *      Sebastien Lambla (seb@serialseb.com)
  * Copyright:
@@ -8,16 +8,14 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Codecs;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.Fakes
 {
-    public class FailingReaderCodec : Codec, IMediaTypeReader
+    using System.Collections.Generic;
+
+    public class House
     {
-        public object ReadFrom(IHttpEntity request, IType destinationType, string param) { throw new NotImplementedException(); }
+        public IList<Customer> Customers { get; set; }
+        public IDictionary<string, Customer> CustomersByName { get; set; }
     }
 }
 

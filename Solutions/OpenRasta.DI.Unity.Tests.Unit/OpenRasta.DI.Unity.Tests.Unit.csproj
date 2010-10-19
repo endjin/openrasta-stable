@@ -59,13 +59,13 @@
       <Project>{33D34010-173C-42A1-A3B9-7D84BCCEBDFE}</Project>
       <Name>OpenRasta.DI.Unity</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenRasta.Testing.Framework\OpenRasta.Testing.Framework.csproj">
+      <Project>{EFAD3295-C26A-4F0A-AF04-2A7E3A531F19}</Project>
+      <Name>OpenRasta.Testing.Framework</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenRasta.Testing.Specifications\OpenRasta.Testing.Specifications.csproj">
       <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
       <Name>OpenRasta.Testing.Specifications</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OpenRasta.Tests.Unit\OpenRasta.Tests.Unit.csproj">
-      <Project>{66E36FFF-E0DE-4E7B-ABF0-77CD76FE2C12}</Project>
-      <Name>OpenRasta.Tests.Unit</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenRasta\OpenRasta.csproj">
       <Project>{92B7C8AF-0410-4BB8-9A0B-B236BC959865}</Project>

@@ -9,13 +9,13 @@
  */
 #endregion
 
-using Ninject;
-using NUnit.Framework;
-
-using OpenRasta.Tests.Unit.DI;
-
 namespace OpenRasta.DI.Ninject.Tests.Unit
 {
+    using global::Ninject;
+
+    using NUnit.Framework;
+
+    using OpenRasta.Testing.Framework.MockTypes;
     using OpenRasta.Testing.Specifications;
 
     [TestFixture]

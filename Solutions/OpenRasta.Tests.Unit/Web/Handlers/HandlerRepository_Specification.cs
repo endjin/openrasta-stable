@@ -2,14 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenRasta.HandlerRepository_Specification;
-using OpenRasta.Handlers;
 
-using OpenRasta.Tests.Unit.Fakes;
+using OpenRasta.Handlers;
 using OpenRasta.TypeSystem;
 
 namespace HandlerRepository_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class when_adding_handler_types : context

@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 /* Authors:
  *      Sebastien Lambla (seb@serialseb.com)
  * Copyright:
@@ -7,18 +7,27 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.DI
 {
+    #region Using Directives
 
-    public class House
+    using OpenRasta.DI;
+    using OpenRasta.Testing.Specifications;
+
+    #endregion
+
+    public abstract class dependency_resolver_context : context
     {
-        public IList<Customer> Customers { get; set; }
-        public IDictionary<string, Customer> CustomersByName { get; set; }
+        public IDependencyResolver Resolver { get; set; }
+
+        public abstract IDependencyResolver CreateResolver();
+
+        protected override void SetUp()
+        {
+            base.SetUp();
+            this.Resolver = this.CreateResolver();
+        }
     }
 }
 

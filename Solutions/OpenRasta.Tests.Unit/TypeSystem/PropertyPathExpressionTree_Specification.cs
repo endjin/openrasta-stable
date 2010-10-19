@@ -14,10 +14,9 @@ using NUnit.Framework;
 using OpenRasta;
 using OpenRasta.Reflection;
 
-using OpenRasta.Tests.Unit.Fakes;
-
 namespace PropertyPathExpressionTree_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class when_generating_paths_from_fields : context

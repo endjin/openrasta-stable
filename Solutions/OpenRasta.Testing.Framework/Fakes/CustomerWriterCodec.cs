@@ -8,11 +8,10 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Codecs;
-
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.Fakes
 {
+    using OpenRasta.Codecs;
+
     public class CustomerWriterCodec : Codec, IMediaTypeWriter
     {
         public void WriteTo(object entity, OpenRasta.Web.IHttpEntity response, string[] codecParameters) { }

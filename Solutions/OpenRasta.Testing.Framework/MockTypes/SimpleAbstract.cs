@@ -8,30 +8,10 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.MockTypes
 {
-    public class Person
+    public abstract class SimpleAbstract : ISimple
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public string Username { get; set; }
-        public Address Address { get; set; }
-    }
-    public class Customer : Person
-    {
-        public List<Order> Orders { get; set; }
-        public ICollection<string> Attributes { get; set; }
-    }
-
-    public class Order
-    {
-        public string Description { get; set; }
-        public bool IsSelected { get; set; }
-
     }
 }
 

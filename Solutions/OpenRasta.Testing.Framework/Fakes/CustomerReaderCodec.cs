@@ -8,24 +8,14 @@
  */
 #endregion
 
-using System;
-using OpenRasta.DI;
-
-
-namespace InternalDependencyResolver_Specification
+namespace OpenRasta.Testing.Framework.Fakes
 {
-    using OpenRasta.Testing.Specifications;
+    using OpenRasta.Codecs;
+    using OpenRasta.TypeSystem;
 
-    public abstract class dependency_resolver_context : context
+    public class CustomerReaderCodec : Codec, IMediaTypeReader
     {
-        protected override void SetUp()
-        {
-            base.SetUp();
-            Resolver = CreateResolver();
-        }
-
-        public IDependencyResolver Resolver { get; set; }
-        public abstract IDependencyResolver CreateResolver();
+        public object ReadFrom(OpenRasta.Web.IHttpEntity request, IType destinationType, string destinationName) { return null; }
     }
 }
 

@@ -1,4 +1,4 @@
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.Fakes
 {
     public class Frodo : Person
     {

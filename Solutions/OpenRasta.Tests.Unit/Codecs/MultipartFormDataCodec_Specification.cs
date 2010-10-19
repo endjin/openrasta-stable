@@ -26,10 +26,10 @@ using System;
 using Moq;
 using Moq.Language;
 using OpenRasta.DI;
-using OpenRasta.Tests.Unit.Fakes;
 
 namespace MultipartFormDataCodec_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class when_the_requested_type_is_enumerating_IHttpEntity : multipart_codec

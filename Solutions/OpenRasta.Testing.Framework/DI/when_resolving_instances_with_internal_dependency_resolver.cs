@@ -8,15 +8,20 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Codecs;
-using OpenRasta.TypeSystem;
-
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.DI
 {
-    public class CustomerReaderCodec : Codec, IMediaTypeReader
+    #region Using Directives
+
+    using NUnit.Framework;
+
+    using OpenRasta.DI;
+
+    #endregion
+
+    [TestFixture]
+    public class when_resolving_instances_with_internal_dependency_resolver : when_resolving_instances
     {
-        public object ReadFrom(OpenRasta.Web.IHttpEntity request, IType destinationType, string destinationName) { return null; }
+        public override IDependencyResolver CreateResolver() { return new InternalDependencyResolver(); }
     }
 }
 
