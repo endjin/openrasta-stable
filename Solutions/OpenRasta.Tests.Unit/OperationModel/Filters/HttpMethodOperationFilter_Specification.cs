@@ -1,11 +1,13 @@
 ﻿using System.Linq;
 using NUnit.Framework;
 using OpenRasta.OperationModel.Filters;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Unit.OperationModel.Filters
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_the_http_method_matches_a_method_on_the_handler : httpmethod_context
     {
         [Test]

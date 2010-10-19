@@ -12,10 +12,12 @@ using System;
 using System.IO;
 using System.IO.Pipes;
 using System.Text;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.IO
 {
+    using OpenRasta.Testing.Specifications;
+
     public class stream_context : context
     {
         protected Stream Stream;

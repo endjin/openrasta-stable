@@ -6,11 +6,13 @@ using OpenRasta.Binding;
 using OpenRasta.DI;
 using OpenRasta.OperationModel;
 using OpenRasta.OperationModel.MethodBased;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem;
 
 namespace OpenRasta.Tests.Unit.OperationModel.MethodBased
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_using_optional_members : operation_context<MockOperationHandler>
     {
         [Test]

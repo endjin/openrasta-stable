@@ -66,9 +66,9 @@
     <Compile Include="Stubs\CustomerHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\OpenRasta.Testing\OpenRasta.Testing.csproj">
+    <ProjectReference Include="..\OpenRasta.Testing\OpenRasta.Testing.Specifications.csproj">
       <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
-      <Name>OpenRasta.Testing</Name>
+      <Name>OpenRasta.Testing.Specifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\OpenRasta\OpenRasta.csproj">
       <Project>{92B7C8AF-0410-4BB8-9A0B-B236BC959865}</Project>

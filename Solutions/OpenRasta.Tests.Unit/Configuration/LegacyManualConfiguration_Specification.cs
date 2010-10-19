@@ -17,13 +17,15 @@ using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.Configuration;
 using OpenRasta.DI;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.Configuration;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 
 namespace LegacyManualConfiguration_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_adding_uris_to_a_resource : configuration_context
     {
         void ThenTheUriHasTheResource<TResource>(string uri, CultureInfo language, string name)

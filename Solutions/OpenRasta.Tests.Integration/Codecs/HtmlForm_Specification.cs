@@ -13,12 +13,14 @@ using System.Net;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.Configuration;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Integration;
 using OpenRasta.Web;
 
 namespace HtmlForm_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     [Serializable]
     public class when_receiving_an_entity_body : server_context
     {

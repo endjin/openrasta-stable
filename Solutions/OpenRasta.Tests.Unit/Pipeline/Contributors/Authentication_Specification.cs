@@ -8,12 +8,14 @@ using OpenRasta.Authentication;
 using OpenRasta.DI;
 using OpenRasta.Pipeline;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests;
 using OpenRasta.Web;
 
 namespace Authentication_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class Authentication_Specification : openrasta_context
     {

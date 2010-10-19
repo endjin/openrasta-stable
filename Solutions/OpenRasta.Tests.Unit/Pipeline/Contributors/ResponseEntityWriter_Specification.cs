@@ -15,7 +15,7 @@ using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.IO;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests;
 using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.TypeSystem;
@@ -24,6 +24,8 @@ using OpenRasta.Pipeline;
 
 namespace ResponseEntityWriter_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_there_is_no_response_entity : openrasta_context
     {
         [Test]

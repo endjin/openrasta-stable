@@ -8,11 +8,13 @@ using OpenRasta.Codecs;
 using OpenRasta.Configuration;
 using OpenRasta.Configuration.Fluent;
 using OpenRasta.Data;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Integration.Regressions
 {
+    using OpenRasta.Testing.Specifications;
+
     public class changeset_not_hydrated_properly : server_context
     {
         public changeset_not_hydrated_properly()

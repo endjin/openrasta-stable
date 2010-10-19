@@ -2,10 +2,12 @@
 using NUnit.Framework;
 using OpenRasta.DI;
 using OpenRasta.Hosting.HttpListener;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.Tests.Integration.Regressions
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_httplistenerhost_resolveraccessor_is_accessed_multiple_times : context
     {
         private static readonly int PORT = 6687;

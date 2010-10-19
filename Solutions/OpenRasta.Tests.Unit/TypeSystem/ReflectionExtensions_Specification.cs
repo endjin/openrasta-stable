@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem.ReflectionBased;
 
 namespace ReflectionExtensions_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_finding_interfaces : context
     {
         [Test]

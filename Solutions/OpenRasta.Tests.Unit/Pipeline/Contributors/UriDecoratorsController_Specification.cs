@@ -13,13 +13,15 @@ using NUnit.Framework;
 using OpenRasta.Configuration;
 using OpenRasta.DI;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests;
 using OpenRasta.Pipeline;
 using OpenRasta.Web.UriDecorators;
 
 namespace UriDecoratorsController_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_using_simple_decorators : openrasta_context
     {
         public void GivenUriDecorator<T>() where T:class,IUriDecorator { Resolver.AddDependency<IUriDecorator,T>(); }

@@ -12,11 +12,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenRasta.Collections.Specialized;
-using OpenRasta.Testing;
+
 using NUnit.Framework;
 
 namespace CollectionExtensions_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_converting_to_nvc : context
     {
         [Test]

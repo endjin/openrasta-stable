@@ -5,13 +5,15 @@ using System.Text;
 using ApplicationXWwwUrlformEncodedCodec_Specification;
 using NUnit.Framework;
 using OpenRasta.Codecs;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web.UriDecorators;
 
 namespace OpenRasta.Tests.Unit.Web.UriDecorators
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_rewriting_a_uri_with_extension : context.content_type_extension
     {
         [Test]

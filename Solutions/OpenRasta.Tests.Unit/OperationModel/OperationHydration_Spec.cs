@@ -4,10 +4,12 @@ using NUnit.Framework;
 using OpenRasta.DI;
 using OpenRasta.OperationModel;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 
 namespace OperationHydration_Spec
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_executing_operation_hydrators : context
     {
         [Test]

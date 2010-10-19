@@ -12,10 +12,12 @@ using System;
 using System.IO;
 using NUnit.Framework;
 using OpenRasta.IO;
-using OpenRasta.Testing;
+
 
 namespace HistoryStream_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_wrapping_a_stream_in_a_HistoryStream : stream_context
     {
         void GivenAMemoryStream() { Stream = new MemoryStream(); }

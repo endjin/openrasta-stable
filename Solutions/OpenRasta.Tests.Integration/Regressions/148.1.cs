@@ -6,10 +6,12 @@ using System.Runtime.Serialization;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.Configuration;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.Tests.Integration.Regressions
 {
+    using OpenRasta.Testing.Specifications;
+
     public class a_querystring_parameter_which_should_be_bound_to_a_type_that_does_not_expose_setters_and_instead_requires_use_of_a_constructor
         : server_context
     {

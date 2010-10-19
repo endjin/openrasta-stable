@@ -7,11 +7,13 @@ using NUnit.Framework;
 using OpenRasta.Binding;
 using OpenRasta.OperationModel;
 using OpenRasta.OperationModel.MethodBased;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem;
 
 namespace OpenRasta.Tests.Unit.OperationModel.MethodBased
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_there_is_a_method_filter: method_based_operation_creator_context
     {
         public Mock<IMethodFilter> MockFilter { get; set; }

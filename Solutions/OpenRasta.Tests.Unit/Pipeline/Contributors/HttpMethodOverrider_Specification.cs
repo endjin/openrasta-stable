@@ -11,12 +11,14 @@
 using System;
 using NUnit.Framework;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests;
 using OpenRasta.Pipeline;
 
 namespace HttpMethodOverrider_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_the_http_method_is_overridden : openrasta_context
     {
         [Test]

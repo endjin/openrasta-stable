@@ -11,13 +11,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using OpenRasta.Testing;
+
 using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.Web;
 
 namespace MediaTypeDictionary_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_adding_media_types : media_type_context
     {
         [Test]

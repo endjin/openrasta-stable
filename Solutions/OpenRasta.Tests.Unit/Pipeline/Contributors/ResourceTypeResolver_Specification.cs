@@ -12,13 +12,15 @@ using System;
 using NUnit.Framework;
 using OpenRasta.Hosting.InMemory;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests;
 using OpenRasta.Web;
 using OpenRasta.Pipeline;
 
 namespace ResourceTypeResolver_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_there_is_already_a_match : openrasta_context
     {
         [Test]

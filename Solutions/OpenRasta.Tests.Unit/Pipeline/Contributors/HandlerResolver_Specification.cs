@@ -12,7 +12,7 @@ using System;
 using System.Linq;
 using NUnit.Framework;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests;
 using OpenRasta.Web;
 using OpenRasta.TypeSystem;
@@ -21,6 +21,8 @@ using ResourceTypeResolver_Specification;
 
 namespace HandlerResolver_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_no_handler_is_found : openrasta_context
     {
         [Test]

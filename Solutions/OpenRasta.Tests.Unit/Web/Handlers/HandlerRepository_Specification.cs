@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using OpenRasta.HandlerRepository_Specification;
 using OpenRasta.Handlers;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.TypeSystem;
 
 namespace HandlerRepository_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_adding_handler_types : context
     {
         public void canoot_add_the_same_handler_type_twice_to_the_same_key()

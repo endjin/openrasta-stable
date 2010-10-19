@@ -8,11 +8,13 @@ using NUnit.Framework;
 using OpenRasta.Hosting.InMemory;
 using OpenRasta.OperationModel;
 using OpenRasta.Security;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Unit.Security
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_the_user_is_in_the_correct_group : context
     {
         [Test]

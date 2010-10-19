@@ -11,11 +11,13 @@
 
 using Ninject;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.DI;
 
 namespace OpenRasta.DI.Ninject.Tests.Unit
 {
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class when_using_a_parent_ninject_kernel : context
     {

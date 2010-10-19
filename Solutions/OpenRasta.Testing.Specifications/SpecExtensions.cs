@@ -8,16 +8,17 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
-using System.IO;
-using System.Linq;
-using NUnit.Framework;
-
-namespace OpenRasta.Testing
+namespace OpenRasta.Testing.Specifications
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.ObjectModel;
+    using System.Collections.Specialized;
+    using System.IO;
+    using System.Linq;
+
+    using NUnit.Framework;
+
     public static class SpecExtensions
     {
         public static bool IsEqualTo(this Collection<string> actualValue, Collection<string> expectedValue)

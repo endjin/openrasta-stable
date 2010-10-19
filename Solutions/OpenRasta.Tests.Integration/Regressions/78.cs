@@ -4,11 +4,13 @@ using System.Xml;
 using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.Configuration;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Integration.Regressions
 {
+    using OpenRasta.Testing.Specifications;
+
     public class Handlers_not_selected_correctly : server_context
     {
         public Handlers_not_selected_correctly()

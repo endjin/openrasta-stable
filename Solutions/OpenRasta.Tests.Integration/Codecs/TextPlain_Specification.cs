@@ -15,12 +15,14 @@ using System.Text;
 using NUnit.Framework;
 using OpenRasta.Configuration;
 using OpenRasta.Configuration.Fluent;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Integration;
 using OpenRasta.Web;
 
 namespace TextPlain_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_using_text_plain : server_context
     {
         public when_using_text_plain()

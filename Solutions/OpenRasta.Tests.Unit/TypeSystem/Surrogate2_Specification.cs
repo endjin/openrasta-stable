@@ -1,6 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem;
 using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRasta.TypeSystem.Surrogated;
@@ -9,6 +9,8 @@ using OpenRasta.TypeSystem.Surrogates.Static;
 
 namespace OpenRasta.Tests.Unit.TypeSystem
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_using_type_properties : context
     {
         readonly ITypeSystem _ts;

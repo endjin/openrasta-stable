@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem;
 using OpenRasta.OperationModel.MethodBased;
 
 namespace OpenRasta.Tests.Unit.OperationModel.MethodBased
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_filtering_methods_by_type : openrasta_context
     {
         [Test]

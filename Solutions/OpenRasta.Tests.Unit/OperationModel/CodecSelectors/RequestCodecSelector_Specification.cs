@@ -8,13 +8,15 @@ using OpenRasta.Codecs;
 using OpenRasta.OperationModel;
 using OpenRasta.OperationModel.CodecSelectors;
 using OpenRasta.OperationModel.Hydrators;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.Tests.Unit.OperationModel.Filters;
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Unit.OperationModel.CodecSelectors
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_there_is_no_request_entity : requestcodecselector_context
     {
         [Test]

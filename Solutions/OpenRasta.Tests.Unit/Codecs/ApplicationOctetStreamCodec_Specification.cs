@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using OpenRasta.Codecs;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRasta.Web;
 using NUnit.Framework;
@@ -21,6 +21,8 @@ using System.IO;
 
 namespace ApplicationOctetStreamCodec_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_converting_a_byte_stream_to_an_ifile : applicationoctetstream_context
     {
         [Test]

@@ -7,7 +7,8 @@
 
     using OpenRasta.Configuration;
     using OpenRasta.Hosting.AspNet.Tests.Integration;
-    using OpenRasta.Testing;
+    
+    using OpenRasta.Testing.Specifications;
     using OpenRasta.Web;
 
     public class when_issueing_a_get_for_a_resource : aspnet_server_context

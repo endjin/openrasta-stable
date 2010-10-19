@@ -15,12 +15,14 @@ using System.Net;
 using NUnit.Framework;
 using OpenRasta.Configuration;
 using OpenRasta.Configuration.Fluent;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Integration;
 using OpenRasta.Web;
 
 namespace MultipartFormData_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     // integration tests trying the whole system.
     public class when_the_request_contains_a_multipart_form_data_entity : server_context
     {

@@ -17,12 +17,14 @@ using OpenRasta.Diagnostics;
 using OpenRasta.Hosting.InMemory;
 using OpenRasta.Pipeline.Contributors;
 using OpenRasta.Pipeline.Diagnostics;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 using OpenRasta.Pipeline;
 
 namespace PipelineRunner_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_creating_the_pipeline : pipelinerunner_context
     {
         [Test]

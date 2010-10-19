@@ -16,10 +16,12 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using OpenRasta.Codecs.WebForms;
 using OpenRasta.Collections.Specialized;
-using OpenRasta.Testing;
+
 
 namespace WebFormsCodec_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_there_are_no_codec_parameters_or_uri_names
     {
         [Test]

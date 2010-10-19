@@ -1,6 +1,7 @@
 ﻿namespace OpenRasta.Testing.Hosting.TestRunner.Scenarios
 {
     using OpenRasta.Testing.Hosting.TestRunner.Infrastructure;
+    using OpenRasta.Testing.Specifications;
     using OpenRasta.Web;
 
     /// <summary>

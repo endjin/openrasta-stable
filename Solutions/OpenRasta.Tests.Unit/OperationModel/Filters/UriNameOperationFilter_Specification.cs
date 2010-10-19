@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.OperationModel.Filters;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.Tests.Unit.OperationModel.Filters
 {
+    using OpenRasta.Testing.Specifications;
+
     public class uriname_filter_context : operation_filter_context<Handler, UriNameOperationFilter>
     {
         protected override UriNameOperationFilter create_filter()

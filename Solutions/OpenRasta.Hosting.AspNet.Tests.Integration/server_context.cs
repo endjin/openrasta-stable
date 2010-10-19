@@ -10,7 +10,8 @@ namespace OpenRasta.Hosting.AspNet.Tests.Integration
     using NUnit.Framework;
 
     using OpenRasta.Hosting.AspNet.AspNetHttpListener;
-    using OpenRasta.Testing;
+    
+    using OpenRasta.Testing.Specifications;
     using OpenRasta.Web;
 
     #endregion

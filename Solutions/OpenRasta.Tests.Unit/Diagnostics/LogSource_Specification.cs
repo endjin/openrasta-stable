@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.Diagnostics;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.Diagnostics
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_reading_log_source_data
     {
         [Test]

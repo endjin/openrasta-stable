@@ -11,12 +11,14 @@ using System;
 using OpenRasta.Configuration.Fluent;
 using OpenRasta.Hosting;
 using OpenRasta.Hosting.InMemory;
-using OpenRasta.Testing;
+
 using OpenRasta.Configuration;
 using OpenRasta.DI;
 
 namespace OpenRasta.Tests.Unit.Configuration
 {
+    using OpenRasta.Testing.Specifications;
+
     public class configuration_context : context
     {
         IDisposable configCookie;

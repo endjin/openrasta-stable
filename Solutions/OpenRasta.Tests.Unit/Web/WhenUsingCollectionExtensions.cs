@@ -9,10 +9,12 @@
 #endregion
 
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.Collections.Specialized
 {
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class WhenUsingCollectionExtensions
     {

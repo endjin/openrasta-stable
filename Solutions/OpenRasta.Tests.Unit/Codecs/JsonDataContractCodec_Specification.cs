@@ -13,12 +13,14 @@ using System.Linq;
 using System.Text;
 using OpenRasta.Codecs;
 using OpenRasta.Hosting.InMemory;
-using OpenRasta.Testing;
+
 using NUnit.Framework;
 using OpenRasta.Web;
 
 namespace JsonDataContractCodec_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_writing_a_json_representation : context
     {
         [Test]

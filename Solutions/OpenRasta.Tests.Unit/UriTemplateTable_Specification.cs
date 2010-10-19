@@ -15,10 +15,12 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using NUnit.Framework;
 using OpenRasta;
-using OpenRasta.Testing;
+
 
 namespace UriTemplateTable_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class when_matching_a_template_table
     {

@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.Collections;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.Tests.Unit.Collections
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_iterating_over_a_collection
     {
         [Test]

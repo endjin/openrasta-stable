@@ -18,10 +18,12 @@ using NUnit.Framework;
 using OpenRasta;
 using OpenRasta.Collections;
 using OpenRasta.Collections.Specialized;
-using OpenRasta.Testing;
+
 
 namespace UriTemplate_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class uritemplate_context : context
     {
         protected IEnumerable<Uri> BaseUris = new List<Uri> {new Uri("http://localhost")};

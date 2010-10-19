@@ -7,11 +7,13 @@ using Moq.Language.Flow;
 using NUnit.Framework;
 using OpenRasta.OperationModel;
 using OpenRasta.OperationModel.Interceptors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.OperationModel.MethodBased;
 
 namespace OpenRasta.Tests.Unit.OperationModel.Interceptors
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_getting_interceptors_for_an_operation : interceptors_context<HandlerWithInterceptors>
     {
         [Test]

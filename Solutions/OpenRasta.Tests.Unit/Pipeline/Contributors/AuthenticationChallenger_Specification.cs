@@ -8,12 +8,14 @@ using OpenRasta.Authentication;
 using OpenRasta.DI;
 using OpenRasta.Pipeline;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests;
 using OpenRasta.Web;
 
 namespace given_an_authentication_contributor
 {
+    using OpenRasta.Testing.Specifications;
+
     public abstract class given_an_authentication_contributor : openrasta_context
     {
         protected override void SetUp()

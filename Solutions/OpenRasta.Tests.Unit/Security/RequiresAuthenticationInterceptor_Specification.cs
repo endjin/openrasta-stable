@@ -6,11 +6,13 @@ using NUnit.Framework;
 using OpenRasta.Hosting.InMemory;
 using OpenRasta.OperationModel;
 using OpenRasta.Security;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace RequiresAuthenticationInterceptor_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_the_user_is_not_authenticated : context
     {
         [Test]

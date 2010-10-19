@@ -13,10 +13,12 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using OpenRasta.Data;
-using OpenRasta.Testing;
+
 
 namespace PagedData_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class when_selecting_pages : context
     {

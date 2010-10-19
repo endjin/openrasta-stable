@@ -12,11 +12,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace MultipartWriter_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_writing_a_multipart : context
     {
         readonly List<IHttpEntity> Entities = new List<IHttpEntity>();

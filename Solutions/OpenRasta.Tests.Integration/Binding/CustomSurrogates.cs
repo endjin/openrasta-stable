@@ -6,7 +6,7 @@ using OpenRasta.Configuration;
 using OpenRasta.Configuration.Fluent;
 using OpenRasta.DI;
 using OpenRasta.Security;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Integration;
 using OpenRasta.TypeSystem;
 using OpenRasta.TypeSystem.Surrogates;

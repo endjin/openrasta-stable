@@ -5,11 +5,13 @@ using System.Text;
 using Moq;
 using NUnit.Framework;
 using OpenRasta.Binding;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem;
 
 namespace DefaultBinderLocator_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class when_building_binders_from_static_methods
     {

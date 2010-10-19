@@ -11,11 +11,12 @@
 using System;
 using FormElement_Specification;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web.Markup;
 
 namespace Element_Specification
 {
+    using OpenRasta.Testing.Specifications;
     using OpenRasta.Web.Markup.Elements;
 
     public class when_writing_attributes_with_values_requiring_encoding : markup_element_context<IElement>

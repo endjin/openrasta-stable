@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 using OpenRasta.Web.Markup.Attributes;
 using OpenRasta.Web.Markup.Elements;
@@ -20,6 +20,7 @@ using OpenRasta.Web.Markup;
 
 namespace XhtmlDOM_Specification
 {
+    using OpenRasta.Testing.Specifications;
     using OpenRasta.Web.Markup.Attributes.Nodes;
     using OpenRasta.Web.Markup.Modules;
 

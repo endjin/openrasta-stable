@@ -12,11 +12,13 @@ using System;
 using System.IO;
 using System.Text;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace MultipartReader_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_parsing_a_multipart_related_content_type : context
     {
         void CheckEntity(IHttpEntity entity, MediaType httpContentType, string expectedContent)

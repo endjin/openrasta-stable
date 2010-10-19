@@ -21,11 +21,13 @@ using OpenRasta.Configuration;
 using OpenRasta.DI;
 using OpenRasta.Hosting;
 using OpenRasta.Hosting.HttpListener;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Integration
 {
+    using OpenRasta.Testing.Specifications;
+
     public abstract class server_context : context
     {
         protected override void SetUp()

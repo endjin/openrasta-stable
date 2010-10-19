@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
 using OpenRasta.Collections;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.Tests.Unit.Collections
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_resuming_enumerations : context
     {
         readonly List<int> _original = new List<int> { 1, 2, 3, 4, 5 };

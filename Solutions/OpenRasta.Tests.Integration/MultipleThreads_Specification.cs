@@ -8,12 +8,13 @@ using System.Threading;
 using NUnit.Framework;
 using OpenRasta.Configuration;
 using OpenRasta.Configuration.Fluent;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Integration;
 using OpenRasta.Web;
 
 namespace MultipleThreads_Specification
 {
+    using OpenRasta.Testing.Specifications;
 
     [TestFixture]
     public class test_container : server_context

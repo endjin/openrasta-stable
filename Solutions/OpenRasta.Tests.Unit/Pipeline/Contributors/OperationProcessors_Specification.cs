@@ -4,7 +4,7 @@ using Moq;
 using NUnit.Framework;
 using OpenRasta.OperationModel;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 using OpenRasta.Pipeline;
 using OperationCreationContributor_Specification;
@@ -13,6 +13,8 @@ namespace OpenRasta.Tests.Unit.Web.Pipeline.Contributors
 {
     namespace CodecSelector
     {
+        using OpenRasta.Testing.Specifications;
+
         public class when_no_operation_is_returned : operation_processors_context<OperationCodecSelectorContributor>
         {
             [Test]

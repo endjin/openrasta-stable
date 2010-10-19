@@ -13,10 +13,12 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.Codecs.WebForms;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.Tests.Unit.Codecs
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_rewriting_directives_with_the_page_parser : context
     {
         [Test]

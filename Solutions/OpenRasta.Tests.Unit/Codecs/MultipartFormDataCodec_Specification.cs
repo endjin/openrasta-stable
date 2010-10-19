@@ -13,7 +13,7 @@ using System.Text;
 using OpenRasta.Binding;
 using OpenRasta.Diagnostics;
 using OpenRasta.IO.Diagnostics;
-using OpenRasta.Testing;
+
 using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.TypeSystem;
@@ -30,6 +30,7 @@ using OpenRasta.Tests.Unit.Fakes;
 
 namespace MultipartFormDataCodec_Specification
 {
+    using OpenRasta.Testing.Specifications;
 
     public class when_the_requested_type_is_enumerating_IHttpEntity : multipart_codec
     {

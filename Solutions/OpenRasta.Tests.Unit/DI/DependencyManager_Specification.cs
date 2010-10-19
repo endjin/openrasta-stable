@@ -11,10 +11,12 @@
 using System;
 using NUnit.Framework;
 using OpenRasta.DI;
-using OpenRasta.Testing;
+
 
 namespace DependencyManager_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_resolving_services : context
     {
         [Test]

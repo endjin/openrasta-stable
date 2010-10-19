@@ -10,7 +10,7 @@ using OpenRasta.Diagnostics;
 using OpenRasta.OperationModel;
 using OpenRasta.OperationModel.Hydrators;
 using OpenRasta.OperationModel.Hydrators.Diagnostics;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.Tests.Unit.OperationModel.Filters;
 using OpenRasta.TypeSystem;
@@ -19,6 +19,8 @@ using OpenRasta.Web.Codecs;
 
 namespace OpenRasta.Tests.Unit.OperationModel.Hydrators
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_multiple_operations_are_defined_without_codec : request_entity_reader_context
     {
         [Test]

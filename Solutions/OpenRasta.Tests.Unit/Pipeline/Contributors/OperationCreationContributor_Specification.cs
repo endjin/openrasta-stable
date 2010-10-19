@@ -9,7 +9,7 @@ using OpenRasta.Collections;
 using OpenRasta.DI;
 using OpenRasta.OperationModel;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
@@ -18,6 +18,8 @@ using OpenRasta.Tests.Unit.Fakes;
 
 namespace OperationCreationContributor_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_in_the_pipeline : operation_creation_context
     {
         [Test]

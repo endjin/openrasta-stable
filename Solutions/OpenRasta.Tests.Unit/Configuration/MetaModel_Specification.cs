@@ -9,7 +9,7 @@ using OpenRasta.Configuration.Fluent;
 using OpenRasta.Configuration.Fluent.Implementation;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.TypeSystem;
 using OpenRasta.TypeSystem.ReflectionBased;
@@ -18,6 +18,8 @@ using OpenRasta.Web.UriDecorators;
 
 namespace Configuration_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class configuration_context : context
     {
         protected static IHas ResourceSpaceHas;

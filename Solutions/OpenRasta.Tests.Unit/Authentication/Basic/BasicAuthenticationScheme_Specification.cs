@@ -3,10 +3,12 @@ using NUnit.Framework;
 using OpenRasta.Authentication;
 using OpenRasta.Authentication.Basic;
 using OpenRasta.Hosting.InMemory;
-using OpenRasta.Testing;
+
 
 namespace BasicAuthenticationScheme_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class BasicAuthenticationScheme_Specification
     {

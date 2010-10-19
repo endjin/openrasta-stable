@@ -13,10 +13,12 @@ using System.IO;
 using System.IO.Compression;
 using NUnit.Framework;
 using OpenRasta.IO;
-using OpenRasta.Testing;
+
 
 namespace LengthTrackingStream_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_writing_to_a_non_seekable_stream : context
     {
         [Test]

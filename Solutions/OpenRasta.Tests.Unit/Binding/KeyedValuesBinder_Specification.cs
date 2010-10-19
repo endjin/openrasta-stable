@@ -14,12 +14,14 @@ using System.Text;
 using NUnit.Framework;
 using OpenRasta.Binding;
 using OpenRasta.Tests.Unit.Fakes;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem;
 using OpenRasta.TypeSystem.ReflectionBased;
 
 namespace KeyedValuesBinder_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_building_the_object : context
     {
         [Test]

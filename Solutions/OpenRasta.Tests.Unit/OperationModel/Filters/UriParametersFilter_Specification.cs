@@ -6,13 +6,15 @@ using System.Text;
 using NUnit.Framework;
 using OpenRasta.Diagnostics;
 using OpenRasta.OperationModel.Filters;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Unit.OperationModel.Filters
 {
     namespace UriParameters_Specification
     {
+        using OpenRasta.Testing.Specifications;
+
         public class when_there_is_no_uri_parameter : uriparameters_context
         {
             [Test]

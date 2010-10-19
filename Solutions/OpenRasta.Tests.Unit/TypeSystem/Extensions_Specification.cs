@@ -13,11 +13,13 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem.ReflectionBased;
 
 namespace Extensions_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_creating_instances_from_strings : context
     {
         [Test]

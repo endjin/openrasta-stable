@@ -4,6 +4,7 @@
 
     using OpenRasta.IO;
     using OpenRasta.Testing.Hosting.TestRunner.Infrastructure;
+    using OpenRasta.Testing.Specifications;
     using OpenRasta.Web;
 
     public class uploading_files : context_uploading_files

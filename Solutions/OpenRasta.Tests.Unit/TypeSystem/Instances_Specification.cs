@@ -13,7 +13,7 @@ using System;
 using System.Runtime.InteropServices;
 using NUnit.Framework;
 using OpenRasta.Binding;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.Tests.Unit.TypeSystem;
 using OpenRasta.TypeSystem;
@@ -21,6 +21,8 @@ using Frodo=OpenRasta.Tests.Unit.Fakes.Frodo;
 
 namespace Instances_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_assigning_properties_to_an_existing_object : instance_context
     {
         [Test]

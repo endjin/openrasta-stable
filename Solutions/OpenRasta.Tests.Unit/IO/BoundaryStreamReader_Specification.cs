@@ -13,10 +13,12 @@ using System.IO;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.IO;
-using OpenRasta.Testing;
+
 
 namespace BoundaryStreamReader_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_reading_a_boundary_type_from_a_stream : stream_context
     {
         BoundaryStreamReader Reader;

@@ -21,7 +21,8 @@ namespace InternalDependencyResolver_Specification
     using OpenRasta.Hosting;
     using OpenRasta.Hosting.InMemory;
     using OpenRasta.Pipeline;
-    using OpenRasta.Testing;
+    
+    using OpenRasta.Testing.Specifications;
     using OpenRasta.Tests.Unit.DI;
     using OpenRasta.Tests.Unit.Fakes;
 

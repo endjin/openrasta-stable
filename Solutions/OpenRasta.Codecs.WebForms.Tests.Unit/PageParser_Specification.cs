@@ -3,10 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using NUnit.Framework;
 using OpenRasta.Codecs.WebForms;
-using OpenRasta.Testing;
+
 
 namespace PageParser_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_parsing_aspx_page_inherit_attributes : context
     {
         [TestCase("MasterView(HomeResource)", typeof (MasterPageView<HomeResource>))]

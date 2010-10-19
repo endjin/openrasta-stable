@@ -12,12 +12,14 @@ using OpenRasta.Handlers;
 using OpenRasta.Hosting.InMemory;
 using OpenRasta.Pipeline;
 using OpenRasta.Security;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests
 {
+    using OpenRasta.Testing.Specifications;
+
     public class openrasta_context : context
     {
         Dictionary<Type, Func<ICommunicationContext, PipelineContinuation>> _actions;
@@ -77,7 +79,8 @@ namespace OpenRasta.Tests
         public void given_registration_urimapping<T>(string uri)
         {
             //UriResolver.AddUriMapping(uri, typeof(T).AssemblyQualifiedName, CultureInfo.CurrentCulture, null);
-            this.UriResolver.Add(new UriRegistration(uri, typeof(T).AssemblyQualifiedName, null, CultureInfo.CurrentCulture));
+            this.UriResolver.Add(new UriRegistration(uri, typeof(T).AssemblyQualifiedName, null, CultureInfo.CurrentCulture));
+
         }
 
         public void given_request_uri(string uri)

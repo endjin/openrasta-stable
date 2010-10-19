@@ -14,12 +14,14 @@ using System.Reflection;
 using System.Text;
 using OpenRasta.DI;
 using OpenRasta.IO;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 
 namespace OpenRasta.Codecs
 {
+    using OpenRasta.Testing.Specifications;
+
     public abstract class media_type_reader_context<TCodec> : codec_context<TCodec>
         where TCodec : ICodec
     {

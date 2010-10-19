@@ -1,4 +1,5 @@
 #region License
+
 /* Authors:
  *      Sebastien Lambla (seb@serialseb.com)
  * Copyright:
@@ -6,40 +7,37 @@
  * License:
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
+
 #endregion
 
-using System;
-using NUnit.Framework;
-
-namespace OpenRasta.Testing
+namespace OpenRasta.Testing.Specifications
 {
-    [TestFixture]
-    public class AssertExtensionsFixture
-    {
-        [Test]
-        public void AssertExFailsWhenCodeThrowsAnException() { SpecExtensions.ShouldThrow<InvalidOperationException>(() => { throw new InvalidOperationException(); }); }
-    }
+    using System;
 
-    public class when_matching_elements_in_enumerables : context
+    using NUnit.Framework;
+
+    [TestFixture]
+    public class context
     {
-        [Test]
-        public void contains_doesnt_fail_when_element_is_found()
+        [SetUp]
+        protected virtual void SetUp()
         {
-            var items = new[] {"one", "two"};
-            items.ShouldContain("one");
         }
 
-        [Test]
-        public void contains_fails_when_element_is_not_found()
+        [TearDown]
+        protected virtual void TearDown()
         {
-            var items = new[] {"one", "two"};
-            Executing(() => items.ShouldContain("three"))
-                .ShouldThrow<AssertionException>();
+        }
+
+        public Action Executing(Action action)
+        {
+            return action;
         }
     }
 }
 
 #region Full license
+
 //
 // Permission is hereby granted, free of charge, to any person obtaining
 // a copy of this software and associated documentation files (the
@@ -60,4 +58,5 @@ namespace OpenRasta.Testing
 // OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
+
 #endregion

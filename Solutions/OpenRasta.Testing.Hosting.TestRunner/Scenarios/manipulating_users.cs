@@ -4,6 +4,7 @@
 
     using OpenRasta.Testing.Hosting.Resources;
     using OpenRasta.Testing.Hosting.TestRunner.Infrastructure;
+    using OpenRasta.Testing.Specifications;
 
     public class manipulating_users : environment_context
     {

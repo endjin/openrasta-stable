@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.Codecs;
-using OpenRasta.Testing;
+
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 
 namespace CodecMatch_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_sorting_codec_matches : context
     {
         [Test]

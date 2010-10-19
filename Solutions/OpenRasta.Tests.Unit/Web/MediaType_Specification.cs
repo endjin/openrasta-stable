@@ -12,11 +12,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace MediaType_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class when_parsing_a_content_type
     {

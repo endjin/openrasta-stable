@@ -11,6 +11,7 @@
 
     using OpenRasta.Security;
     using OpenRasta.Testing.Hosting.TestRunner.Environments;
+    using OpenRasta.Testing.Specifications;
     using OpenRasta.Web;
 
     [NUnitAddin]

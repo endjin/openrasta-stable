@@ -3,13 +3,15 @@ using System.Linq;
 using OpenRasta.Binding;
 using OpenRasta.OperationModel;
 using OpenRasta.OperationModel.MethodBased;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.OperationModel.MethodBased;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Unit.OperationModel.Filters
 {
+    using OpenRasta.Testing.Specifications;
+
     public abstract class operation_filter_context<THandler, TFilter> : operation_context<THandler>
         where TFilter : IOperationProcessor
     {

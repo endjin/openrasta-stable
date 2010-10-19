@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 
 namespace OpenRasta.Hosting.AspNet.Tests.Integration
 {
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class when_matching_verbs
     {

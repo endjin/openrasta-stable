@@ -13,12 +13,14 @@ using System.Linq;
 using System.Text;
 using FormElement_Specification;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web.Markup;
 using OpenRasta.Web.Markup.Modules;
 
 namespace TextArea_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_rendering_textarea_element_with_content : markup_element_context<ITextAreaElement>
     {
         [Test]

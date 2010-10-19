@@ -14,12 +14,14 @@ using System.Globalization;
 using Moq;
 using NUnit.Framework;
 using OpenRasta.DI;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.Web;
 
 namespace IUriResolverExtensions_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class templated_uri_resolver : context
     {
         protected Uri ThenTheUri;

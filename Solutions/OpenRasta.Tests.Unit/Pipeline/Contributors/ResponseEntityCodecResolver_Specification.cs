@@ -12,7 +12,7 @@ using System;
 using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.Pipeline.Contributors;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests;
 using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.Web;
@@ -20,6 +20,8 @@ using OpenRasta.Pipeline;
 
 namespace ResponseEntityCodecResolver_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_a_codec_is_already_defined : openrasta_context
     {
         [Test]

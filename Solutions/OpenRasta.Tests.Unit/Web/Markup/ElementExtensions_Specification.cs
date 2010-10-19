@@ -10,12 +10,13 @@
 
 using System;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web.Markup;
 using OpenRasta.Web.Markup.Elements;
 
 namespace ElementExtensions_Specification
 {
+    using OpenRasta.Testing.Specifications;
     using OpenRasta.Web.Markup.Modules;
 
     public class when_setting_the_id_property : context

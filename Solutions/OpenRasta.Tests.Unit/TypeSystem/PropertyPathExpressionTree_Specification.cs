@@ -13,11 +13,13 @@ using System.Collections.Generic;
 using NUnit.Framework;
 using OpenRasta;
 using OpenRasta.Reflection;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.Fakes;
 
 namespace PropertyPathExpressionTree_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_generating_paths_from_fields : context
     {
         [Test]

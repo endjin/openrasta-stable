@@ -13,12 +13,14 @@ using System.Linq;
 using System.Text;
 using FormElement_Specification;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web.Markup;
 using OpenRasta.Web.Markup.Modules;
 
 namespace SelectElement_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_the_property_returns_a_value_for_enumerations : markup_element_context<ISelectElement>
     {
         public AttributeTargets PropertyReturningFalse

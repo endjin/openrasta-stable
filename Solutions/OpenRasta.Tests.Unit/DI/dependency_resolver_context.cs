@@ -10,10 +10,12 @@
 
 using System;
 using OpenRasta.DI;
-using OpenRasta.Testing;
+
 
 namespace InternalDependencyResolver_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public abstract class dependency_resolver_context : context
     {
         protected override void SetUp()

@@ -13,7 +13,7 @@ using System.Linq;
 using System.Text;
 using OpenRasta.Binding;
 using OpenRasta.Data;
-using OpenRasta.Testing;
+
 using NUnit.Framework;
 using OpenRasta.Web;
 using Moq;
@@ -24,6 +24,8 @@ using OpenRasta.IO;
 
 namespace ApplicationXWwwUrlformEncodedCodec_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_the_requested_type_is_a_dictionary : app_www_context
     {
         [Test]

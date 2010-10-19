@@ -10,11 +10,13 @@
 
 using System;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Text;
 
 namespace Rfc2047Encoding_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_decoding_strings_in_text_tokens : context
     {
         const string US_ASCII = "=?US-ASCII?Q?Keith_Moore?= <moore@cs.utk.edu>";

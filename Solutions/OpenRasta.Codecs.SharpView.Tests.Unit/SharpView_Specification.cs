@@ -18,12 +18,14 @@ using System.Threading;
 using NUnit.Framework;
 using OpenRasta.Codecs.SharpView;
 using OpenRasta.Codecs.SharpView.Visitors;
-using OpenRasta.Testing;
+
 using OpenRasta.Web.Markup;
 using OpenRasta.Web.Markup.Modules;
 
 namespace SharpView_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_using_foreach_with_inherited_sharpview_element : context
     {
         public class VideoElement : SharpViewElement

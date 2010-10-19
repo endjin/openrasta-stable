@@ -6,10 +6,12 @@ using NUnit.Framework;
 using OpenRasta.DI;
 using OpenRasta.DI.Unity;
 using OpenRasta.DI.Unity.Extensions;
-using OpenRasta.Testing;
+
 
 namespace UnityDependencyResolver_Specification
-{   
+{
+    using OpenRasta.Testing.Specifications;
+
     [TestFixture]
     public class when_resolving_instances_with_the_unity_resolver : when_resolving_instances
     {

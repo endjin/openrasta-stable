@@ -10,11 +10,13 @@
 
 using System;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web;
 
 namespace HttpHeaders_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class whettn_parsing_content_disposition : context
     {
         [Test]

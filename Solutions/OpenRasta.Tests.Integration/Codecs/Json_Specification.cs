@@ -15,12 +15,14 @@ using System.Text;
 using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.Configuration;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Integration;
 using OpenRasta.Web;
 
 namespace Json_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_sending_json_content : server_context
     {
         public when_sending_json_content()

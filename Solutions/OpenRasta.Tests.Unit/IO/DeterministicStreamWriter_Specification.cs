@@ -13,10 +13,12 @@ using System.IO;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.IO;
-using OpenRasta.Testing;
+
 
 namespace DeterministicStreamWriter_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_owning_a_stream : context
     {
         [Test]

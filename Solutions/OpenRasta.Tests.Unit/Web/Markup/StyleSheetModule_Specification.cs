@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using FormElement_Specification;
 using NUnit.Framework;
-using OpenRasta.Testing;
+
 using OpenRasta.Web.Markup;
 using OpenRasta.Web.Markup.Modules;
 
 namespace StyleSheetModule_Specifications
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_setting_media : markup_element_context<IStyleElement>
     {
         [Test]

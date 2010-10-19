@@ -15,13 +15,15 @@ using System.Linq;
 using System.Reflection;
 using NUnit.Framework;
 using OpenRasta.Binding;
-using OpenRasta.Testing;
+
 using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.TypeSystem;
 using OpenRasta.TypeSystem.ReflectionBased;
 
 namespace Accessors_Specification
 {
+    using OpenRasta.Testing.Specifications;
+
     public class when_creating_types : IType_context
     {
         [Test]
