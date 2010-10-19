@@ -10,8 +10,12 @@
 
 namespace OpenRasta.Testing.Framework.DI
 {
+    #region Using Directives
+
     using OpenRasta.DI;
     using OpenRasta.Testing.Specifications;
+
+    #endregion
 
     public abstract class dependency_resolver_context : context
     {

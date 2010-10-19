@@ -45,10 +45,19 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="DI\DependencyManager_Specification.cs" />
+    <Compile Include="DI\when_registering_dependencies.cs" />
+    <Compile Include="DI\when_registering_dependencies_with_internal_dependency_resolver.cs" />
+    <Compile Include="DI\when_registering_for_per_request_lifetime.cs" />
+    <Compile Include="DI\when_registering_for_per_request_lifetime_with_internal_dependency_resolver.cs" />
+    <Compile Include="DI\when_resolving_services.cs" />
     <Compile Include="DI\dependency_resolver_context.cs" />
-    <Compile Include="DI\InternalDependencyResolver_Specification.cs" />
-    <Compile Include="DI\MockTypes.cs" />
+    <Compile Include="DI\when_resolving_instances_with_internal_dependency_resolver.cs" />
+    <Compile Include="MockTypes\Another.cs" />
+    <Compile Include="MockTypes\IAnother.cs" />
+    <Compile Include="MockTypes\IAnotherSimple.cs" />
+    <Compile Include="MockTypes\ISimple.cs" />
+    <Compile Include="MockTypes\ISimpleChild.cs" />
+    <Compile Include="MockTypes\SimpleAbstract.cs" />
     <Compile Include="DI\when_resolving_instances.cs" />
     <Compile Include="Fakes\Address.cs" />
     <Compile Include="Fakes\Customer.cs" />
@@ -63,6 +72,11 @@
     <Compile Include="Fakes\GilGalad.cs" />
     <Compile Include="Fakes\House.cs" />
     <Compile Include="Fakes\Sauron.cs" />
+    <Compile Include="MockTypes\RecursiveConstructor.cs" />
+    <Compile Include="MockTypes\RecursiveProperty.cs" />
+    <Compile Include="MockTypes\Simple.cs" />
+    <Compile Include="MockTypes\SimpleChild.cs" />
+    <Compile Include="MockTypes\TypeWithTwoConstructors.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

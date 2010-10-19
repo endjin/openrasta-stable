@@ -10,64 +10,31 @@
 
 namespace OpenRasta.Testing.Framework.DI
 {
-    public abstract class SimpleAbstract : ISimple
-    {
-    }
+    #region Using Directives
 
-    public interface ISimple
-    {
-    }
+    using System;
 
-    public interface IAnotherSimple : ISimple
-    {
-    }
+    using NUnit.Framework;
 
-    public interface ISimpleChild
-    {
-    }
+    using OpenRasta.DI;
+    using OpenRasta.Testing.Specifications;
 
-    public interface IAnother
-    {
-    }
+    #endregion
 
-    public class Simple : ISimple
+    public class when_resolving_services : context
     {
-        public ISimpleChild Property { get; set; }
-    }
-
-    public class SimpleChild : ISimpleChild
-    {
-    }
-
-    public class Another : IAnother
-    {
-        public Another(ISimple simple) { Dependent = simple; }
-        public ISimple Dependent { get; set; }
-    }
-
-    public class RecursiveConstructor
-    {
-        public RecursiveConstructor(RecursiveConstructor constructor) { }
-    }
-
-    public class RecursiveProperty
-    {
-        public RecursiveProperty Property { get; set; }
-    }
-
-    public class TypeWithTwoConstructors
-    {
-        public ISimple _argOne;
-        public IAnother _argTwo;
-        public TypeWithTwoConstructors() { }
-
-        public TypeWithTwoConstructors(ISimple argOne, IAnother argTwo)
+        [Test]
+        public void resolving_a_dependency_when_there_is_no_resolver_raises_an_exception()
         {
-            _argOne = argOne;
-            _argTwo = argTwo;
+            DependencyManager.SetResolver(null);
+            Executing(() => DependencyManager.GetService(typeof(IConvertible))).ShouldThrow<DependencyResolutionException>();
         }
 
-        public TypeWithTwoConstructors(ISimple argOne, IAnother argTwo, string somethingElse) { }
+        [Test]
+        public void resolving_a_null_dependency_returns_null()
+        {
+            DependencyManager.GetService(null).ShouldBeNull();
+        }
     }
 }
 

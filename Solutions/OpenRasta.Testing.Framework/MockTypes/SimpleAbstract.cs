@@ -8,29 +8,10 @@
  */
 #endregion
 
-namespace OpenRasta.Testing.Framework.DI
+namespace OpenRasta.Testing.Framework.MockTypes
 {
-    using NUnit.Framework;
-
-    using OpenRasta.DI;
-
-    [TestFixture]
-    public class when_resolving_instances_with_internal_dependency_resolver :
-        when_resolving_instances
+    public abstract class SimpleAbstract : ISimple
     {
-        public override IDependencyResolver CreateResolver() { return new InternalDependencyResolver(); }
-    }
-    [TestFixture]
-    public class when_registering_dependencies_with_internal_dependency_resolver :
-        when_registering_dependencies
-    {
-        public override IDependencyResolver CreateResolver() { return new InternalDependencyResolver(); }
-    }
-    [TestFixture]
-    public class when_registering_for_per_request_lifetime_with_internal_dependency_resolver :
-        when_registering_for_per_request_lifetime
-    {
-        public override IDependencyResolver CreateResolver() { return new InternalDependencyResolver(); }        
     }
 }
 
