@@ -5,7 +5,7 @@ namespace OpenRasta.Configuration.MetaModel
 
     public interface IMetaModelRepository
     {
-        IList<ResourceModel> ResourceRegistrations { get; set; }
+        List<ResourceModel> ResourceRegistrations { get; set; }
 
         IList CustomRegistrations { get; set; }
 

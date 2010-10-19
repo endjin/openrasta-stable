@@ -1,12 +1,15 @@
 ﻿namespace OpenRasta.Configuration.MetaModel
 {
+    #region Using Directives
+
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
 
     using OpenRasta.Configuration.MetaModel.Handlers;
     using OpenRasta.Contracts.DI;
-    using OpenRasta.DI;
+
+    #endregion
 
     public class MetaModelRepository : IMetaModelRepository
     {
@@ -26,7 +29,7 @@
 
         public IList CustomRegistrations { get; set; }
 
-        public IList<ResourceModel> ResourceRegistrations { get; set; }
+        public List<ResourceModel> ResourceRegistrations { get; set; }
 
         public void Process()
         {
