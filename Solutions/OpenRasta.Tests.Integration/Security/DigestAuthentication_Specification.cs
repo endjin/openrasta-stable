@@ -83,8 +83,7 @@ namespace DigestAuthentication_Specification
         {
             ConfigureServer(() =>
             {
-                DependencyManager.GetService<IDependencyResolver>()
-                    .AddDependency<IAuthenticationProvider, FakeAuthProvider>();
+                ResourceSpace.Uses.CustomDependency<IAuthenticationProvider, FakeAuthProvider>(DependencyLifetime.Singleton);
 
                 ResourceSpace.Has.ResourcesOfType<Customer>()
                     .AtUri("/{somewhere}")

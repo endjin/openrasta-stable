@@ -10,6 +10,8 @@ using OpenRasta.Configuration;
 
 namespace OpenRasta.Tests.Integration.Regressions
 {
+    using System.IO;
+
     using OpenRasta.Testing.Specifications;
 
     public class a_querystring_parameter_which_should_be_bound_to_a_type_that_does_not_expose_setters_and_instead_requires_use_of_a_constructor
@@ -130,7 +132,10 @@ namespace OpenRasta.Tests.Integration.Regressions
         {
             DataContractSerializer serializer = new DataContractSerializer(
                 typeof(a_querystring_parameter_which_should_be_bound_to_a_type_that_does_not_expose_setters_and_instead_requires_use_of_a_constructor.FooReportResource));
-            object preCast = serializer.ReadObject(response.GetResponseStream());
+            var stream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(stream);
+            string content = reader.ReadToEnd();
+            object preCast = serializer.ReadObject(stream);
             var postCast = preCast as a_querystring_parameter_which_should_be_bound_to_a_type_that_does_not_expose_setters_and_instead_requires_use_of_a_constructor.FooReportResource;
             return postCast;
         }
