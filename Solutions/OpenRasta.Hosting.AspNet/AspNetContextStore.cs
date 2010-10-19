@@ -8,23 +8,24 @@
  */
 #endregion
 
-using System.Runtime.Remoting.Messaging;
-using System.Web;
-using OpenRasta.Pipeline;
-
 namespace OpenRasta.Hosting.AspNet
 {
+    using System.Runtime.Remoting.Messaging;
+    using System.Web;
+
+    using OpenRasta.Pipeline;
+
     public class AspNetContextStore : IContextStore
     {
-        HttpContext Context
+        private HttpContext Context
         {
             get { return HttpContext.Current ?? CallContext.GetData("__OR_CONTEXT") as HttpContext; }
         }
 
         public object this[string key]
         {
-            get { return Context.Items[key]; }
-            set { Context.Items[key] = value; }
+            get { return this.Context.Items[key]; }
+            set { this.Context.Items[key] = value; }
         }
     }
 }

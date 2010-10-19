@@ -1,28 +1,35 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using System.Web;
-using System.Web.Compilation;
-using OpenRasta.Configuration;
-using OpenRasta.DI;
-using OpenRasta.Diagnostics;
-using OpenRasta.Pipeline;
-using OpenRasta.Web;
-
-namespace OpenRasta.Hosting.AspNet
+﻿namespace OpenRasta.Hosting.AspNet
 {
+    #region Using Directives
+
+    using System;
+    using System.Linq;
+    using System.Reflection;
+    using System.Web;
+    using System.Web.Compilation;
+
+    using OpenRasta.Configuration;
+    using OpenRasta.DI;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Pipeline;
+    using OpenRasta.Web;
+
+    #endregion
+
     public class AspNetHost : IHost
     {
         public AspNetHost()
         {
-            ConfigurationSource = FindTypeInProject<IConfigurationSource>();
-            DependencyResolverAccessor = FindTypeInProject<IDependencyResolverAccessor>();
+            this.ConfigurationSource = FindTypeInProject<IConfigurationSource>();
+            this.DependencyResolverAccessor = FindTypeInProject<IDependencyResolverAccessor>();
         }
 
         public event EventHandler<IncomingRequestProcessedEventArgs> IncomingRequestProcessed;
+
         public event EventHandler<IncomingRequestReceivedEventArgs> IncomingRequestReceived;
 
         public event EventHandler Start;
+
         public event EventHandler Stop;
 
         public string ApplicationVirtualPath
@@ -31,6 +38,7 @@ namespace OpenRasta.Hosting.AspNet
         }
 
         public IConfigurationSource ConfigurationSource { get; set; }
+
         public IDependencyResolverAccessor DependencyResolverAccessor { get; set; }
 
         public IDependencyResolverAccessor ResolverAccessor
@@ -42,12 +50,13 @@ namespace OpenRasta.Hosting.AspNet
         {
             // forces global.asax to be compiled.
             BuildManager.GetReferencedAssemblies();
+            
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies().Where(NotFrameworkAssembly))
             {
                 try
                 {
-                    var configType = assembly.GetTypes()
-                        .FirstOrDefault(t => typeof(T).IsAssignableFrom(t));
+                    var configType = assembly.GetTypes().FirstOrDefault(t => typeof(T).IsAssignableFrom(t));
+
                     if (configType != null && configType.IsClass)
                     {
                         return Activator.CreateInstance(configType) as T;
@@ -57,6 +66,7 @@ namespace OpenRasta.Hosting.AspNet
                 {
                 }
             }
+
             return null;
         }
 
@@ -81,8 +91,11 @@ namespace OpenRasta.Hosting.AspNet
 
         public bool ConfigureLeafDependencies(IDependencyResolver resolver)
         {
-            if (ConfigurationSource != null)
-                resolver.AddDependencyInstance<IConfigurationSource>(ConfigurationSource);
+            if (this.ConfigurationSource != null)
+            {
+                resolver.AddDependencyInstance<IConfigurationSource>(this.ConfigurationSource);
+            }
+
             return true;
         }
 
@@ -92,27 +105,28 @@ namespace OpenRasta.Hosting.AspNet
             resolver.AddDependency<OpenRastaRewriterHandler>(DependencyLifetime.Transient);
             resolver.AddDependency<OpenRastaIntegratedHandler>(DependencyLifetime.Transient);
             resolver.AddDependency<ILogger<AspNetLogSource>, TraceSourceLogger<AspNetLogSource>>(DependencyLifetime.Transient);
+            
             return true;
         }
 
         protected internal void RaiseIncomingRequestProcessed(ICommunicationContext context)
         {
-            IncomingRequestProcessed.Raise(this, new IncomingRequestProcessedEventArgs(context));
+            this.IncomingRequestProcessed.Raise(this, new IncomingRequestProcessedEventArgs(context));
         }
 
         protected internal virtual void RaiseIncomingRequestReceived(ICommunicationContext context)
         {
-            IncomingRequestReceived.Raise(this, new IncomingRequestReceivedEventArgs(context));
+            this.IncomingRequestReceived.Raise(this, new IncomingRequestReceivedEventArgs(context));
         }
 
         protected internal virtual void RaiseStart()
         {
-            Start.Raise(this);
+            this.Start.Raise(this);
         }
 
         protected internal virtual void RaiseStop()
         {
-            Stop.Raise(this);
+            this.Stop.Raise(this);
         }
     }
 }

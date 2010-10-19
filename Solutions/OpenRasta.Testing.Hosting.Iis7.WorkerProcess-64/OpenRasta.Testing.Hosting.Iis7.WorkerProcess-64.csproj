@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{89E49D60-F7E9-4099-A8F8-5E1A3836D3DF}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{4CC34437-7708-4584-BF29-1CBD5A9348BF}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenRasta.Hosting.AspNet</RootNamespace>
-    <AssemblyName>OpenRasta.Hosting.AspNet</AssemblyName>
+    <RootNamespace>OpenRasta.Testing.Hosting.Iis7.WorkerProcess</RootNamespace>
+    <AssemblyName>iis7wp64</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -30,37 +30,22 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AspNetCommunicationContext.cs" />
-    <Compile Include="AspNetContextStore.cs" />
-    <Compile Include="AspNetHost.cs" />
-    <Compile Include="AspNetHttpListener\HttpListenerAspNetHost.cs" />
-    <Compile Include="AspNetHttpListener\HttpListenerController.cs" />
-    <Compile Include="AspNetHttpListener\HttpListenerWorkerRequest.cs" />
-    <Compile Include="AspNetLogSource.cs" />
-    <Compile Include="AspNetRequest.cs" />
-    <Compile Include="AspNetResponse.cs" />
-    <Compile Include="HttpHandlerRegistration.cs" />
-    <Compile Include="HttpInputStream.cs" />
-    <Compile Include="Iis.cs" />
-    <Compile Include="Iis6.cs" />
-    <Compile Include="Iis7.cs" />
-    <Compile Include="OpenRastaHandler.cs" />
-    <Compile Include="OpenRastaModule.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <ProjectReference Include="..\OpenRasta\OpenRasta.csproj">
-      <Project>{92B7C8AF-0410-4BB8-9A0B-B236BC959865}</Project>
-      <Name>OpenRasta</Name>
+    <ProjectReference Include="..\OpenRasta.Testing.Hosting.Iis7\OpenRasta.Testing.Hosting.Iis7.csproj">
+      <Project>{3CE81FBD-CE98-4EC7-A016-B2F95E1E2E63}</Project>
+      <Name>OpenRasta.Testing.Hosting.Iis7</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

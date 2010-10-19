@@ -1,13 +1,15 @@
-﻿using System.Net;
-using System.Text;
-using NUnit.Framework;
-using OpenRasta.Configuration;
-using OpenRasta.Hosting.AspNet.Tests.Integration;
-using OpenRasta.Testing;
-using OpenRasta.Web;
-
-namespace AspNetHost_Specification
+﻿namespace AspNetHost_Specification
 {
+    using System.Net;
+    using System.Text;
+
+    using NUnit.Framework;
+
+    using OpenRasta.Configuration;
+    using OpenRasta.Hosting.AspNet.Tests.Integration;
+    using OpenRasta.Testing;
+    using OpenRasta.Web;
+
     public class when_issueing_a_get_for_a_resource : aspnet_server_context
     {
         public when_issueing_a_get_for_a_resource()

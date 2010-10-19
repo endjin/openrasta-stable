@@ -8,33 +8,36 @@
  */
 #endregion
 
-using System.Web;
-using OpenRasta.DI;
-using OpenRasta.Diagnostics;
-
 namespace OpenRasta.Hosting.AspNet
 {
+    using System.Web;
+
+    using OpenRasta.DI;
+    using OpenRasta.Diagnostics;
+
     public class OpenRastaHandler : IHttpHandlerFactory
     {
-        readonly IHttpHandler _handler;
+        private readonly IHttpHandler internalHandler;
 
         public OpenRastaHandler()
         {
             // detect if rewrite is necessary based on IIS6 or IIS7 being present
             // not implemented yet as I don't have an IIS6 box to test the code on (yet)
-            _handler = new OpenRastaRewriterHandler();
+            this.internalHandler = new OpenRastaRewriterHandler();
         }
 
         public bool IsReusable
         {
-            get { return _handler.IsReusable; }
+            get { return this.internalHandler.IsReusable; }
         }
-
 
         public IHttpHandler GetHandler(HttpContext context, string requestType, string url, string pathTranslated)
         {
-            if (context.Items[OpenRastaModule.ORIGINAL_PATH_KEY] != null)
+            if (context.Items[OpenRastaModule.OriginalPathKey] != null)
+            {
                 return OpenRastaModule.HostManager.Resolver.Resolve<OpenRastaRewriterHandler>();
+            }
+
             return OpenRastaModule.HostManager.Resolver.Resolve<OpenRastaIntegratedHandler>();
         }
 
@@ -47,8 +50,9 @@ namespace OpenRasta.Hosting.AspNet
     {
         public OpenRastaRewriterHandler()
         {
-            Log = NullLogger.Instance;
+            this.Log = NullLogger.Instance;
         }
+
         public bool IsReusable
         {
             get { return true; }
@@ -58,9 +62,9 @@ namespace OpenRasta.Hosting.AspNet
 
         public void ProcessRequest(HttpContext context)
         {
-            using (Log.Operation(this, "Rewriting to original path"))
+            using (this.Log.Operation(this, "Rewriting to original path"))
             {
-                HttpContext.Current.RewritePath((string)HttpContext.Current.Items[OpenRastaModule.ORIGINAL_PATH_KEY], false);
+                HttpContext.Current.RewritePath((string)HttpContext.Current.Items[OpenRastaModule.OriginalPathKey], false);
                 OpenRastaModule.HostManager.Resolver.Resolve<OpenRastaIntegratedHandler>().ProcessRequest(context);
             }
         }
@@ -70,7 +74,7 @@ namespace OpenRasta.Hosting.AspNet
     {
         public OpenRastaIntegratedHandler()
         {
-            Log = NullLogger.Instance;
+            this.Log = NullLogger.Instance;
         }
         public bool IsReusable
         {
@@ -81,7 +85,7 @@ namespace OpenRasta.Hosting.AspNet
 
         public void ProcessRequest(HttpContext context)
         {
-            using (Log.Operation(this, "Request for {0}".With(context.Request.Url)))
+            using (this.Log.Operation(this, "Request for {0}".With(context.Request.Url)))
             {
                 OpenRastaModule.Host.RaiseIncomingRequestReceived(OpenRastaModule.CommunicationContext);
             }

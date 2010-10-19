@@ -8,59 +8,65 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Security.Principal;
-using System.Web;
-using OpenRasta.Diagnostics;
-using OpenRasta.Pipeline;
-using OpenRasta.Web;
-
 namespace OpenRasta.Hosting.AspNet
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Security.Principal;
+    using System.Web;
+
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Pipeline;
+    using OpenRasta.Web;
+
     public class AspNetCommunicationContext : ICommunicationContext
     {
         public AspNetCommunicationContext(ILogger logger, HttpContext context, AspNetRequest request, AspNetResponse response)
         {
-            Log = logger;
-            NativeContext = context;
-            ServerErrors = new ServerErrorList { Log = logger };
+            this.Log = logger;
+            this.NativeContext = context;
+            this.ServerErrors = new ServerErrorList { Log = logger };
             PipelineData = new PipelineData();
-            Request = request;
-            Response = response;
+            this.Request = request;
+            this.Response = response;
         }
 
         public Uri ApplicationBaseUri
         {
             get
             {
-                if (NativeContext == null)
+                if (this.NativeContext == null)
+                {
                     return null;
+                }
 
-                string baseUri = "{0}://{1}/".With(NativeContext.Request.Url.Scheme, NativeContext.Request.ServerVariables["HTTP_HOST"]);
+                string baseUri = "{0}://{1}/".With(this.NativeContext.Request.Url.Scheme, this.NativeContext.Request.ServerVariables["HTTP_HOST"]);
 
-                var appBaseUri = new Uri(new Uri(baseUri), new Uri(NativeContext.Request.ApplicationPath, UriKind.Relative));
+                var appBaseUri = new Uri(new Uri(baseUri), new Uri(this.NativeContext.Request.ApplicationPath, UriKind.Relative));
+                
                 return appBaseUri;
             }
         }
 
         public ILogger Log { get; set; }
 
-
         public OperationResult OperationResult { get; set; }
+
         public PipelineData PipelineData { get; set; }
+
         public IRequest Request { get; private set; }
+
         public IResponse Response { get; private set; }
 
         public IList<Error> ServerErrors { get; private set; }
 
         public IPrincipal User
         {
-            get { return NativeContext.User; }
-            set { NativeContext.User = value; }
+            get { return this.NativeContext.User; }
+            set { this.NativeContext.User = value; }
         }
 
-        HttpContext NativeContext { get; set; }
+        private HttpContext NativeContext { get; set; }
     }
 }
 

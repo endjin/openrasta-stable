@@ -8,25 +8,26 @@
  */
 #endregion
 
-using System;
-using System.Threading;
-using System.Web;
-using System.Web.Hosting;
-using OpenRasta.DI;
-using OpenRasta.Diagnostics;
-using OpenRasta.Pipeline;
-using OpenRasta.Web;
-
 namespace OpenRasta.Hosting.AspNet
 {
+    using System;
+    using System.Threading;
+    using System.Web;
+    using System.Web.Hosting;
+
+    using OpenRasta.DI;
+    using OpenRasta.Diagnostics;
+    using OpenRasta.Pipeline;
+    using OpenRasta.Web;
+
     public class OpenRastaModule : IHttpModule
     {
-        internal const string COMM_CONTEXT_KEY = "__OR_COMM_CONTEXT";
-        internal const string ORIGINAL_PATH_KEY = "__ORIGINAL_PATH";
-        internal const string SERVER_SOFTWARE_KEY = "SERVER_SOFTWARE_KEY";
+        internal const string CommContextKey = "__OR_COMM_CONTEXT";
+        internal const string OriginalPathKey = "__ORIGINAL_PATH";
+        internal const string ServerSoftwareKey = "SERVER_SOFTWARE_KEY";
 
         internal static HostManager HostManager;
-        static readonly object _syncRoot = new object();
+        internal static readonly object SyncRoot = new object();
 
         static OpenRastaModule()
         {
@@ -38,18 +39,24 @@ namespace OpenRasta.Hosting.AspNet
             get
             {
                 var context = HttpContext.Current;
-                if (context.Items.Contains(COMM_CONTEXT_KEY))
-                    return (AspNetCommunicationContext)context.Items[COMM_CONTEXT_KEY];
-                var orContext = new AspNetCommunicationContext(Log, 
-                                                               context, 
-                                                               new AspNetRequest(context), 
+
+                if (context.Items.Contains(CommContextKey))
+                {
+                    return (AspNetCommunicationContext)context.Items[CommContextKey];
+                }
+
+                var orContext = new AspNetCommunicationContext(
+                    Log,
+                    context,
+                    new AspNetRequest(context), 
                                                                new AspNetResponse(context) { Log = Log });
-                context.Items[COMM_CONTEXT_KEY] = orContext;
+                context.Items[CommContextKey] = orContext;
                 return orContext;
             }
         }
 
         public static AspNetHost Host { get; private set; }
+
         public static Iis Iis { get; set; }
 
         protected static ILogger<AspNetLogSource> Log { get; set; }
@@ -65,7 +72,7 @@ namespace OpenRasta.Hosting.AspNet
             context.EndRequest += HandleHttpApplicationEndRequestEvent;
             if (HostManager == null)
             {
-                lock (_syncRoot)
+                lock (SyncRoot)
                 {
                     Thread.MemoryBarrier();
                     if (HostManager == null)
@@ -88,9 +95,12 @@ namespace OpenRasta.Hosting.AspNet
             if (Iis == null)
             {
                 if (context == null)
+                {
                     throw new InvalidOperationException();
+                }
+
                 Iis iisVersion = null;
-                string serverSoftwareHeader = context.Request.ServerVariables[SERVER_SOFTWARE_KEY];
+                string serverSoftwareHeader = context.Request.ServerVariables[ServerSoftwareKey];
 
                 int slashPos = serverSoftwareHeader != null ? serverSoftwareHeader.IndexOf('/') : -1;
                 if (slashPos != -1)
@@ -119,17 +129,17 @@ namespace OpenRasta.Hosting.AspNet
             }
         }
 
-        static void HandleHttpApplicationEndRequestEvent(object sender, EventArgs e)
+        private static void HandleHttpApplicationEndRequestEvent(object sender, EventArgs e)
         {
-            if (HttpContext.Current.Items.Contains(ORIGINAL_PATH_KEY))
+            if (HttpContext.Current.Items.Contains(OriginalPathKey))
             {
-                var commContext = (ICommunicationContext)((HttpApplication)sender).Context.Items[COMM_CONTEXT_KEY];
+                var commContext = (ICommunicationContext)((HttpApplication)sender).Context.Items[CommContextKey];
 
                 Host.RaiseIncomingRequestProcessed(commContext);
             }
         }
 
-        static void HandleHttpApplicationPostResolveRequestCacheEvent(object sender, EventArgs e)
+        private static void HandleHttpApplicationPostResolveRequestCacheEvent(object sender, EventArgs e)
         {
             VerifyIisDetected(HttpContext.Current);
             if (!HostingEnvironment.VirtualPathProvider.FileExists(HttpContext.Current.Request.Path)
@@ -139,18 +149,25 @@ namespace OpenRasta.Hosting.AspNet
                 Log.StartPreExecution();
                 var context = CommunicationContext;
                 var stage = context.PipelineData.PipelineStage;
+
                 if (stage == null)
-                    context.PipelineData.PipelineStage = stage = new PipelineStage(HostManager.Resolver.Resolve<IPipeline>());
+                {
+                    context.PipelineData.PipelineStage =
+                        stage = new PipelineStage(HostManager.Resolver.Resolve<IPipeline>());
+                }
+                
                 stage.SuspendAfter<KnownStages.IUriMatching>();
                 Host.RaiseIncomingRequestReceived(context);
 
                 if (context.PipelineData.ResourceKey != null || context.OperationResult != null)
                 {
-                    HttpContext.Current.Items[ORIGINAL_PATH_KEY] = HttpContext.Current.Request.Path;
+                    HttpContext.Current.Items[OriginalPathKey] = HttpContext.Current.Request.Path;
                     HttpContext.Current.RewritePath(VirtualPathUtility.ToAppRelative("~/ignoreme.rastahook"), false);
                     Log.PathRewrote();
+                
                     return;
                 }
+
                 Log.IgnoredRequest();
             }
         }

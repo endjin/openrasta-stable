@@ -1,26 +1,30 @@
-﻿using System;
-using System.Net;
-using System.Threading;
-using System.Web;
-using System.Web.Hosting;
-using OpenRasta.Configuration;
-
-namespace OpenRasta.Hosting.AspNet.AspNetHttpListener
+﻿namespace OpenRasta.Hosting.AspNet.AspNetHttpListener
 {
-// Warning, this class will undergo massive refactorings sooner or later, don't rely on it.
+    using System;
+    using System.Net;
+    using System.Threading;
+    using System.Web;
+    using System.Web.Hosting;
+
+    using OpenRasta.Configuration;
+
+    // Warning, this class will undergo massive refactorings sooner or later, don't rely on it.
     public class HttpListenerAspNetHost : MarshalByRefObject
     {
-        System.Net.HttpListener _listener;
-        string _physicalDir;
-        string _virtualDir;
+        private System.Net.HttpListener listener;
+        private string physicalDir;
+        private string virtualDir;
 
         public void Configure(string[] prefixes, string vdir, string pdir)
         {
-            _virtualDir = vdir;
-            _physicalDir = pdir;
-            _listener = new System.Net.HttpListener();
+            this.virtualDir = vdir;
+            this.physicalDir = pdir;
+            this.listener = new System.Net.HttpListener();
+
             foreach (string prefix in prefixes)
-                _listener.Prefixes.Add(prefix);
+            {
+                this.listener.Prefixes.Add(prefix);
+            }
         }
 
         public void ExecuteConfig(Action t)
@@ -44,14 +48,16 @@ namespace OpenRasta.Hosting.AspNet.AspNetHttpListener
             HttpListenerContext ctx;
             try
             {
-                ctx = _listener.GetContext();
+                ctx = this.listener.GetContext();
             }
             catch (HttpListenerException)
             {
                 return;
             }
-            QueueNextRequestWait();
-            var workerRequest = new HttpListenerWorkerRequest(ctx, _virtualDir, _physicalDir);
+
+            this.QueueNextRequestWait();
+            var workerRequest = new HttpListenerWorkerRequest(ctx, this.virtualDir, this.physicalDir);
+            
             try
             {
                 HttpRuntime.ProcessRequest(workerRequest);
@@ -64,19 +70,19 @@ namespace OpenRasta.Hosting.AspNet.AspNetHttpListener
         public void Start()
         {
             OpenRastaModule.Host.ConfigurationSource = new Config();
-            _listener.Start();
-            QueueNextRequestWait();
+            this.listener.Start();
+            this.QueueNextRequestWait();
         }
 
         public void Stop()
         {
-            _listener.Stop();
+            this.listener.Stop();
             ApplicationManager.GetApplicationManager().ShutdownAll();
         }
 
         void QueueNextRequestWait()
         {
-            ThreadPool.QueueUserWorkItem(s => ProcessRequest());
+            ThreadPool.QueueUserWorkItem(s => this.ProcessRequest());
         }
 
         class Config : IConfigurationSource
@@ -85,7 +91,7 @@ namespace OpenRasta.Hosting.AspNet.AspNetHttpListener
 
             public void Configure()
             {
-                ConfigurationLambda();
+                this.ConfigurationLambda();
             }
         }
     }
