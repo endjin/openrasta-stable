@@ -30,4 +30,3 @@ _ReSharper.*
 *.log
 *.ser
 *.dbmdl
-AssemblyVersion.cs
