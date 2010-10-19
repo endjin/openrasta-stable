@@ -1,5 +1,7 @@
 namespace OpenRasta.Pipeline.Contributors
 {
+    #region Using Directives
+
     using System;
     using System.Linq;
     using System.Security.Principal;
@@ -10,9 +12,9 @@ namespace OpenRasta.Pipeline.Contributors
     using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.DI;
-    using OpenRasta.Diagnostics;
     using OpenRasta.Web;
+
+    #endregion
 
     public class AuthenticationContributor : KnownStages.IAuthentication
     {

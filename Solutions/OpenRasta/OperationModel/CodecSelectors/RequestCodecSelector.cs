@@ -1,9 +1,10 @@
 ﻿namespace OpenRasta.OperationModel.CodecSelectors
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
 
-    using OpenRasta.Codecs;
     using OpenRasta.Collections;
     using OpenRasta.Contracts.Codecs;
     using OpenRasta.Contracts.Diagnostics;
@@ -12,6 +13,8 @@
     using OpenRasta.Diagnostics;
     using OpenRasta.Extensions;
     using OpenRasta.Web;
+
+    #endregion
 
     /// <summary>
     /// Resolves a compatible codec for an operation, and filters out operations

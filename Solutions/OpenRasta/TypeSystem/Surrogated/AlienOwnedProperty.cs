@@ -1,5 +1,7 @@
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
@@ -7,6 +9,8 @@ namespace OpenRasta.TypeSystem.Surrogated
     using OpenRasta.Binding;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Contracts.TypeSystem.Surrogates;
+
+    #endregion
 
     /// <summary>
     /// Represents a property defined on an alien object.

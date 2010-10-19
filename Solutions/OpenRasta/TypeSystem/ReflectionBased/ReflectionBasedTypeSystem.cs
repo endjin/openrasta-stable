@@ -1,10 +1,14 @@
 ﻿namespace OpenRasta.TypeSystem.ReflectionBased
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Threading;
 
     using OpenRasta.Contracts.TypeSystem;
+
+    #endregion
 
     public class ReflectionBasedTypeSystem : ITypeSystem
     {

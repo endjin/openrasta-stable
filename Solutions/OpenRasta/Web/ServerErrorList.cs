@@ -1,11 +1,15 @@
 namespace OpenRasta.Web
 {
+    #region Using Directives
+
     using System;
     using System.Collections.ObjectModel;
 
     using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Diagnostics;
     using OpenRasta.Exceptions;
+
+    #endregion
 
     public class ServerErrorList : Collection<Error>
     {

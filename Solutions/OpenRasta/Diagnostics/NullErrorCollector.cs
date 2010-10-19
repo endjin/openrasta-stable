@@ -7,10 +7,6 @@ namespace OpenRasta.Diagnostics
     {
         private static readonly IErrorCollector InternalInstance = new NullErrorCollector();
 
-        public NullErrorCollector()
-        {
-        }
-
         public static IErrorCollector Instance
         {
             get { return InternalInstance; }

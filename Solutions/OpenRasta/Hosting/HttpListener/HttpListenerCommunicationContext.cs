@@ -1,5 +1,7 @@
 namespace OpenRasta.Hosting.HttpListener
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Net;
@@ -11,6 +13,8 @@ namespace OpenRasta.Hosting.HttpListener
     using OpenRasta.Extensions;
     using OpenRasta.Pipeline;
     using OpenRasta.Web;
+
+    #endregion
 
     public class HttpListenerCommunicationContext : ICommunicationContext
     {

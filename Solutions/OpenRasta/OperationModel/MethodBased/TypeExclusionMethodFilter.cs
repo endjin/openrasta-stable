@@ -1,11 +1,15 @@
 ﻿namespace OpenRasta.OperationModel.MethodBased
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
 
     using OpenRasta.Contracts.OperationModel.MethodBased;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.TypeSystem;
+
+    #endregion
 
     public class TypeExclusionMethodFilter<T> : IMethodFilter
     {

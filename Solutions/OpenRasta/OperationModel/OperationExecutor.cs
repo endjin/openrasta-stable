@@ -1,10 +1,14 @@
 namespace OpenRasta.OperationModel
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
 
     using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Web;
+
+    #endregion
 
     public class OperationExecutor : IOperationExecutor
     {

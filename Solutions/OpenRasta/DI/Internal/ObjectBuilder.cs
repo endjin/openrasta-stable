@@ -1,14 +1,17 @@
 namespace OpenRasta.DI.Internal
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
     using System.Text;
 
     using OpenRasta.Contracts.Diagnostics;
-    using OpenRasta.Diagnostics;
     using OpenRasta.Exceptions;
     using OpenRasta.Extensions;
+
+    #endregion
 
     public class ObjectBuilder
     {
@@ -54,7 +57,7 @@ namespace OpenRasta.DI.Internal
                 "Could not resolve type {0} because its dependencies couldn't be fullfilled\r\n{1}".With(registration.ConcreteType.Name, unresolvedDependenciesMessage));
         }
 
-        object AssignProperties(object instanceObject)
+        private object AssignProperties(object instanceObject)
         {
             foreach (var property in from pi in instanceObject.GetType().GetProperties()
                                      where pi.CanWrite && pi.GetIndexParameters().Length == 0

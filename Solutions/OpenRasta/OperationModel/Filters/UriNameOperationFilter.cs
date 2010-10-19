@@ -1,5 +1,7 @@
 ﻿namespace OpenRasta.OperationModel.Filters
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
 
@@ -9,6 +11,8 @@
     using OpenRasta.Diagnostics;
     using OpenRasta.OperationModel.Diagnostics;
     using OpenRasta.Web;
+
+    #endregion
 
     public class UriNameOperationFilter : IOperationFilter
     {

@@ -1,5 +1,7 @@
 ﻿namespace OpenRasta.OperationModel.Filters
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Collections.Specialized;
@@ -16,7 +18,8 @@
     using OpenRasta.Exceptions;
     using OpenRasta.Pipeline;
     using OpenRasta.TypeSystem.ReflectionBased;
-    using OpenRasta.Web;
+
+    #endregion
 
     public class UriParametersFilter : IOperationFilter
     {

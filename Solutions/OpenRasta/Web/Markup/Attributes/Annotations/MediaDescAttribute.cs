@@ -1,9 +1,13 @@
 namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Contracts.Web.Markup.Attributes;
     using OpenRasta.Web.Markup.Attributes.Nodes;
+
+    #endregion
 
     public class MediaDescAttribute : XhtmlAttributeCore
     {

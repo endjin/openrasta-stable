@@ -1,10 +1,13 @@
 namespace OpenRasta.DI.Internal
 {
+    #region Using Directives
+
     using System.Linq;
 
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Exceptions;
-    using OpenRasta.Pipeline;
+
+    #endregion
 
     public class PerRequestLifetimeManager : DependencyLifetimeManager
     {

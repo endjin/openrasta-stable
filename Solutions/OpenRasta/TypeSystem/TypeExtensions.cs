@@ -2,7 +2,6 @@ namespace OpenRasta.TypeSystem
 {
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.TypeSystem;
-    using OpenRasta.DI;
 
     public static class TypeExtensions
     {

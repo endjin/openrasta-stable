@@ -1,9 +1,12 @@
 namespace OpenRasta.DI.Internal
 {
+    #region Using Directives
+
     using System.Collections.Generic;
 
     using OpenRasta.Contracts.Pipeline;
-    using OpenRasta.Pipeline;
+
+    #endregion
 
     public static class ContextStoreExtensions
     {

@@ -1,9 +1,10 @@
 ﻿namespace OpenRasta.Hosting
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
 
-    using OpenRasta.Configuration;
     using OpenRasta.Configuration.Registration;
     using OpenRasta.Contracts.Configuration;
     using OpenRasta.Contracts.DI;
@@ -14,8 +15,8 @@
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
     using OpenRasta.Exceptions;
-    using OpenRasta.Pipeline;
-    using OpenRasta.Web;
+
+    #endregion
 
     public class HostManager : IDisposable
     {

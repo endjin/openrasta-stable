@@ -1,9 +1,13 @@
 namespace OpenRasta.TypeSystem.Surrogates
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
 
     using OpenRasta.TypeSystem.ReflectionBased;
+
+    #endregion
 
     public class ListIndexerSurrogateBuilder : AbstractStaticSurrogateBuilder
     {

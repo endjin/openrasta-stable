@@ -1,7 +1,6 @@
 namespace OpenRasta.OperationModel
 {
     using OpenRasta.Contracts.TypeSystem;
-    using OpenRasta.TypeSystem;
 
     public class OutputMember
     {

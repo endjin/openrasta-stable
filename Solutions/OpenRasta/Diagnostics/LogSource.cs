@@ -1,8 +1,7 @@
-using OpenRasta.TypeSystem.ReflectionBased;
-
 namespace OpenRasta.Diagnostics
 {
     using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.TypeSystem.ReflectionBased;
 
     public static class LogSource<T> where T : ILogSource
     {

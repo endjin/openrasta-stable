@@ -1,10 +1,14 @@
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Contracts.TypeSystem.Surrogated;
     using OpenRasta.Contracts.TypeSystem.Surrogates;
+
+    #endregion
 
     public class AlienPropertyBuilder : PropertyBuilder
     {

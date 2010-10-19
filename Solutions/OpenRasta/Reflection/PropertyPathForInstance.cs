@@ -1,5 +1,3 @@
-
-
 namespace OpenRasta.Reflection
 {
     using System;

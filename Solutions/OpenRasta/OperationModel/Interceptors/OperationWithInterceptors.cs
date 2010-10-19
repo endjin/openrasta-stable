@@ -1,5 +1,7 @@
 ﻿namespace OpenRasta.OperationModel.Interceptors
 {
+    #region Using Directives
+
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -8,6 +10,8 @@
     using OpenRasta.Contracts.OperationModel.Interceptors;
     using OpenRasta.Exceptions;
     using OpenRasta.Extensions;
+
+    #endregion
 
     public class OperationWithInterceptors : IOperation
     {
@@ -85,9 +89,9 @@
 
             try
             {
-                bool isSuccessful = interception();
+                bool successful = interception();
 
-                if (!isSuccessful)
+                if (!successful)
                 {
                     exception = new InterceptorException(exceptionMessage);
                 }

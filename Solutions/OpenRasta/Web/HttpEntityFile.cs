@@ -1,10 +1,13 @@
 namespace OpenRasta.Web
 {
+    #region Using Directives
+
     using System.IO;
 
     using OpenRasta.Contracts.IO;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.IO;
+
+    #endregion
 
     public class HttpEntityFile : IFile
     {

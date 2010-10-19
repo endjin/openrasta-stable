@@ -1,10 +1,14 @@
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Diagnostics;
 
     using OpenRasta.Binding;
     using OpenRasta.Contracts.TypeSystem;
+
+    #endregion
 
     [DebuggerDisplay("{global::OpenRasta.TypeSystem.DebuggerStrings.Property(this)}")]
     public class PropertyWithSurrogates : MemberWithSurrogates, IProperty

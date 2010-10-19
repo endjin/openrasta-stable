@@ -1,13 +1,15 @@
 namespace OpenRasta.OperationModel.Hydrators.Diagnostics
 {
+    #region Using Directives
+
     using System;
     using System.Reflection;
 
-    using OpenRasta.Binding;
     using OpenRasta.Collections.Specialized;
     using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Contracts.OperationModel;
-    using OpenRasta.Diagnostics;
+
+    #endregion
 
     public static class CodecLogSourceExtensions
     {

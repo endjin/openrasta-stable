@@ -1,11 +1,15 @@
 namespace OpenRasta.TypeSystem
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using OpenRasta.Binding;
     using OpenRasta.Contracts.TypeSystem;
+
+    #endregion
 
     public abstract class MemberBuilder : IMemberBuilder
     {

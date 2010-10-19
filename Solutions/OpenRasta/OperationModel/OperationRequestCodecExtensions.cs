@@ -1,8 +1,11 @@
 namespace OpenRasta.OperationModel
 {
-    using OpenRasta.Codecs;
+    #region Using Directives
+
     using OpenRasta.Codecs.Framework;
     using OpenRasta.Contracts.OperationModel;
+
+    #endregion
 
     public static class OperationRequestCodecExtensions
     {

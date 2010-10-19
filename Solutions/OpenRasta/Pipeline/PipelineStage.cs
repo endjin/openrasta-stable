@@ -1,11 +1,15 @@
 ﻿namespace OpenRasta.Pipeline
 {
+    #region Using Directives
+
     using System;
     using System.Collections;
     using System.Collections.Generic;
 
     using OpenRasta.Collections;
     using OpenRasta.Contracts.Pipeline;
+
+    #endregion
 
     public class PipelineStage : IEnumerable<ContributorCall>
     {

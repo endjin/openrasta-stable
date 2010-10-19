@@ -1,5 +1,7 @@
 ﻿namespace OpenRasta.Pipeline.Contributors
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
 
@@ -8,10 +10,11 @@
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Contracts.Web;
     using OpenRasta.Diagnostics;
-    using OpenRasta.OperationModel;
     using OpenRasta.Pipeline;
     using OpenRasta.Pipeline.Diagnostics;
     using OpenRasta.Web;
+
+    #endregion
 
     public class OperationCreatorContributor : KnownStages.IOperationCreation
     {

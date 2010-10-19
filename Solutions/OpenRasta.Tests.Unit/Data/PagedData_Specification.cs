@@ -9,6 +9,7 @@ namespace PagedData_Specification
     using NUnit.Framework;
 
     using OpenRasta.Data;
+    using OpenRasta.Extensions;
     using OpenRasta.Testing.Specifications;
 
     #endregion

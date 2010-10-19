@@ -1,9 +1,13 @@
 namespace OpenRasta.Web.Internal
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Contracts.Web;
     using OpenRasta.Extensions;
+
+    #endregion
 
     public static class CommunicationContextExtensions
     {

@@ -1,18 +1,19 @@
 namespace OpenRasta.OperationModel.MethodBased
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using OpenRasta.Binding;
     using OpenRasta.Contracts.Binding;
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Contracts.OperationModel.MethodBased;
     using OpenRasta.Contracts.TypeSystem;
-    using OpenRasta.DI;
     using OpenRasta.Extensions;
-    using OpenRasta.TypeSystem;
+
+    #endregion
 
     public class MethodBasedOperationCreator : IOperationCreator
     {

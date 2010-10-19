@@ -1,5 +1,7 @@
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -7,7 +9,8 @@ namespace OpenRasta.TypeSystem.Surrogated
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Contracts.TypeSystem.Surrogates;
-    using OpenRasta.DI;
+
+    #endregion
 
     public class SurrogateBuilderProvider : ISurrogateProvider
     {

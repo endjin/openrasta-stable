@@ -1,11 +1,12 @@
 ﻿namespace OpenRasta.OperationModel.Hydrators
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
-    using OpenRasta.Codecs;
     using OpenRasta.Codecs.Extensions;
     using OpenRasta.Contracts;
     using OpenRasta.Contracts.Codecs;
@@ -18,7 +19,8 @@
     using OpenRasta.Exceptions;
     using OpenRasta.OperationModel.Hydrators.Diagnostics;
     using OpenRasta.TypeSystem.ReflectionBased;
-    using OpenRasta.Web;
+
+    #endregion
 
     public class RequestEntityReaderHydrator : IOperationHydrator
     {
@@ -88,7 +90,6 @@
                 Exception = e
             };
         }
-
 
         private ICodec CreateMediaTypeReader(IOperation operation)
         {

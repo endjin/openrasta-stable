@@ -1,9 +1,13 @@
 namespace OpenRasta.TypeSystem
 {
+    #region Using Directives
+
     using System.Linq;
 
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Extensions;
+
+    #endregion
 
     public static class DebuggerStrings
     {

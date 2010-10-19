@@ -1,11 +1,15 @@
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Diagnostics;
 
     using OpenRasta.Binding;
     using OpenRasta.Contracts.TypeSystem;
+
+    #endregion
 
     [DebuggerDisplay("Name={OriginalNativeType.Name}, Alien={OriginalAlienType.Name}")]
     public class AlienType : AlienMember, IType

@@ -1,11 +1,14 @@
 namespace OpenRasta.DI.Internal
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using OpenRasta.Contracts.Pipeline;
-    using OpenRasta.Pipeline;
+
+    #endregion
 
     public class DependencyRegistrationCollection : IContextStoreDependencyCleaner
     {
@@ -53,9 +56,9 @@ namespace OpenRasta.DI.Internal
             {
                 foreach (var reg in this.registrations)
                 {
-                    var toRemove = reg.Value.Where(x => x.Key == key).ToList();
+                    var registrationToRemove = reg.Value.Where(x => x.Key == key).ToList();
 
-                    toRemove.ForEach(x => reg.Value.Remove(x));
+                    registrationToRemove.ForEach(x => reg.Value.Remove(x));
                 }
             }
         }

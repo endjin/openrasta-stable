@@ -1,5 +1,7 @@
 namespace OpenRasta.TypeSystem
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -7,6 +9,8 @@ namespace OpenRasta.TypeSystem
 
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Extensions;
+
+    #endregion
 
     public class PathManager : IPathManager
     {

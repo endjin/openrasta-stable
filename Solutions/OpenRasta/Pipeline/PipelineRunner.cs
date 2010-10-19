@@ -1,15 +1,7 @@
-#region License
-/* Authors:
- *      Sebastien Lambla (seb@serialseb.com)
- * Copyright:
- *      (C) 2007-2009 Caffeine IT & naughtyProd Ltd (http://www.caffeine-it.com)
- * License:
- *      This file is distributed under the terms of the MIT License found at the end of this file.
- */
-#endregion
-
 namespace OpenRasta.Pipeline
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
@@ -21,12 +13,13 @@ namespace OpenRasta.Pipeline
     using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.DI;
     using OpenRasta.Diagnostics;
     using OpenRasta.Exceptions;
     using OpenRasta.Extensions;
     using OpenRasta.Pipeline.Diagnostics;
     using OpenRasta.Web;
+
+    #endregion
 
     public class PipelineRunner : IPipeline
     {
@@ -54,14 +47,6 @@ namespace OpenRasta.Pipeline
         IEnumerable<ContributorCall> IPipeline.CallGraph
         {
             get { return this.callGraph; }
-        }
-
-        private void CheckPipelineIsInitialized()
-        {
-            if (!this.IsInitialized)
-            {
-                throw new InvalidOperationException("The pipeline has not been initialized and cannot run.");
-            }
         }
 
         public void Initialize()
@@ -118,6 +103,92 @@ namespace OpenRasta.Pipeline
             }
 
             this.RunCallGraph(context, context.PipelineData.PipelineStage);
+        }
+
+        protected virtual void FinishPipeline(ICommunicationContext context)
+        {
+            this.PipelineLog.WriteInfo("Pipeline finished.");
+        }
+
+        protected virtual PipelineContinuation ExecuteContributor(ICommunicationContext context, ContributorCall call)
+        {
+            using (this.PipelineLog.Operation(this, "Executing contributor {0}.{1}".With(call.ContributorTypeName, call.Action.Method.Name)))
+            {
+                PipelineContinuation nextStep;
+
+                try
+                {
+                    nextStep = call.Action(context);
+                }
+                catch (Exception e)
+                {
+                    context.ServerErrors.Add(new Error
+                        {
+                            Title = "Fatal error",
+                            Message = "An exception was thrown while processing a pipeline contributor",
+                            Exception = e
+                        });
+
+                    nextStep = PipelineContinuation.Abort;
+                }
+
+                return nextStep;
+            }
+        }
+
+        protected virtual void AbortPipeline(ICommunicationContext context)
+        {
+            this.PipelineLog.WriteError("Aborting the pipeline and rendering the errors.");
+
+            context.OperationResult = new OperationResult.InternalServerError
+                {
+                    Title = "The request could not be processed because of a fatal error. See log below.",
+                    ResponseResource = context.ServerErrors
+                };
+
+            context.PipelineData.ResponseCodec = null;
+            context.Response.Entity.Instance = context.ServerErrors;
+            context.Response.Entity.Codec = null;
+            context.Response.Entity.ContentLength = null;
+
+            this.Log.WriteError(
+                "An error has occurred and the processing of the request has stopped.\r\n{0}", 
+                context.ServerErrors.Aggregate(string.Empty, (str, error) => str + "\r\n" + error.ToString()));
+        }
+
+        private static void AttemptCatastrophicErrorNotification(ICommunicationContext context)
+        {
+            try
+            {
+                string fatalError = "An error in one of the rendering components of OpenRasta prevents the error message from being sent back.";
+
+                context.Response.StatusCode = 500;
+                context.Response.Entity.ContentLength = fatalError.Length;
+                context.Response.Entity.Stream.Write(Encoding.ASCII.GetBytes(fatalError), 0, fatalError.Length);
+                context.Response.WriteHeaders();
+            }
+            catch
+            {
+            }
+        }
+
+        private static IEnumerable<DependencyNode<ContributorNotification>> GetCompatibleTypes(DependencyTree<ContributorNotification> tree,
+                                                                                               DependencyNode<ContributorNotification> notificationNode,
+                                                                                               IEnumerable<Type> beforeTypes)
+        {
+            return from childType in beforeTypes
+                   from compatibleNode in tree.Nodes
+                   where compatibleNode != notificationNode
+                         && childType.IsAssignableFrom(compatibleNode.Value.Contributor.GetType())
+                   select compatibleNode;
+        }
+
+        private void CheckPipelineIsInitialized()
+        {
+            if (!this.IsInitialized)
+            {
+                throw new InvalidOperationException("The pipeline has not been initialized and cannot run.");
+            }
         }
 
         private void RunCallGraph(ICommunicationContext context, PipelineStage stage)
@@ -177,22 +248,6 @@ namespace OpenRasta.Pipeline
             }
         }
 
-        private static void AttemptCatastrophicErrorNotification(ICommunicationContext context)
-        {
-            try
-            {
-                string fatalError = "An error in one of the rendering components of OpenRasta prevents the error message from being sent back.";
-
-                context.Response.StatusCode = 500;
-                context.Response.Entity.ContentLength = fatalError.Length;
-                context.Response.Entity.Stream.Write(Encoding.ASCII.GetBytes(fatalError), 0, fatalError.Length);
-                context.Response.WriteHeaders();
-            }
-            catch
-            {
-            }
-        }
-
         private bool CanBeExecuted(ContributorCall call)
         {
             if (call.Action == null)
@@ -204,58 +259,6 @@ namespace OpenRasta.Pipeline
 
             return true;
         }
-
-        protected virtual void AbortPipeline(ICommunicationContext context)
-        {
-            this.PipelineLog.WriteError("Aborting the pipeline and rendering the errors.");
-
-            context.OperationResult = new OperationResult.InternalServerError
-            {
-                Title = "The request could not be processed because of a fatal error. See log below.",
-                ResponseResource = context.ServerErrors
-            };
-
-            context.PipelineData.ResponseCodec = null;
-            context.Response.Entity.Instance = context.ServerErrors;
-            context.Response.Entity.Codec = null;
-            context.Response.Entity.ContentLength = null;
-
-            this.Log.WriteError(
-                "An error has occurred and the processing of the request has stopped.\r\n{0}", 
-                context.ServerErrors.Aggregate(string.Empty, (str, error) => str + "\r\n" + error.ToString()));
-        }
-
-        protected virtual PipelineContinuation ExecuteContributor(ICommunicationContext context, ContributorCall call)
-        {
-            using (this.PipelineLog.Operation(this, "Executing contributor {0}.{1}".With(call.ContributorTypeName, call.Action.Method.Name)))
-            {
-                PipelineContinuation nextStep;
-
-                try
-                {
-                    nextStep = call.Action(context);
-                }
-                catch (Exception e)
-                {
-                    context.ServerErrors.Add(new Error
-                    {
-                        Title = "Fatal error",
-                        Message = "An exception was thrown while processing a pipeline contributor",
-                        Exception = e
-                    });
-
-                    nextStep = PipelineContinuation.Abort;
-                }
-
-                return nextStep;
-            }
-        }
-
-        protected virtual void FinishPipeline(ICommunicationContext context)
-        {
-            this.PipelineLog.WriteInfo("Pipeline finished.");
-        }
-
 
         private IEnumerable<ContributorCall> GenerateCallGraph()
         {
@@ -295,17 +298,6 @@ namespace OpenRasta.Pipeline
             this.LogContributorCallChainCreated(graph);
             
             return graph;
-        }
-
-        private static IEnumerable<DependencyNode<ContributorNotification>> GetCompatibleTypes(DependencyTree<ContributorNotification> tree,
-                                                                                DependencyNode<ContributorNotification> notificationNode,
-                                                                                IEnumerable<Type> beforeTypes)
-        {
-            return from childType in beforeTypes
-                   from compatibleNode in tree.Nodes
-                   where compatibleNode != notificationNode
-                         && childType.IsAssignableFrom(compatibleNode.Value.Contributor.GetType())
-                   select compatibleNode;
         }
 
         private IEnumerable<IPipelineContributor> GetContributorsOfType(Type contributorType)
@@ -399,22 +391,3 @@ namespace OpenRasta.Pipeline
         }
     }
 }
-
-#region Full license
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#endregion

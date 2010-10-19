@@ -1,10 +1,14 @@
 namespace OpenRasta.TypeSystem.Surrogates
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using OpenRasta.Contracts.TypeSystem.Surrogates;
+
+    #endregion
 
     /// <summary>
     /// Please do not use, it's not ready for prime time yet.

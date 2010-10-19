@@ -1,5 +1,7 @@
 namespace OpenRasta.Handlers
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -7,7 +9,8 @@ namespace OpenRasta.Handlers
     using OpenRasta.Collections;
     using OpenRasta.Contracts.Handlers;
     using OpenRasta.Contracts.TypeSystem;
-    using OpenRasta.TypeSystem;
+
+    #endregion
 
     public class HandlerRepository : IHandlerRepository
     {
@@ -55,14 +58,15 @@ namespace OpenRasta.Handlers
             return this.GetOrCreate(resourceKey);
         }
 
-
-        HashSet<IType> GetOrCreate(object resourceKey)
+        private HashSet<IType> GetOrCreate(object resourceKey)
         {
             HashSet<IType> handlerTypes;
+
             if (!this.resourceHandlers.TryGetValue(resourceKey, out handlerTypes))
             {
                 this.resourceHandlers.Add(resourceKey, handlerTypes = new HashSet<IType>());
             }
+            
             return handlerTypes;
         }
     }

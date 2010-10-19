@@ -1,9 +1,13 @@
 namespace OpenRasta.Hosting.HttpListener
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
+
+    #endregion
 
     public class AppDomainHost<T> : IDisposable where T : HttpListenerHost
     {

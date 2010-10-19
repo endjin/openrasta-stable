@@ -1,9 +1,13 @@
 namespace OpenRasta.DI.Internal
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+
+    #endregion
 
     public class DependencyRegistration
     {

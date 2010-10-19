@@ -1,5 +1,7 @@
 namespace OpenRasta.OperationModel.MethodBased
 {
+    #region Using Directives
+
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -11,8 +13,9 @@ namespace OpenRasta.OperationModel.MethodBased
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Contracts.TypeSystem;
-    using OpenRasta.DI;
     using OpenRasta.TypeSystem;
+
+    #endregion
 
     public class MethodBasedOperation : IOperation
     {

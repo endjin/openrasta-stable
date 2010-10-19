@@ -1,8 +1,12 @@
 namespace OpenRasta.TypeSystem
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Contracts.TypeSystem;
+
+    #endregion
 
     public static class MemberExtensions
     {

@@ -1,5 +1,7 @@
 namespace OpenRasta.Pipeline.Contributors
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -8,10 +10,10 @@ namespace OpenRasta.Pipeline.Contributors
     using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.DI;
     using OpenRasta.Extensions;
-    using OpenRasta.OperationModel;
     using OpenRasta.Web;
+
+    #endregion
 
     public abstract class AbstractOperationProcessing<TProcessor, TStage> : IPipelineContributor
         where TProcessor : IOperationProcessor<TStage>

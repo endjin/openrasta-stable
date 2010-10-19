@@ -1,8 +1,12 @@
 namespace OpenRasta.Exceptions
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Extensions;
+
+    #endregion
 
     public class Error
     {

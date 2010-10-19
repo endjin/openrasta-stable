@@ -1,10 +1,13 @@
 ﻿namespace OpenRasta.Pipeline.Contributors
 {
+    #region Using Directives
+
     using System.Linq;
 
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.Web;
+
+    #endregion
 
     public class EndContributor : KnownStages.IEnd
     {

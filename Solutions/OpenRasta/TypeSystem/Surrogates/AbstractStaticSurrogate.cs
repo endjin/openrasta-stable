@@ -1,11 +1,15 @@
 namespace OpenRasta.TypeSystem.Surrogates
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Contracts.TypeSystem.Surrogates;
+
+    #endregion
 
     public abstract class AbstractStaticSurrogate<TSurrogated> : ISurrogateBuilder, ISurrogate
     {

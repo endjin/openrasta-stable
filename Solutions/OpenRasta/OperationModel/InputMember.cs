@@ -1,9 +1,11 @@
 namespace OpenRasta.OperationModel
 {
-    using OpenRasta.Binding;
+    #region Using Directives
+
     using OpenRasta.Contracts.Binding;
     using OpenRasta.Contracts.TypeSystem;
-    using OpenRasta.TypeSystem;
+
+    #endregion
 
     public class InputMember
     {

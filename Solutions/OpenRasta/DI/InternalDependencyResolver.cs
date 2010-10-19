@@ -1,15 +1,7 @@
-#region License
-/* Authors:
- *      Sebastien Lambla (seb@serialseb.com)
- * Copyright:
- *      (C) 2007-2009 Caffeine IT & naughtyProd Ltd (http://www.caffeine-it.com)
- * License:
- *      This file is distributed under the terms of the MIT License found at the end of this file.
- */
-#endregion
-
 namespace OpenRasta.DI
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -20,37 +12,15 @@ namespace OpenRasta.DI
     using OpenRasta.DI.Internal;
     using OpenRasta.Diagnostics;
     using OpenRasta.Exceptions;
-    using OpenRasta.Extensions;
-    using OpenRasta.Pipeline;
+    using OpenRasta.Extensions; 
 
-    public abstract class DependencyLifetimeManager
-    {
-        protected DependencyLifetimeManager(InternalDependencyResolver resolver)
-        {
-            this.Resolver = resolver;
-        }
-
-        protected InternalDependencyResolver Resolver { get; private set; }
-
-        public virtual bool IsRegistrationAvailable(DependencyRegistration registration)
-        {
-            return true;
-        }
-
-        public virtual object Resolve(ResolveContext context, DependencyRegistration registration)
-        {
-            return context.Builder.CreateObject(registration);
-        }
-
-        public virtual void VerifyRegistration(DependencyRegistration registration)
-        {
-        }
-    }
+    #endregion;
 
     public class InternalDependencyResolver : DependencyResolverCore, IDependencyResolver
     {
-        readonly Dictionary<DependencyLifetime, DependencyLifetimeManager> lifetimeManagers;
-        ILogger log = new TraceSourceLogger();
+        private readonly Dictionary<DependencyLifetime, DependencyLifetimeManager> lifetimeManagers;
+
+        private ILogger log = new TraceSourceLogger();
 
         public InternalDependencyResolver()
         {
@@ -128,7 +98,7 @@ namespace OpenRasta.DI
             return this.Registrations.HasRegistrationForService(serviceType) && this.Registrations[serviceType].Count(r => r.ConcreteType == concreteType) >= 1;
         }
 
-        object Resolve(DependencyRegistration dependency)
+        private object Resolve(DependencyRegistration dependency)
         {
             var context = new ResolveContext(this.Registrations, this.Log);
             
@@ -136,22 +106,3 @@ namespace OpenRasta.DI
         }
     }
 }
-
-#region Full license
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#endregion

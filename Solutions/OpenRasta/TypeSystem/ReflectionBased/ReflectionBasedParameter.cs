@@ -1,8 +1,12 @@
 namespace OpenRasta.TypeSystem.ReflectionBased
 {
+    #region Using Directives
+
     using System.Reflection;
 
     using OpenRasta.Contracts.TypeSystem;
+
+    #endregion
 
     public class ReflectionBasedParameter : ReflectionBasedMember<IParameterBuilder>, IParameter
     {

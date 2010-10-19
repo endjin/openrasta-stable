@@ -21,6 +21,7 @@ namespace OpenRasta.Codecs
     using OpenRasta.Extensions;
     using OpenRasta.OperationModel.Hydrators.Diagnostics;
     using OpenRasta.Pipeline;
+    using OpenRasta.TypeSystem;
     using OpenRasta.TypeSystem.ReflectionBased;
     using OpenRasta.Web;
 

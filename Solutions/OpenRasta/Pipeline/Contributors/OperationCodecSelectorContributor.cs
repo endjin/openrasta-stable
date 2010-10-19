@@ -1,12 +1,14 @@
 namespace OpenRasta.Pipeline.Contributors
 {
+    #region Using Directives
+
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.DI;
-    using OpenRasta.OperationModel;
     using OpenRasta.Web;
+
+    #endregion
 
     public class OperationCodecSelectorContributor
         : AbstractOperationProcessing<IOperationCodecSelector, KnownStages.ICodecRequestSelection>,

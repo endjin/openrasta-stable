@@ -1,14 +1,15 @@
 ﻿namespace OpenRasta.Pipeline.Contributors
 {
-    using OpenRasta.Authentication;
+    #region Using Directives
+
     using OpenRasta.Contracts.Authentication;
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.DI;
-    using OpenRasta.Diagnostics;
     using OpenRasta.Web;
+
+    #endregion
 
     public class AuthenticationChallengerContributor : IPipelineContributor
     {

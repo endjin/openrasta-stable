@@ -1,11 +1,15 @@
 namespace OpenRasta.TypeSystem.ReflectionBased
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Extensions;
+
+    #endregion
 
     public class ReflectionBasedMethod : IMethod
     {

@@ -1,7 +1,11 @@
 namespace OpenRasta.OperationModel
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
+
+    #endregion
 
     public static class OperationExtensions
     {

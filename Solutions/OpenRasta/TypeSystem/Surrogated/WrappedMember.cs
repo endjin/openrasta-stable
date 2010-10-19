@@ -1,10 +1,14 @@
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
 
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Contracts.TypeSystem.Surrogated;
+
+    #endregion
 
     public abstract class WrappedMember : IMember, IHasWrappedMember
     {

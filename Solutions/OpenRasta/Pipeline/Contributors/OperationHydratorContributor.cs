@@ -1,10 +1,12 @@
 namespace OpenRasta.Pipeline.Contributors
 {
+    #region Using Directives
+
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Contracts.Pipeline;
-    using OpenRasta.DI;
-    using OpenRasta.OperationModel;
+
+    #endregion
 
     public class OperationHydratorContributor :
         AbstractOperationProcessing<IOperationHydrator, KnownStages.IRequestDecoding>,

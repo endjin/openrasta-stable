@@ -1,20 +1,13 @@
-﻿#region License
-/* Authors:
- *      Sebastien Lambla (seb@serialseb.com)
- * Copyright:
- *      (C) 2007-2009 Caffeine IT & naughtyProd Ltd (http://www.caffeine-it.com)
- * License:
- *      This file is distributed under the terms of the MIT License found at the end of this file.
- */
-#endregion
-
-
-namespace OpenRasta.Reflection
+﻿namespace OpenRasta.Reflection
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Linq.Expressions;
+
+    #endregion
     
     public abstract class ExpressionVisitor
     {
@@ -35,7 +28,7 @@ namespace OpenRasta.Reflection
                 case ExpressionType.ArrayLength:
                 case ExpressionType.Quote:
                 case ExpressionType.TypeAs:
-                    return VisitUnary((UnaryExpression)exp);
+                    return this.VisitUnary((UnaryExpression)exp);
                 case ExpressionType.Add:
                 case ExpressionType.AddChecked:
                 case ExpressionType.Subtract:
@@ -59,32 +52,32 @@ namespace OpenRasta.Reflection
                 case ExpressionType.RightShift:
                 case ExpressionType.LeftShift:
                 case ExpressionType.ExclusiveOr:
-                    return VisitBinary((BinaryExpression)exp);
+                    return this.VisitBinary((BinaryExpression)exp);
                 case ExpressionType.TypeIs:
-                    return VisitTypeIs((TypeBinaryExpression)exp);
+                    return this.VisitTypeIs((TypeBinaryExpression)exp);
                 case ExpressionType.Conditional:
-                    return VisitConditional((ConditionalExpression)exp);
+                    return this.VisitConditional((ConditionalExpression)exp);
                 case ExpressionType.Constant:
-                    return VisitConstant((ConstantExpression)exp);
+                    return this.VisitConstant((ConstantExpression)exp);
                 case ExpressionType.Parameter:
-                    return VisitParameter((ParameterExpression)exp);
+                    return this.VisitParameter((ParameterExpression)exp);
                 case ExpressionType.MemberAccess:
-                    return VisitMemberAccess((MemberExpression)exp);
+                    return this.VisitMemberAccess((MemberExpression)exp);
                 case ExpressionType.Call:
-                    return VisitMethodCall((MethodCallExpression)exp);
+                    return this.VisitMethodCall((MethodCallExpression)exp);
                 case ExpressionType.Lambda:
-                    return VisitLambda((LambdaExpression)exp);
+                    return this.VisitLambda((LambdaExpression)exp);
                 case ExpressionType.New:
-                    return VisitNew((NewExpression)exp);
+                    return this.VisitNew((NewExpression)exp);
                 case ExpressionType.NewArrayInit:
                 case ExpressionType.NewArrayBounds:
-                    return VisitNewArray((NewArrayExpression)exp);
+                    return this.VisitNewArray((NewArrayExpression)exp);
                 case ExpressionType.Invoke:
-                    return VisitInvocation((InvocationExpression)exp);
+                    return this.VisitInvocation((InvocationExpression)exp);
                 case ExpressionType.MemberInit:
-                    return VisitMemberInit((MemberInitExpression)exp);
+                    return this.VisitMemberInit((MemberInitExpression)exp);
                 case ExpressionType.ListInit:
-                    return VisitListInit((ListInitExpression)exp);
+                    return this.VisitListInit((ListInitExpression)exp);
                 default:
                     throw new Exception(string.Format("Unhandled expression type: '{0}'", exp.NodeType));
             }
@@ -95,11 +88,11 @@ namespace OpenRasta.Reflection
             switch (binding.BindingType)
             {
                 case MemberBindingType.Assignment:
-                    return VisitMemberAssignment((MemberAssignment) binding);
+                    return this.VisitMemberAssignment((MemberAssignment)binding);
                 case MemberBindingType.MemberBinding:
-                    return VisitMemberMemberBinding((MemberMemberBinding) binding);
+                    return this.VisitMemberMemberBinding((MemberMemberBinding)binding);
                 case MemberBindingType.ListBinding:
-                    return VisitMemberListBinding((MemberListBinding) binding);
+                    return this.VisitMemberListBinding((MemberListBinding)binding);
                 default:
                     throw new Exception(string.Format("Unhandled binding type '{0}'", binding.BindingType));
             }
@@ -107,7 +100,7 @@ namespace OpenRasta.Reflection
 
         protected virtual ElementInit VisitElementInitializer(ElementInit initializer)
         {
-            ReadOnlyCollection<Expression> arguments = VisitExpressionList(initializer.Arguments);
+            ReadOnlyCollection<Expression> arguments = this.VisitExpressionList(initializer.Arguments);
 
             if (arguments != initializer.Arguments)
             {
@@ -119,7 +112,7 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitUnary(UnaryExpression u)
         {
-            Expression operand = Visit(u.Operand);
+            Expression operand = this.Visit(u.Operand);
 
             if (operand != u.Operand)
             {
@@ -131,9 +124,9 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitBinary(BinaryExpression b)
         {
-            Expression left = Visit(b.Left);
-            Expression right = Visit(b.Right);
-            Expression conversion = Visit(b.Conversion);
+            Expression left = this.Visit(b.Left);
+            Expression right = this.Visit(b.Right);
+            Expression conversion = this.Visit(b.Conversion);
 
             if (left != b.Left || right != b.Right || conversion != b.Conversion)
             {
@@ -150,7 +143,7 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitTypeIs(TypeBinaryExpression b)
         {
-            Expression expr = Visit(b.Expression);
+            Expression expr = this.Visit(b.Expression);
 
             if (expr != b.Expression)
             {
@@ -164,9 +157,9 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitConditional(ConditionalExpression c)
         {
-            Expression test = Visit(c.Test);
-            Expression ifTrue = Visit(c.IfTrue);
-            Expression ifFalse = Visit(c.IfFalse);
+            Expression test = this.Visit(c.Test);
+            Expression ifTrue = this.Visit(c.IfTrue);
+            Expression ifFalse = this.Visit(c.IfFalse);
 
             if (test != c.Test || ifTrue != c.IfTrue || ifFalse != c.IfFalse)
             {
@@ -192,9 +185,9 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitMethodCall(MethodCallExpression m)
         {
-            Expression obj = Visit(m.Object);
+            Expression obj = this.Visit(m.Object);
 
-            IEnumerable<Expression> args = VisitExpressionList(m.Arguments);
+            IEnumerable<Expression> args = this.VisitExpressionList(m.Arguments);
 
             if (obj != m.Object || args != m.Arguments)
             {
@@ -210,7 +203,7 @@ namespace OpenRasta.Reflection
 
             for (int i = 0, n = original.Count; i < n; i++)
             {
-                Expression p = Visit(original[i]);
+                Expression p = this.Visit(original[i]);
 
                 if (list != null)
                 {
@@ -239,7 +232,7 @@ namespace OpenRasta.Reflection
 
         protected virtual MemberAssignment VisitMemberAssignment(MemberAssignment assignment)
         {
-            Expression e = Visit(assignment.Expression);
+            Expression e = this.Visit(assignment.Expression);
 
             if (e != assignment.Expression)
             {
@@ -251,7 +244,7 @@ namespace OpenRasta.Reflection
 
         protected virtual MemberMemberBinding VisitMemberMemberBinding(MemberMemberBinding binding)
         {
-            IEnumerable<MemberBinding> bindings = VisitBindingList(binding.Bindings);
+            IEnumerable<MemberBinding> bindings = this.VisitBindingList(binding.Bindings);
 
             if (bindings != binding.Bindings)
             {
@@ -263,7 +256,7 @@ namespace OpenRasta.Reflection
 
         protected virtual MemberListBinding VisitMemberListBinding(MemberListBinding binding)
         {
-            IEnumerable<ElementInit> initializers = VisitElementInitializerList(binding.Initializers);
+            IEnumerable<ElementInit> initializers = this.VisitElementInitializerList(binding.Initializers);
 
             if (initializers != binding.Initializers)
             {
@@ -279,7 +272,7 @@ namespace OpenRasta.Reflection
 
             for (int i = 0, n = original.Count; i < n; i++)
             {
-                MemberBinding b = VisitBinding(original[i]);
+                MemberBinding b = this.VisitBinding(original[i]);
 
                 if (list != null)
                 {
@@ -312,7 +305,7 @@ namespace OpenRasta.Reflection
 
             for (int i = 0, n = original.Count; i < n; i++)
             {
-                ElementInit init = VisitElementInitializer(original[i]);
+                ElementInit init = this.VisitElementInitializer(original[i]);
 
                 if (list != null)
                 {
@@ -340,7 +333,7 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitLambda(LambdaExpression lambda)
         {
-            Expression body = Visit(lambda.Body);
+            Expression body = this.Visit(lambda.Body);
 
             if (body != lambda.Body)
             {
@@ -352,7 +345,7 @@ namespace OpenRasta.Reflection
 
         protected virtual NewExpression VisitNew(NewExpression nex)
         {
-            IEnumerable<Expression> args = VisitExpressionList(nex.Arguments);
+            IEnumerable<Expression> args = this.VisitExpressionList(nex.Arguments);
 
             if (args != nex.Arguments)
             {
@@ -369,9 +362,9 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitMemberInit(MemberInitExpression init)
         {
-            NewExpression n = VisitNew(init.NewExpression);
+            NewExpression n = this.VisitNew(init.NewExpression);
 
-            IEnumerable<MemberBinding> bindings = VisitBindingList(init.Bindings);
+            IEnumerable<MemberBinding> bindings = this.VisitBindingList(init.Bindings);
 
             if (n != init.NewExpression || bindings != init.Bindings)
             {
@@ -383,9 +376,9 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitListInit(ListInitExpression init)
         {
-            NewExpression n = VisitNew(init.NewExpression);
+            NewExpression n = this.VisitNew(init.NewExpression);
 
-            IEnumerable<ElementInit> initializers = VisitElementInitializerList(init.Initializers);
+            IEnumerable<ElementInit> initializers = this.VisitElementInitializerList(init.Initializers);
 
             if (n != init.NewExpression || initializers != init.Initializers)
             {
@@ -397,7 +390,7 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitNewArray(NewArrayExpression na)
         {
-            IEnumerable<Expression> exprs = VisitExpressionList(na.Expressions);
+            IEnumerable<Expression> exprs = this.VisitExpressionList(na.Expressions);
 
             if (exprs != na.Expressions)
             {
@@ -416,9 +409,9 @@ namespace OpenRasta.Reflection
 
         protected virtual Expression VisitInvocation(InvocationExpression iv)
         {
-            IEnumerable<Expression> args = VisitExpressionList(iv.Arguments);
+            IEnumerable<Expression> args = this.VisitExpressionList(iv.Arguments);
 
-            Expression expr = Visit(iv.Expression);
+            Expression expr = this.Visit(iv.Expression);
 
             if (args != iv.Arguments || expr != iv.Expression)
             {
@@ -429,25 +422,3 @@ namespace OpenRasta.Reflection
         }
     }
 }
-#region Full license
-//
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// 
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
-#endregion

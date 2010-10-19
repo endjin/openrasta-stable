@@ -1,8 +1,9 @@
 namespace OpenRasta.Hosting.InMemory
 {
+    #region Using Directives
+
     using System;
 
-    using OpenRasta.Configuration;
     using OpenRasta.Contracts.Configuration;
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.Hosting;
@@ -10,13 +11,13 @@ namespace OpenRasta.Hosting.InMemory
     using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Extensions;
-    using OpenRasta.Pipeline;
-    using OpenRasta.Web;
+
+    #endregion
 
     public class InMemoryHost : IHost, IDependencyResolverAccessor, IDisposable
     {
         private readonly IConfigurationSource configuration;
-        private bool isDisposed;
+        private bool disposed;
 
         public InMemoryHost(IConfigurationSource configuration)
         {
@@ -50,7 +51,7 @@ namespace OpenRasta.Hosting.InMemory
         {
             this.RaiseStop();
             HostManager.UnregisterHost(this);
-            this.isDisposed = true;
+            this.disposed = true;
         }
 
         public IResponse ProcessRequest(IRequest request)
@@ -130,7 +131,7 @@ namespace OpenRasta.Hosting.InMemory
 
         private void CheckNotDisposed()
         {
-            if (this.isDisposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException("HttpListenerHost");
             }

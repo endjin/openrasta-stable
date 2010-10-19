@@ -1,5 +1,7 @@
 namespace OpenRasta.Hosting.HttpListener
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Net;
@@ -8,11 +10,12 @@ namespace OpenRasta.Hosting.HttpListener
     using OpenRasta.Contracts.Hosting;
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.DI;
-    using OpenRasta.Pipeline;
+
+    #endregion
 
     public class HttpListenerHost : MarshalByRefObject, IHost, IDisposable
     {
-        private bool isDisposed;
+        private bool disposed;
         private HttpListener listener;
         private IDependencyResolverAccessor resolverAccessor;
         private Type resolverFactory;
@@ -74,7 +77,7 @@ namespace OpenRasta.Hosting.HttpListener
 
         public void ProcessRequest(IAsyncResult result)
         {
-            if (this.isDisposed)
+            if (this.disposed)
             {
                 return;
             }
@@ -155,7 +158,7 @@ namespace OpenRasta.Hosting.HttpListener
 
         protected virtual void Dispose(bool fromDisposeMethod)
         {
-            if (!this.isDisposed)
+            if (!this.disposed)
             {
                 if (fromDisposeMethod)
                 {
@@ -168,13 +171,13 @@ namespace OpenRasta.Hosting.HttpListener
                 }
 
                 this.listener.Abort();
-                this.isDisposed = true;
+                this.disposed = true;
             }
         }
 
         private void CheckNotDisposed()
         {
-            if (this.isDisposed)
+            if (this.disposed)
             {
                 throw new ObjectDisposedException("HttpListenerHost");
             }

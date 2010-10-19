@@ -1,5 +1,7 @@
 namespace OpenRasta.TypeSystem.ReflectionBased
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -8,8 +10,9 @@ namespace OpenRasta.TypeSystem.ReflectionBased
 
     using OpenRasta.Contracts.TypeSystem;
 
-    public abstract class ReflectionBasedMember<T> : IMember
-        where T : IMemberBuilder
+    #endregion
+
+    public abstract class ReflectionBasedMember<T> : IMember where T : IMemberBuilder
     {
         private readonly Dictionary<string, IProperty> propertiesCachedByPath = new Dictionary<string, IProperty>(StringComparer.OrdinalIgnoreCase);
         private readonly object syncRoot = new object();

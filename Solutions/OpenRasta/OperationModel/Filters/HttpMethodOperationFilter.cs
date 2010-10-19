@@ -1,5 +1,7 @@
 ﻿namespace OpenRasta.OperationModel.Filters
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -9,6 +11,8 @@
     using OpenRasta.Contracts.Web;
     using OpenRasta.Diagnostics;
     using OpenRasta.Web;
+
+    #endregion
 
     public class HttpMethodOperationFilter : IOperationFilter
     {

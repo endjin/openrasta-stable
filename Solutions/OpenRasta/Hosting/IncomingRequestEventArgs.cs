@@ -1,9 +1,12 @@
 namespace OpenRasta.Hosting
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Contracts.Web;
-    using OpenRasta.Web;
+
+    #endregion
 
     public abstract class IncomingRequestEventArgs : EventArgs
     {
@@ -13,21 +16,5 @@ namespace OpenRasta.Hosting
         }
 
         public ICommunicationContext Context { get; set; }
-    }
-
-    public class IncomingRequestProcessedEventArgs : IncomingRequestEventArgs
-    {
-        public IncomingRequestProcessedEventArgs(ICommunicationContext context)
-            : base(context)
-        {
-        }
-    }
-
-    public class IncomingRequestReceivedEventArgs : IncomingRequestEventArgs
-    {
-        public IncomingRequestReceivedEventArgs(ICommunicationContext context)
-            : base(context)
-        {
-        }
     }
 }

@@ -1,10 +1,13 @@
 namespace OpenRasta.DI.Internal
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
 
     using OpenRasta.Contracts.Diagnostics;
-    using OpenRasta.Diagnostics;
+
+    #endregion
 
     public class ResolveContext
     {

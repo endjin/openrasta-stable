@@ -1,9 +1,13 @@
 namespace OpenRasta.DI.Internal
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
 
     using OpenRasta.Collections;
+
+    #endregion
 
     public class SingletonLifetimeManager : DependencyLifetimeManager
     {
