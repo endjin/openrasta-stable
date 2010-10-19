@@ -1,14 +1,3 @@
-#region License
-
-/* Authors:
- *      Sebastien Lambla (seb@serialseb.com)
- * Copyright:
- *      (C) 2007-2009 Caffeine IT & naughtyProd Ltd (http://www.caffeine-it.com)
- * License:
- *      This file is distributed under the terms of the MIT License found at the end of this file.
- */
-#endregion
-
 // Digest Authentication implementation
 //  Inspired by mono's implenetation, rewritten for OpenRasta.
 // Original authors:
