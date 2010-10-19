@@ -14,6 +14,9 @@ namespace OpenRasta.Web.UriDecorators
     using System.Text.RegularExpressions;
 
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Handlers;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Contracts.Web.UriDecorators;
     using OpenRasta.Handlers;
 
     public class PathSegmentAsParameterUriDecorator : IUriDecorator

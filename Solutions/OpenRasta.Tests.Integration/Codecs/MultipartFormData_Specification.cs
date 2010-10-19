@@ -14,14 +14,15 @@ using System.Linq;
 using System.Net;
 using NUnit.Framework;
 using OpenRasta.Configuration;
-using OpenRasta.Configuration.Fluent;
-
 using OpenRasta.Tests.Integration;
 using OpenRasta.Web;
 
 namespace MultipartFormData_Specification
 {
+    using OpenRasta.Configuration.Fluent;
     using OpenRasta.Testing.Specifications;
+
+    using HasExtensions = OpenRasta.Configuration.Extensions.HasExtensions;
 
     // integration tests trying the whole system.
     public class when_the_request_contains_a_multipart_form_data_entity : server_context
@@ -40,7 +41,7 @@ Content-Disposition: form-data; name=""dateofbirth""
 
         public when_the_request_contains_a_multipart_form_data_entity()
         {
-            ConfigureServer(() => ResourceSpace.Has.ResourcesOfType<Customer>()
+            ConfigureServer(() => HasExtensions.ResourcesOfType<Customer>(ResourceSpace.Has)
                                       .AtUri("/")
                                       .And
                                       .AtUri("/multipart").Named("PostMultipart")

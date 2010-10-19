@@ -4,8 +4,10 @@ namespace OpenRasta.Testing.Hosting.TestRunner.Infrastructure
     using System.Linq;
     using System.Text;
 
+    using OpenRasta.Authentication;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
-    using OpenRasta.Security;
     using OpenRasta.Web;
 
     public static class RequestExtensions

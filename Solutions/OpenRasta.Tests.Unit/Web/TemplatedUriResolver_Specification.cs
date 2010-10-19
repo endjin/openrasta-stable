@@ -20,6 +20,8 @@ using OpenRasta.Web;
 
 namespace TemplatedUriResolver_Specification
 {
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Extensions;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
@@ -137,7 +139,9 @@ namespace TemplatedUriResolver_Specification
     }
     namespace context
     {
+        using OpenRasta.Contracts.Web;
         using OpenRasta.Testing.Specifications;
+        using OpenRasta.Web.UriTemplates;
 
         public class templated_uri_resolver_context : context
         {

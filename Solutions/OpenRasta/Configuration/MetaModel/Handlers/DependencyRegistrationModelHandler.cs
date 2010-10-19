@@ -2,6 +2,7 @@
 {
     using System.Linq;
 
+    using OpenRasta.Contracts.DI;
     using OpenRasta.DI;
 
     public class DependencyRegistrationMetaModelHandler : AbstractMetaModelHandler

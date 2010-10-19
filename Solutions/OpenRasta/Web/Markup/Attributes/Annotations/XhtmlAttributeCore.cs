@@ -13,6 +13,8 @@ namespace OpenRasta.Web.Markup.Attributes.Annotations
     using System;
     using System.Reflection;
 
+    using OpenRasta.Contracts.Web.Markup.Attributes;
+
     [AttributeUsage(AttributeTargets.Property, AllowMultiple = false, Inherited = true)]
     public abstract class XhtmlAttributeCore : Attribute
     {

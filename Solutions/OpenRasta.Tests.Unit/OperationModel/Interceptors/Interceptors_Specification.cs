@@ -12,6 +12,9 @@ using OpenRasta.Tests.Unit.OperationModel.MethodBased;
 
 namespace OpenRasta.Tests.Unit.OperationModel.Interceptors
 {
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.OperationModel.Interceptors;
+    using OpenRasta.Exceptions;
     using OpenRasta.Testing.Specifications;
 
     public class when_getting_interceptors_for_an_operation : interceptors_context<HandlerWithInterceptors>

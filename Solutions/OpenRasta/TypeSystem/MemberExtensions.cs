@@ -2,6 +2,8 @@ namespace OpenRasta.TypeSystem
 {
     using System;
 
+    using OpenRasta.Contracts.TypeSystem;
+
     public static class MemberExtensions
     {
         public static bool IsAssignableTo<T>(this IMember member)

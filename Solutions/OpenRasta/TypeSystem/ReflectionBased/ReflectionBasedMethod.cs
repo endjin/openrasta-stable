@@ -4,6 +4,9 @@ namespace OpenRasta.TypeSystem.ReflectionBased
     using System.Linq;
     using System.Reflection;
 
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Extensions;
+
     public class ReflectionBasedMethod : IMethod
     {
         private readonly MethodInfo methodInfo;

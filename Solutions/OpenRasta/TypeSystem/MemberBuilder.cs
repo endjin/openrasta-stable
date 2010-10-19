@@ -5,6 +5,7 @@ namespace OpenRasta.TypeSystem
     using System.Linq;
 
     using OpenRasta.Binding;
+    using OpenRasta.Contracts.TypeSystem;
 
     public abstract class MemberBuilder : IMemberBuilder
     {

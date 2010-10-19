@@ -14,8 +14,13 @@ namespace OpenRasta.DI
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.DI.Internal;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
+    using OpenRasta.Extensions;
     using OpenRasta.Pipeline;
 
     public abstract class DependencyLifetimeManager

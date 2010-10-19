@@ -13,6 +13,7 @@ namespace OpenRasta.DI.Ninject.Tests.Unit
 {
     using NUnit.Framework;
 
+    using OpenRasta.Contracts.DI;
     using OpenRasta.Testing.Framework.DI;
 
     [TestFixture]

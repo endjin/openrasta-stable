@@ -10,6 +10,9 @@
 
 namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
     using OpenRasta.Web;
 
     /// <summary>

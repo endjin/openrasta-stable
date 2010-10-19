@@ -11,6 +11,7 @@ using OpenRasta.Web.Markup.Modules;
 namespace StyleSheetModule_Specifications
 {
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.Web.Markup.Extensions;
 
     public class when_setting_media : markup_element_context<IStyleElement>
     {

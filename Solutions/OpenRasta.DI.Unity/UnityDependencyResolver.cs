@@ -7,6 +7,9 @@ using System.Diagnostics;
 
 namespace OpenRasta.DI.Unity
 {
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Pipeline;
+
     /// <summary>
     /// Adapts the Unity DI container for use with OpenRasta.
     /// </summary>

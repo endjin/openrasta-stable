@@ -16,6 +16,8 @@ namespace OpenRasta.Web.Markup.Elements
     using System.Collections.Generic;
     using System.Xml;
 
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Contracts.Web.Markup.Modules;
     using OpenRasta.Web.Markup.Attributes;
     using OpenRasta.Web.Markup.Modules;
 

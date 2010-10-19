@@ -6,9 +6,18 @@ namespace OpenRasta.Codecs
     using System.Linq;
 
     using OpenRasta.Binding;
+    using OpenRasta.Codecs.Extensions;
     using OpenRasta.Collections;
+    using OpenRasta.Collections.Specialized;
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
     using OpenRasta.OperationModel.Hydrators.Diagnostics;
     using OpenRasta.Pipeline;

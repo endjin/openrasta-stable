@@ -5,6 +5,8 @@ using OpenRasta;
 
 namespace OpenRasta.Authentication.Digest
 {
+    using OpenRasta.Extensions;
+
     public enum DigestAlgorithm
     {
         MD5

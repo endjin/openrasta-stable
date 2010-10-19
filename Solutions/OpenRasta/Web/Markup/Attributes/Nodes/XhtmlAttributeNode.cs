@@ -12,6 +12,8 @@ namespace OpenRasta.Web.Markup.Attributes.Nodes
 {
     using System;
 
+    using OpenRasta.Contracts.Web.Markup.Attributes;
+
     public class XhtmlAttributeNode<T> : IAttribute<T>
     {
         private Func<string, T> reader;

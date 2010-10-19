@@ -3,6 +3,10 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Authentication.Digest
 {
+    using OpenRasta.Contracts.Authentication;
+    using OpenRasta.Contracts.Authentication.Digest;
+    using OpenRasta.Contracts.Web;
+
     public class DigestAuthenticationScheme : IAuthenticationScheme
     {
         private readonly IDigestAuthenticator _digestAuthenticator;

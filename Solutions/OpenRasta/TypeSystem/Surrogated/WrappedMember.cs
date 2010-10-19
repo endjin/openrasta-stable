@@ -3,6 +3,9 @@ namespace OpenRasta.TypeSystem.Surrogated
     using System;
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.TypeSystem.Surrogated;
+
     public abstract class WrappedMember : IMember, IHasWrappedMember
     {
         private readonly IMember wrapped;

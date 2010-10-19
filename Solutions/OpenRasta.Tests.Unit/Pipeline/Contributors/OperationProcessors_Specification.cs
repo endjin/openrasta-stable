@@ -11,6 +11,9 @@ using OperationCreationContributor_Specification;
 
 namespace OpenRasta.Tests.Unit.Web.Pipeline.Contributors
 {
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.Pipeline;
+
     namespace CodecSelector
     {
         using OpenRasta.Testing.Specifications;

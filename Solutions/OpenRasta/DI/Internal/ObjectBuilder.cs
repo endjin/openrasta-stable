@@ -5,7 +5,10 @@ namespace OpenRasta.DI.Internal
     using System.Reflection;
     using System.Text;
 
+    using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
+    using OpenRasta.Extensions;
 
     public class ObjectBuilder
     {

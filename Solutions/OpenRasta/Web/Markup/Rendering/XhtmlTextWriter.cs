@@ -14,6 +14,10 @@ namespace OpenRasta.Web.Markup.Rendering
     using System.IO;
     using System.Text;
 
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Contracts.Web.Markup.Rendering;
+    using OpenRasta.Extensions;
+
     public class XhtmlTextWriter : IXhtmlWriter, ISupportsTextWriter
     {
         private const string TagAttr = " {0}=\"{1}\"";

@@ -6,8 +6,16 @@
     using System.Reflection;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Codecs.Extensions;
+    using OpenRasta.Contracts;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
     using OpenRasta.OperationModel.Hydrators.Diagnostics;
     using OpenRasta.TypeSystem.ReflectionBased;
     using OpenRasta.Web;

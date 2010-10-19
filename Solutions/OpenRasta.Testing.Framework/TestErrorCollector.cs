@@ -2,7 +2,9 @@ namespace OpenRasta.Testing.Framework
 {
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
 
     public class TestErrorCollector : IErrorCollector
     {

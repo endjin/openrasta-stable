@@ -2,6 +2,8 @@ namespace OpenRasta.TypeSystem.ReflectionBased
 {
     using System.Reflection;
 
+    using OpenRasta.Contracts.TypeSystem;
+
     public class ReflectionBasedParameter : ReflectionBasedMember<IParameterBuilder>, IParameter
     {
         private readonly ReflectionBasedMethod ownerMethod;

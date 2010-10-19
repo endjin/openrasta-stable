@@ -3,6 +3,7 @@ namespace OpenRasta.DI.Internal
     using System;
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Diagnostics;
 
     public class ResolveContext

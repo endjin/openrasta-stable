@@ -24,6 +24,12 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Codecs.WebForms
 {
+    using OpenRasta.Codecs.Attributes;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Extensions;
+
     [MediaType("application/xhtml+xml;q=0.9", "xhtml")]
     [MediaType("text/html", "html")]
     [MediaType("application/vnd.openrasta.htmlfragment+xml;q=0.5")]

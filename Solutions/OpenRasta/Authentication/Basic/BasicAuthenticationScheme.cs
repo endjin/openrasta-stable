@@ -1,5 +1,9 @@
 ﻿namespace OpenRasta.Authentication.Basic
 {
+    using OpenRasta.Contracts.Authentication;
+    using OpenRasta.Contracts.Authentication.Basic;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Extensions;
     using OpenRasta.Web;
 
     public class BasicAuthenticationScheme : IAuthenticationScheme

@@ -13,6 +13,9 @@ namespace OpenRasta.DI
     using System;
     using System.Collections.Generic;
 
+    using OpenRasta.Exceptions;
+    using OpenRasta.Extensions;
+
     public abstract class DependencyResolverCore
     {
         public void AddDependency(Type serviceType, Type concreteType, DependencyLifetime lifetime)

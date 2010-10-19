@@ -12,6 +12,7 @@ namespace OpenRasta.Pipeline.InMemory
 {
     using System.IO;
 
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     public class TextWriterEnabledEntity : HttpEntity, ISupportsTextWriter

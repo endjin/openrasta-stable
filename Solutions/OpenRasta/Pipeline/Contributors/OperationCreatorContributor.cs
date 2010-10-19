@@ -3,6 +3,10 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Diagnostics;
     using OpenRasta.OperationModel;
     using OpenRasta.Pipeline;

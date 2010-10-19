@@ -21,6 +21,8 @@ using OpenRasta.Pipeline;
 
 namespace OpenRasta.DI.Ninject
 {
+    using OpenRasta.Contracts.Pipeline;
+
     /// <summary>
     /// A Ninject provider that resolves/caches instances on a OpenRasta PerRequest basis
     /// using <see cref="IContextStore"/>.

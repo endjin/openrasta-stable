@@ -3,6 +3,7 @@ namespace OpenRasta.Codecs.SharpView.Visitors
     using System;
     using System.Linq.Expressions;
 
+    using OpenRasta.Contracts.Web.Markup;
     using OpenRasta.Web.Markup;
     using OpenRasta.Web.Markup.Elements;
 

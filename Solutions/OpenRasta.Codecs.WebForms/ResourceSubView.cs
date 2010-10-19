@@ -21,6 +21,12 @@ using XhtmlTextWriter = OpenRasta.Web.Markup.Rendering.XhtmlTextWriter;
 
 namespace OpenRasta.Codecs.WebForms
 {
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Contracts.Web.Markup.Modules;
+    using OpenRasta.Exceptions;
+    using OpenRasta.Web.Markup.Extensions;
+
     public class ResourceSubView : UserControl, IXhtmlAnchorSite
     {
         XhtmlAnchor _xhtmlAnchor;

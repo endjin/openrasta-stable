@@ -17,6 +17,9 @@ using OpenRasta.Web.Markup.Modules;
 
 namespace OpenRasta.Codecs.SharpView
 {
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Contracts.Web.Markup.Modules;
+
     public abstract class SharpViewElement : Element, IContentModel
     {
         protected Expression<Func<IElement>> Root { get; set; }

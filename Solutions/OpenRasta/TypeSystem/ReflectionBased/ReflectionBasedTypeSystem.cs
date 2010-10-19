@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Threading;
 
+    using OpenRasta.Contracts.TypeSystem;
+
     public class ReflectionBasedTypeSystem : ITypeSystem
     {
         private static readonly IDictionary<Type, IType> Cache = new Dictionary<Type, IType>();

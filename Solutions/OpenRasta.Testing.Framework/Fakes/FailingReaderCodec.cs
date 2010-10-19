@@ -13,6 +13,9 @@ namespace OpenRasta.Testing.Framework.Fakes
     using System;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.TypeSystem;
     using OpenRasta.Web;
 

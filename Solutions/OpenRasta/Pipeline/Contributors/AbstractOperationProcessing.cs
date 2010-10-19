@@ -4,7 +4,12 @@ namespace OpenRasta.Pipeline.Contributors
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
+    using OpenRasta.Extensions;
     using OpenRasta.OperationModel;
     using OpenRasta.Web;
 

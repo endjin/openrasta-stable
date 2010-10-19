@@ -14,6 +14,8 @@ using OpenRasta.Pipeline;
 
 namespace OpenRasta.DI.Ninject
 {
+    using OpenRasta.Contracts.Pipeline;
+
     /// <summary>
     /// A class to clean items out of the <see cref="IContextStore"/>.
     /// </summary>

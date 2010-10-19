@@ -1,7 +1,5 @@
-namespace OpenRasta.Web.Markup.Attributes
+namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
-    using OpenRasta.Web.Markup.Attributes.Annotations;
-
     public class CharsetsAttribute : NMTOKENSAttribute
     {
         public CharsetsAttribute()

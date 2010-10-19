@@ -16,6 +16,12 @@ namespace OpenRasta.Codecs
     using System.Reflection;
 
     using OpenRasta.Binding;
+    using OpenRasta.Codecs.Attributes;
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.TypeSystem;
     using OpenRasta.Web;

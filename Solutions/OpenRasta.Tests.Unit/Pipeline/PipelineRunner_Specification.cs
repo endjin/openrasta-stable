@@ -23,6 +23,9 @@ using OpenRasta.Pipeline;
 
 namespace PipelineRunner_Specification
 {
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
     using OpenRasta.Testing.Specifications;
 
     public class when_creating_the_pipeline : pipelinerunner_context

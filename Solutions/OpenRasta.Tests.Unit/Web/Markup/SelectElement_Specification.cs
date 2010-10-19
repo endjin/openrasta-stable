@@ -19,7 +19,9 @@ using OpenRasta.Web.Markup.Modules;
 
 namespace SelectElement_Specification
 {
+    using OpenRasta.Contracts.Web.Markup;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.Web.Markup.Extensions;
 
     public class when_the_property_returns_a_value_for_enumerations : markup_element_context<ISelectElement>
     {

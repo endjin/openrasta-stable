@@ -18,13 +18,16 @@ using System.Web.UI;
 using OpenRasta.Collections.Specialized;
 using OpenRasta.DI;
 using OpenRasta.Hosting.InMemory;
-using OpenRasta.Pipeline;
 using OpenRasta.Pipeline.InMemory;
 using OpenRasta.Web;
 using OpenRasta.Web.Markup;
 
 namespace OpenRasta.Codecs.WebForms
 {
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Contracts.Web.Markup;
+
     public static class XHtmlProducer
     {
         public static void RenderResource(this IXhtmlAnchor anchor, object resource)

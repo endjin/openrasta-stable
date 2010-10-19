@@ -5,6 +5,7 @@
     using System.Linq;
 
     using OpenRasta.Configuration.MetaModel.Handlers;
+    using OpenRasta.Contracts.DI;
     using OpenRasta.DI;
 
     public class MetaModelRepository : IMetaModelRepository

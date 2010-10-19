@@ -2,8 +2,10 @@
 {
     using System;
 
+    using OpenRasta.Authentication;
+    using OpenRasta.Authentication.Digest;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Hosting.InMemory;
-    using OpenRasta.Security;
     using OpenRasta.Testing.Hosting.TestRunner.Infrastructure;
     using OpenRasta.Web;
 
@@ -51,7 +53,7 @@
             {
                 var responseDigest = DigestHeader.Parse(response.Headers["WWW-Authenticate"]);
 
-                var header = new OpenRasta.Security.DigestHeader(responseDigest)
+                var header = new DigestHeader(responseDigest)
                 {
                     Username = request.Credentials.Username,
                     Password = request.Credentials.Password,

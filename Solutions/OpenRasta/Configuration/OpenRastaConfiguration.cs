@@ -16,6 +16,7 @@ namespace OpenRasta.Configuration
 
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.DI;
+    using OpenRasta.Exceptions;
 
     public static class OpenRastaConfiguration
     {

@@ -4,6 +4,9 @@ namespace OpenRasta.Hosting.HttpListener
     using System.Collections.Generic;
     using System.Net;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Hosting;
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.DI;
     using OpenRasta.Pipeline;
 

@@ -58,6 +58,7 @@ namespace given_an_authentication_contributor
 
     namespace _and_scheme
     {
+        using OpenRasta.Contracts.Authentication;
 
         public abstract class _and_scheme : given_an_authentication_contributor
         {

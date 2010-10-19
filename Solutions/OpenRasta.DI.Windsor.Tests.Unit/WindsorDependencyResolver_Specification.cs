@@ -18,6 +18,7 @@ using OpenRasta.DI.Windsor;
 
 namespace WindsorDependencyResolver_Specification
 {
+    using OpenRasta.Contracts.DI;
     using OpenRasta.Testing.Framework.DI;
 
     [TestFixture]

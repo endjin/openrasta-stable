@@ -20,8 +20,10 @@ using OpenRasta.Web.Markup;
 
 namespace XhtmlDOM_Specification
 {
+    using OpenRasta.Contracts.Web.Markup.Attributes;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.Web.Markup.Attributes.Nodes;
+    using OpenRasta.Web.Markup.Extensions;
     using OpenRasta.Web.Markup.Modules;
 
     public class when_creating_list_of_attributes : context

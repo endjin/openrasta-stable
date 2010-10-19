@@ -6,6 +6,7 @@ using OpenRasta.Hosting.HttpListener;
 
 namespace OpenRasta.Tests.Integration.Regressions
 {
+    using OpenRasta.Contracts.DI;
     using OpenRasta.Testing.Specifications;
 
     public class when_httplistenerhost_resolveraccessor_is_accessed_multiple_times : context

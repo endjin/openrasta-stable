@@ -5,6 +5,7 @@ namespace OpenRasta.TypeSystem.Surrogated
     using System.Diagnostics;
 
     using OpenRasta.Binding;
+    using OpenRasta.Contracts.TypeSystem;
 
     [DebuggerDisplay("{global::OpenRasta.TypeSystem.DebuggerStrings.Property(_property)}")]
     public class WrappedProperty : WrappedMember, IProperty

@@ -15,7 +15,11 @@ namespace OpenRasta.Web
     using System.IO;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
 
     public interface IMultipartHttpEntity : IHttpEntity
     {

@@ -12,6 +12,9 @@ namespace OpenRasta.DI
 {
     using System;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Exceptions;
+
     public static class DependencyResolverExtensions
     {
         /// <summary>

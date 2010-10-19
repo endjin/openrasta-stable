@@ -4,6 +4,8 @@ using OpenRasta.DI.Unity.Extensions.Policies;
 
 namespace OpenRasta.DI.Unity.Extensions.Strategies
 {
+    using OpenRasta.Exceptions;
+
     /// <summary>
     /// Detects cycles in the current build operation by watching for repeated build keys.
     /// </summary>

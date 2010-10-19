@@ -10,7 +10,15 @@ namespace OpenRasta.Testing.Framework
     using System.Text;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Codecs.Framework;
     using OpenRasta.Collections;
+    using OpenRasta.Contracts;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Handlers;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
     using OpenRasta.Handlers;

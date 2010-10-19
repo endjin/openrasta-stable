@@ -12,6 +12,10 @@
 namespace OpenRasta.Codecs
 {
     using OpenRasta.Binding;
+    using OpenRasta.Codecs.Attributes;
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     [MediaType("application/x-www-form-urlencoded;q=0.5")]

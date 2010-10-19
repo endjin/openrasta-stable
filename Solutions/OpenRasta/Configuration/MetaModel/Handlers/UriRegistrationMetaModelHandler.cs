@@ -1,5 +1,6 @@
 namespace OpenRasta.Configuration.MetaModel.Handlers
 {
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     public class UriRegistrationMetaModelHandler : AbstractMetaModelHandler

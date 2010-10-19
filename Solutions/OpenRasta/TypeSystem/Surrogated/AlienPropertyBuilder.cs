@@ -2,7 +2,9 @@ namespace OpenRasta.TypeSystem.Surrogated
 {
     using System;
 
-    using OpenRasta.TypeSystem.Surrogates;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.TypeSystem.Surrogated;
+    using OpenRasta.Contracts.TypeSystem.Surrogates;
 
     public class AlienPropertyBuilder : PropertyBuilder
     {

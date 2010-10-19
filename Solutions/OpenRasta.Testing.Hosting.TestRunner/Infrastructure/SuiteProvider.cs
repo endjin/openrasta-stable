@@ -9,7 +9,8 @@
     using NUnit.Core.Extensibility;
     using NUnit.Framework;
 
-    using OpenRasta.Security;
+    using OpenRasta.Authentication;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Testing.Hosting.TestRunner.Environments;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.Web;

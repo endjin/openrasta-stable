@@ -18,6 +18,8 @@ namespace OpenRasta.Testing.Framework
     #region Using Directives
 
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Hosting;
     using OpenRasta.Hosting.InMemory;

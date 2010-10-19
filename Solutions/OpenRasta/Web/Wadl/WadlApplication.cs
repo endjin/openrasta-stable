@@ -8,7 +8,7 @@
  */
 #endregion
 
-namespace OpenRasta.Web.Configuration.Wadl
+namespace OpenRasta.Web.Wadl
 {
     using System.Collections.ObjectModel;
 

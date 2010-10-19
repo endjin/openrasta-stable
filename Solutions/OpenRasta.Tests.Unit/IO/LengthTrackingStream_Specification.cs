@@ -17,6 +17,7 @@ using OpenRasta.IO;
 
 namespace LengthTrackingStream_Specification
 {
+    using OpenRasta.Extensions;
     using OpenRasta.Testing.Specifications;
 
     public class when_writing_to_a_non_seekable_stream : context

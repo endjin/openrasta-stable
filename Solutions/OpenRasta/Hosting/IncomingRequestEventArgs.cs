@@ -2,6 +2,7 @@ namespace OpenRasta.Hosting
 {
     using System;
 
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     public abstract class IncomingRequestEventArgs : EventArgs

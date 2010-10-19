@@ -23,6 +23,10 @@ using OpenRasta.Pipeline;
 
 namespace ResponseEntityWriter_Specification
 {
+    using OpenRasta.Codecs.Framework;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Extensions;
     using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;

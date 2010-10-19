@@ -13,6 +13,7 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Unit.OperationModel.CodecSelectors
 {
+    using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 

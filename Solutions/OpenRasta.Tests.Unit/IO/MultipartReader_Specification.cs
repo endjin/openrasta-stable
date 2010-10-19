@@ -17,6 +17,7 @@ using OpenRasta.Web;
 
 namespace MultipartReader_Specification
 {
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Testing.Specifications;
 
     public class when_parsing_a_multipart_related_content_type : context

@@ -1,5 +1,8 @@
 namespace OpenRasta.Diagnostics
 {
+    using OpenRasta.Contracts;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
     using OpenRasta.Web;
 
     public class OperationContextErrorCollector : IErrorCollector

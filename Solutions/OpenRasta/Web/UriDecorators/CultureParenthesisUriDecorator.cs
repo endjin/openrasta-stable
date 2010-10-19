@@ -12,6 +12,9 @@ namespace OpenRasta.Web.UriDecorators
 {
     using System;
 
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Contracts.Web.UriDecorators;
+
     public class CultureParenthesisUriDecorator : IUriDecorator
     {
         private ICommunicationContext context;

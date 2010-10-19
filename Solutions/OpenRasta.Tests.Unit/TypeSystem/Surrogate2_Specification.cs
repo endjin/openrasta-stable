@@ -4,12 +4,13 @@ using NUnit.Framework;
 using OpenRasta.TypeSystem;
 using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRasta.TypeSystem.Surrogated;
-using OpenRasta.TypeSystem.Surrogates;
-using OpenRasta.TypeSystem.Surrogates.Static;
 
 namespace OpenRasta.Tests.Unit.TypeSystem
 {
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.TypeSystem.Surrogates;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.TypeSystem.Surrogates;
 
     public class when_using_type_properties : context
     {

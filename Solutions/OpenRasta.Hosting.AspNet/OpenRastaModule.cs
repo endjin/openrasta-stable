@@ -15,8 +15,12 @@ namespace OpenRasta.Hosting.AspNet
     using System.Web;
     using System.Web.Hosting;
 
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Extensions;
     using OpenRasta.Pipeline;
     using OpenRasta.Web;
 

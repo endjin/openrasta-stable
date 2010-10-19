@@ -2,6 +2,8 @@ namespace OpenRasta.DI.Internal
 {
     using System.Linq;
 
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Exceptions;
     using OpenRasta.Pipeline;
 
     public class PerRequestLifetimeManager : DependencyLifetimeManager

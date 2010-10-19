@@ -20,6 +20,9 @@ namespace OpenRasta.Tests.Unit.Codecs.CodecRepository
     using NUnit.Framework;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Codecs.Framework;
+    using OpenRasta.Codecs.Text.plain;
+    using OpenRasta.Contracts.IO;
     using OpenRasta.IO;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;

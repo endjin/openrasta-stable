@@ -19,6 +19,7 @@ namespace OpenRasta.Tests.Unit.Codecs.MultipartFormDataCodec
 
     using NUnit.Framework;
 
+    using OpenRasta.Contracts.IO;
     using OpenRasta.IO;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.Tests.Unit.Codecs.MediaTypeDictionary;

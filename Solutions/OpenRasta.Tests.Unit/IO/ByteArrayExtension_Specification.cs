@@ -15,6 +15,7 @@ using OpenRasta.IO;
 
 namespace ByteArrayExtension_Specification
 {
+    using OpenRasta.Extensions;
     using OpenRasta.Testing.Specifications;
 
     public class when_matching_byte_sequences : context

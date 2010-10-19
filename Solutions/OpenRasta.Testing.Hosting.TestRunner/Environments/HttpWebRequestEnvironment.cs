@@ -3,6 +3,7 @@ namespace OpenRasta.Testing.Hosting.TestRunner.Environments
     using System;
     using System.Net;
 
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Testing.Hosting.TestRunner.Infrastructure;
     using OpenRasta.Web;
 

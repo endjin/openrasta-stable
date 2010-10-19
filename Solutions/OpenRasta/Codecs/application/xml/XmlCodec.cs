@@ -8,12 +8,13 @@
  */
 #endregion
 
-namespace OpenRasta.Codecs
+namespace OpenRasta.Codecs.Application.xml
 {
     using System.Xml;
 
-    using OpenRasta.TypeSystem;
-    using OpenRasta.Web;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
 
     public abstract class XmlCodec : IMediaTypeReader, IMediaTypeWriter
     {

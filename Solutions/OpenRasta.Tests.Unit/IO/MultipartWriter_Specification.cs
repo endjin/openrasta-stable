@@ -17,6 +17,7 @@ using OpenRasta.Web;
 
 namespace MultipartWriter_Specification
 {
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Testing.Specifications;
 
     public class when_writing_a_multipart : context

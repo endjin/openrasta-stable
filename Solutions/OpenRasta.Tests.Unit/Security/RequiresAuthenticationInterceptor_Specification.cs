@@ -5,12 +5,12 @@ using Moq;
 using NUnit.Framework;
 using OpenRasta.Hosting.InMemory;
 using OpenRasta.OperationModel;
-using OpenRasta.Security;
-
 using OpenRasta.Web;
 
 namespace RequiresAuthenticationInterceptor_Specification
 {
+    using OpenRasta.Authentication;
+    using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Testing.Specifications;
 
     public class when_the_user_is_not_authenticated : context

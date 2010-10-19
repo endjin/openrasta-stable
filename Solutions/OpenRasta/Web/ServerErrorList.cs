@@ -3,7 +3,9 @@ namespace OpenRasta.Web
     using System;
     using System.Collections.ObjectModel;
 
+    using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
 
     public class ServerErrorList : Collection<Error>
     {

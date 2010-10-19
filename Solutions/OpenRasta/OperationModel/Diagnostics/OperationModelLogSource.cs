@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Diagnostics;
 
     [LogCategory("openrasta.operationmodel")]

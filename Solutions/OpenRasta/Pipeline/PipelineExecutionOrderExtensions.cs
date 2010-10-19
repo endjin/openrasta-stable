@@ -1,5 +1,7 @@
 namespace OpenRasta.Pipeline
 {
+    using OpenRasta.Contracts.Pipeline;
+
     public static class PipelineExecutionOrderExtensions
     {
         public static IPipelineExecutionOrderAnd After<TContributor>(this IPipelineExecutionOrder pipeline) 

@@ -14,6 +14,9 @@ namespace OpenRasta.Web
     using System.Collections.Generic;
 
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
+    using OpenRasta.Extensions;
 
     public abstract class OperationResult
     {

@@ -16,6 +16,10 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Hosting.AspNet
 {
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
+
     public class AspNetResponse : IResponse
     {
         public AspNetResponse(HttpContext context)

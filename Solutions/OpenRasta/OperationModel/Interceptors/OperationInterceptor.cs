@@ -3,6 +3,9 @@ namespace OpenRasta.OperationModel.Interceptors
     using System;
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.OperationModel.Interceptors;
+
     public abstract class OperationInterceptor : IOperationInterceptor
     {
         public virtual bool AfterExecute(IOperation operation, IEnumerable<OutputMember> outputMembers)

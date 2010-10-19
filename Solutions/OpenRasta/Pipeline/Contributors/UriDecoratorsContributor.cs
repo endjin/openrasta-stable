@@ -14,6 +14,10 @@ namespace OpenRasta.Pipeline.Contributors
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Contracts.Web.UriDecorators;
     using OpenRasta.DI;
     using OpenRasta.Web;
     using OpenRasta.Web.UriDecorators;

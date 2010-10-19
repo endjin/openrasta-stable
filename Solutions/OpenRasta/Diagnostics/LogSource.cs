@@ -2,6 +2,8 @@ using OpenRasta.TypeSystem.ReflectionBased;
 
 namespace OpenRasta.Diagnostics
 {
+    using OpenRasta.Contracts.Diagnostics;
+
     public static class LogSource<T> where T : ILogSource
     {
         private static string category;

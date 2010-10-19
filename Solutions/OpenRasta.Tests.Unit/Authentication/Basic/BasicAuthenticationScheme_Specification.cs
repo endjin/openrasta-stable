@@ -23,6 +23,7 @@ namespace OpenRasta.Tests.Unit.Authentication.Basic
 
     using OpenRasta.Authentication;
     using OpenRasta.Authentication.Basic;
+    using OpenRasta.Contracts.Authentication.Basic;
     using OpenRasta.Hosting.InMemory;
     using OpenRasta.Testing.Specifications;
 

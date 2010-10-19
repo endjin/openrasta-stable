@@ -10,6 +10,7 @@ using OpenRasta.Web.Markup.Modules;
 
 namespace IIframeModule_Specification
 {
+    using OpenRasta.Contracts.Web.Markup;
     using OpenRasta.Testing.Specifications;
 
     public class when_setting_frameborder : markup_element_context<IIFrameElement>

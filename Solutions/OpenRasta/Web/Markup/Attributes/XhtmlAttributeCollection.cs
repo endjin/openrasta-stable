@@ -15,6 +15,7 @@ namespace OpenRasta.Web.Markup.Attributes
     using System.Collections.Generic;
 
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Web.Markup.Attributes;
     using OpenRasta.Web.Markup.Attributes.Nodes;
 
     public class XhtmlAttributeCollection : IAttributeCollection

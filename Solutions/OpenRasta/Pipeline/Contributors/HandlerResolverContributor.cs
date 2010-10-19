@@ -14,6 +14,10 @@ namespace OpenRasta.Pipeline.Contributors
 {
     using System.Linq;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Handlers;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Handlers;
     using OpenRasta.Web;

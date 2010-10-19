@@ -13,8 +13,14 @@ namespace OpenRasta.Pipeline.Contributors
     using System.Linq;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
+    using OpenRasta.Extensions;
     using OpenRasta.Web;
 
     public class ResponseEntityWriterContributor : KnownStages.IResponseCoding

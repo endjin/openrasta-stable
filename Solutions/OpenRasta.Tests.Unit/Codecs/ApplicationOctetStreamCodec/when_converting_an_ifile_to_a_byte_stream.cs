@@ -22,6 +22,10 @@ namespace OpenRasta.Tests.Unit.Codecs.ApplicationOctetStreamCodec
     using NUnit.Framework;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.IO;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.Tests.Unit.Codecs.MediaTypeDictionary;

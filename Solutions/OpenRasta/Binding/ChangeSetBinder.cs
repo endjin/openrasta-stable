@@ -12,6 +12,7 @@ namespace OpenRasta.Binding
 {
     using System;
 
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Data;
     using OpenRasta.TypeSystem;
 

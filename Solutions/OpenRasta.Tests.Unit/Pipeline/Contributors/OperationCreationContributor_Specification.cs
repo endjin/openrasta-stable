@@ -17,6 +17,9 @@ using OpenRasta.Pipeline;
 
 namespace OperationCreationContributor_Specification
 {
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;

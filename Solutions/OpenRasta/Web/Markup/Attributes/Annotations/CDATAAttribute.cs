@@ -14,6 +14,7 @@ namespace OpenRasta.Web.Markup.Attributes.Annotations
 {
     using System;
 
+    using OpenRasta.Contracts.Web.Markup.Attributes;
     using OpenRasta.Web.Markup.Attributes.Nodes;
 
     public class CDATAAttribute : XhtmlAttributeCore

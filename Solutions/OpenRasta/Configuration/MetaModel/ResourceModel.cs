@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.TypeSystem;
 
     public class ResourceModel

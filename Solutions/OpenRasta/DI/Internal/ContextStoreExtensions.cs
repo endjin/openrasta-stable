@@ -2,6 +2,7 @@ namespace OpenRasta.DI.Internal
 {
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Pipeline;
 
     public static class ContextStoreExtensions

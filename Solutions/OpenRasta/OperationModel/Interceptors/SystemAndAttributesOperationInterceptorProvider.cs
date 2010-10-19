@@ -3,6 +3,9 @@ namespace OpenRasta.OperationModel.Interceptors
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.OperationModel.Interceptors;
     using OpenRasta.DI;
 
     public class SystemAndAttributesOperationInterceptorProvider : IOperationInterceptorProvider

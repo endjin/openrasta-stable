@@ -1,5 +1,7 @@
 ﻿namespace OpenRasta.Pipeline
 {
+    using OpenRasta.Contracts.Pipeline;
+
     /// <summary>
     /// Contains all the known stages 
     /// </summary>

@@ -4,6 +4,7 @@
 
     using System.Text;
 
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
     using OpenRasta.Web;
 

@@ -4,6 +4,7 @@ namespace OpenRasta.DI.Internal
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Pipeline;
 
     public class DependencyRegistrationCollection : IContextStoreDependencyCleaner

@@ -16,7 +16,9 @@ using OpenRasta.Web.Markup.Elements;
 
 namespace ElementExtensions_Specification
 {
+    using OpenRasta.Contracts.Web.Markup;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.Web.Markup.Extensions;
     using OpenRasta.Web.Markup.Modules;
 
     public class when_setting_the_id_property : context

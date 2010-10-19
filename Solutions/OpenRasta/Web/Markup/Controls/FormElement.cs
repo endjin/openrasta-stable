@@ -8,11 +8,12 @@
  */
 #endregion
 
-namespace OpenRasta.Web.Markup
+namespace OpenRasta.Web.Markup.Controls
 {
     using System;
 
     using OpenRasta.Collections;
+    using OpenRasta.Extensions;
     using OpenRasta.Web.Markup.Elements;
     using OpenRasta.Web.Markup.Modules;
     using OpenRasta.Web.UriDecorators;

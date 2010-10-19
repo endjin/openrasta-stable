@@ -23,6 +23,9 @@ namespace OpenRasta.Tests.Unit.Codecs.CodecRepository
     using NUnit.Framework;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Codecs.Framework;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.TypeSystem;
     using OpenRasta.Web;

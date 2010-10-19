@@ -12,6 +12,8 @@ namespace OpenRasta.Pipeline
 {
     using System;
 
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     public class ContributorCall

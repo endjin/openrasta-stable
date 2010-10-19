@@ -4,8 +4,10 @@ namespace OpenRasta.TypeSystem.Surrogated
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.TypeSystem.Surrogates;
     using OpenRasta.DI;
-    using OpenRasta.TypeSystem.Surrogates;
 
     public class SurrogateBuilderProvider : ISurrogateProvider
     {

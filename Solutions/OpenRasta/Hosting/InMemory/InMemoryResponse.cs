@@ -12,6 +12,7 @@ namespace OpenRasta.Hosting.InMemory
 {
     using System.IO;
 
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     public class InMemoryResponse : IResponse

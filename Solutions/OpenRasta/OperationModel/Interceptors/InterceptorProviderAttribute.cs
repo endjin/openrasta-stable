@@ -13,6 +13,9 @@ namespace OpenRasta.OperationModel.Interceptors
     using System;
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.OperationModel.Interceptors;
+
     public abstract class InterceptorProviderAttribute : Attribute, IOperationInterceptorProvider
     {
         public abstract IEnumerable<IOperationInterceptor> GetInterceptors(IOperation operation);

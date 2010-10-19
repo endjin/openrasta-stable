@@ -13,10 +13,12 @@ using OpenRasta.OperationModel.Hydrators.Diagnostics;
 using OpenRasta.Tests.Unit.OperationModel.Filters;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
-using OpenRasta.Web.Codecs;
 
 namespace OpenRasta.Tests.Unit.OperationModel.Hydrators
 {
+    using OpenRasta.Codecs.Framework;
+    using OpenRasta.Codecs.Xml;
+    using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 

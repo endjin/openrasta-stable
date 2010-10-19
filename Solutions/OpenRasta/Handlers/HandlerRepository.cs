@@ -5,6 +5,8 @@ namespace OpenRasta.Handlers
     using System.Linq;
 
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Handlers;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.TypeSystem;
 
     public class HandlerRepository : IHandlerRepository

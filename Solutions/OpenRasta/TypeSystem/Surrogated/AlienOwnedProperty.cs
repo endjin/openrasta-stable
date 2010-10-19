@@ -5,7 +5,8 @@ namespace OpenRasta.TypeSystem.Surrogated
     using System.Diagnostics;
 
     using OpenRasta.Binding;
-    using OpenRasta.TypeSystem.Surrogates;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.TypeSystem.Surrogates;
 
     /// <summary>
     /// Represents a property defined on an alien object.

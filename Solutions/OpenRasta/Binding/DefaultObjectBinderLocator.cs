@@ -13,6 +13,9 @@ namespace OpenRasta.Binding
     using System;
     using System.Linq;
 
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Diagnostics;
     using OpenRasta.TypeSystem;
 

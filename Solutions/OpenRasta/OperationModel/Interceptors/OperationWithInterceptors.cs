@@ -4,6 +4,11 @@
     using System.Collections;
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.OperationModel.Interceptors;
+    using OpenRasta.Exceptions;
+    using OpenRasta.Extensions;
+
     public class OperationWithInterceptors : IOperation
     {
         private readonly IEnumerable<IOperationInterceptor> interceptors;

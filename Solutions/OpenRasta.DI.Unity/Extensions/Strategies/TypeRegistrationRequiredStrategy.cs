@@ -3,6 +3,8 @@ using OpenRasta.DI.Unity.Extensions.Policies;
 
 namespace OpenRasta.DI.Unity.Extensions.Strategies
 {
+    using OpenRasta.Exceptions;
+
     /// <summary>
     /// Makes sure that any types being built are actually registered in the container.
     /// </summary>

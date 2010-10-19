@@ -16,6 +16,9 @@ namespace OpenRasta.Web.Markup
     using System.Reflection;
 
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Contracts.Web.Markup.Attributes;
+    using OpenRasta.Contracts.Web.Markup.Modules;
     using OpenRasta.Web.Markup.Attributes;
     using OpenRasta.Web.Markup.Attributes.Annotations;
     using OpenRasta.Web.Markup.Elements;

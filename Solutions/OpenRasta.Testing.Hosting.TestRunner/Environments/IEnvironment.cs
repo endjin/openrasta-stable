@@ -2,6 +2,7 @@ namespace OpenRasta.Testing.Hosting.TestRunner.Environments
 {
     using System;
 
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Testing.Hosting.TestRunner.Infrastructure;
     using OpenRasta.Web;
 

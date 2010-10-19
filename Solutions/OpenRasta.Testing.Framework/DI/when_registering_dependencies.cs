@@ -7,6 +7,7 @@
     using NUnit.Framework;
 
     using OpenRasta.DI;
+    using OpenRasta.Exceptions;
     using OpenRasta.Testing.Framework.MockTypes;
     using OpenRasta.Testing.Specifications;
 

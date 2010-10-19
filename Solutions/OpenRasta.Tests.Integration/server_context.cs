@@ -26,6 +26,7 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Integration
 {
+    using OpenRasta.Contracts.DI;
     using OpenRasta.Testing.Specifications;
 
     public abstract class server_context : context

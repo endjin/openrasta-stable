@@ -12,6 +12,8 @@
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_iframemodule
 namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Contracts.Web.Markup.Attributes;
     using OpenRasta.Web.Markup.Attributes;
     using OpenRasta.Web.Markup.Attributes.Annotations;
 

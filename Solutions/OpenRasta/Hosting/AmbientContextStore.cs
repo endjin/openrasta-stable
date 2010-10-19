@@ -1,5 +1,6 @@
 ﻿namespace OpenRasta.Hosting
 {
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Pipeline;
 
     public class AmbientContextStore : IContextStore

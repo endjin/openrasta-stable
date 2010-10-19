@@ -8,18 +8,23 @@
  */
 #endregion
 
-using System;
-using System.Collections.Specialized;
-using System.Globalization;
-using Moq;
-using NUnit.Framework;
-using OpenRasta.DI;
-using OpenRasta.Web;
-
 namespace IUriResolverExtensions_Specification
 {
+    using System;
+    using System.Collections.Specialized;
+    using System.Globalization;
+
+    using Moq;
+
+    using NUnit.Framework;
+
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.DI;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.Web;
+    using OpenRasta.Web.UriTemplates;
 
     public class templated_uri_resolver : context
     {

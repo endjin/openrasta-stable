@@ -10,6 +10,8 @@
 
 namespace OpenRasta.Diagnostics
 {
+    using OpenRasta.Contracts.Diagnostics;
+
     public static class LoggerExtensions
     {
         public static ILogger Safe(this ILogger logger)

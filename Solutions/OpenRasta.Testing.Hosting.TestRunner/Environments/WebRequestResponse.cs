@@ -6,6 +6,9 @@ namespace OpenRasta.Testing.Hosting.TestRunner.Environments
 
     using OpenRasta;
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
     using OpenRasta.Web;
 
     public class WebRequestResponse : IResponse, IHttpEntity

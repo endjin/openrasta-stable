@@ -1,6 +1,8 @@
 ﻿namespace OpenRasta.Testing.Hosting.TestRunner.Environments
 {
     using OpenRasta.Configuration;
+    using OpenRasta.Contracts.Configuration;
+    using OpenRasta.Contracts.DI;
     using OpenRasta.DI;
     using OpenRasta.Hosting.HttpListener;
 

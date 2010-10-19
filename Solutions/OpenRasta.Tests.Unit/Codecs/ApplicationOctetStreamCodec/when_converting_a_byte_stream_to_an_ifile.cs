@@ -19,6 +19,7 @@ namespace OpenRasta.Tests.Unit.Codecs.ApplicationOctetStreamCodec
 
     using NUnit.Framework;
 
+    using OpenRasta.Contracts.IO;
     using OpenRasta.IO;
     using OpenRasta.Testing.Specifications;
 

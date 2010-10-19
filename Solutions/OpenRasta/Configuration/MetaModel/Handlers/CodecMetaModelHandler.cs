@@ -3,7 +3,12 @@ namespace OpenRasta.Configuration.MetaModel.Handlers
     using System.Linq;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Codecs.Attributes;
+    using OpenRasta.Codecs.Framework;
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Exceptions;
     using OpenRasta.TypeSystem;
 
     public class CodecMetaModelHandler : AbstractMetaModelHandler

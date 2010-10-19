@@ -2,6 +2,8 @@ namespace OpenRasta.TypeSystem
 {
     using System.Linq;
 
+    using OpenRasta.Contracts.TypeSystem;
+
     public static class PropertyExtensions
     {
         public static IProperty FindPropertyByPath(this IMember source, string propertyName)

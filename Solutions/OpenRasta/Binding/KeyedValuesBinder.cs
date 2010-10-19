@@ -13,6 +13,8 @@ namespace OpenRasta.Binding
     using System;
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.TypeSystem;
 
     public class KeyedValuesBinder : IObjectBinder

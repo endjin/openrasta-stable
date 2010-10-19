@@ -10,14 +10,15 @@
 
 // Structure module
 // http://www.w3.org/TR/xhtml-modularization/abstract_modules.html#s_structuremodule
-namespace OpenRasta.Web.Markup.Elements
+namespace OpenRasta.Web.Markup.Modules
 {
     using System;
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.Web.Markup.Attributes;
+    using OpenRasta.Contracts.Web.Markup.Modules;
     using OpenRasta.Web.Markup.Attributes;
     using OpenRasta.Web.Markup.Attributes.Annotations;
-    using OpenRasta.Web.Markup.Modules;
 
     /// <summary>
     /// Represents the &lt;html&gt; element.

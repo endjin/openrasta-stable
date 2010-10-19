@@ -8,12 +8,14 @@
  */
 #endregion
 
-namespace OpenRasta.Web.Configuration.Wadl
+namespace OpenRasta.Web.Wadl
 {
     using System;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Handlers;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
-    using OpenRasta.Handlers;
 
     public class WadlHandler
     {

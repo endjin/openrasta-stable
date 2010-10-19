@@ -6,6 +6,8 @@ namespace OpenRasta.TypeSystem.ReflectionBased
     using System.Reflection;
     using System.Threading;
 
+    using OpenRasta.Contracts.TypeSystem;
+
     public abstract class ReflectionBasedMember<T> : IMember
         where T : IMemberBuilder
     {

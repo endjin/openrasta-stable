@@ -14,6 +14,8 @@ using OpenRasta.Web;
 
 namespace Authentication_Specification
 {
+    using OpenRasta.Contracts.Authentication;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 

@@ -15,7 +15,14 @@ namespace OpenRasta.Pipeline.Contributors
     using System.Linq;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Codecs.Framework;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Extensions;
     using OpenRasta.Pipeline;
     using OpenRasta.TypeSystem;
     using OpenRasta.Web;

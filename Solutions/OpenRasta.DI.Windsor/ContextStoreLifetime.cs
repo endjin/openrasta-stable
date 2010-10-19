@@ -6,6 +6,9 @@ using OpenRasta.Pipeline;
 
 namespace OpenRasta.DI.Windsor
 {
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Exceptions;
+
     public class ContextStoreLifetime : AbstractLifestyleManager, IContextStoreDependencyCleaner
     {
         bool _isRegisteredForCleanup;

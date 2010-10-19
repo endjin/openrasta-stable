@@ -5,9 +5,10 @@
 
     using NUnit.Framework;
 
-    using OpenRasta.Configuration;
+    using OpenRasta.Configuration.Extensions;
+    using OpenRasta.Configuration.Fluent;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Hosting.AspNet.Tests.Integration;
-    
     using OpenRasta.Testing.Specifications;
     using OpenRasta.Web;
 
@@ -40,7 +41,7 @@
     {
         public when_accessing_a_uri_meant_for_a_handler()
         {
-            ConfigureServer(() => ResourceSpace.Has.ResourcesOfType<Customer>()
+            ConfigureServer(() => HasExtensions.ResourcesOfType<Customer>(ResourceSpace.Has)
                                       .AtUri("/customer/{customerId}")
                                       .HandledBy<CustomerHandler>());
         }
@@ -59,7 +60,7 @@
     {
         public when_accessing_an_unmapped_uri()
         {
-            ConfigureServer(() => ResourceSpace.Has.ResourcesOfType<Customer>()
+            ConfigureServer(() => HasExtensions.ResourcesOfType<Customer>(ResourceSpace.Has)
                                       .AtUri("/customer/{customerId}")
                                       .HandledBy<CustomerHandler>());
         }

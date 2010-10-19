@@ -6,9 +6,12 @@ namespace OpenRasta.Testing.Framework
 
     using OpenRasta.Configuration;
     using OpenRasta.Configuration.Fluent;
+    using OpenRasta.Contracts.Configuration.Fluent;
     using OpenRasta.DI;
     using OpenRasta.Hosting.InMemory;
     using OpenRasta.Testing.Specifications;
+
+    using HasExtensions = OpenRasta.Configuration.Extensions.HasExtensions;
 
     #endregion
 
@@ -54,7 +57,7 @@ namespace OpenRasta.Testing.Framework
 
         public IUriDefinition GivenAResourceRegistrationFor<TResource>(string uri)
         {
-            var resourcetype = ResourceSpace.Has.ResourcesOfType<TResource>();
+            var resourcetype = HasExtensions.ResourcesOfType<TResource>(ResourceSpace.Has);
 
             return resourcetype.AtUri(uri);
         }

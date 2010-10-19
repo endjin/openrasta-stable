@@ -11,6 +11,9 @@
 namespace OpenRasta.Web.Markup.Rendering
 {
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Contracts.Web.Markup.Attributes;
+    using OpenRasta.Contracts.Web.Markup.Rendering;
     using OpenRasta.Web.Markup.Attributes;
     using OpenRasta.Web.Markup.Elements;
 

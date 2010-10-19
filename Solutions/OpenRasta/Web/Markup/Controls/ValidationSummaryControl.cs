@@ -14,6 +14,8 @@ namespace OpenRasta.Web.Markup.Controls
     using System.Linq;
 
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Exceptions;
     using OpenRasta.Web.Markup.Elements;
 
     public class ValidationSummaryControl : Element

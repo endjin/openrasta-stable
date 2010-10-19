@@ -12,6 +12,7 @@ using OpenRasta.Web.UriDecorators;
 
 namespace OpenRasta.Tests.Unit.Web.UriDecorators
 {
+    using OpenRasta.Codecs.Application.xml;
     using OpenRasta.Testing.Framework.MockTypes;
     using OpenRasta.Testing.Specifications;
 
@@ -37,6 +38,8 @@ namespace OpenRasta.Tests.Unit.Web.UriDecorators
     }
     namespace context
     {
+        using OpenRasta.Codecs.Framework;
+        using OpenRasta.Contracts.TypeSystem;
         using OpenRasta.Testing.Framework;
 
         public class content_type_extension : openrasta_context

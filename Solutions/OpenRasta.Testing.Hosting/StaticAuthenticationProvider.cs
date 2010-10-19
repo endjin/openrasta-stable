@@ -1,6 +1,7 @@
 namespace OpenRasta.Testing.Hosting
 {
-    using OpenRasta.Security;
+    using OpenRasta.Authentication;
+    using OpenRasta.Contracts.Authentication;
 
     public class StaticAuthenticationProvider : IAuthenticationProvider
     {

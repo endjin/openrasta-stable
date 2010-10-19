@@ -9,7 +9,10 @@
 
     using OpenRasta.Binding;
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.TypeSystem;

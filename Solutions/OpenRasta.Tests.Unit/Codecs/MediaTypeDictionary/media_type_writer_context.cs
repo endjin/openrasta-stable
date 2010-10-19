@@ -16,6 +16,8 @@
 namespace OpenRasta.Tests.Unit.Codecs.MediaTypeDictionary
 {
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Testing.Framework;
     using OpenRasta.Web;
 

@@ -15,6 +15,8 @@ namespace OpenRasta.TypeSystem.ReflectionBased
     using System.Diagnostics;
 
     using OpenRasta.Binding;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.DI;
 
     /// <summary>

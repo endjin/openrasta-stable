@@ -5,6 +5,10 @@
 
     using OpenRasta.Binding;
     using OpenRasta.Codecs;
+    using OpenRasta.Collections.Specialized;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.TypeSystem;
     using OpenRasta.Web;
 

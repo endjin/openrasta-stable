@@ -11,10 +11,12 @@
 namespace OpenRasta.Testing.Framework.Fakes
 {
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Web;
 
     public class CustomerWriterCodec : Codec, IMediaTypeWriter
     {
-        public void WriteTo(object entity, OpenRasta.Web.IHttpEntity response, string[] codecParameters) { }
+        public void WriteTo(object entity, IHttpEntity response, string[] codecParameters) { }
     }
 }
 

@@ -12,8 +12,10 @@ namespace OpenRasta.Hosting.AspNet
 {
     using System.Web;
 
+    using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Extensions;
 
     public class OpenRastaHandler : IHttpHandlerFactory
     {

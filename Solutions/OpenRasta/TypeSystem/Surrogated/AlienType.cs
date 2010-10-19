@@ -5,6 +5,7 @@ namespace OpenRasta.TypeSystem.Surrogated
     using System.Diagnostics;
 
     using OpenRasta.Binding;
+    using OpenRasta.Contracts.TypeSystem;
 
     [DebuggerDisplay("Name={OriginalNativeType.Name}, Alien={OriginalAlienType.Name}")]
     public class AlienType : AlienMember, IType

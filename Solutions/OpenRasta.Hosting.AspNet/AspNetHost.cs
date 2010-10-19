@@ -9,8 +9,15 @@
     using System.Web.Compilation;
 
     using OpenRasta.Configuration;
+    using OpenRasta.Contracts.Configuration;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Hosting;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Extensions;
     using OpenRasta.Pipeline;
     using OpenRasta.Web;
 

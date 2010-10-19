@@ -16,6 +16,8 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Hosting.AspNet
 {
+    using OpenRasta.Contracts.Web;
+
     public class AspNetRequest : IRequest
     {
         string _httpMethod;

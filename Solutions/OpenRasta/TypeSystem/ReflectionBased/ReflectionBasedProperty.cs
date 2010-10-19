@@ -18,6 +18,7 @@ namespace OpenRasta.TypeSystem.ReflectionBased
     using System.Reflection;
 
     using OpenRasta.Binding;
+    using OpenRasta.Contracts.TypeSystem;
 
     [DebuggerDisplay("{global::OpenRasta.TypeSystem.DebuggerStrings.Property(this)}")]
     public class ReflectionBasedProperty : ReflectionBasedMember<IPropertyBuilder>, IProperty

@@ -8,12 +8,11 @@
  */
 #endregion
 
-namespace OpenRasta.Configuration
+namespace OpenRasta.Configuration.Fluent
 {
     using System.ComponentModel;
 
-    using OpenRasta.Configuration.Fluent;
-    using OpenRasta.Configuration.Fluent.Implementation;
+    using OpenRasta.Contracts.Configuration.Fluent;
 
     public static class ResourceSpace
     {

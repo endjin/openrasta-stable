@@ -10,6 +10,10 @@ namespace OpenRasta.Codecs
 
     using OpenRasta.Binding;
     using OpenRasta.Collections;
+    using OpenRasta.Collections.Specialized;
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Pipeline;
     using OpenRasta.TypeSystem;
     using OpenRasta.TypeSystem.ReflectionBased;

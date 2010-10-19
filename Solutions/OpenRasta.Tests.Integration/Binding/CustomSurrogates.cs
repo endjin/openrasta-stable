@@ -3,18 +3,15 @@ using System.Net;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.Configuration;
-using OpenRasta.Configuration.Fluent;
 using OpenRasta.DI;
-using OpenRasta.Security;
-
 using OpenRasta.Tests.Integration;
 using OpenRasta.TypeSystem;
-using OpenRasta.TypeSystem.Surrogates;
-using OpenRasta.TypeSystem.Surrogates.Static;
 using OpenRasta.Web;
 
 namespace Dynamic_surrogates
 {
+    using OpenRasta.TypeSystem.Surrogates;
+
     public class adding_custom_surrogate : context.surrogates_context
     {
 
@@ -39,6 +36,12 @@ namespace Dynamic_surrogates
 
     namespace context
     {
+        using OpenRasta.Configuration.Fluent;
+        using OpenRasta.Contracts.TypeSystem.Surrogates;
+
+        using HasExtensions = OpenRasta.Configuration.Extensions.HasExtensions;
+        using UsesExtensions = OpenRasta.Configuration.Extensions.UsesExtensions;
+
         public abstract class surrogates_context : server_context
         {
 
@@ -47,11 +50,11 @@ namespace Dynamic_surrogates
             ConfigureServer(() =>
             {
 
-                ResourceSpace.Has.ResourcesOfType<Customer>()
+                HasExtensions.ResourcesOfType<Customer>(ResourceSpace.Has)
                     .AtUri("/customer/{id}")
                     .HandledBy<Handler>();
 
-                ResourceSpace.Uses.CustomDependency<ISurrogateBuilder, MySurrogate>(DependencyLifetime.Transient);
+                UsesExtensions.CustomDependency<ISurrogateBuilder, MySurrogate>(ResourceSpace.Uses, DependencyLifetime.Transient);
             });
         }
         }

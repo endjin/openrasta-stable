@@ -5,8 +5,6 @@ using System.Linq;
 using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.Configuration;
-using OpenRasta.Configuration.Fluent;
-using OpenRasta.Configuration.Fluent.Implementation;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
 using OpenRasta.TypeSystem;
@@ -16,8 +14,17 @@ using OpenRasta.Web.UriDecorators;
 
 namespace Configuration_Specification
 {
+    using OpenRasta.Codecs.Framework;
+    using OpenRasta.Configuration.Extensions;
+    using OpenRasta.Configuration.Fluent;
+    using OpenRasta.Contracts.Configuration.Fluent;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Contracts.Web.UriDecorators;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.Web.UriTemplates;
 
     public class configuration_context : context
     {

@@ -12,6 +12,7 @@ using System.IO;
 using System.Linq;
 using NUnit.Framework;
 using OpenRasta.Collections;
+using OpenRasta.Extensions;
 using OpenRasta.Hosting.AspNet.Tests.Integration;
 using OpenRasta.IO;
 

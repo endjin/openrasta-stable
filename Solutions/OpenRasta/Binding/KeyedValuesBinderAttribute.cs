@@ -10,6 +10,8 @@
 
 namespace OpenRasta.Binding
 {
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.TypeSystem;
 
     public class KeyedValuesBinderAttribute : BinderAttribute

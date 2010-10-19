@@ -20,6 +20,7 @@ namespace OpenRasta.Tests.Unit.Codecs.JsonDataContractCodec
     using NUnit.Framework;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Codecs.Json;
     using OpenRasta.Hosting.InMemory;
     using OpenRasta.Testing.Specifications;
 

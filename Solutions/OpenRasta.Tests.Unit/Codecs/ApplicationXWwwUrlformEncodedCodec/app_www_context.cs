@@ -19,6 +19,7 @@ namespace OpenRasta.Tests.Unit.Codecs.ApplicationXWwwUrlformEncodedCodec
 
     using OpenRasta.Binding;
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Tests.Unit.Codecs.MediaTypeDictionary;
     using OpenRasta.Web;
 

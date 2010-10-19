@@ -5,6 +5,7 @@ namespace BoundaryStreamReader_Specification
 
     using NUnit.Framework;
 
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
     using OpenRasta.Testing.Specifications;
 

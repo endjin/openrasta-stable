@@ -21,6 +21,7 @@ namespace ExpressionTreeXHtmlProducer_Specification
 {
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.Web.Markup.Extensions;
 
     public class when_building_forms : context
     {

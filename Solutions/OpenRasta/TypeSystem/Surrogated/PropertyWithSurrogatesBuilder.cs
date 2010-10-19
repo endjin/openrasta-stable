@@ -3,7 +3,9 @@ namespace OpenRasta.TypeSystem.Surrogated
     using System.Collections.Generic;
     using System.Linq;
 
-    using OpenRasta.TypeSystem.Surrogates;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.TypeSystem.Surrogated;
+    using OpenRasta.Contracts.TypeSystem.Surrogates;
 
     public class PropertyWithSurrogatesBuilder : PropertyBuilder, IKeepSurrogateInstances
     {

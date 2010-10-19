@@ -1,6 +1,11 @@
 ﻿namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
+    using OpenRasta.Exceptions;
     using OpenRasta.OperationModel;
     using OpenRasta.OperationModel.Interceptors;
     using OpenRasta.Pipeline;

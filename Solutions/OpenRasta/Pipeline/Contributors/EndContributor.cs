@@ -2,6 +2,8 @@
 {
     using System.Linq;
 
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     public class EndContributor : KnownStages.IEnd

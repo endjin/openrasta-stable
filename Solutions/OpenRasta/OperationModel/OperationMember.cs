@@ -3,6 +3,9 @@ using OpenRasta.TypeSystem;
 
 namespace OpenRasta.OperationModel
 {
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.TypeSystem;
+
     public class OperationMember
     {
         public OperationMember(IMember member, IObjectBinder binder, bool isOptional)

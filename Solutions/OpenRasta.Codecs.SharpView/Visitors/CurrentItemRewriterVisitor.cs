@@ -12,7 +12,7 @@ namespace OpenRasta.Codecs.SharpView.Visitors
 {
     using System.Linq.Expressions;
 
-    using IQ;
+    using OpenRasta.Reflection;
 
     using ExpressionVisitor = OpenRasta.Reflection.ExpressionVisitor;
 

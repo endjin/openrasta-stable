@@ -19,7 +19,11 @@ using OpenRasta.Web.UriDecorators;
 
 namespace FormElement_Specification
 {
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Web.UriDecorators;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.Web.Markup.Controls;
+    using OpenRasta.Web.Markup.Extensions;
 
     public class when_generating_the_form_tag : markup_element_context<IFormElement>
     {

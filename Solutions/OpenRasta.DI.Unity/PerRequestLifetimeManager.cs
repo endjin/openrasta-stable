@@ -4,6 +4,10 @@ using OpenRasta.Pipeline;
 
 namespace OpenRasta.DI.Unity
 {
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Exceptions;
+
     /// <summary>
     /// This, combined with the context container management in <see cref="UnityDependencyResolver"/>,
     /// implements OpenRastas per request lifetime requirements.  One instance of this class is used

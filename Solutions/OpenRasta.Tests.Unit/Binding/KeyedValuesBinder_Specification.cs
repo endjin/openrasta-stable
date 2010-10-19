@@ -23,6 +23,7 @@ namespace OpenRasta.Tests.Unit.Binding
     using NUnit.Framework;
 
     using OpenRasta.Binding;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.TypeSystem;

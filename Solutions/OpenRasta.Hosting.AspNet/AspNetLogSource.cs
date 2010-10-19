@@ -2,6 +2,8 @@ using OpenRasta.Diagnostics;
 
 namespace OpenRasta.Hosting.AspNet
 {
+    using OpenRasta.Contracts.Diagnostics;
+
     [LogCategory("oppenrasta.aspnet")]
     public class AspNetLogSource : ILogSource
     {

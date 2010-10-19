@@ -8,13 +8,16 @@
  */
 #endregion
 
-namespace OpenRasta.Codecs
+namespace OpenRasta.Codecs.Text.plain
 {
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
 
-    using OpenRasta.TypeSystem;
+    using OpenRasta.Codecs.Attributes;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     // see rfc2616 for text/plain definition.

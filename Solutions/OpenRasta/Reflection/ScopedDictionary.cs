@@ -10,10 +10,10 @@
 // Copyright (c) Microsoft Corporation.  All rights reserved.
 // This source code is made available under the terms of the Microsoft Public License (MS-PL)
 
-namespace IQ
+namespace OpenRasta.Reflection
 {
     using System.Collections.Generic;
-    
+
     public class ScopedDictionary<TKey, TValue>
     {
         ScopedDictionary<TKey, TValue> previous;

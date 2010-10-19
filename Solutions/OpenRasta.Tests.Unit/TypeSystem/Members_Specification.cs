@@ -20,6 +20,7 @@ using OpenRasta.TypeSystem.ReflectionBased;
 
 namespace Accessors_Specification
 {
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 

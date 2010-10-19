@@ -14,6 +14,7 @@ namespace OpenRasta.Web
     using System.Collections.Generic;
     using System.Text;
 
+    using OpenRasta.Extensions;
     using OpenRasta.Text;
 
     public class ContentDispositionHeader : IEquatable<ContentDispositionHeader>

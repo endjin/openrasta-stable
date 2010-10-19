@@ -29,6 +29,10 @@ namespace OpenRasta.DI.Windsor
     using Castle.MicroKernel.Context;
     using Castle.MicroKernel.Registration;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Exceptions;
+
     public class WindsorDependencyResolver : DependencyResolverCore, IDependencyResolver
     {
         readonly IWindsorContainer _windsorContainer;

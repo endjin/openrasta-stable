@@ -25,9 +25,14 @@ namespace OpenRasta.Pipeline.Contributors
     using System.Linq;
     using System.Security.Principal;
 
+    using OpenRasta.Authentication;
+    using OpenRasta.Authentication.Digest;
+    using OpenRasta.Contracts.Authentication;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Pipeline;
-    using OpenRasta.Security;
     using OpenRasta.Web;
 
     public class DigestAuthorizerContributor : IPipelineContributor

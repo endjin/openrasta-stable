@@ -10,11 +10,12 @@
 
 using System;
 using OpenRasta.Codecs.WebForms;
-using OpenRasta.Configuration.Fluent;
 using OpenRasta.Web;
 
 namespace OpenRasta.Configuration
 {
+    using OpenRasta.Contracts.Configuration.Fluent;
+
     public static class WebFormsConfigurationExtensions
     {
         [Obsolete("The configuration syntax has changed. Update to RenderedByAspx or .And.RenderedByAspx instead.")]

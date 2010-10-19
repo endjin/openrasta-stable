@@ -1,5 +1,7 @@
 namespace OpenRasta.TypeSystem.Surrogated
 {
+    using OpenRasta.Contracts.TypeSystem;
+
     public abstract class AlienMember : WrappedMember
     {
         private readonly IMember realMember;

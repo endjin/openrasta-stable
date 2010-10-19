@@ -10,7 +10,11 @@
 
 namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Extensions;
     using OpenRasta.Web;
 
     public class OperationResultInvokerContributor : KnownStages.IOperationResultInvocation

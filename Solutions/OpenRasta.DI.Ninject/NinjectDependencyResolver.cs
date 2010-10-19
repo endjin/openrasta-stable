@@ -22,11 +22,18 @@ using Ninject.Selection;
 using Ninject.Selection.Heuristics;
 using OpenRasta.DI.Internal;
 using OpenRasta.Pipeline;
-using IPipeline=Ninject.Activation.IPipeline;
+
 using NinjectBinding = Ninject.Planning.Bindings.Binding;
 
 namespace OpenRasta.DI.Ninject
 {
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Exceptions;
+    using OpenRasta.Extensions;
+
+    using IPipeline = global::Ninject.Activation.IPipeline;
+
     /// <summary>
     /// A Ninject-based <see cref="IDependencyResolver"/>.
     /// </summary>

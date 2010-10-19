@@ -7,6 +7,7 @@
     using System.Web.Hosting;
 
     using OpenRasta.Configuration;
+    using OpenRasta.Contracts.Configuration;
 
     // Warning, this class will undergo massive refactorings sooner or later, don't rely on it.
     public class HttpListenerAspNetHost : MarshalByRefObject

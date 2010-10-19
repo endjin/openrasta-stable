@@ -1,5 +1,7 @@
 ﻿namespace OpenRasta.Tests.Unit.Codecs.MultipartFormDataCodec
 {
+    using OpenRasta.Extensions;
+
     public static class Scenarios
     {        
         public static string OneFieldOneFile = @"

@@ -9,7 +9,14 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Integration.Regressions
 {
+    using OpenRasta.Codecs.Attributes;
+    using OpenRasta.Configuration.Fluent;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Extensions;
     using OpenRasta.Testing.Specifications;
+
+    using HasExtensions = OpenRasta.Configuration.Extensions.HasExtensions;
 
     public class Handlers_not_selected_correctly : server_context
     {
@@ -17,12 +24,12 @@ namespace OpenRasta.Tests.Integration.Regressions
         {
             ConfigureServer(() =>
             {
-                ResourceSpace.Has.ResourcesOfType<SyndicationFeed>()
+                HasExtensions.ResourcesOfType<SyndicationFeed>(ResourceSpace.Has)
                     .AtUri("/news/since/{year}/{month}/{day}")
                     .HandledBy<ArticlesSinceHandler>()
                     .TranscodedBy<AtomFeedCodec>(null);
 
-                ResourceSpace.Has.ResourcesOfType<SyndicationItem>()
+                HasExtensions.ResourcesOfType<SyndicationItem>(ResourceSpace.Has)
                     .AtUri("/news/{id}")
                     .HandledBy<ArticleHandler>()
                     .TranscodedBy<AtomItemCodec>(null);

@@ -7,14 +7,15 @@ using System.Text;
 using System.Threading;
 using NUnit.Framework;
 using OpenRasta.Configuration;
-using OpenRasta.Configuration.Fluent;
-
 using OpenRasta.Tests.Integration;
 using OpenRasta.Web;
 
 namespace MultipleThreads_Specification
 {
+    using OpenRasta.Configuration.Fluent;
     using OpenRasta.Testing.Specifications;
+
+    using HasExtensions = OpenRasta.Configuration.Extensions.HasExtensions;
 
     [TestFixture]
     public class test_container : server_context
@@ -22,7 +23,7 @@ namespace MultipleThreads_Specification
         public test_container()
         {
             ConfigureServer(
-                () => ResourceSpace.Has.ResourcesOfType<Customer>().AtUri("/customers/{id}").HandledBy<CustomerHandler>()
+                () => HasExtensions.ResourcesOfType<Customer>(ResourceSpace.Has).AtUri("/customers/{id}").HandledBy<CustomerHandler>()
             );
         }
         [Test, RequiresMTA]

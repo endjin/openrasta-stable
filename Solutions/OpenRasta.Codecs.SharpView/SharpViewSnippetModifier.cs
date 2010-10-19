@@ -16,6 +16,9 @@ using OpenRasta.Web.Markup;
 
 namespace OpenRasta.Codecs.SharpView
 {
+    using OpenRasta.Contracts.CodeDom.Compiler;
+    using OpenRasta.Contracts.Web.Markup;
+
     public class SharpViewSnippetModifier : ICodeSnippetTextModifier
     {
         const string REWRITE_WITHOUT_LAMBDA = "(global::System.Linq.Expressions.Expression<global::System.Func<global::OpenRasta.Web.Markup.IElement>>)({0})";

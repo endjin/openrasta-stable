@@ -5,6 +5,7 @@
     using System.Collections.Generic;
 
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Pipeline;
 
     public class PipelineStage : IEnumerable<ContributorCall>
     {

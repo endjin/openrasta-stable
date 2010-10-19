@@ -2,6 +2,8 @@ namespace OpenRasta.Binding
 {
     using System;
 
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.DI;
     using OpenRasta.TypeSystem;
 

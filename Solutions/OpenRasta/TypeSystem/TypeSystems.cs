@@ -1,9 +1,10 @@
 namespace OpenRasta.TypeSystem
 {
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.TypeSystem.Surrogates;
     using OpenRasta.TypeSystem.ReflectionBased;
     using OpenRasta.TypeSystem.Surrogated;
     using OpenRasta.TypeSystem.Surrogates;
-    using OpenRasta.TypeSystem.Surrogates.Static;
 
     public static class TypeSystems
     {

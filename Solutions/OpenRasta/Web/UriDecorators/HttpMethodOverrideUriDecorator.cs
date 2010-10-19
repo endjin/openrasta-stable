@@ -13,6 +13,10 @@ namespace OpenRasta.Web.UriDecorators
     using System;
     using System.Text.RegularExpressions;
 
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Contracts.Web.UriDecorators;
+    using OpenRasta.Extensions;
+
     public class HttpMethodOverrideUriDecorator : IUriDecorator
     {
         private static readonly Regex SegmentRegex = new Regex("!(?<method>[a-zA-Z]+)", RegexOptions.Compiled);

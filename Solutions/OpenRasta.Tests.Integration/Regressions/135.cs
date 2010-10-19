@@ -7,7 +7,13 @@ using OpenRasta.Pipeline;
 
 namespace OpenRasta.Tests.Integration.Regressions
 {
+    using OpenRasta.Configuration.Extensions;
+    using OpenRasta.Configuration.Fluent;
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Testing.Specifications;
+
+    using UsesExtensions = OpenRasta.Configuration.Extensions.UsesExtensions;
+    using XmlConfigurationExtensions = OpenRasta.Configuration.Extensions.XmlConfigurationExtensions;
 
     public class when_pipeline_contributor_raises_exception_after_operation_executed : server_context
     {
@@ -18,11 +24,10 @@ namespace OpenRasta.Tests.Integration.Regressions
 
             ConfigureServer(() =>
             {
-                ResourceSpace.Uses.PipelineContributor<RecursiveContributor>();
-                ResourceSpace.Has.ResourcesOfType<string>()
-                    .AtUri("/news")
-                    .HandledBy<DefaultHandler>()
-                    .AsXmlDataContract();
+                UsesExtensions.PipelineContributor<RecursiveContributor>(ResourceSpace.Uses);
+                XmlConfigurationExtensions.AsXmlDataContract(ResourceSpace.Has.ResourcesOfType<string>()
+                        .AtUri("/news")
+                        .HandledBy<DefaultHandler>());
             });
         }
         [Test]

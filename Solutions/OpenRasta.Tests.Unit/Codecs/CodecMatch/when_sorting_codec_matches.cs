@@ -22,6 +22,7 @@ namespace OpenRasta.Tests.Unit.Codecs.CodecMatch
     using NUnit.Framework;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Codecs.Framework;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.TypeSystem;
     using OpenRasta.Web;

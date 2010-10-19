@@ -4,6 +4,7 @@ namespace OpenRasta.Hosting.HttpListener
     using System.Collections.Generic;
     using System.Globalization;
 
+    using OpenRasta.Contracts.Web;
     using OpenRasta.IO;
     using OpenRasta.Web;
 

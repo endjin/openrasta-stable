@@ -1,6 +1,6 @@
 namespace OpenRasta.Testing.Hosting.Handlers
 {
-    using OpenRasta.Security;
+    using OpenRasta.Authentication;
     using OpenRasta.Web;
 
     public class UserHandler

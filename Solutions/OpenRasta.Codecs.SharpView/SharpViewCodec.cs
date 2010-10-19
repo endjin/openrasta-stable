@@ -13,6 +13,9 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Codecs.SharpView
 {
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Web;
+
     public class SharpViewCodec : IMediaTypeWriter
     {
         public void WriteTo(object entity, IHttpEntity response, string[] codecParameters)

@@ -13,6 +13,7 @@ namespace OpenRasta.Hosting.AspNet
     using System.Runtime.Remoting.Messaging;
     using System.Web;
 
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Pipeline;
 
     public class AspNetContextStore : IContextStore

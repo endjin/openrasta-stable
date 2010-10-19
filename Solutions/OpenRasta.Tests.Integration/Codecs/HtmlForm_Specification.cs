@@ -19,14 +19,17 @@ using OpenRasta.Web;
 
 namespace HtmlForm_Specification
 {
+    using OpenRasta.Configuration.Fluent;
     using OpenRasta.Testing.Specifications;
+
+    using HasExtensions = OpenRasta.Configuration.Extensions.HasExtensions;
 
     [Serializable]
     public class when_receiving_an_entity_body : server_context
     {
         public when_receiving_an_entity_body()
         {
-            ConfigureServer(() => ResourceSpace.Has.ResourcesOfType<Customer>()
+            ConfigureServer(() => HasExtensions.ResourcesOfType<Customer>(ResourceSpace.Has)
                                       .AtUri("/flat/{id}").Named("Flat")
                                       .And.AtUri("/constructed/{id}").Named("Constructed")
                                       .HandledBy<CustomerHandler>());

@@ -16,6 +16,7 @@ namespace OpenRasta.TypeSystem
     using System.Linq;
 
     using OpenRasta.Binding;
+    using OpenRasta.Contracts.TypeSystem;
 
     public class TypeBuilder : MemberBuilder, ITypeBuilder
     {

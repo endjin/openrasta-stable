@@ -2,6 +2,8 @@ namespace OpenRasta.Web
 {
     using System.IO;
 
+    using OpenRasta.Contracts.IO;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.IO;
 
     public class HttpEntityFile : IFile

@@ -15,6 +15,8 @@ namespace OpenRasta.Web
     using System.IO;
     using System.Text;
 
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
 
     public class MultipartWriter : IDisposable

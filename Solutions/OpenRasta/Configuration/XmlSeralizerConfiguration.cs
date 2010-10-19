@@ -3,7 +3,8 @@ namespace OpenRasta.Configuration
     using System.Xml.Serialization;
 
     using OpenRasta.Codecs;
-    using OpenRasta.Configuration.Fluent;
+    using OpenRasta.Codecs.Application.xml;
+    using OpenRasta.Contracts.Configuration.Fluent;
 
     public static class XmlSeralizerConfiguration
     {

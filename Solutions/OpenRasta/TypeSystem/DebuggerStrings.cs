@@ -2,6 +2,9 @@ namespace OpenRasta.TypeSystem
 {
     using System.Linq;
 
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Extensions;
+
     public static class DebuggerStrings
     {
         public static string Property(IProperty property)

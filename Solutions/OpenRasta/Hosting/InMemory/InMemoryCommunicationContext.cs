@@ -14,6 +14,8 @@ namespace OpenRasta.Hosting.InMemory
     using System.Collections.Generic;
     using System.Security.Principal;
 
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
     using OpenRasta.Pipeline;
     using OpenRasta.Web;
 

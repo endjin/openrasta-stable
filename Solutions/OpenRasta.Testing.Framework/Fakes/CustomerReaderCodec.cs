@@ -11,11 +11,14 @@
 namespace OpenRasta.Testing.Framework.Fakes
 {
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.TypeSystem;
 
     public class CustomerReaderCodec : Codec, IMediaTypeReader
     {
-        public object ReadFrom(OpenRasta.Web.IHttpEntity request, IType destinationType, string destinationName) { return null; }
+        public object ReadFrom(IHttpEntity request, IType destinationType, string destinationName) { return null; }
     }
 }
 

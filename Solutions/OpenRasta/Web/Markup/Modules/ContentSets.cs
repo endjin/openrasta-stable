@@ -12,6 +12,8 @@
 
 namespace OpenRasta.Web.Markup.Modules
 {
+    using OpenRasta.Contracts.Web.Markup;
+
     /// <summary>
     /// <para>Represents the set of Inline elements.</para>
     /// <para>

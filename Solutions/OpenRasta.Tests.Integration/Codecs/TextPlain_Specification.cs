@@ -14,21 +14,22 @@ using System.Net;
 using System.Text;
 using NUnit.Framework;
 using OpenRasta.Configuration;
-using OpenRasta.Configuration.Fluent;
-
 using OpenRasta.Tests.Integration;
 using OpenRasta.Web;
 
 namespace TextPlain_Specification
 {
+    using OpenRasta.Configuration.Fluent;
     using OpenRasta.Testing.Specifications;
+
+    using HasExtensions = OpenRasta.Configuration.Extensions.HasExtensions;
 
     public class when_using_text_plain : server_context
     {
         public when_using_text_plain()
         {
             ConfigureServer(
-                () => ResourceSpace.Has.ResourcesOfType<Customer>().AtUri("/{customerId}").HandledBy<CustomerHandler>()
+                () => HasExtensions.ResourcesOfType<Customer>(ResourceSpace.Has).AtUri("/{customerId}").HandledBy<CustomerHandler>()
             );
         }
 

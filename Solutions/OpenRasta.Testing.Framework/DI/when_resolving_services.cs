@@ -17,6 +17,7 @@ namespace OpenRasta.Testing.Framework.DI
     using NUnit.Framework;
 
     using OpenRasta.DI;
+    using OpenRasta.Exceptions;
     using OpenRasta.Testing.Specifications;
 
     #endregion

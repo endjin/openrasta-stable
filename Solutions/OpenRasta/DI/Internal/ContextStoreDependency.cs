@@ -2,6 +2,7 @@ namespace OpenRasta.DI.Internal
 {
     using System;
 
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Pipeline;
 
     public class ContextStoreDependency

@@ -21,13 +21,17 @@ using OpenRasta.Web;
 
 namespace Json_Specification
 {
+    using OpenRasta.Codecs.Json;
+    using OpenRasta.Configuration.Fluent;
     using OpenRasta.Testing.Specifications;
+
+    using HasExtensions = OpenRasta.Configuration.Extensions.HasExtensions;
 
     public class when_sending_json_content : server_context
     {
         public when_sending_json_content()
         {
-            ConfigureServer(() => ResourceSpace.Has.ResourcesOfType<Customer>()
+            ConfigureServer(() => HasExtensions.ResourcesOfType<Customer>(ResourceSpace.Has)
                                       .AtUri("/customer/{id}")
                                       .HandledBy<CustomerHandler>()
                                       .TranscodedBy<JsonDataContractCodec>(null));

@@ -7,6 +7,10 @@ namespace OpenRasta.OperationModel.MethodBased
 
     using OpenRasta.Binding;
     using OpenRasta.Collections;
+    using OpenRasta.Contracts.Binding;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.DI;
     using OpenRasta.TypeSystem;
 

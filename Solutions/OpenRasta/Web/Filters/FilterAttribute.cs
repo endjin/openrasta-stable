@@ -8,11 +8,12 @@
  */
 #endregion
 
-namespace OpenRasta.Web
+namespace OpenRasta.Web.Filters
 {
-    using OpenRasta.Pipeline;
-
     using System;
+
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Pipeline;
 
     [AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
     public class FilterAttribute : Attribute

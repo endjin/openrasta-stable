@@ -14,8 +14,10 @@ namespace OpenRasta.IO
     using System.IO;
     using System.Text;
 
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.IO.Diagnostics;
     using OpenRasta.Diagnostics;
-    using OpenRasta.IO.Diagnostics;
+    using OpenRasta.Extensions;
 
     public class BoundaryStreamReader
     {

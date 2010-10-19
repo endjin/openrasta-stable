@@ -13,6 +13,9 @@ namespace OpenRasta.Diagnostics
     using System;
     using System.Diagnostics;
 
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Extensions;
+
     public class TraceSourceLogger<T> : TraceSourceLogger, ILogger<T> where T : ILogSource
     {
         public TraceSourceLogger() : base(new TraceSource(LogSource<T>.Category))

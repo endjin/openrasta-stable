@@ -8,6 +8,9 @@ using OpenRasta.Web.Markup;
 
 namespace OpenRasta.Codecs.SharpView.Visitors
 {
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Extensions;
+
     public class ForEachRewriter
     {
         public ForEachRewriter(int scopeLevel, Expression iterator)

@@ -17,6 +17,8 @@ using OpenRasta.Web.Markup;
 
 namespace FormElement_Specification
 {
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Contracts.Web.Markup;
     using OpenRasta.Testing.Framework;
 
     public class markup_element_context<TMarkupElement> : openrasta_context

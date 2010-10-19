@@ -17,8 +17,14 @@ namespace OpenRasta.Pipeline
     using System.Text;
 
     using OpenRasta.Collections.Specialized;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
+    using OpenRasta.Extensions;
     using OpenRasta.Pipeline.Diagnostics;
     using OpenRasta.Web;
 

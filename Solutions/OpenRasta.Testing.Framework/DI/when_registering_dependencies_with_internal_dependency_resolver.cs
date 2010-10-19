@@ -4,6 +4,7 @@
 
     using NUnit.Framework;
 
+    using OpenRasta.Contracts.DI;
     using OpenRasta.DI;
 
     #endregion

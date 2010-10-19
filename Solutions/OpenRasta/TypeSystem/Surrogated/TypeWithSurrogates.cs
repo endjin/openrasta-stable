@@ -4,6 +4,7 @@ namespace OpenRasta.TypeSystem.Surrogated
     using System.Diagnostics;
 
     using OpenRasta.Binding;
+    using OpenRasta.Contracts.TypeSystem;
 
     [DebuggerDisplay("Name={_wrappedType.Name}, FullName={_wrappedType.TargetType.ToString()}")]
     public class TypeWithSurrogates : MemberWithSurrogates, IType

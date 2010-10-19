@@ -14,6 +14,8 @@ using OpenRasta.Web.Markup;
 
 namespace OpenRasta.Codecs.SharpView
 {
+    using OpenRasta.Contracts.Web.Markup;
+
     public static class XhtmlAnchorSiteExtensions
     {
         public static object SharpView(this IXhtmlAnchorSite site, Expression<Func<IElement>> element)

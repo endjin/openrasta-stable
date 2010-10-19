@@ -10,6 +10,8 @@
 
 namespace OpenRasta.Web.Markup.Elements
 {
+    using OpenRasta.Contracts.Web.Markup;
+
     public class TextNode : ITextNode
     {
         public TextNode(string content)

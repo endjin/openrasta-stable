@@ -19,6 +19,7 @@ namespace OpenRasta.Hosting.AspNet.Tests.Integration
                 .Matches("GET", new Uri("http://localhost/", UriKind.Absolute))
                 .ShouldBeTrue();
         }
+
         [Test]
         public void an_http_verb_is_matched()
         {
@@ -26,6 +27,7 @@ namespace OpenRasta.Hosting.AspNet.Tests.Integration
                 .Matches("POST", new Uri("http://localhost"))
                 .ShouldBeTrue();
         }
+        
         [Test]
         public void another_http_verb_is_not_matched()
         {
@@ -33,8 +35,8 @@ namespace OpenRasta.Hosting.AspNet.Tests.Integration
                 .Matches("PUT", new Uri("http://localhost"))
                 .ShouldBeFalse();
         }
-
     }
+
     [TestFixture]
     public class when_matching_paths
     {

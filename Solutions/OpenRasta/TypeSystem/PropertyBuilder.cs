@@ -15,6 +15,7 @@ namespace OpenRasta.TypeSystem
     using System.Linq;
 
     using OpenRasta.Binding;
+    using OpenRasta.Contracts.TypeSystem;
 
     public class PropertyBuilder : MemberBuilder, IPropertyBuilder
     {

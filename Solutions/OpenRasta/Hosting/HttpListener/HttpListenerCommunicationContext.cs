@@ -5,6 +5,10 @@ namespace OpenRasta.Hosting.HttpListener
     using System.Net;
     using System.Security.Principal;
 
+    using OpenRasta.Contracts.Hosting;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
+    using OpenRasta.Extensions;
     using OpenRasta.Pipeline;
     using OpenRasta.Web;
 

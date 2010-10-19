@@ -1,5 +1,6 @@
 ﻿namespace OpenRasta.Diagnostics
 {
+    using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Testing.Specifications;
 
     using NUnit.Framework;

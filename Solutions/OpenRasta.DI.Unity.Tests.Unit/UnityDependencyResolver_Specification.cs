@@ -10,6 +10,8 @@ using OpenRasta.DI.Unity.Extensions;
 
 namespace UnityDependencyResolver_Specification
 {
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Exceptions;
     using OpenRasta.Testing.Framework.DI;
     using OpenRasta.Testing.Specifications;
 

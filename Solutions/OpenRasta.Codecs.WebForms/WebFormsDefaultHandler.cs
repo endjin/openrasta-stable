@@ -16,6 +16,10 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Codecs.WebForms
 {
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
+
     public class WebFormsDefaultHandler
     {
         readonly ICommunicationContext _context;

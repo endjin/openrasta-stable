@@ -14,6 +14,7 @@ namespace OpenRasta.IO
     using System.IO;
     using System.Text;
 
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     public class BoundaryStreamWriter

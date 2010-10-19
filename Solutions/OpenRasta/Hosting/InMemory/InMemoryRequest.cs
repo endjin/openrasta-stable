@@ -15,6 +15,7 @@ namespace OpenRasta.Hosting.InMemory
     using System.Globalization;
     using System.IO;
 
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
 
     public class InMemoryRequest : IRequest

@@ -6,14 +6,17 @@ using System.Xml;
 using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.Configuration;
-using OpenRasta.Configuration.Fluent;
 using OpenRasta.Data;
 
 using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Integration.Regressions
 {
+    using OpenRasta.Configuration.Extensions;
+    using OpenRasta.Configuration.Fluent;
     using OpenRasta.Testing.Specifications;
+
+    using XmlConfigurationExtensions = OpenRasta.Configuration.Extensions.XmlConfigurationExtensions;
 
     public class changeset_not_hydrated_properly : server_context
     {
@@ -21,10 +24,9 @@ namespace OpenRasta.Tests.Integration.Regressions
         {
             ConfigureServer(() =>
             {
-                ResourceSpace.Has.ResourcesOfType<Product>()
-                    .AtUri("/products/{name}")
-                    .HandledBy<ProductHandler>()
-                    .AsXmlDataContract();
+                XmlConfigurationExtensions.AsXmlDataContract(ResourceSpace.Has.ResourcesOfType<Product>()
+                        .AtUri("/products/{name}")
+                        .HandledBy<ProductHandler>());
             });
         }
 

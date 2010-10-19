@@ -1,5 +1,8 @@
 namespace OpenRasta.Pipeline.Contributors
 {
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.DI;
     using OpenRasta.OperationModel;
 

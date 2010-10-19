@@ -14,6 +14,9 @@ namespace OpenRasta.Web
     using System.IO;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
     using OpenRasta.IO;
 
     public class HttpEntity : IHttpEntity

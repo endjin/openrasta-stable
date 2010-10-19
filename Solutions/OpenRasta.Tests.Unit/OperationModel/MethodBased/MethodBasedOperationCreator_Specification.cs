@@ -12,6 +12,9 @@ using OpenRasta.TypeSystem;
 
 namespace OpenRasta.Tests.Unit.OperationModel.MethodBased
 {
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.OperationModel.MethodBased;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 

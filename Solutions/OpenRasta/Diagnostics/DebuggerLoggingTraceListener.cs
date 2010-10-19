@@ -13,6 +13,8 @@ namespace OpenRasta.Diagnostics
     using System.Diagnostics;
     using System.Linq;
 
+    using OpenRasta.Extensions;
+
     public class DebuggerLoggingTraceListener : TraceListener
     {
         public DebuggerLoggingTraceListener() : base("DebuggerLoggingTraceListener")

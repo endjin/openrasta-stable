@@ -12,6 +12,8 @@ namespace OpenRasta.Diagnostics
 {
     using System;
 
+    using OpenRasta.Contracts.Diagnostics;
+
     public class NullLogger : ILogger
     {
         private static readonly ILogger InternalInstance = new NullLogger();

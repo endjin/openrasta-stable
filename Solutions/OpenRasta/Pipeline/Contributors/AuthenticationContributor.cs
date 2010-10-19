@@ -5,6 +5,11 @@ namespace OpenRasta.Pipeline.Contributors
     using System.Security.Principal;
 
     using OpenRasta.Authentication;
+    using OpenRasta.Contracts.Authentication;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
     using OpenRasta.Web;

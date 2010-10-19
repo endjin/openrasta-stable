@@ -10,12 +10,14 @@
 
 using OpenRasta.Codecs.SharpView;
 using OpenRasta.CodeDom.Compiler;
-using OpenRasta.Configuration.Fluent;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
 
 namespace OpenRasta.Configuration
 {
+    using OpenRasta.Contracts.CodeDom.Compiler;
+    using OpenRasta.Contracts.Configuration.Fluent;
+
     public static class SharpViewConfiguration
     {
         /// <summary>

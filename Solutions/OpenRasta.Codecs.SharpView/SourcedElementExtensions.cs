@@ -19,6 +19,8 @@ using OpenRasta.Web.Markup;
 
 namespace OpenRasta.Codecs.SharpView
 {
+    using OpenRasta.Contracts.Web.Markup;
+
     public static class SourcedElementExtensions
     {
         public static T AddElements<T>(this T element, IEnumerable nodes) where T : class, IElement

@@ -15,6 +15,13 @@ namespace OpenRasta.DI
 
     using OpenRasta.Codecs;
     using OpenRasta.Configuration;
+    using OpenRasta.Configuration.Registration;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Handlers;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
     using OpenRasta.Handlers;
     using OpenRasta.Pipeline;
     using OpenRasta.Web;

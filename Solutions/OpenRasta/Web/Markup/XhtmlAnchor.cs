@@ -13,6 +13,10 @@ namespace OpenRasta.Web.Markup
     using System;
     using System.Security.Principal;
 
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Contracts.Web.Markup.Rendering;
     using OpenRasta.DI;
     using OpenRasta.Web.Markup.Rendering;
 

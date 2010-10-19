@@ -12,6 +12,7 @@ namespace OpenRasta.Testing.Framework.DI
 {
     #region Using Directives
 
+    using OpenRasta.Contracts.DI;
     using OpenRasta.DI;
     using OpenRasta.Testing.Specifications;
 

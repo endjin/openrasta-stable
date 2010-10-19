@@ -19,6 +19,7 @@ using Frodo=OpenRasta.Testing.Framework.Fakes.Frodo;
 
 namespace Instances_Specification
 {
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 

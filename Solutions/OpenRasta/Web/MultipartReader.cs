@@ -16,6 +16,7 @@ namespace OpenRasta.Web
     using System.IO;
     using System.Text;
 
+    using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Diagnostics;
     using OpenRasta.IO;
 

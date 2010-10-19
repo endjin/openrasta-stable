@@ -22,6 +22,12 @@ using OpenRasta.Web;
 
 namespace LegacyManualConfiguration_Specification
 {
+    using OpenRasta.Codecs.Attributes;
+    using OpenRasta.Codecs.Framework;
+    using OpenRasta.Configuration.Extensions;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Exceptions;
     using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 

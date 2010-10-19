@@ -14,6 +14,9 @@ namespace OpenRasta.Pipeline
     using System.Collections.Generic;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Codecs.Framework;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.OperationModel;
     using OpenRasta.TypeSystem;
     using OpenRasta.Web;

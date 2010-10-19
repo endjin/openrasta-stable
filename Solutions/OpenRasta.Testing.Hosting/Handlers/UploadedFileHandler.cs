@@ -3,6 +3,9 @@
     using System.Collections.Generic;
     using System.IO;
 
+    using OpenRasta.Contracts.IO;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
     using OpenRasta.Testing.Hosting.Resources;
     using OpenRasta.Web;

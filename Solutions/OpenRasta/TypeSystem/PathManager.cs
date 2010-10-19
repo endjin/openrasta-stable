@@ -5,6 +5,9 @@ namespace OpenRasta.TypeSystem
     using System.Linq;
     using System.Text;
 
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Extensions;
+
     public class PathManager : IPathManager
     {
         public PathComponent GetPathType(IEnumerable<string> prefixes, string objectPath)

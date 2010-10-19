@@ -8,6 +8,7 @@ using OpenRasta.Pipeline.Contributors;
 
 namespace OperationHydration_Spec
 {
+    using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Testing.Specifications;
 
     public class when_executing_operation_hydrators : context

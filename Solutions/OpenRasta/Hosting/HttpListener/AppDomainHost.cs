@@ -1,11 +1,9 @@
-namespace OpenRasta.Hosting
+namespace OpenRasta.Hosting.HttpListener
 {
     using System;
     using System.Collections.Generic;
     using System.Globalization;
     using System.Reflection;
-
-    using OpenRasta.Hosting.HttpListener;
 
     public class AppDomainHost<T> : IDisposable where T : HttpListenerHost
     {

@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Diagnostics;
     using OpenRasta.Web;
 

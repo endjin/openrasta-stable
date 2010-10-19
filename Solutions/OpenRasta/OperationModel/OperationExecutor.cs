@@ -3,6 +3,7 @@ namespace OpenRasta.OperationModel
     using System.Collections.Generic;
     using System.Linq;
 
+    using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Web;
 
     public class OperationExecutor : IOperationExecutor

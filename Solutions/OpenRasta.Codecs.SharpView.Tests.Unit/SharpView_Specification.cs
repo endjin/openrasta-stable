@@ -24,7 +24,9 @@ using OpenRasta.Web.Markup.Modules;
 
 namespace SharpView_Specification
 {
+    using OpenRasta.Contracts.Web.Markup;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.Web.Markup.Extensions;
 
     public class when_using_foreach_with_inherited_sharpview_element : context
     {

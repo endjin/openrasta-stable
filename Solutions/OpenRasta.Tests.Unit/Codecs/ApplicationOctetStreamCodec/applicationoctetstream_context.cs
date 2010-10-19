@@ -18,6 +18,8 @@ namespace OpenRasta.Tests.Unit.Codecs.ApplicationOctetStreamCodec
     #region Using Directives
 
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
     using OpenRasta.Tests.Unit.Codecs.MediaTypeDictionary;
     using OpenRasta.Web;

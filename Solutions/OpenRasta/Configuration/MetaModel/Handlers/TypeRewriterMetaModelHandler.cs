@@ -2,6 +2,7 @@ namespace OpenRasta.Configuration.MetaModel.Handlers
 {
     using System;
 
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.TypeSystem;
 
     public class TypeRewriterMetaModelHandler : AbstractMetaModelHandler

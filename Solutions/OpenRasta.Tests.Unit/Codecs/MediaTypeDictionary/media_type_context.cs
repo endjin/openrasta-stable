@@ -5,6 +5,7 @@
     using System.Collections.Generic;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Collections.Specialized;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.Web;
 

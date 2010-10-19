@@ -8,7 +8,12 @@
 
     using OpenRasta.Binding;
     using OpenRasta.Collections;
+    using OpenRasta.Contracts;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
     using OpenRasta.Pipeline;
     using OpenRasta.TypeSystem.ReflectionBased;
     using OpenRasta.Web;

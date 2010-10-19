@@ -10,6 +10,8 @@ using OpenRasta.Web;
 
 namespace OpenRasta.Tests.Unit.OperationModel.Filters
 {
+    using OpenRasta.Contracts.OperationModel;
+    using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Testing.Specifications;
 
     public abstract class operation_filter_context<THandler, TFilter> : operation_context<THandler>

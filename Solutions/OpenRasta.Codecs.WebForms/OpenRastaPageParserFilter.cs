@@ -20,6 +20,8 @@ using System.Web.UI;
 
 namespace OpenRasta.Codecs.WebForms
 {
+    using OpenRasta.Extensions;
+
     public class OpenRastaPageParserFilter : PageParserFilter
     {
         static readonly Dictionary<string, Type> TypeReplacements = new Dictionary<string, Type>

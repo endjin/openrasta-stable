@@ -8,13 +8,14 @@
  */
 #endregion
 
-namespace OpenRasta.Codecs
+namespace OpenRasta.Codecs.Application.xml
 {
     using System;
     using System.Xml.Serialization;
 
-    using OpenRasta.TypeSystem;
-    using OpenRasta.Web;
+    using OpenRasta.Codecs.Attributes;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.Contracts.Web;
 
     [MediaType("application/xml;q=0.4", ".xml")]
     public class XmlSerializerCodec : XmlCodec

@@ -1,22 +1,30 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using ExpressionTreeXHtmlProducer_Specification;
-using NUnit.Framework;
-using OpenRasta;
-using OpenRasta.Codecs;
-using OpenRasta.Configuration;
-using OpenRasta.Configuration.MetaModel;
-using OpenRasta.Configuration.MetaModel.Handlers;
-using OpenRasta.DI;
-using OpenRasta.Handlers;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
-namespace MetaModelHandler_Specification
+﻿namespace MetaModelHandler_Specification
 {
+    #region Using Directives
+
+    using System;
+    using System.Globalization;
+    using System.Linq;
+
+    using NUnit.Framework;
+
+    using OpenRasta.Codecs.Framework;
+    using OpenRasta.Codecs.Html;
+    using OpenRasta.Configuration.MetaModel;
+    using OpenRasta.Configuration.MetaModel.Handlers;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Handlers;
+    using OpenRasta.Contracts.TypeSystem;
+    using OpenRasta.DI;
+    using OpenRasta.Extensions;
+    using OpenRasta.Handlers;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+    using OpenRasta.Web.UriTemplates;
+
+    #endregion
 
     public class metamodelhandler_context<T> : context where T:IMetaModelHandler
     {

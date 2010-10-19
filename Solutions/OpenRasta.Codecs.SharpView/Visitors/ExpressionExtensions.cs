@@ -5,6 +5,9 @@ using OpenRasta.Web.Markup.Modules;
 
 namespace OpenRasta.Codecs.SharpView.Visitors
 {
+    using OpenRasta.Contracts.Web.Markup;
+    using OpenRasta.Contracts.Web.Markup.Modules;
+
     public static class ExpressionExtensions
     {
         public static Expression<Func<IElement>> ApplySharpView(this Expression<Func<IElement>> expression)

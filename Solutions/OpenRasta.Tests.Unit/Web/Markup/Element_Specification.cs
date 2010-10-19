@@ -16,6 +16,7 @@ using OpenRasta.Web.Markup;
 
 namespace Element_Specification
 {
+    using OpenRasta.Contracts.Web.Markup;
     using OpenRasta.Testing.Specifications;
     using OpenRasta.Web.Markup.Elements;
 

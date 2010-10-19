@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
 
+    using OpenRasta.Contracts.Web;
     using OpenRasta.Testing.Hosting.Resources;
     using OpenRasta.Web;
 

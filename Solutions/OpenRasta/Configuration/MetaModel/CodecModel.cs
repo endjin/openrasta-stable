@@ -4,6 +4,8 @@ namespace OpenRasta.Configuration.MetaModel
     using System.Collections.Generic;
 
     using OpenRasta.Codecs;
+    using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Extensions;
     using OpenRasta.TypeSystem.ReflectionBased;
 
     public class CodecModel

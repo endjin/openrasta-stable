@@ -10,13 +10,15 @@
 
 using OpenRasta.Codecs.WebForms;
 using OpenRasta.Codecs.WebForms.Configuration;
-using OpenRasta.Configuration.Fluent;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.TypeSystem;
 using OpenRasta.TypeSystem.ReflectionBased;
 
 namespace OpenRasta.Configuration
 {
+    using OpenRasta.Contracts.Configuration.Fluent;
+    using OpenRasta.Contracts.TypeSystem;
+
     public static class HasTheUriExtensions
     {
         public static HasTheUri TheUri(this IHas anchor, string uri)

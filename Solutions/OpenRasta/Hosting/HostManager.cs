@@ -4,8 +4,16 @@
     using System.Collections.Generic;
 
     using OpenRasta.Configuration;
+    using OpenRasta.Configuration.Registration;
+    using OpenRasta.Contracts.Configuration;
+    using OpenRasta.Contracts.DI;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.Hosting;
+    using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.Contracts.Web;
     using OpenRasta.DI;
     using OpenRasta.Diagnostics;
+    using OpenRasta.Exceptions;
     using OpenRasta.Pipeline;
     using OpenRasta.Web;
 

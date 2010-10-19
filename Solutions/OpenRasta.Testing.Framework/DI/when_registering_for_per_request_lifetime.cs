@@ -6,7 +6,9 @@
 
     using NUnit.Framework;
 
+    using OpenRasta.Contracts.Pipeline;
     using OpenRasta.DI;
+    using OpenRasta.Exceptions;
     using OpenRasta.Hosting;
     using OpenRasta.Hosting.InMemory;
     using OpenRasta.Pipeline;

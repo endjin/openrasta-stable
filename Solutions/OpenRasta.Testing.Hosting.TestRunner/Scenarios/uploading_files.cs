@@ -2,6 +2,7 @@
 {
     using System;
 
+    using OpenRasta.Extensions;
     using OpenRasta.IO;
     using OpenRasta.Testing.Hosting.TestRunner.Infrastructure;
     using OpenRasta.Testing.Specifications;

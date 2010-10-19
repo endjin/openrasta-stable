@@ -5,6 +5,8 @@ namespace OpenRasta.Hosting.HttpListener
     using System.Linq;
     using System.Net;
 
+    using OpenRasta.Contracts.Web;
+    using OpenRasta.Exceptions;
     using OpenRasta.Web;
 
     public class HttpListenerResponse : IResponse

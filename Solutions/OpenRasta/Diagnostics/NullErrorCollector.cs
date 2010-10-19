@@ -1,5 +1,8 @@
 namespace OpenRasta.Diagnostics
 {
+    using OpenRasta.Contracts;
+    using OpenRasta.Exceptions;
+
     public class NullErrorCollector : IErrorCollector
     {
         private static readonly IErrorCollector InternalInstance = new NullErrorCollector();

@@ -4,6 +4,9 @@ namespace OpenRasta.OperationModel.Hydrators.Diagnostics
     using System.Reflection;
 
     using OpenRasta.Binding;
+    using OpenRasta.Collections.Specialized;
+    using OpenRasta.Contracts.Diagnostics;
+    using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Diagnostics;
 
     public static class CodecLogSourceExtensions
