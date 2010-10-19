@@ -19,6 +19,7 @@ using OpenRasta.Pipeline;
 
 namespace ResourceTypeResolver_Specification
 {
+    using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 
     public class when_there_is_already_a_match : openrasta_context

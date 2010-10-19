@@ -10,10 +10,6 @@
 
 namespace OpenRasta.Testing.Framework.Fakes
 {
-    using System;
-    using System.Collections.Generic;
-
-    using OpenRasta.Binding;
     using OpenRasta.Codecs;
     using OpenRasta.TypeSystem;
     using OpenRasta.Web;
@@ -23,42 +19,6 @@ namespace OpenRasta.Testing.Framework.Fakes
         public object ReadFrom(IHttpEntity request, IType type, string paramName) { return type.CreateInstance(); }
 
         public void WriteTo(object entity, IHttpEntity response, string[] p) { response.Headers["ENTITY_TYPE"] = entity.GetType().Name; }
-    }
-    public class AnotherCustomerCodec : CustomerCodec
-    {
-    }
-
-    public class KeyValuesCustomerCodec : Codec, IKeyedValuesMediaTypeReader<string>, IMediaTypeReader
-    {
-        
-        public IEnumerable<KeyedValues<string>> ReadKeyValues(IHttpEntity entity) {
-            yield return new KeyedValues<string>("FirstName", new[] { "John" }, Converter);
-            yield return new KeyedValues<string>("LastName", new[] { "Doe" }, Converter);
-            yield return new KeyedValues<string>("Username", new[] { "johndoe" }, Converter);
-        }
-
-        static BindingResult Converter(string t1, Type t2) { return BindingResult.Success(t1); }
-        public object ReadFrom(IHttpEntity request, IType destinationType, string destinationName)
-        {
-            return new Customer {FirstName = "Jean", LastName = "Dupont", Username = "jeandupont"};
-        }
-    }
-    internal class KeyValuesCustomerAndAddressCodec : Codec, IKeyedValuesMediaTypeReader<string>, IMediaTypeReader
-    {
-
-        public IEnumerable<KeyedValues<string>> ReadKeyValues(IHttpEntity entity)
-        {
-            yield return new KeyedValues<string>("Customer.FirstName", new[] { "John" }, Converter);
-            yield return new KeyedValues<string>("Customer.LastName", new[] { "Doe" }, Converter);
-            yield return new KeyedValues<string>("Customer.Username", new[] { "johndoe" }, Converter);
-            yield return new KeyedValues<string>("Address.City", new[] { "London" }, Converter);
-        }
-
-        static BindingResult Converter(string t1, Type t2) { return BindingResult.Success(t1); }
-        public object ReadFrom(IHttpEntity request, IType destinationType, string destinationName)
-        {
-            return null;
-        }
     }
 }
 

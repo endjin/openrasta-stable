@@ -14,6 +14,7 @@ using OpenRasta.Web;
 
 namespace given_an_authentication_contributor
 {
+    using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 
     public abstract class given_an_authentication_contributor : openrasta_context

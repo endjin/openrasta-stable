@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using OpenRasta.CodeDom.Compiler;
-
-
-namespace ExtensibleCompiler_Specification
+﻿namespace ExtensibleCompiler_Specification
 {
+    using System.Linq;
+
+    using NUnit.Framework;
+
+    using OpenRasta.CodeDom.Compiler;
     using OpenRasta.Testing.Specifications;
 
     public class when_dependency_manager_is_not_available : context

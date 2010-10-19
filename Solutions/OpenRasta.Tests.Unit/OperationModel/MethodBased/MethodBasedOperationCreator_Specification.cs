@@ -12,6 +12,7 @@ using OpenRasta.TypeSystem;
 
 namespace OpenRasta.Tests.Unit.OperationModel.MethodBased
 {
+    using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 
     public class when_there_is_a_method_filter: method_based_operation_creator_context

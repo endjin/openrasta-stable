@@ -52,22 +52,38 @@
     <Compile Include="Authentication\Basic\BasicAuthenticationScheme_Specification.cs" />
     <Compile Include="Binding\DefaultBinderLocator_Specification.cs" />
     <Compile Include="Binding\KeyedValuesBinder_Specification.cs" />
-    <Compile Include="Codecs\ApplicationOctetStreamCodec_Specification.cs" />
-    <Compile Include="Codecs\ApplicationXWwwUrlformEncodedCodec_Specification.cs" />
-    <Compile Include="Codecs\CodecMatch_Specification.cs" />
-    <Compile Include="Codecs\CodecRepository_Specification.cs" />
-    <Compile Include="Codecs\codec_context.cs" />
-    <Compile Include="Codecs\JsonDataContractCodec_Specification.cs" />
-    <Compile Include="Codecs\MediaTypeDictionary_Specification.cs" />
-    <Compile Include="Codecs\media_type_reader_context.cs" />
-    <Compile Include="Codecs\media_type_writer_context.cs" />
-    <Compile Include="Codecs\MultipartFormDataCodec_Specification.cs" />
-    <Compile Include="Codecs\WebForms_Specification.cs" />
+    <Compile Include="Codecs\ApplicationOctetStreamCodec\when_converting_a_byte_stream_to_an_ifile.cs" />
+    <Compile Include="Codecs\ApplicationOctetStreamCodec\applicationoctetstream_context.cs" />
+    <Compile Include="Codecs\ApplicationXWwwUrlformEncodedCodec\when_the_requested_type_is_a_dictionary.cs" />
+    <Compile Include="Codecs\ApplicationXWwwUrlformEncodedCodec\app_www_context.cs" />
+    <Compile Include="Codecs\CodecMatch\when_sorting_codec_matches.cs" />
+    <Compile Include="Codecs\MediaTypeDictionary\media_type_context.cs" />
+    <Compile Include="Codecs\MultipartFormDataCodec\MultipartExtensions.cs" />
+    <Compile Include="Codecs\MediaTypeDictionary\multipart_codec.cs" />
+    <Compile Include="Codecs\MultipartFormDataCodec\Scenarios.cs" />
+    <Compile Include="Codecs\ApplicationOctetStreamCodec\when_converting_an_ifile_to_a_byte_stream.cs" />
+    <Compile Include="Codecs\ApplicationOctetStreamCodec\when_converting_a_byte_stream_to_an_instance_of_a_stream.cs" />
+    <Compile Include="Codecs\MediaTypeDictionary\when_matching_media_types.cs" />
+    <Compile Include="Codecs\ApplicationXWwwUrlformEncodedCodec\when_parsing_for_complex_types.cs" />
+    <Compile Include="Codecs\ApplicationXWwwUrlformEncodedCodec\when_parsing_for_simple_types.cs" />
+    <Compile Include="Codecs\MultipartFormDataCodec\when_parsing_parts_for_base_types.cs" />
+    <Compile Include="Codecs\MultipartFormDataCodec\when_parsing_parts_with_names_representing_types.cs" />
+    <Compile Include="Codecs\MultipartFormDataCodec\when_parsing_parts_with_unicode_names.cs" />
+    <Compile Include="Codecs\CodecRepository\when_searching_for__media_type_reader.cs" />
+    <Compile Include="Codecs\CodecRepository\codec_repository_context.cs" />
+    <Compile Include="Codecs\JsonDataContractCodec\when_writing_a_json_representation.cs" />
+    <Compile Include="Codecs\MediaTypeDictionary\when_adding_media_types.cs" />
+    <Compile Include="Codecs\MediaTypeDictionary\media_type_reader_context.cs" />
+    <Compile Include="Codecs\MediaTypeDictionary\media_type_writer_context.cs" />
+    <Compile Include="Codecs\MultipartFormDataCodec\when_the_requested_type_is_enumerating_IHttpEntity.cs" />
+    <Compile Include="Codecs\MultipartFormDataCodec\when_rewriting_directives_with_the_page_parser.cs" />
+    <Compile Include="Codecs\CodecRepository\when_registering_a_codec.cs" />
+    <Compile Include="Codecs\CodecRepository\when_searching_for_content_type_writers_for_a_media_type.cs" />
+    <Compile Include="Codecs\MultipartFormDataCodec\when_writing_multipart_formdata.cs" />
     <Compile Include="CodeDom.Compiler\ExtensibleCompiler_Specification.cs" />
     <Compile Include="Collections\CollectionExtensions_Specification.cs" />
     <Compile Include="Collections\ObservableIterator_Specification.cs" />
     <Compile Include="Collections\ResumableIterator_Specification.cs" />
-    <Compile Include="Configuration\configuration_context.cs" />
     <Compile Include="Configuration\LegacyManualConfiguration_Specification.cs" />
     <Compile Include="Configuration\MetaModelHandler_Specification.cs" />
     <Compile Include="Configuration\MetaModel_Specification.cs" />
@@ -81,7 +97,6 @@
     <Compile Include="IO\MultipartReader_Specification.cs" />
     <Compile Include="IO\MultipartWriter_Specification.cs" />
     <Compile Include="IO\stream_context.cs" />
-    <Compile Include="openrasta_context.cs" />
     <Compile Include="OperationModel\CodecSelectors\RequestCodecSelector_Specification.cs" />
     <Compile Include="OperationModel\Filters\HttpMethodOperationFilter_Specification.cs" />
     <Compile Include="OperationModel\Filters\operation_filter_context.cs" />
@@ -110,7 +125,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\RequiresAuthenticationInterceptor_Specification.cs" />
     <Compile Include="Security\RequiresRoleInterceptor_Specification.cs" />
-    <Compile Include="TestErrorCollector.cs" />
     <Compile Include="Text\Rfc2047Encoding_Specification.cs" />
     <Compile Include="TypeSystem\Extensions_Specification.cs" />
     <Compile Include="TypeSystem\Instances_Specification.cs" />
@@ -161,7 +175,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Codecs\CodeDom.Compiler\" />
     <Folder Include="Web\Filters\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -20,6 +20,7 @@ using OpenRasta.Web.UriDecorators;
 
 namespace UriDecoratorsController_Specification
 {
+    using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 
     public class when_using_simple_decorators : openrasta_context

@@ -21,6 +21,7 @@ using ResourceTypeResolver_Specification;
 
 namespace HandlerResolver_Specification
 {
+    using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 
     public class when_no_handler_is_found : openrasta_context

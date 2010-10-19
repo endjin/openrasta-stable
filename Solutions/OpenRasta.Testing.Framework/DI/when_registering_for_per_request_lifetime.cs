@@ -10,7 +10,6 @@
     using OpenRasta.Hosting;
     using OpenRasta.Hosting.InMemory;
     using OpenRasta.Pipeline;
-    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Framework.MockTypes;
     using OpenRasta.Testing.Specifications;
 

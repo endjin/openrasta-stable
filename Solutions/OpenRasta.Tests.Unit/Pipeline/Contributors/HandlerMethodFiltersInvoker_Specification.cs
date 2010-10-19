@@ -18,6 +18,8 @@ using OpenRasta.Pipeline;
 
 namespace HandlerMethodFiltersInvoker_Specification
 {
+    using OpenRasta.Testing.Framework;
+
     [TestFixture]
     public class when_a_filter_is_present : openrasta_context
     {

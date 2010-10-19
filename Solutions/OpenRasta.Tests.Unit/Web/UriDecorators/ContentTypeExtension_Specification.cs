@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ApplicationXWwwUrlformEncodedCodec_Specification;
+
 using NUnit.Framework;
 using OpenRasta.Codecs;
 
@@ -12,6 +12,7 @@ using OpenRasta.Web.UriDecorators;
 
 namespace OpenRasta.Tests.Unit.Web.UriDecorators
 {
+    using OpenRasta.Testing.Framework.MockTypes;
     using OpenRasta.Testing.Specifications;
 
     public class when_rewriting_a_uri_with_extension : context.content_type_extension
@@ -36,6 +37,8 @@ namespace OpenRasta.Tests.Unit.Web.UriDecorators
     }
     namespace context
     {
+        using OpenRasta.Testing.Framework;
+
         public class content_type_extension : openrasta_context
         {
             protected Uri ProcessedUri;

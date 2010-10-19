@@ -17,6 +17,7 @@ using OpenRasta.Pipeline;
 
 namespace HttpMethodOverrider_Specification
 {
+    using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 
     public class when_the_http_method_is_overridden : openrasta_context

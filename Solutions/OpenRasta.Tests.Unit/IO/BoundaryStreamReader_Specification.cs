@@ -1,22 +1,11 @@
-#region License
-/* Authors:
- *      Sebastien Lambla (seb@serialseb.com)
- * Copyright:
- *      (C) 2007-2009 Caffeine IT & naughtyProd Ltd (http://www.caffeine-it.com)
- * License:
- *      This file is distributed under the terms of the MIT License found at the end of this file.
- */
-#endregion
-
-using System;
-using System.IO;
-using System.Text;
-using NUnit.Framework;
-using OpenRasta.IO;
-
-
 namespace BoundaryStreamReader_Specification
 {
+    using System;
+    using System.Text;
+
+    using NUnit.Framework;
+
+    using OpenRasta.IO;
     using OpenRasta.Testing.Specifications;
 
     public class when_reading_a_boundary_type_from_a_stream : stream_context

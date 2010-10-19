@@ -19,6 +19,7 @@ using OpenRasta.Pipeline;
 
 namespace ResponseEntityCodecResolver_Specification
 {
+    using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 

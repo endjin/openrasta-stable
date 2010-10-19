@@ -1,28 +1,20 @@
-#region License
-
-/* Authors:
- *      Sebastien Lambla (seb@serialseb.com)
- * Copyright:
- *      (C) 2007-2009 Caffeine IT & naughtyProd Ltd (http://www.caffeine-it.com)
- * License:
- *      This file is distributed under the terms of the MIT License found at the end of this file.
- */
-
-#endregion
-
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
-using NUnit.Framework;
-using OpenRasta;
-using OpenRasta.Collections;
-using OpenRasta.Collections.Specialized;
-
-
 namespace UriTemplate_Specification
 {
+    #region Using Directives
+
+    using System;
+    using System.Collections.Generic;
+    using System.Collections.Specialized;
+    using System.Linq;
+
+    using NUnit.Framework;
+
+    using OpenRasta;
+    using OpenRasta.Collections;
+    using OpenRasta.Collections.Specialized;
     using OpenRasta.Testing.Specifications;
+
+    #endregion
 
     public class uritemplate_context : context
     {

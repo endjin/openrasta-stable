@@ -14,6 +14,7 @@ using OpenRasta.Web;
 
 namespace Authentication_Specification
 {
+    using OpenRasta.Testing.Framework;
     using OpenRasta.Testing.Specifications;
 
     [TestFixture]
