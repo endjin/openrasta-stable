@@ -57,7 +57,7 @@
       <Project>{20AA017C-DBD1-49F9-9556-3691AAC3938F}</Project>
       <Name>OpenRasta.DI.Ninject</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenRasta.Testing\OpenRasta.Testing.Specifications.csproj">
+    <ProjectReference Include="..\OpenRasta.Testing.Specifications\OpenRasta.Testing.Specifications.csproj">
       <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
       <Name>OpenRasta.Testing.Specifications</Name>
     </ProjectReference>

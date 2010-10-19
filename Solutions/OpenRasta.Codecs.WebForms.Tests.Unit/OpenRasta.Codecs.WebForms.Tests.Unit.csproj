@@ -55,7 +55,7 @@
       <Project>{C8686D84-A18A-4C31-8186-4DEEB89E5BFC}</Project>
       <Name>OpenRasta.Codecs.WebForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenRasta.Testing\OpenRasta.Testing.Specifications.csproj">
+    <ProjectReference Include="..\OpenRasta.Testing.Specifications\OpenRasta.Testing.Specifications.csproj">
       <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
       <Name>OpenRasta.Testing.Specifications</Name>
     </ProjectReference>

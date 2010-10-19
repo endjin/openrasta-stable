@@ -59,7 +59,7 @@
       <Project>{9D8DA495-3174-4DC5-8A52-5E17B9EE8BDC}</Project>
       <Name>OpenRasta.DI.Windsor</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenRasta.Testing\OpenRasta.Testing.Specifications.csproj">
+    <ProjectReference Include="..\OpenRasta.Testing.Specifications\OpenRasta.Testing.Specifications.csproj">
       <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
       <Name>OpenRasta.Testing.Specifications</Name>
     </ProjectReference>

@@ -29,7 +29,8 @@
 
             theResponse.StatusCode.ShouldBe(HttpStatusCode.OK);
             theResponse.ContentType.ShouldContain("text/plain");
-            theResponse.Headers["Location"].ShouldBe("http://127.0.0.1:6687/3");
+            theResponse.Headers["Location"].ShouldContain("http://127.0.0.1:");
+            theResponse.Headers["Location"].ShouldContain("/3");
 
             theResponseAsString.ShouldBe("new customer name");
         }
@@ -50,7 +51,7 @@
             GivenARequest("GET", "/customer/3.notimplemented");
             GivenTheResponseIsInEncoding(Encoding.ASCII);
 
-            theResponse.StatusCode.ShouldBe(HttpStatusCode.NotImplemented);
+            theResponse.StatusCode.ShouldBe(HttpStatusCode.MethodNotAllowed);
         }
     }
 
@@ -69,7 +70,7 @@
             GivenARequest("GET", "/mappedCustomers");
             GivenTheResponseIsInEncoding(Encoding.ASCII);
 
-            theResponse.StatusCode.ShouldBe(HttpStatusCode.MethodNotAllowed);
+            theResponse.StatusCode.ShouldBe(HttpStatusCode.NotFound);
         }
     }
 
@@ -82,7 +83,7 @@
 
     public class CustomerHandler
     {
-        public OperationResult Get(string customerId)
+        public OperationResult Get(int customerId)
         {
             return new OperationResult.OK();
         }
