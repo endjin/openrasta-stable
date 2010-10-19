@@ -1,12 +1,15 @@
 namespace OpenRasta.Configuration.MetaModel
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
 
-    using OpenRasta.Codecs;
     using OpenRasta.Contracts.Codecs;
     using OpenRasta.Extensions;
     using OpenRasta.TypeSystem.ReflectionBased;
+
+    #endregion
 
     public class CodecModel
     {
@@ -23,8 +26,7 @@ namespace OpenRasta.Configuration.MetaModel
 
             if (!codecType.IsAssignableTo<ICodec>())
             {
-                throw new ArgumentOutOfRangeException(
-                    "codecType", "The type {0} doesn't implement ICodec".With(codecType.FullName));
+                throw new ArgumentOutOfRangeException("codecType", "The type {0} doesn't implement ICodec".With(codecType.FullName));
             }
 
             this.CodecType = codecType;

@@ -1,7 +1,11 @@
 ﻿namespace OpenRasta.Codecs
 {
+    #region Using Directives
+
     using OpenRasta.Web;
     using OpenRasta.Web.Markup.Elements;
+
+    #endregion
 
     public class OperationResultPage : Element
     {

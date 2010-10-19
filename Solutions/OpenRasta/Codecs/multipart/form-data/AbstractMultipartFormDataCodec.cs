@@ -1,5 +1,7 @@
 namespace OpenRasta.Codecs
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -15,15 +17,14 @@ namespace OpenRasta.Codecs
     using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.DI;
     using OpenRasta.Diagnostics;
     using OpenRasta.Extensions;
-    using OpenRasta.IO;
     using OpenRasta.OperationModel.Hydrators.Diagnostics;
     using OpenRasta.Pipeline;
-    using OpenRasta.TypeSystem;
     using OpenRasta.TypeSystem.ReflectionBased;
     using OpenRasta.Web;
+
+    #endregion
 
     public abstract class AbstractMultipartFormDataCodec
     {

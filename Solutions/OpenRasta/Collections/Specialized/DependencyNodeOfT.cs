@@ -1,9 +1,13 @@
 ﻿namespace OpenRasta.Collections.Specialized
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
 
     using OpenRasta.Exceptions;
+
+    #endregion
 
     public class DependencyNode<T>
     {

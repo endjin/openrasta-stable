@@ -1,8 +1,12 @@
 namespace OpenRasta.Collections
 {
+    #region Using Directives
+
     using System;
     using System.Collections;
     using System.Collections.Generic;
+
+    #endregion
 
     /// <summary>
     /// Provides an iterator that can notify on elements being selected or discarded.
@@ -67,6 +71,7 @@ namespace OpenRasta.Collections
         private IEnumerable<T> WrapperEnumerator(IEnumerable<T> enumerable)
         {
             bool isFirst = true;
+
             foreach (var item in enumerable)
             {
                 if (!isFirst)

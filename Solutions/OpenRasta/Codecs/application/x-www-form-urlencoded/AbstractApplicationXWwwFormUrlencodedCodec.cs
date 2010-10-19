@@ -2,6 +2,8 @@
 
 namespace OpenRasta.Codecs
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -17,7 +19,8 @@ namespace OpenRasta.Codecs
     using OpenRasta.Pipeline;
     using OpenRasta.TypeSystem;
     using OpenRasta.TypeSystem.ReflectionBased;
-    using OpenRasta.Web;
+
+    #endregion
 
     public abstract class AbstractApplicationXWwwFormUrlencodedCodec
     {
@@ -25,25 +28,13 @@ namespace OpenRasta.Codecs
 
         private readonly PipelineData pipelineData;
 
-        private IObjectBinderLocator binderLocator;
-
         protected AbstractApplicationXWwwFormUrlencodedCodec(ICommunicationContext context, IObjectBinderLocator locator)
         {
             this.pipelineData = context.PipelineData;
             this.BinderLocator = locator;
         }
 
-        public IObjectBinderLocator BinderLocator
-        {
-            get
-            {
-                return this.binderLocator;
-            }
-            set
-            {
-                this.binderLocator = value;
-            }
-        }
+        public IObjectBinderLocator BinderLocator { get; set; }
 
         public IDictionary<IHttpEntity, Dictionary<string, string[]>> Cache
         {
@@ -155,7 +146,7 @@ namespace OpenRasta.Codecs
             }
         }
 
-        protected static BindingResult ConvertValuesByString(string strings, Type entityType)
+        private static BindingResult ConvertValuesByString(string strings, Type entityType)
         {
             try
             {
@@ -165,11 +156,6 @@ namespace OpenRasta.Codecs
             {
                 return BindingResult.Failure();
             }
-        }
-
-        protected static bool IsRawDictionary(IType destinationType)
-        {
-            return destinationType.IsAssignableTo<IDictionary<string, string[]>>();
         }
 
         protected Dictionary<string, string[]> FormData(IHttpEntity source)
@@ -184,12 +170,18 @@ namespace OpenRasta.Codecs
             return this.Cache[source];
         }
 
+        protected static bool IsRawDictionary(IType destinationType)
+        {
+            return destinationType.IsAssignableTo<IDictionary<string, string[]>>();
+        }
+
         private static void AddKeyValue(Encoding e, Dictionary<string, string[]> dic, StringBuilder key, StringBuilder value)
         {
             string keyString = UrlDecode(key.ToString(), e);
             string valueString = UrlDecode(value.ToString(), e);
             string[] oldValue;
             string[] newValue;
+
             if (!dic.TryGetValue(keyString, out oldValue))
             {
                 newValue = new[] { valueString };
@@ -200,6 +192,7 @@ namespace OpenRasta.Codecs
                 oldValue.CopyTo(newValue, 0);
                 newValue[newValue.Length - 1] = valueString;
             }
+            
             dic[keyString] = newValue;
             key.Length = 0;
             value.Length = 0;
@@ -286,6 +279,7 @@ namespace OpenRasta.Codecs
             var value = new StringBuilder();
 
             int c;
+            
             while ((c = reader.Read()) != -1)
             {
                 if (c == '=')

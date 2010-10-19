@@ -1,9 +1,13 @@
 namespace OpenRasta.Authorization
 {
+    #region Using Directives
+
     using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Contracts.Web;
     using OpenRasta.OperationModel.Interceptors;
     using OpenRasta.Web;
+
+    #endregion
 
     public class RequiresRoleInterceptor : OperationInterceptor
     {

@@ -1,11 +1,15 @@
 namespace OpenRasta.Configuration.Fluent
 {
+    #region Using Directives
+
     using System;
     using System.Globalization;
 
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.Contracts.Configuration.Fluent;
     using OpenRasta.Contracts.TypeSystem;
+
+    #endregion
 
     public class UriDefinition : IUriDefinition
     {

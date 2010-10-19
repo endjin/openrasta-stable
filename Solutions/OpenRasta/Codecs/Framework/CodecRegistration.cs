@@ -1,15 +1,7 @@
-#region License
-/* Authors:
- *      Sebastien Lambla (seb@serialseb.com)
- * Copyright:
- *      (C) 2007-2009 Caffeine IT & naughtyProd Ltd (http://www.caffeine-it.com)
- * License:
- *      This file is distributed under the terms of the MIT License found at the end of this file.
- */
-#endregion
-
 namespace OpenRasta.Codecs.Framework
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -18,6 +10,8 @@ namespace OpenRasta.Codecs.Framework
     using OpenRasta.Collections;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Web;
+
+    #endregion
 
     public class CodecRegistration : IEquatable<CodecRegistration>
     {
@@ -29,13 +23,13 @@ namespace OpenRasta.Codecs.Framework
         public CodecRegistration(
             Type codecType,
             object resourceKey,
-            bool isStrictRegistration, 
+            bool strictRegistration, 
             MediaType mediaType, 
             IEnumerable<string> extensions, 
             object codecConfiguration, 
-            bool isSystem)
+            bool system)
         {
-            CheckArgumentsAreValid(codecType, resourceKey, mediaType, isStrictRegistration);
+            CheckArgumentsAreValid(codecType, resourceKey, mediaType, strictRegistration);
             this.ResourceKey = resourceKey;
             MediaType = mediaType;
             this.CodecType = codecType;
@@ -47,8 +41,8 @@ namespace OpenRasta.Codecs.Framework
             }
 
             this.Configuration = codecConfiguration;
-            this.IsSystem = isSystem;
-            this.IsStrict = isStrictRegistration;
+            this.IsSystem = system;
+            this.IsStrict = strictRegistration;
         }
 
         public Type CodecType { get; private set; }
@@ -76,10 +70,8 @@ namespace OpenRasta.Codecs.Framework
 
         public static IEnumerable<CodecRegistration> FromCodecType(Type codecType, ITypeSystem typeSystem)
         {
-            var resourceTypeAttributes =
-                codecType.GetCustomAttributes(typeof(SupportedTypeAttribute), true).Cast<SupportedTypeAttribute>();
-            var mediaTypeAttributes =
-                codecType.GetCustomAttributes(typeof(MediaTypeAttribute), true).Cast<MediaTypeAttribute>();
+            var resourceTypeAttributes = codecType.GetCustomAttributes(typeof(SupportedTypeAttribute), true).Cast<SupportedTypeAttribute>();
+            var mediaTypeAttributes = codecType.GetCustomAttributes(typeof(MediaTypeAttribute), true).Cast<MediaTypeAttribute>();
             
             return from resourceTypeAttribute in resourceTypeAttributes
                    from mediaType in mediaTypeAttributes
@@ -102,24 +94,24 @@ namespace OpenRasta.Codecs.Framework
             MediaType mediaType, 
             IEnumerable<string> extensions, 
             object codecConfiguration, 
-            bool isSystem)
+            bool system)
         {
-            bool isStrict = false;
+            bool strict = false;
             
             if (IsStrictRegistration(resourceType))
             {
                 resourceType = GetStrictType(resourceType);
-                isStrict = true;
+                strict = true;
             }
             
             return new CodecRegistration(
                 codecType, 
                 typeSystem.FromClr(resourceType), 
-                isStrict, 
+                strict, 
                 mediaType, 
                 extensions, 
                 codecConfiguration, 
-                isSystem);
+                system);
         }
 
         public static Type GetStrictType(Type registration)

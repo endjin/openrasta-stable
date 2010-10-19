@@ -1,8 +1,12 @@
 namespace OpenRasta.Configuration.Fluent
 {
+    #region Using Directives
+
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.Contracts.Configuration.Fluent;
     using OpenRasta.Web;
+
+    #endregion
 
     public class CodecMediaTypeDefinition : ICodecWithMediaTypeDefinition
     {

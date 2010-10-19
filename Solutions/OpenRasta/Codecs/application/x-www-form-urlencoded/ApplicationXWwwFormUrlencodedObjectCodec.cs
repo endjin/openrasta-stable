@@ -1,26 +1,26 @@
 namespace OpenRasta.Codecs
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
 
-    using OpenRasta.Binding;
     using OpenRasta.Codecs.Attributes;
     using OpenRasta.Contracts.Binding;
     using OpenRasta.Contracts.Codecs;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.TypeSystem;
-    using OpenRasta.Web;
+
+    #endregion
 
     [MediaType("application/x-www-form-urlencoded;q=0.5")]
     [SupportedType(typeof(IDictionary<string, string[]>))]
     [SupportedType(typeof(Dictionary<string, string[]>))]
     public class ApplicationXWwwFormUrlencodedObjectCodec : AbstractApplicationXWwwFormUrlencodedCodec, IMediaTypeReader
     {
-        public ApplicationXWwwFormUrlencodedObjectCodec(ICommunicationContext context, IObjectBinderLocator locator)
-            : base(context, locator)
+        public ApplicationXWwwFormUrlencodedObjectCodec(ICommunicationContext context, IObjectBinderLocator locator) : base(context, locator)
         {
         }
 

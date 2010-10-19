@@ -1,15 +1,14 @@
 namespace OpenRasta.Configuration.MetaModel.Handlers
 {
     using OpenRasta.Contracts.Handlers;
-    using OpenRasta.Handlers;
 
     public class HandlerMetaModelHandler : AbstractMetaModelHandler
     {
-        private readonly IHandlerRepository repository;
+        private readonly IHandlerRepository handlerRepository;
 
-        public HandlerMetaModelHandler(IHandlerRepository repository)
+        public HandlerMetaModelHandler(IHandlerRepository handlerRepository)
         {
-            this.repository = repository;
+            this.handlerRepository = handlerRepository;
         }
 
         public override void Process(IMetaModelRepository repository)
@@ -18,7 +17,7 @@ namespace OpenRasta.Configuration.MetaModel.Handlers
             {
                 foreach (var handler in resource.Handlers)
                 {
-                    this.repository.AddResourceHandler(resource.ResourceKey, handler);
+                    this.handlerRepository.AddResourceHandler(resource.ResourceKey, handler);
                 }
             }
         }

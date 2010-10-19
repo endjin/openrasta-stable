@@ -32,6 +32,7 @@ namespace OpenRasta.Configuration.Registration
     using OpenRasta.Contracts.Codecs;
     using OpenRasta.Contracts.CodeDom.Compiler;
     using OpenRasta.Contracts.Configuration;
+    using OpenRasta.Contracts.Configuration.MetaModel.Handlers;
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.Diagnostics;
     using OpenRasta.Contracts.Handlers;

@@ -1,11 +1,15 @@
 namespace OpenRasta.Configuration.Fluent
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.Contracts.Codecs;
     using OpenRasta.Contracts.Configuration.Fluent;
     using OpenRasta.Contracts.TypeSystem;
+
+    #endregion
 
     public class ResourceDefinition : IResourceDefinition, 
                                       IHandlerParentDefinition, 

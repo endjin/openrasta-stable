@@ -1,9 +1,13 @@
 ﻿namespace OpenRasta.Codecs
 {
+    #region Using Directives
+
     using OpenRasta.Codecs.Attributes;
     using OpenRasta.Contracts.Codecs;
     using OpenRasta.Contracts.Web;
     using OpenRasta.Web;
+
+    #endregion
 
     [MediaType("application/xhtml+xml;q=0.9")]
     [MediaType("text/html")]

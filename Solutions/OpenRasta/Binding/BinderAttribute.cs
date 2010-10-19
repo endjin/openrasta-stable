@@ -1,11 +1,14 @@
 namespace OpenRasta.Binding
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Contracts.Binding;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.DI;
-    using OpenRasta.TypeSystem;
+
+    #endregion
 
     /// <summary>
     /// Defines a binder locator for a statically typed member

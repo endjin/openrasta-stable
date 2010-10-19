@@ -1,10 +1,13 @@
 ﻿namespace OpenRasta.Authentication.Basic
 {
+    #region Using Directives
+
     using OpenRasta.Contracts.Authentication;
     using OpenRasta.Contracts.Authentication.Basic;
     using OpenRasta.Contracts.Web;
     using OpenRasta.Extensions;
-    using OpenRasta.Web;
+
+    #endregion
 
     public class BasicAuthenticationScheme : IAuthenticationScheme
     {

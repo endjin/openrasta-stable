@@ -1,9 +1,12 @@
 namespace OpenRasta.Configuration.MetaModel.Handlers
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Contracts.TypeSystem;
-    using OpenRasta.TypeSystem;
+
+    #endregion
 
     public class TypeRewriterMetaModelHandler : AbstractMetaModelHandler
     {

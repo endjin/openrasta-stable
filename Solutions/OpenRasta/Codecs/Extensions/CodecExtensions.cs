@@ -1,5 +1,7 @@
 ﻿namespace OpenRasta.Codecs.Extensions
 {
+    #region Using Directives
+
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -11,6 +13,8 @@
     using OpenRasta.Contracts.Binding;
     using OpenRasta.Contracts.Codecs;
     using OpenRasta.Contracts.Web;
+
+    #endregion
 
     public static class CodecExtensions
     {

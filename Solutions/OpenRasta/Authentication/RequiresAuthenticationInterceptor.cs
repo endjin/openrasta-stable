@@ -1,9 +1,13 @@
 ﻿namespace OpenRasta.Authentication
 {
+    #region Using Directives
+
     using OpenRasta.Contracts.OperationModel;
     using OpenRasta.Contracts.Web;
     using OpenRasta.OperationModel.Interceptors;
     using OpenRasta.Web;
+
+    #endregion
 
     public class RequiresAuthenticationInterceptor : OperationInterceptor
     {
@@ -19,6 +23,7 @@
             if (this.context.User == null || this.context.User.Identity == null || !this.context.User.Identity.IsAuthenticated)
             {
                 this.context.OperationResult = new OperationResult.Unauthorized();
+
                 return false;
             }
 

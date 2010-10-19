@@ -1,5 +1,7 @@
 namespace OpenRasta.Configuration.Extensions
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Codecs.Framework;
@@ -7,6 +9,8 @@ namespace OpenRasta.Configuration.Extensions
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.Contracts.Configuration.Fluent;
     using OpenRasta.Contracts.TypeSystem;
+
+    #endregion
 
     public static class HasExtensions
     {
@@ -30,7 +34,6 @@ namespace OpenRasta.Configuration.Extensions
             return has.ResourcesWithKey(type);
         }
 
-        /// <exception cref="ArgumentNullException"><c>has</c> is null.</exception>
         public static IResourceDefinition ResourcesWithKey(this IHas has, object resourceKey)
         {
             if (has == null)
@@ -45,18 +48,18 @@ namespace OpenRasta.Configuration.Extensions
 
             var resourceKeyAsType = resourceKey as Type;
             
-            bool isStrictRegistration = false;
+            bool strictRegistration = false;
             
             if (resourceKeyAsType != null && CodecRegistration.IsStrictRegistration(resourceKeyAsType))
             {
                 resourceKey = CodecRegistration.GetStrictType(resourceKeyAsType);
-                isStrictRegistration = true;
+                strictRegistration = true;
             }
             
             var registration = new ResourceModel
             {
                 ResourceKey = resourceKey, 
-                IsStrictRegistration = isStrictRegistration
+                IsStrictRegistration = strictRegistration
             };
 
             var hasBuilder = (IFluentTarget)has;

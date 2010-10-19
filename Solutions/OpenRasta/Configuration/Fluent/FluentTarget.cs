@@ -1,10 +1,14 @@
 namespace OpenRasta.Configuration.Fluent
 {
+    #region Using Directives
+
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.Contracts.Configuration.Fluent;
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.DI;
+
+    #endregion
 
     public class FluentTarget : IHas, IUses, IFluentTarget
     {

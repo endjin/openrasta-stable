@@ -1,9 +1,13 @@
 namespace OpenRasta.Configuration.Fluent
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Contracts.Codecs;
     using OpenRasta.Contracts.Configuration.Fluent;
+
+    #endregion
 
     public class CodecParentDefinition : ICodecParentDefinition
     {

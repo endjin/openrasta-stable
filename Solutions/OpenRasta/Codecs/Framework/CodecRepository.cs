@@ -1,15 +1,7 @@
-#region License
-/* Authors:
- *      Sebastien Lambla (seb@serialseb.com)
- * Copyright:
- *      (C) 2007-2009 Caffeine IT & naughtyProd Ltd (http://www.caffeine-it.com)
- * License:
- *      This file is distributed under the terms of the MIT License found at the end of this file.
- */
-#endregion
-
 namespace OpenRasta.Codecs.Framework
 {
+    #region Using Directives
+
     using System;
     using System.Collections;
     using System.Collections.Generic;
@@ -21,6 +13,8 @@ namespace OpenRasta.Codecs.Framework
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.TypeSystem.ReflectionBased;
     using OpenRasta.Web;
+
+    #endregion
 
     public class CodecRepository : ICodecRepository
     {
@@ -45,6 +39,7 @@ namespace OpenRasta.Codecs.Framework
             foreach (var codecRegistration in this.codecs)
             {
                 var codecResourceType = codecRegistration.ResourceType;
+
                 if (codecRegistration.Extensions.Contains(extension, StringComparison.OrdinalIgnoreCase))
                 {
                     if (codecRegistration.IsStrict && resourceMember.Type.CompareTo(codecResourceType) == 0)
@@ -62,21 +57,20 @@ namespace OpenRasta.Codecs.Framework
             return null;
         }
 
-        public CodecMatch FindMediaTypeReader(
-            MediaType requestedMediaType, IEnumerable<IMember> requiredMembers, IEnumerable<IMember> optionalMembers)
+        public CodecMatch FindMediaTypeReader(MediaType mediaType, IEnumerable<IMember> required, IEnumerable<IMember> optional)
         {
-            if (requestedMediaType == null)
+            if (mediaType == null)
             {
-                throw new ArgumentNullException("requestedMediaType");
+                throw new ArgumentNullException("mediaType");
             }
 
-            if (requiredMembers == null)
+            if (required == null)
             {
-                throw new ArgumentNullException("requiredMembers");
+                throw new ArgumentNullException("required");
             }
             
             var codecMatches = new List<CodecMatch>();
-            var readerCodecs = from codec in this.codecs.Matching(requestedMediaType)
+            var readerCodecs = from codec in this.codecs.Matching(mediaType)
                                where codec.CodecType.Implements<IMediaTypeReader>() ||
                                      codec.CodecType.Implements(typeof(IKeyedValuesMediaTypeReader<>))
                                select codec;
@@ -85,9 +79,9 @@ namespace OpenRasta.Codecs.Framework
             {
                 float totalDistanceToRequiredParameters = 0;
                 
-                if (requiredMembers.Any())
+                if (required.Any())
                 {
-                    totalDistanceToRequiredParameters = this.CalculateScoreFor(requiredMembers, codec);
+                    totalDistanceToRequiredParameters = this.CalculateScoreFor(required, codec);
                     if (totalDistanceToRequiredParameters == -1)
                     {
                         continue; // the codec cannot resolve the required parameters
@@ -97,9 +91,9 @@ namespace OpenRasta.Codecs.Framework
                 int totalDistanceToOptionalParameters = 0;
                 int totalOptionalParametersCompatibleWithCodec = 0;
 
-                if (optionalMembers != null)
+                if (optional != null)
                 {
-                    foreach (var optionalType in optionalMembers)
+                    foreach (var optionalType in optional)
                     {
                         int typeScore = CalculateDistance(optionalType, codec);
 
@@ -115,7 +109,7 @@ namespace OpenRasta.Codecs.Framework
 
                 codecMatches.Add(
                     new CodecMatch(
-                        codec, averageScore, requiredMembers.Count() + totalOptionalParametersCompatibleWithCodec));
+                        codec, averageScore, required.Count() + totalOptionalParametersCompatibleWithCodec));
             }
 
             if (codecMatches.Count == 0)
@@ -139,16 +133,12 @@ namespace OpenRasta.Codecs.Framework
 
         IEnumerator IEnumerable.GetEnumerator()
         {
-            foreach (var reg in this.codecs.Distinct())
-            {
-                yield return reg;
-            }
+            return this.codecs.Distinct().GetEnumerator();
         }
 
         IEnumerator<CodecRegistration> IEnumerable<CodecRegistration>.GetEnumerator()
         {
-            foreach (var reg in this.codecs.Distinct())
-                yield return reg;
+            return this.codecs.Distinct().GetEnumerator();
         }
 
         private static int CalculateDistance(IMember member, CodecRegistration registration)
@@ -203,22 +193,3 @@ namespace OpenRasta.Codecs.Framework
         }
     }
 }
-
-#region Full license
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-#endregion

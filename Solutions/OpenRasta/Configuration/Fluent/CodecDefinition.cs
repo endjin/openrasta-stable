@@ -1,10 +1,14 @@
 namespace OpenRasta.Configuration.Fluent
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.Contracts.Configuration.Fluent;
     using OpenRasta.Web;
+
+    #endregion
 
     public class CodecDefinition : ICodecDefinition
     {

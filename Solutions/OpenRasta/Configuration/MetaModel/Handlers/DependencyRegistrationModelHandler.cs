@@ -1,9 +1,12 @@
 ﻿namespace OpenRasta.Configuration.MetaModel.Handlers
 {
+    #region Using Directives
+
     using System.Linq;
 
     using OpenRasta.Contracts.DI;
-    using OpenRasta.DI;
+
+    #endregion
 
     public class DependencyRegistrationMetaModelHandler : AbstractMetaModelHandler
     {

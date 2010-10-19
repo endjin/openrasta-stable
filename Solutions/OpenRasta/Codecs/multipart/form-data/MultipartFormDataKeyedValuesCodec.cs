@@ -1,15 +1,16 @@
 namespace OpenRasta.Codecs
 {
-    using OpenRasta.Binding;
+    #region Using Directives
+
     using OpenRasta.Codecs.Attributes;
     using OpenRasta.Contracts.Binding;
     using OpenRasta.Contracts.Codecs;
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Contracts.Web;
-    using OpenRasta.DI;
-    using OpenRasta.TypeSystem;
     using OpenRasta.Web;
+
+    #endregion
 
     [MediaType("multipart/form-data;q=0.5")]
     [SupportedType(typeof(object))]

@@ -1,10 +1,14 @@
 namespace OpenRasta.Configuration.Extensions
 {
+    #region Using Directives
+
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.Contracts.Configuration.Fluent;
     using OpenRasta.Contracts.Pipeline;
     using OpenRasta.Contracts.Web.UriDecorators;
     using OpenRasta.DI;
+
+    #endregion
 
     public static class UsesExtensions
     {
