@@ -9,8 +9,6 @@ using OpenRasta.Configuration.Fluent;
 using OpenRasta.Configuration.Fluent.Implementation;
 using OpenRasta.Configuration.MetaModel;
 using OpenRasta.DI;
-
-using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.TypeSystem;
 using OpenRasta.TypeSystem.ReflectionBased;
 using OpenRasta.Web;
@@ -18,6 +16,7 @@ using OpenRasta.Web.UriDecorators;
 
 namespace Configuration_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class configuration_context : context

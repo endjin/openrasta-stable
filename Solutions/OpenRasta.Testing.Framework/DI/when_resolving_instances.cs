@@ -10,7 +10,7 @@
 
 #endregion
 
-namespace InternalDependencyResolver_Specification
+namespace OpenRasta.Testing.Framework.DI
 {
     using System;
     using System.Linq;
@@ -21,10 +21,8 @@ namespace InternalDependencyResolver_Specification
     using OpenRasta.Hosting;
     using OpenRasta.Hosting.InMemory;
     using OpenRasta.Pipeline;
-    
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
-    using OpenRasta.Tests.Unit.DI;
-    using OpenRasta.Tests.Unit.Fakes;
 
     public abstract class when_resolving_instances : dependency_resolver_context
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Linq;
-using InternalDependencyResolver_Specification;
+
 using Microsoft.Practices.Unity;
 using NUnit.Framework;
 using OpenRasta.DI;
@@ -10,6 +10,7 @@ using OpenRasta.DI.Unity.Extensions;
 
 namespace UnityDependencyResolver_Specification
 {
+    using OpenRasta.Testing.Framework.DI;
     using OpenRasta.Testing.Specifications;
 
     [TestFixture]

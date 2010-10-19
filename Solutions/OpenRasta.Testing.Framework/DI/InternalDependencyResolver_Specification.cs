@@ -8,12 +8,12 @@
  */
 #endregion
 
-using System;
-using NUnit.Framework;
-using OpenRasta.DI;
-
-namespace InternalDependencyResolver_Specification
+namespace OpenRasta.Testing.Framework.DI
 {
+    using NUnit.Framework;
+
+    using OpenRasta.DI;
+
     [TestFixture]
     public class when_resolving_instances_with_internal_dependency_resolver :
         when_resolving_instances

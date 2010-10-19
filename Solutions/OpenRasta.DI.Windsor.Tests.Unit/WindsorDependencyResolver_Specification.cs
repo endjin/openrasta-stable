@@ -11,13 +11,15 @@
 #endregion
 
 using Castle.Windsor;
-using InternalDependencyResolver_Specification;
+
 using NUnit.Framework;
 using OpenRasta.DI;
 using OpenRasta.DI.Windsor;
 
 namespace WindsorDependencyResolver_Specification
 {
+    using OpenRasta.Testing.Framework.DI;
+
     [TestFixture]
     public class when_resolving_instances_the_castle_resolver : when_resolving_instances
     {

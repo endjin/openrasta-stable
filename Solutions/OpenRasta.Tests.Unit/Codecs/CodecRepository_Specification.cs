@@ -16,13 +16,12 @@ using System.Linq;
 using NUnit.Framework;
 using OpenRasta.Codecs;
 using OpenRasta.IO;
-
-using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 
 namespace CodecRepository_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class when_searching_for__media_type_reader : codec_repository_context

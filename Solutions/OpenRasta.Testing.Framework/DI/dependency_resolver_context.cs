@@ -8,30 +8,22 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.DI
 {
-    public class Person
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public string Username { get; set; }
-        public Address Address { get; set; }
-    }
-    public class Customer : Person
-    {
-        public List<Order> Orders { get; set; }
-        public ICollection<string> Attributes { get; set; }
-    }
+    using OpenRasta.DI;
+    using OpenRasta.Testing.Specifications;
 
-    public class Order
+    public abstract class dependency_resolver_context : context
     {
-        public string Description { get; set; }
-        public bool IsSelected { get; set; }
+        public IDependencyResolver Resolver { get; set; }
 
+        public abstract IDependencyResolver CreateResolver();
+
+        protected override void SetUp()
+        {
+            base.SetUp();
+            this.Resolver = this.CreateResolver();
+        }
     }
 }
 

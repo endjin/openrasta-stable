@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{59F4C5E3-2F36-4396-B82C-2CF8EA24DB87}</ProjectGuid>
+    <ProjectGuid>{EFAD3295-C26A-4F0A-AF04-2A7E3A531F19}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>OpenRasta.Tests.Integration</RootNamespace>
-    <AssemblyName>OpenRasta.Tests.Integration</AssemblyName>
+    <RootNamespace>OpenRasta.Testing.Framework</RootNamespace>
+    <AssemblyName>OpenRasta.Testing.Framework</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -37,9 +37,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\..\Common\AssemblyVersion.cs">
@@ -48,22 +45,25 @@
     <Compile Include="..\..\Common\CommonAssemblyInfo.cs">
       <Link>Properties\CommonAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Binding\CustomSurrogates.cs" />
-    <Compile Include="Codecs\HtmlForm_Specification.cs" />
-    <Compile Include="Codecs\Json_Specification.cs" />
-    <Compile Include="Codecs\MultipartFormData_Specification.cs" />
-    <Compile Include="Codecs\TextPlain_Specification.cs" />
-    <Compile Include="MultipleThreads_Specification.cs" />
+    <Compile Include="DI\DependencyManager_Specification.cs" />
+    <Compile Include="DI\dependency_resolver_context.cs" />
+    <Compile Include="DI\InternalDependencyResolver_Specification.cs" />
+    <Compile Include="DI\MockTypes.cs" />
+    <Compile Include="DI\when_resolving_instances.cs" />
+    <Compile Include="Fakes\Address.cs" />
+    <Compile Include="Fakes\Customer.cs" />
+    <Compile Include="Fakes\CustomerCodec.cs" />
+    <Compile Include="Fakes\CustomerHandler.cs" />
+    <Compile Include="Fakes\CustomerReaderCodec.cs" />
+    <Compile Include="Fakes\CustomerWriterCodec.cs" />
+    <Compile Include="Fakes\Elrond.cs" />
+    <Compile Include="Fakes\FailingCodec.cs" />
+    <Compile Include="Fakes\Frodo.cs" />
+    <Compile Include="Fakes\Gandalf.cs" />
+    <Compile Include="Fakes\GilGalad.cs" />
+    <Compile Include="Fakes\House.cs" />
+    <Compile Include="Fakes\Sauron.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Regressions\135.cs" />
-    <Compile Include="Regressions\148.1.cs" />
-    <Compile Include="Regressions\78.cs" />
-    <Compile Include="Regressions\92.cs" />
-    <Compile Include="Regressions\96.cs" />
-    <Compile Include="Security\DigestAuthentication_Specification.cs" />
-    <Compile Include="server_context.cs" />
-    <Compile Include="Stubs\Customer.cs" />
-    <Compile Include="Stubs\CustomerHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\OpenRasta.Testing.Specifications\OpenRasta.Testing.Specifications.csproj">

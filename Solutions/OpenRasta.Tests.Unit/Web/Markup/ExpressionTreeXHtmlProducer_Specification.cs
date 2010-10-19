@@ -14,13 +14,12 @@ using System.Linq;
 using System.Security.Principal;
 using NUnit.Framework;
 using OpenRasta.Collections;
-
-using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.Web.Markup;
 using OpenRasta.Web.Markup.Modules;
 
 namespace ExpressionTreeXHtmlProducer_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class when_building_forms : context

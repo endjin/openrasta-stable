@@ -12,10 +12,9 @@
 using Ninject;
 using NUnit.Framework;
 
-using OpenRasta.Tests.Unit.DI;
-
 namespace OpenRasta.DI.Ninject.Tests.Unit
 {
+    using OpenRasta.Testing.Framework.DI;
     using OpenRasta.Testing.Specifications;
 
     [TestFixture]

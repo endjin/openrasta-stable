@@ -15,13 +15,12 @@ using System.Globalization;
 using HandlerRepository_Specification;
 using NUnit.Framework;
 using OpenRasta;
-
-using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 
 namespace TemplatedUriResolver_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class matching_uris : context.templated_uri_resolver_context

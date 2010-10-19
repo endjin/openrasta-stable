@@ -8,24 +8,15 @@
  */
 #endregion
 
-using System;
-using OpenRasta.DI;
-
-
-namespace InternalDependencyResolver_Specification
+namespace OpenRasta.Testing.Framework.Fakes
 {
-    using OpenRasta.Testing.Specifications;
+    using System;
 
-    public abstract class dependency_resolver_context : context
+    public class Address
     {
-        protected override void SetUp()
-        {
-            base.SetUp();
-            Resolver = CreateResolver();
-        }
-
-        public IDependencyResolver Resolver { get; set; }
-        public abstract IDependencyResolver CreateResolver();
+        public string Line1 { get; set; }
+        public string City { get; set; }
+        public DateTime LastUpdated { get; set; }
     }
 }
 

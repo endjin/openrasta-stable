@@ -8,68 +8,13 @@
  */
 #endregion
 
-using System;
-
-namespace OpenRasta.Tests.Unit.DI
+namespace OpenRasta.Testing.Framework.Fakes
 {
-    public abstract class SimpleAbstract : ISimple
+    using OpenRasta.Codecs;
+
+    public class CustomerWriterCodec : Codec, IMediaTypeWriter
     {
-    }
-
-    public interface ISimple
-    {
-    }
-
-    public interface IAnotherSimple : ISimple
-    {
-    }
-
-    public interface ISimpleChild
-    {
-    }
-
-    public interface IAnother
-    {
-    }
-
-    public class Simple : ISimple
-    {
-        public ISimpleChild Property { get; set; }
-    }
-
-    public class SimpleChild : ISimpleChild
-    {
-    }
-
-    public class Another : IAnother
-    {
-        public Another(ISimple simple) { Dependent = simple; }
-        public ISimple Dependent { get; set; }
-    }
-
-    public class RecursiveConstructor
-    {
-        public RecursiveConstructor(RecursiveConstructor constructor) { }
-    }
-
-    public class RecursiveProperty
-    {
-        public RecursiveProperty Property { get; set; }
-    }
-
-    public class TypeWithTwoConstructors
-    {
-        public ISimple _argOne;
-        public IAnother _argTwo;
-        public TypeWithTwoConstructors() { }
-
-        public TypeWithTwoConstructors(ISimple argOne, IAnother argTwo)
-        {
-            _argOne = argOne;
-            _argTwo = argTwo;
-        }
-
-        public TypeWithTwoConstructors(ISimple argOne, IAnother argTwo, string somethingElse) { }
+        public void WriteTo(object entity, OpenRasta.Web.IHttpEntity response, string[] codecParameters) { }
     }
 }
 

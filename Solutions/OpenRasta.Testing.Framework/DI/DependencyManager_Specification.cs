@@ -8,14 +8,29 @@
  */
 #endregion
 
-using System;
-using OpenRasta.Codecs;
-
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.DI
 {
-    public class CustomerWriterCodec : Codec, IMediaTypeWriter
+    using System;
+
+    using NUnit.Framework;
+
+    using OpenRasta.DI;
+    using OpenRasta.Testing.Specifications;
+
+    public class when_resolving_services : context
     {
-        public void WriteTo(object entity, OpenRasta.Web.IHttpEntity response, string[] codecParameters) { }
+        [Test]
+        public void resolving_a_dependency_when_there_is_no_resolver_raises_an_exception()
+        {
+            DependencyManager.SetResolver(null);
+            Executing(() => DependencyManager.GetService(typeof(IConvertible))).ShouldThrow<DependencyResolutionException>();
+        }
+
+        [Test]
+        public void resolving_a_null_dependency_returns_null()
+        {
+            DependencyManager.GetService(null).ShouldBeNull();
+        }
     }
 }
 

@@ -14,10 +14,10 @@ using OpenRasta.Tests;
 using OpenRasta.TypeSystem;
 using OpenRasta.Web;
 using OpenRasta.Pipeline;
-using OpenRasta.Tests.Unit.Fakes;
 
 namespace OperationCreationContributor_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class when_in_the_pipeline : operation_creation_context

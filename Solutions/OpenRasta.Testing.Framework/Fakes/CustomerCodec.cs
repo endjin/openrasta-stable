@@ -8,15 +8,16 @@
  */
 #endregion
 
-using System;
-using System.Collections.Generic;
-using OpenRasta.Binding;
-using OpenRasta.Codecs;
-using OpenRasta.TypeSystem;
-using OpenRasta.Web;
-
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.Fakes
 {
+    using System;
+    using System.Collections.Generic;
+
+    using OpenRasta.Binding;
+    using OpenRasta.Codecs;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.Web;
+
     public class CustomerCodec : Codec, IMediaTypeReader, IMediaTypeWriter
     {
         public object ReadFrom(IHttpEntity request, IType type, string paramName) { return type.CreateInstance(); }

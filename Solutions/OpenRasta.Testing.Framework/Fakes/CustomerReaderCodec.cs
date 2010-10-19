@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 /* Authors:
  *      Sebastien Lambla (seb@serialseb.com)
  * Copyright:
@@ -7,18 +7,15 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace OpenRasta.Tests.Unit.Fakes
+namespace OpenRasta.Testing.Framework.Fakes
 {
+    using OpenRasta.Codecs;
+    using OpenRasta.TypeSystem;
 
-    public class House
+    public class CustomerReaderCodec : Codec, IMediaTypeReader
     {
-        public IList<Customer> Customers { get; set; }
-        public IDictionary<string, Customer> CustomersByName { get; set; }
+        public object ReadFrom(OpenRasta.Web.IHttpEntity request, IType destinationType, string destinationName) { return null; }
     }
 }
 

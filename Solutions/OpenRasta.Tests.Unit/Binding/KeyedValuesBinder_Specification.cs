@@ -7,20 +7,19 @@
  *      This file is distributed under the terms of the MIT License found at the end of this file.
  */
 #endregion
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using NUnit.Framework;
-using OpenRasta.Binding;
-using OpenRasta.Tests.Unit.Fakes;
-
-using OpenRasta.TypeSystem;
-using OpenRasta.TypeSystem.ReflectionBased;
 
 namespace KeyedValuesBinder_Specification
 {
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using NUnit.Framework;
+
+    using OpenRasta.Binding;
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
+    using OpenRasta.TypeSystem;
+    using OpenRasta.TypeSystem.ReflectionBased;
 
     public class when_building_the_object : context
     {

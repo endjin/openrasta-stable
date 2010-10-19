@@ -100,7 +100,7 @@
       <Project>{9932054F-401D-4EFA-93A6-5D14B1585207}</Project>
       <Name>OpenRasta.Testing.Hosting</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenRasta.Testing\OpenRasta.Testing.Specifications.csproj">
+    <ProjectReference Include="..\OpenRasta.Testing.Specifications\OpenRasta.Testing.Specifications.csproj">
       <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
       <Name>OpenRasta.Testing.Specifications</Name>
     </ProjectReference>

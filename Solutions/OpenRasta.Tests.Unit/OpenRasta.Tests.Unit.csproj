@@ -73,24 +73,6 @@
     <Compile Include="Configuration\MetaModel_Specification.cs" />
     <Compile Include="Data\PagedData_Specification.cs" />
     <Compile Include="Diagnostics\LogSource_Specification.cs" />
-    <Compile Include="DI\DependencyManager_Specification.cs" />
-    <Compile Include="DI\dependency_resolver_context.cs" />
-    <Compile Include="DI\InternalDependencyResolver_Specification.cs" />
-    <Compile Include="DI\MockTypes.cs" />
-    <Compile Include="DI\when_resolving_instances.cs" />
-    <Compile Include="Fakes\Address.cs" />
-    <Compile Include="Fakes\Customer.cs" />
-    <Compile Include="Fakes\CustomerCodec.cs" />
-    <Compile Include="Fakes\CustomerHandler.cs" />
-    <Compile Include="Fakes\CustomerReaderCodec.cs" />
-    <Compile Include="Fakes\CustomerWriterCodec.cs" />
-    <Compile Include="Fakes\Elrond.cs" />
-    <Compile Include="Fakes\FailingCodec.cs" />
-    <Compile Include="Fakes\Frodo.cs" />
-    <Compile Include="Fakes\Gandalf.cs" />
-    <Compile Include="Fakes\GilGalad.cs" />
-    <Compile Include="Fakes\House.cs" />
-    <Compile Include="Fakes\Sauron.cs" />
     <Compile Include="IO\BoundaryStreamReader_Specification.cs" />
     <Compile Include="IO\ByteArrayExtension_Specification.cs" />
     <Compile Include="IO\DeterministicStreamWriter_Specification.cs" />
@@ -165,7 +147,11 @@
       <Project>{C8686D84-A18A-4C31-8186-4DEEB89E5BFC}</Project>
       <Name>OpenRasta.Codecs.WebForms</Name>
     </ProjectReference>
-    <ProjectReference Include="..\OpenRasta.Testing\OpenRasta.Testing.Specifications.csproj">
+    <ProjectReference Include="..\OpenRasta.Testing.Framework\OpenRasta.Testing.Framework.csproj">
+      <Project>{EFAD3295-C26A-4F0A-AF04-2A7E3A531F19}</Project>
+      <Name>OpenRasta.Testing.Framework</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OpenRasta.Testing.Specifications\OpenRasta.Testing.Specifications.csproj">
       <Project>{47EC9B20-C937-4049-9E68-80F13A82148F}</Project>
       <Name>OpenRasta.Testing.Specifications</Name>
     </ProjectReference>

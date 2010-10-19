@@ -16,13 +16,13 @@ using System.Linq;
 using Instances_Specification;
 using NUnit.Framework;
 
-using OpenRasta.Tests.Unit.Fakes;
 using OpenRasta.Tests.Unit.TypeSystem;
 using OpenRasta.TypeSystem;
-using Frodo = OpenRasta.Tests.Unit.Fakes.Frodo;
+using Frodo = OpenRasta.Testing.Framework.Fakes.Frodo;
 
 namespace Surrogates_Specification
 {
+    using OpenRasta.Testing.Framework.Fakes;
     using OpenRasta.Testing.Specifications;
 
     public class when_using_ListOfT : instance_context
