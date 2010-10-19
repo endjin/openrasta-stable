@@ -49,6 +49,11 @@
         public static T FindTypeInProject<T>() where T : class
         {
             // forces global.asax to be compiled.
+
+            // Fake out the ASP.NET 4.0 pipeline
+            typeof(BuildManager).GetProperty("PreStartInitStage", BindingFlags.NonPublic | BindingFlags.Static).SetValue(null, 2, null);
+            typeof(BuildManager).GetField("_topLevelFilesCompiledStarted", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(typeof(BuildManager).GetField("_theBuildManager", BindingFlags.NonPublic | BindingFlags.Static).GetValue(null), true);
+
             BuildManager.GetReferencedAssemblies();
             
             foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies().Where(NotFrameworkAssembly))
