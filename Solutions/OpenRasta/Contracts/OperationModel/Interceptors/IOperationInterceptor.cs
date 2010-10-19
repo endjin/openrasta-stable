@@ -1,9 +1,13 @@
 namespace OpenRasta.Contracts.OperationModel.Interceptors
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
 
     using OpenRasta.OperationModel;
+
+    #endregion
 
     public interface IOperationInterceptor
     {

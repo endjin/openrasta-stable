@@ -57,6 +57,17 @@ namespace OpenRasta.Codecs.Framework
             return null;
         }
 
+        /// <summary>
+        /// Selects the best codec for a given media type and a set of parameters to be resolved.
+        /// </summary>
+        /// <param name="contentType"></param>
+        /// <param name="requiredTypes"></param>
+        /// <param name="optionalTypes"></param>
+        /// <returns>The codec registration and score matching the list of parameters.</returns>
+        /// <remarks>
+        /// <para>The score is calculated as the average distance of the codec to the parameter types.</para>
+        /// <para>For example, if Customer inherits directly from Object, the distance between Object and Customer is 1,and the distance between Customer and itself is 0.</para>
+        /// </remarks>
         public CodecMatch FindMediaTypeReader(MediaType mediaType, IEnumerable<IMember> required, IEnumerable<IMember> optional)
         {
             if (mediaType == null)

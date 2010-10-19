@@ -8,6 +8,7 @@ namespace OpenRasta.Configuration.MetaModel.Handlers
     using OpenRasta.Codecs.Framework;
     using OpenRasta.Collections;
     using OpenRasta.Contracts.Codecs;
+    using OpenRasta.Contracts.Configuration.MetaModel;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Exceptions;
 

@@ -31,12 +31,4 @@ namespace OpenRasta.Contracts.TypeSystem
         /// <returns>An implementatino of <see cref="IType"/>.</returns>
         IType FromInstance(object instance);
     }
-
-    public static class TypeSystemExtensions
-    {
-        public static IType FromClr<T>(this ITypeSystem typeSystem)
-        {
-            return typeSystem.FromClr(typeof(T));
-        }
-    }
 }

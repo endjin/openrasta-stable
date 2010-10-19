@@ -3,8 +3,7 @@ namespace OpenRasta.Contracts.OperationModel
 {
     using OpenRasta.Contracts.Pipeline;
 
-    public interface IOperationProcessor<T> : IOperationProcessor
-        where T : IPipelineContributor
+    public interface IOperationProcessor<T> : IOperationProcessor where T : IPipelineContributor
     {
     }
 }

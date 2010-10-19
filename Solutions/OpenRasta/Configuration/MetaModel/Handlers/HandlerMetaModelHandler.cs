@@ -1,5 +1,6 @@
 namespace OpenRasta.Configuration.MetaModel.Handlers
 {
+    using OpenRasta.Contracts.Configuration.MetaModel;
     using OpenRasta.Contracts.Handlers;
 
     public class HandlerMetaModelHandler : AbstractMetaModelHandler

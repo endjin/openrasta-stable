@@ -1,10 +1,13 @@
 namespace OpenRasta.Contracts.TypeSystem
 {
+    #region Using Directives
+
     using System;
     using System.Collections.Generic;
 
     using OpenRasta.Binding;
-    using OpenRasta.Contracts.DI;
+
+    #endregion
 
     /// <summary>
     /// Represents a type used to manipulate objects.
@@ -39,10 +42,5 @@ namespace OpenRasta.Contracts.TypeSystem
         /// <param name="type">The type to assign to a value of this type.</param>
         /// <returns><c>true</c> if the types are compatible, otherwise <c>false</c>.</returns>
         bool IsAssignableFrom(IType type);
-    }
-
-    public interface IResolverAwareType : IType
-    {
-        object CreateInstance(IDependencyResolver resolver);
     }
 }

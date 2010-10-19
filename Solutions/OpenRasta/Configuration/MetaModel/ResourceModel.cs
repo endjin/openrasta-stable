@@ -1,10 +1,13 @@
 ﻿namespace OpenRasta.Configuration.MetaModel
 {
+    #region Using Directives
+
     using System.Collections.Generic;
     using System.Linq;
 
     using OpenRasta.Contracts.TypeSystem;
-    using OpenRasta.TypeSystem;
+
+    #endregion
 
     public class ResourceModel
     {

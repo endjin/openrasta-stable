@@ -8,7 +8,7 @@
  */
 #endregion
 
-namespace OpenRasta.Contracts.Web.Markup
+namespace OpenRasta.Web.Markup
 {
     using OpenRasta.Web.Markup.Modules;
 

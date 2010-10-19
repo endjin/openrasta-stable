@@ -1,9 +1,13 @@
 namespace OpenRasta.Contracts.Hosting
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.Contracts.DI;
     using OpenRasta.Hosting;
+
+    #endregion
 
     public interface IHost
     {

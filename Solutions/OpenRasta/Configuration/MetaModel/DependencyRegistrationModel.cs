@@ -1,8 +1,12 @@
 ﻿namespace OpenRasta.Configuration.MetaModel
 {
+    #region Using Directives
+
     using System;
 
     using OpenRasta.DI;
+
+    #endregion
 
     public class DependencyRegistrationModel
     {

@@ -12,6 +12,7 @@
     using OpenRasta.Codecs.Html;
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.Configuration.MetaModel.Handlers;
+    using OpenRasta.Contracts.Configuration.MetaModel;
     using OpenRasta.Contracts.Configuration.MetaModel.Handlers;
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.Handlers;

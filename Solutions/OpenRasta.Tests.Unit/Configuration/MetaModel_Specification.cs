@@ -18,6 +18,7 @@ namespace Configuration_Specification
     using OpenRasta.Configuration.Extensions;
     using OpenRasta.Configuration.Fluent;
     using OpenRasta.Contracts.Configuration.Fluent;
+    using OpenRasta.Contracts.Configuration.MetaModel;
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.Contracts.Web;

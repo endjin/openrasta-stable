@@ -1,8 +1,12 @@
 namespace OpenRasta.Contracts.TypeSystem.Surrogated
 {
+    #region Using Directives
+
     using System.Collections.Generic;
 
     using OpenRasta.Contracts.TypeSystem.Surrogates;
+
+    #endregion
 
     /// <summary>
     /// Represents an object that keeps a list of surrogate instances for members, usually for usage in member builders.

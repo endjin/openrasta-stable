@@ -7,6 +7,7 @@
     using System.Linq;
 
     using OpenRasta.Configuration.MetaModel.Handlers;
+    using OpenRasta.Contracts.Configuration.MetaModel;
     using OpenRasta.Contracts.Configuration.MetaModel.Handlers;
     using OpenRasta.Contracts.DI;
 

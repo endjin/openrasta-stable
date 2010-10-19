@@ -1,8 +1,12 @@
 namespace OpenRasta.Configuration.MetaModel
 {
+    #region Using Directives
+
     using System.Collections.Generic;
 
     using OpenRasta.Web;
+
+    #endregion
 
     public class MediaTypeModel
     {

@@ -1,8 +1,12 @@
 namespace OpenRasta.Contracts.TypeSystem
 {
+    #region Using Directives
+
     using System.Collections.Generic;
 
     using OpenRasta.TypeSystem;
+
+    #endregion
 
     /// <summary>
     /// Represents the component responsible for generating and parsing object paths.

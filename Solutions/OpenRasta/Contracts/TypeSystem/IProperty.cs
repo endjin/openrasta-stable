@@ -1,8 +1,12 @@
 namespace OpenRasta.Contracts.TypeSystem
 {
+    #region Using Directives
+
     using System.Collections.Generic;
 
     using OpenRasta.Binding;
+
+    #endregion
 
     public interface IProperty : IMember
     {

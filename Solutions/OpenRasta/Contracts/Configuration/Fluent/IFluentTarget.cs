@@ -1,6 +1,6 @@
 namespace OpenRasta.Contracts.Configuration.Fluent
 {
-    using OpenRasta.Configuration.MetaModel;
+    using OpenRasta.Contracts.Configuration.MetaModel;
     using OpenRasta.Contracts.TypeSystem;
 
     public interface IFluentTarget : INoIzObject

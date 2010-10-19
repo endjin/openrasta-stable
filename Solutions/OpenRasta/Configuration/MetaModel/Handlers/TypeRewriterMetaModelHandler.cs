@@ -4,6 +4,7 @@ namespace OpenRasta.Configuration.MetaModel.Handlers
 
     using System;
 
+    using OpenRasta.Contracts.Configuration.MetaModel;
     using OpenRasta.Contracts.TypeSystem;
 
     #endregion

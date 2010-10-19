@@ -4,6 +4,7 @@ namespace OpenRasta.Configuration.Fluent
 
     using OpenRasta.Configuration.MetaModel;
     using OpenRasta.Contracts.Configuration.Fluent;
+    using OpenRasta.Contracts.Configuration.MetaModel;
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.TypeSystem;
     using OpenRasta.DI;

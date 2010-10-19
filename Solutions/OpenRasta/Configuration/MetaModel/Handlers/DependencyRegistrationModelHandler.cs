@@ -4,6 +4,7 @@
 
     using System.Linq;
 
+    using OpenRasta.Contracts.Configuration.MetaModel;
     using OpenRasta.Contracts.DI;
 
     #endregion
