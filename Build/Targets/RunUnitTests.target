@@ -12,21 +12,21 @@
     </Choose>
   
   <Target Name="RunUnitTests"
-          DependsOnTargets="CreateDrops">
+          DependsOnTargets="CreateDrops;BuildSolutions">
+
 
     <MakeDir Directories="$(DropsPath)\$(GlobalBuildVersionNumber)\UnitTests"/>
-    
-    <!--<PropertyGroup>
-      <NUnit-DisableShadowCopy>%(OriginalProject.NUnit-DisableShadowCopy)</NUnit-DisableShadowCopy>
-      <NUnit-DisableShadowCopy Condition="'$(NUnit-DisableShadowCopy)' == ''">false</NUnit-DisableShadowCopy>
-      <UnitTest>%(OriginalProject.UnitTest)</UnitTest>
-    </PropertyGroup>
 
-    <NUnit ToolPath="$(NUnitDirectory)" 
-           Assemblies="@(NonMergedAssemblies)" 
-           OutputXmlFile="$(NUnitReportsDirectory)\%(UnitTestAssembly.Filename).xml" 
-           Condition="'$(UnitTest)' == 'true'" 
-           DisableShadowCopy="$(NUnit-DisableShadowCopy)"  />-->
+    <ItemGroup>
+      <UnitTestFiles Include="@(ProjectOutputs)"/>
+    </ItemGroup>
+
+    <Message Text="%0a%0dUnitTests:%0a%0d @(ProjectOutputs,'%0a%0d')" />
+
+    <!--<NUnit ToolPath="$(NUnit-ToolPath)" 
+           DisableShadowCopy="true" 
+           Assemblies="test\bin\Debug\test.dll" 
+           OutputXmlFile="$(DropsPath)\$(GlobalBuildVersionNumber)\UnitTests\test-results.xml" />-->
   
   </Target>
 

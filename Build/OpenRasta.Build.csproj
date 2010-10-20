@@ -88,7 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Package.cmd" />
-    <None Include="RunSpecs.cmd" />
+    <None Include="RunUnitTests.cmd" />
     <None Include="ReleaseBuild.cmd" />
     <None Include="FullBuild.cmd" />
     <None Include="Properties\Common.properties" />
@@ -96,7 +96,6 @@
     <None Include="Properties\CPUArchitecture.properties" />
     <None Include="Properties\Build.properties" />
     <None Include="ReleaseBuild_Dont_Increment_Version.cmd" />
-    <None Include="RunFirst.cmd" />
     <None Include="Signing\OpenRasta.snk" />
     <None Include="Targets\BuildSolutions.target" />
     <None Include="Targets\BuildSuccess.target" />
@@ -107,7 +106,6 @@
     <None Include="Targets\CreateDrops.target" />
     <None Include="Targets\RunSpecs.target" />
     <None Include="Targets\VersionNumberGenerate.target" />
-    <None Include="Targets\SyncWithSourceControl.target" />
     <None Include="Targets\VersionNumberGetLast.target" />
     <None Include="Targets\Package.target" />
     <None Include="Targets\VersionNumberIncrement.target" />
