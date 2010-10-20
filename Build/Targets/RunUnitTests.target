@@ -1,32 +1,23 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
-  <Choose>
-      <When Condition="('$(OutputPath)'!='')">
-      </When>
-      <!-- Running outside of the build -->
-      <Otherwise>
-        <PropertyGroup>
-          <OutputPath>bin\debug</OutputPath>
-        </PropertyGroup>
-      </Otherwise>
-    </Choose>
-  
   <Target Name="RunUnitTests"
-          DependsOnTargets="CreateDrops;BuildSolutions">
-
+          DependsOnTargets="CreateDrops;">
 
     <MakeDir Directories="$(DropsPath)\$(GlobalBuildVersionNumber)\UnitTests"/>
 
+    <PropertyGroup>
+      <NUnit-ToolPath>$(ReferencedAssembliesPath)\NUnit\2.5.7.1</NUnit-ToolPath>
+    </PropertyGroup>
+    
     <ItemGroup>
-      <UnitTestFiles Include="@(ProjectOutputs)"/>
+      <TestAssemblies Include="$(SolutionsPath)\**\release\*.Unit.dll" />
     </ItemGroup>
 
-    <Message Text="%0a%0dUnitTests:%0a%0d @(ProjectOutputs,'%0a%0d')" />
+    <Message Text="@(TestAssemblies->'%(FullPath)')" />
 
-    <!--<NUnit ToolPath="$(NUnit-ToolPath)" 
-           DisableShadowCopy="true" 
-           Assemblies="test\bin\Debug\test.dll" 
-           OutputXmlFile="$(DropsPath)\$(GlobalBuildVersionNumber)\UnitTests\test-results.xml" />-->
+    <NUnit ToolPath="$(NUnit-ToolPath)" 
+           Assemblies="@(TestAssemblies->'%(FullPath)')" 
+           OutputXmlFile="$(DropsPath)\$(GlobalBuildVersionNumber)\UnitTests\\test.xml" />
   
   </Target>
 

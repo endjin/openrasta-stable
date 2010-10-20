@@ -10,7 +10,6 @@
   <!-- Import Custom MSBuild Tasks -->
   <Import Project="$(TasksPath)\Microsoft.Sdc.Common.tasks" />
   <Import Project="$(TasksPath)\MSBuild.Community.tasks" />
-  <Import Project="$(TasksPath)\MSBuild.Extended.tasks" />
 
   <!-- Import Custom Project Targets -->
   <Import Project="$(TargetsPath)\BuildSolutions.target" />
