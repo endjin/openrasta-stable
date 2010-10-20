@@ -1,7 +1,7 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 
   <Target Name="RunUnitTests"
-          DependsOnTargets="CreateDrops;">
+          DependsOnTargets="CreateDrops;BuildSolutions">
 
     <MakeDir Directories="$(DropsPath)\$(GlobalBuildVersionNumber)\UnitTests"/>
 
@@ -10,14 +10,15 @@
     </PropertyGroup>
     
     <ItemGroup>
-      <TestAssemblies Include="$(SolutionsPath)\**\release\*.Unit.dll" />
+      <TestAssemblies Include="$(SolutionsPath)\**\bin\release\*.Unit.dll" />
     </ItemGroup>
 
     <Message Text="@(TestAssemblies->'%(FullPath)')" />
 
-    <NUnit ToolPath="$(NUnit-ToolPath)" 
-           Assemblies="@(TestAssemblies->'%(FullPath)')" 
-           OutputXmlFile="$(DropsPath)\$(GlobalBuildVersionNumber)\UnitTests\\test.xml" />
+    <NUnit Assemblies="@(TestAssemblies->'%(FullPath)')" 
+           DisableShadowCopy="true"
+           OutputXmlFile="$(DropsPath)\$(GlobalBuildVersionNumber)\UnitTests\\test.xml" 
+           ToolPath="$(NUnit-ToolPath)" />
   
   </Target>
 
