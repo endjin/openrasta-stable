@@ -20,7 +20,6 @@
   <Import Project="$(TargetsPath)\Package.target" />
   <Import Project="$(TargetsPath)\RunSpecs.target" />
   <Import Project="$(TargetsPath)\RunUnitTests.target" />
-  <Import Project="$(TargetsPath)\SyncWithSourceControl.target" />
   <Import Project="$(TargetsPath)\VersionNumberGenerate.target" />
   <Import Project="$(TargetsPath)\VersionNumberGetLast.target" />
   <Import Project="$(TargetsPath)\VersionNumberIncrement.target" />

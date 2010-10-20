@@ -22,7 +22,6 @@
 
   <Target Name="PreBuild" 
           DependsOnTargets="CleanSolution;
-                            SyncWithSourceControl;
                             ConfigureSolution;
                             VersionNumberIncrement;" />
 

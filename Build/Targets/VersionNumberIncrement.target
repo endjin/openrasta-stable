@@ -4,23 +4,7 @@
 
   <Target Name="VersionNumberIncrement"
           Condition=" '$(IsDesktopBuild)' != 'true' AND '$(SkipVersionNumberIncrement)' != 'true' ">
-
-    <!-- As a precaution, make sure we have the latest version config -->
-    <!--<Sync
-      All="True"
-      Path="$/WhoCanHelpMe/Main/Build/Versioning/VersionNumber.exe.config"
-      OutputFolder="$(BuildPath)\Versioning"
-      TfsVersion="2008"
-      Force="True"
-      Overwrite="True"
-    />-->
-
-    <CheckOut
-      Path="$(BuildPath)\Versioning\VersionNumber.exe.config"
-      TfsVersion="2008"
-      WorkingDirectory="$(BuildPath)\Versioning"
-    />
-    
+  
     <!-- plug in a custom version of VersionNumber.exe to fix "Y2k7" bug -->
     <Exec Command="&quot;$(VersionXmlFile)\..\VersionNumber.exe&quot; &quot;$(AssemblyVersionFile)&quot;" 
           ContinueOnError="false"/>
@@ -28,13 +12,6 @@
     <VersionNumber.Load ConfigFileLocation="$(VersionXmlFile)">
       <Output TaskParameter="VersionNumber" PropertyName="GlobalBuildVersionNumber" />
     </VersionNumber.Load>
-
-    <CheckIn
-      Path="$(BuildPath)\Versioning\VersionNumber.exe.config"
-      Comments="Build: VersionNumber.exe.config updated by build process"
-      TfsVersion="2008"
-      WorkingDirectory="$(BuildPath)\Versioning"
-    />
 
     <Message Text="GlobalBuildVersionNumber is now $(GlobalBuildVersionNumber)" Importance="HIGH" />
 
