@@ -79,22 +79,28 @@ namespace OpenRasta.DI.Windsor
         protected override void AddDependencyCore(Type dependent, Type concrete, DependencyLifetime lifetime)
         {
             string componentName = Guid.NewGuid().ToString();
+
             if (lifetime != DependencyLifetime.PerRequest)
             {
-                this.windsorContainer.AddComponentLifeStyle(
-                    componentName, dependent, concrete, ConvertLifestyles.ToLifestyleType(lifetime));
+                this.windsorContainer.Register(
+                    Component.For(dependent)
+                             .Named(componentName)
+                             .ImplementedBy(concrete)
+                             .LifeStyle.Is(ConvertLifestyles.ToLifestyleType(lifetime)));
             }
             else
             {
                 this.windsorContainer.Register(
-                    Component.For(dependent).Named(componentName).ImplementedBy(concrete).LifeStyle.Custom(
-                        typeof(ContextStoreLifetime)));
+                    Component.For(dependent)
+                             .Named(componentName)
+                             .ImplementedBy(concrete).LifeStyle.Custom(typeof(ContextStoreLifetime)));
             }
         }
 
         protected override void AddDependencyInstanceCore(Type serviceType, object instance, DependencyLifetime lifetime)
         {
             string key = Guid.NewGuid().ToString();
+
             if (lifetime == DependencyLifetime.PerRequest)
             {
                 // try to see if we have a registration already
@@ -103,6 +109,7 @@ namespace OpenRasta.DI.Windsor
                 if (this.windsorContainer.Kernel.HasComponent(serviceType))
                 {
                     var handler = this.windsorContainer.Kernel.GetHandler(serviceType);
+
                     if (handler.ComponentModel.ExtendedProperties[Constants.RegIsInstanceKey] != null)
                     {
                         // if there's already an instance registration we update the store with the correct reg.
@@ -117,11 +124,13 @@ namespace OpenRasta.DI.Windsor
                 {
                     var component = new ComponentModel(key, serviceType, instance.GetType());
                     var customLifestyle = typeof(ContextStoreLifetime);
+
                     component.LifestyleType = LifestyleType.Custom;
                     component.CustomLifestyle = customLifestyle;
                     component.CustomComponentActivator = typeof(ContextStoreInstanceActivator);
                     component.ExtendedProperties[Constants.RegIsInstanceKey] = true;
                     component.Name = component.Name;
+                    
                     this.windsorContainer.Kernel.Register(Component.For(component));
 
                     store[component.Name] = instance;
@@ -129,7 +138,10 @@ namespace OpenRasta.DI.Windsor
             }
             else if (lifetime == DependencyLifetime.Singleton)
             {
-                this.windsorContainer.Kernel.AddComponentInstance(key, serviceType, instance);
+                this.windsorContainer.Kernel.Register(
+                    Component.For(serviceType)
+                             .Named(key)
+                             .Instance(instance));
             }
         }
 
@@ -138,7 +150,13 @@ namespace OpenRasta.DI.Windsor
             this.AddDependencyCore(handlerType, handlerType, lifetime);
         }
 
-        IEnumerable<IHandler> AvailableHandlers(IEnumerable<IHandler> handlers)
+        private static bool IsWebInstance(ComponentModel component)
+        {
+            return typeof(ContextStoreLifetime).IsAssignableFrom(component.CustomLifestyle) &&
+                   component.ExtendedProperties[Constants.RegIsInstanceKey] != null;
+        }
+
+        private IEnumerable<IHandler> AvailableHandlers(IEnumerable<IHandler> handlers)
         {
             return from handler in handlers
                    where handler.CurrentState == HandlerState.Valid
@@ -148,8 +166,9 @@ namespace OpenRasta.DI.Windsor
 
         private bool IsAvailable(ComponentModel component)
         {
-            bool isWebInstance = IsWebInstance(component);
-            if (isWebInstance)
+            bool webInstance = IsWebInstance(component);
+
+            if (webInstance)
             {
                 if (component.Name == null || !this.HasDependency(typeof(IContextStore)))
                 {
@@ -157,18 +176,12 @@ namespace OpenRasta.DI.Windsor
                 }
 
                 var store = this.windsorContainer.Resolve<IContextStore>();
-                bool isInstanceAvailable = store[component.Name] != null;
+                bool instanceAvailable = store[component.Name] != null;
                 
-                return isInstanceAvailable;
+                return instanceAvailable;
             }
 
             return true;
-        }
-
-        private static bool IsWebInstance(ComponentModel component)
-        {
-            return typeof(ContextStoreLifetime).IsAssignableFrom(component.CustomLifestyle) &&
-                   component.ExtendedProperties[Constants.RegIsInstanceKey] != null;
         }
     }
 }

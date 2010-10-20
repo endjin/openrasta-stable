@@ -17,10 +17,13 @@
     {
         private string storeKey;
 
-        public ContextStoreInstanceActivator(ComponentModel model, IKernel kernel, ComponentInstanceDelegate onCreation, ComponentInstanceDelegate onDestruction)
-            : base(model, kernel, onCreation, onDestruction)
+        public ContextStoreInstanceActivator(
+            ComponentModel model, 
+            IKernel kernel, 
+            ComponentInstanceDelegate onCreation,
+            ComponentInstanceDelegate onDestruction) : base(model, kernel, onCreation, onDestruction)
         {
-            storeKey = model.Name;
+            this.storeKey = model.Name;
         }
 
         protected override object InternalCreate(CreationContext context)

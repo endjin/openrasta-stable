@@ -1,38 +1,30 @@
-#region License
-
-/* Authors:
- *      Aaron Lerch (aaronlerch@gmail.com)
- * Copyright:
- *      (C) 2007-2009 Caffeine IT & naughtyProd Ltd (http://www.caffeine-it.com)
- * License:
- *      This file is distributed under the terms of the MIT License found at the end of this file.
- */
-#endregion
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using Ninject;
-using Ninject.Activation;
-using Ninject.Activation.Caching;
-using Ninject.Parameters;
-using Ninject.Planning;
-using Ninject.Planning.Bindings;
-using Ninject.Selection;
-using Ninject.Selection.Heuristics;
-using OpenRasta.DI.Internal;
-using OpenRasta.Pipeline;
-
-using NinjectBinding = Ninject.Planning.Bindings.Binding;
-
 namespace OpenRasta.DI.Ninject
 {
+    #region Using Directives
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+
+    using global::Ninject;
+    using global::Ninject.Activation;
+    using global::Ninject.Activation.Caching;
+    using global::Ninject.Parameters;
+    using global::Ninject.Planning;
+    using global::Ninject.Planning.Bindings;
+    using global::Ninject.Selection;
+    using global::Ninject.Selection.Heuristics;
+
     using OpenRasta.Contracts.DI;
     using OpenRasta.Contracts.Pipeline;
+    using OpenRasta.DI.Internal;
     using OpenRasta.Exceptions;
     using OpenRasta.Extensions;
 
     using IPipeline = global::Ninject.Activation.IPipeline;
+    using NinjectBinding = global::Ninject.Planning.Bindings.Binding;
+
+    #endregion
 
     /// <summary>
     /// A Ninject-based <see cref="IDependencyResolver"/>.
@@ -41,7 +33,7 @@ namespace OpenRasta.DI.Ninject
     {
         private static readonly IEnumerable<IParameter> EmptyParameters = new IParameter[] { };
 
-        private readonly IKernel _kernel;
+        private readonly IKernel kernel;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="NinjectDependencyResolver"/> class.
@@ -55,7 +47,7 @@ namespace OpenRasta.DI.Ninject
         /// <param name="kernel">The kernel to use.</param>
         public NinjectDependencyResolver(IKernel kernel)
         {
-            _kernel = kernel ?? CreateKernel();
+            this.kernel = kernel ?? CreateKernel();
         }
 
         /// <summary>
@@ -96,19 +88,10 @@ namespace OpenRasta.DI.Ninject
             return kernel;
         }
 
-        private static void ConfigureKernel(IKernel kernel)
+        public void Destruct(string key, object instance)
         {
-            // Needed to support OpenRasta's assumptions.
-            kernel.Components.Add<IInjectionHeuristic, AllResolvablePropertiesInjectionHeuristic>();
-            kernel.Components.RemoveAll(typeof(IConstructorScorer));
-            kernel.Components.Add<IConstructorScorer, InjectableConstructorScorer>();
-        }
-
-        private static IBinding CreateBinding(Type serviceType, DependencyLifetime lifetime)
-        {
-            return (lifetime == DependencyLifetime.PerRequest)
-                       ? new WebBinding(serviceType)
-                       : new NinjectBinding(serviceType);
+            var store = this.GetStore();
+            store[key] = null;
         }
 
         /// <summary>
@@ -118,7 +101,7 @@ namespace OpenRasta.DI.Ninject
         /// <param name="lifetime">The lifetime of the registration.</param>
         protected override void AddDependencyCore(Type concreteType, DependencyLifetime lifetime)
         {
-            AddDependencyCore(concreteType, concreteType, lifetime);
+            this.AddDependencyCore(concreteType, concreteType, lifetime);
         }
 
         /// <summary>
@@ -130,6 +113,7 @@ namespace OpenRasta.DI.Ninject
         protected override void AddDependencyCore(Type serviceType, Type concreteType, DependencyLifetime lifetime)
         {
             var binding = CreateBinding(serviceType, lifetime);
+
             if (lifetime == DependencyLifetime.PerRequest)
             {
                 binding.ProviderCallback = ctx => new PerRequestProvider(concreteType, ctx.Kernel.Components.Get<IPlanner>(), ctx.Kernel.Components.Get<ISelector>());
@@ -139,11 +123,14 @@ namespace OpenRasta.DI.Ninject
             {
                 var bindingBuilder = new BindingBuilder<object>(binding);
                 var bindingScope = bindingBuilder.To(concreteType);
+                
                 if (lifetime == DependencyLifetime.Singleton)
+                {
                     bindingScope.InSingletonScope();
+                }
             }
 
-            _kernel.AddBinding(binding);
+            this.kernel.AddBinding(binding);
         }
 
         /// <summary>
@@ -156,15 +143,17 @@ namespace OpenRasta.DI.Ninject
         {
             if (lifetime == DependencyLifetime.Transient) return;
 
-            var binding = _kernel.GetBindings(serviceType).FirstOrDefault();
-            bool foundExistingBinding = (binding != null);
+            var binding = this.kernel.GetBindings(serviceType).FirstOrDefault();
+            bool foundExistingBinding = binding != null;
+            
             if (binding == null)
             {
                 binding = CreateBinding(serviceType, lifetime);
-                _kernel.AddBinding(binding);
+                this.kernel.AddBinding(binding);
             }
 
             var builder = new BindingBuilder<object>(binding);
+            
             if (lifetime == DependencyLifetime.PerRequest)
             {
                 if (foundExistingBinding && binding.Target != BindingTarget.Method)
@@ -173,13 +162,13 @@ namespace OpenRasta.DI.Ninject
                     throw new DependencyResolutionException("Cannot register an instance for a type already registered");
                 }
 
-                var store = GetStore();
+                var store = this.GetStore();
                 var key = serviceType.GetKey();
                 store[key] = instance;
 
                 if (!foundExistingBinding)
                 {
-                    store.GetContextInstances().Add(new ContextStoreDependency(key, instance, new ContextStoreDependencyCleaner(_kernel)));
+                    store.GetContextInstances().Add(new ContextStoreDependency(key, instance, new ContextStoreDependencyCleaner(this.kernel)));
                 }
 
                 builder.ToMethod(c =>
@@ -201,8 +190,7 @@ namespace OpenRasta.DI.Ninject
         /// <returns></returns>
         protected override IEnumerable<TService> ResolveAllCore<TService>()
         {
-            Type serviceType = typeof (TService);
-            return _kernel.GetAll<TService>();
+            return this.kernel.GetAll<TService>();
         }
 
         /// <summary>
@@ -212,16 +200,9 @@ namespace OpenRasta.DI.Ninject
         /// <returns></returns>
         protected override object ResolveCore(Type serviceType)
         {
-            RequireDependancy(serviceType);
-            return _kernel.Get(serviceType);
-        }
+            this.RequireDependancy(serviceType);
 
-        private void RequireDependancy(Type serviceType)
-        {
-            if (!HasDependency(serviceType))
-            {
-                throw new DependencyResolutionException("Unable to resolve dependency for {0}".With(serviceType));
-            }
+            return this.kernel.Get(serviceType);
         }
 
         /// <summary>
@@ -229,13 +210,17 @@ namespace OpenRasta.DI.Ninject
         /// </summary>
         /// <param name="serviceType">Type of the service.</param>
         /// <returns>
-        /// 	<see langword="true"/> if the specified service type has dependency; otherwise, <see langword="false"/>.
+        ///     <see langword="true"/> if the specified service type has dependency; otherwise, <see langword="false"/>.
         /// </returns>
         public bool HasDependency(Type serviceType)
         {
-            if (serviceType == null) return false;
+            if (serviceType == null)
+            {
+                return false;
+            }
 
-            var bindings = GetBindings(serviceType);
+            var bindings = this.GetBindings(serviceType);
+            
             return bindings.Any();
         }
 
@@ -244,43 +229,41 @@ namespace OpenRasta.DI.Ninject
         /// </summary>
         public bool HasDependencyImplementation(Type serviceType, Type concreteType)
         {
-            if (serviceType == null || concreteType == null) return false;
+            if (serviceType == null || concreteType == null)
+            {
+                return false;
+            }
 
             if (serviceType == concreteType)
             {
-                return HasDependency(serviceType);
+                return this.HasDependency(serviceType);
             }
 
-            var bindings = GetBindings(serviceType);
-            var request = _kernel.CreateRequest(serviceType, null, EmptyParameters, false);
+            var bindings = this.GetBindings(serviceType);
+            var request = this.kernel.CreateRequest(serviceType, null, EmptyParameters, false);
+            
             return bindings.Any(b =>
-                                    {
-                                        if (b.Target != BindingTarget.Type) return false;
-                                        var context = new Context(_kernel, request, b, _kernel.Components.Get<ICache>(),
-                                                                  _kernel.Components.Get<IPlanner>(),
-                                                                  _kernel.Components.Get<IPipeline>());
-                                        return b.GetProvider(context).Type == concreteType;
-                                    });
+                {
+                    if (b.Target != BindingTarget.Type)
+                    {
+                        return false;
+                    }
+
+                    var context = new Context(
+                        this.kernel,
+                        request,
+                        b,
+                        this.kernel.Components.Get<ICache>(),
+                        this.kernel.Components.Get<IPlanner>(),
+                        this.kernel.Components.Get<IPipeline>());
+                        return b.GetProvider(context).Type == concreteType;
+                });
         }
 
-        private IEnumerable<IBinding> GetBindings(Type service)
+        public void HandleIncomingRequestProcessed()
         {
-            return from binding in _kernel.GetBindings(service)
-                   where IsAvailable(binding)
-                   select binding;
-        }
-
-        private bool IsAvailable(IBinding binding)
-        {
-            if (IsWebInstance(binding))
-            {
-                if (!HasDependency(typeof(IContextStore))) return false;
-                var store = GetStore();
-                bool isInstanceAvailable = store[binding.Service.GetKey()] != null;
-                return isInstanceAvailable;
-            }
-
-            return binding.Target != BindingTarget.Method;
+            var store = this.GetStore();
+            store.Destruct();
         }
 
         private static bool IsWebInstance(IBinding binding)
@@ -288,52 +271,56 @@ namespace OpenRasta.DI.Ninject
             return (binding is WebBinding) && (binding.Target == BindingTarget.Method);
         }
 
-        /// <summary>
-        /// Called when an incoming request has been processed.
-        /// </summary>
-        public void HandleIncomingRequestProcessed()
+        private static void ConfigureKernel(IKernel kernel)
         {
-            var store = GetStore();
-            store.Destruct();
+            // Needed to support OpenRasta's assumptions.
+            kernel.Components.Add<IInjectionHeuristic, AllResolvablePropertiesInjectionHeuristic>();
+            kernel.Components.RemoveAll(typeof(IConstructorScorer));
+            kernel.Components.Add<IConstructorScorer, InjectableConstructorScorer>();
         }
 
-        /// <summary>
-        /// Destructs the specified key.
-        /// </summary>
-        /// <param name="key">The key.</param>
-        /// <param name="instance">The instance.</param>
-        public void Destruct(string key, object instance)
+        private static IBinding CreateBinding(Type serviceType, DependencyLifetime lifetime)
         {
-            var store = GetStore();
-            store[key] = null;
+            return (lifetime == DependencyLifetime.PerRequest)
+                       ? new WebBinding(serviceType)
+                       : new NinjectBinding(serviceType);
+        }
+
+        private void RequireDependancy(Type serviceType)
+        {
+            if (!this.HasDependency(serviceType))
+            {
+                throw new DependencyResolutionException("Unable to resolve dependency for {0}".With(serviceType));
+            }
+        }
+
+        private IEnumerable<IBinding> GetBindings(Type service)
+        {
+            return from binding in this.kernel.GetBindings(service)
+                   where this.IsAvailable(binding)
+                   select binding;
+        }
+
+        private bool IsAvailable(IBinding binding)
+        {
+            if (IsWebInstance(binding))
+            {
+                if (!this.HasDependency(typeof(IContextStore)))
+                {
+                    return false;
+                }
+
+                var store = this.GetStore();
+                bool instanceAvailable = store[binding.Service.GetKey()] != null;
+                return instanceAvailable;
+            }
+
+            return binding.Target != BindingTarget.Method;
         }
 
         private IContextStore GetStore()
         {
-            return _kernel.Get<IContextStore>();
+            return this.kernel.Get<IContextStore>();
         }
     }
 }
-
-#region Full license
-//
-// Permission is hereby granted, free of charge, to any person obtaining
-// a copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to
-// permit persons to whom the Software is furnished to do so, subject to
-// the following conditions:
-// 
-// The above copyright notice and this permission notice shall be
-// included in all copies or substantial portions of the Software.
-// 
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-// LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-// OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-// WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-//
-#endregion
