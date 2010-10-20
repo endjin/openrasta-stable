@@ -10,10 +10,14 @@
       <Output TaskParameter="Lines" PropertyName="BuildNumber"/>
     </ReadLinesFromFile>-->
 
-    <MSBuild 
-      Projects="@(SolutionsToBuild)" 
-      Properties="$(ForcedMSBuildProperties);BuildNumber=$(GlobalBuildVersionNumber)" />
+    <MSBuild
+      Projects="@(SolutionsToBuild)"
+      Properties="$(ForcedMSBuildProperties);BuildNumber=$(GlobalBuildVersionNumber)">
+      <Output ItemName="ProjectOutputs" TaskParameter="TargetOutputs"/>
+    </MSBuild>
 
+    <Message Text="%0a%0dProjectOutputs:%0a%0d    @(ProjectOutputs,'%0a%0d    ')" />
+    
   </Target>
 
 </Project>

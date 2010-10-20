@@ -5,26 +5,10 @@
   <Target Name="Package"
           DependsOnTargets="CreateDrops">
 
-    <ItemGroup>
-      <WebAppFiles Include="$(WebAppPath)\**\*.*" 
-                   Exclude="$(WebAppPath)\**\*.cs;
-                            $(WebAppPath)\**\*.csproj;
-                            $(WebAppPath)\**\*.user;
-                            $(WebAppPath)\**\*.vspscc;
-                            $(WebAppPath)\**\bin\*.pdb;
-                            $(WebAppPath)\**\*.xml;
-                            $(WebAppPath)\**\Code\**;
-                            $(WebAppPath)\**\Initialisers\**;
-                            $(WebAppPath)\**\obj\**;
-                            $(WebAppPath)\**\Properties\**;
-                            $(WebAppPath)\**\Registrars\**;
-                            $(WebAppPath)\**\ResourceFiles\**;" />
-    </ItemGroup>
-
     <Zip ZipFileName="$(DropsPath)\$(GlobalBuildVersionNumber)\$(PackageName).v$(GlobalBuildVersionNumber).zip" 
-         Files="@(WebAppFiles)"
-         WorkingDirectory="$(WebAppPath)"
-         Flatten ="false"
+         Files="@(ProjectOutputs)"
+         WorkingDirectory="$(DropsPath)\$(GlobalBuildVersionNumber)\"
+         Flatten ="True"
          ZipLevel="10"/>
 
   </Target>
