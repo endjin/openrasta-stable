@@ -9,8 +9,9 @@
       <NUnit-ToolPath>$(ReferencedAssembliesPath)\NUnit\2.5.7.1</NUnit-ToolPath>
     </PropertyGroup>
     
-    <ItemGroup>
-      <TestAssemblies Include="$(SolutionsPath)\**\bin\release\*.Unit.dll" />
+<ItemGroup>
+  <TestAssemblies Include="%(TargetOutputs.Identity)" 
+                  Condition="'@(TargetOutputs->Contains(&quot;Unit.dll&quot;))'=='True' " />
     </ItemGroup>
 
     <Message Text="@(TestAssemblies->'%(FullPath)')" />

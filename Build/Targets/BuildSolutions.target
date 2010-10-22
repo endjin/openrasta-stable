@@ -5,19 +5,12 @@
 
     <Message Text="SolutionsToBuild: @(SolutionsToBuild)" />
 
-    <!-- *** This line must NOT be merged back into the regular Build branch *** -->    
-    <!--<ReadLinesFromFile File="$(VersioningPath)\BuildNumber.txt">
-      <Output TaskParameter="Lines" PropertyName="BuildNumber"/>
-    </ReadLinesFromFile>-->
-
     <MSBuild
       Projects="@(SolutionsToBuild)"
       Properties="$(ForcedMSBuildProperties);BuildNumber=$(GlobalBuildVersionNumber)">
-      <Output ItemName="ProjectOutputs" TaskParameter="TargetOutputs"/>
+      <Output ItemName="TargetOutputs" TaskParameter="TargetOutputs"/>
     </MSBuild>
 
-    <Message Text="%0a%0dProjectOutputs:%0a%0d    @(ProjectOutputs,'%0a%0d    ')" />
-    
   </Target>
 
 </Project>
