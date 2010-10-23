@@ -6,7 +6,7 @@
           DependsOnTargets="CreateDrops">
 
     <Zip ZipFileName="$(DropsPath)\$(GlobalBuildVersionNumber)\$(PackageName).v$(GlobalBuildVersionNumber).zip" 
-         Files="@(ProjectOutputs)"
+         Files="@(TargetOutputs)"
          WorkingDirectory="$(DropsPath)\$(GlobalBuildVersionNumber)\"
          Flatten ="True"
          ZipLevel="10"/>
